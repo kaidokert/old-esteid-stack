@@ -1,0 +1,19 @@
+Source: esteidutil
+Section: utils
+Priority: optional
+Maintainer: Kaido Kert <kaidokert@gmail.com>
+Build-Depends: debhelper (>= 5), autotools-dev, libwxgtk2.8-dev,libpcsclite-dev,libssl-dev,netpbm,docbook-to-man
+Standards-Version: 3.7.2
+
+Package: esteidutil
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Suggests: libopensc2,libengine-pkcs11-openssl,libssl0.9.8,pcscd
+Description: EstEID smartcard management tool
+ Estonian national ID Card management GUI tool.
+ The functions it provides are:
+  * Card data reading and viewing
+  * Certificate management
+  * PIN management
+  * Smartcard subsystem diagnostics
+  * Testing the authentication functionality
