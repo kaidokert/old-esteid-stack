@@ -1,0 +1,4 @@
+
+This is a wxWidgets GUI tool, for managing the Estonian ID Card.
+It allows user to see the data on card, change PINs and perform
+some basic diagnostics.
