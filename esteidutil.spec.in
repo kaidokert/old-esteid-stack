@@ -1,0 +1,90 @@
+%define real_name EsteidUtil
+%define name	esteidutil
+%define version @VERSION@
+%define release %mkrel 1
+
+Name:		%{name}
+Summary:	EstEID smartcard management tool
+Version:	%{version}
+Release:	%{release}
+
+Source0:	%{real_name}-%{version}.tar.gz
+
+
+
+URL:		http://esteidutil.sourceforge.net/
+License:	BSD
+Group:		Communications
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
+BuildRequires:  openssl-devel >= 0.9.7, pcsc-lite-devel
+BuildRequires:	wxGTK-devel
+Requires:	pcsc-lite
+
+%description
+ Estonian national ID Card management GUI tool.
+ The functions it provides are:
+  * Card data reading and viewing
+  * Certificate management
+  * PIN management
+  * Smartcard subsystem diagnostics
+  * Testing the authentication functionality
+
+
+
+%prep
+%setup -q -n %{real_name}-%{version}
+
+%build
+%configure
+
+%make
+
+%makeinstall
+
+#old menu
+install -d -m 755 %{buildroot}%{_menudir}
+cat > %{buildroot}%{_menudir}/%{name} <<EOF
+?package(%{name}): \
+ command="%{_bindir}/%{name}"\
+ needs="x11" section="Apps/Tools"\
+ icon="%{name}.png" title="%{cname}" longtitle="%{Summary}"\
+ hints="Utilities,Tools,KDE"\
+ xdg="true"
+EOF
+
+#xdg menu
+desktop-file-install --vendor="" \
+  --remove-category="Application" \
+  --add-category="GTK" \
+  --add-category="Utility" \
+  --add-category="System" \
+  --add-category="Security" \
+  --add-category="X-MandrivaLinux-MoreApplications-Other" \
+  --dir %{buildroot}%{_datadir}/applications %{name}.desktop
+
+#install -d -m 0755 %{buildroot}/%{_iconsdir}
+#install -m 0644 %{name}.xpm %{buildroot}/%{_iconsdir}/%{name}.xpm
+
+%find_lang %{real_name}
+
+%clean
+rm -rf %{buildroot}
+
+%post
+%{update_menus}
+
+%postun
+%{clean_menus}
+
+%files -f %{real_name}.lang
+%defattr(-,root,root,-)
+%doc README ChangeLog
+%{_bindir}/%{real_name}
+%{_menudir}/%{name}
+%{_datadir}/%{real_name}/*
+%{_datadir}/pixmaps/%{name}.xpm
+%{_datadir}/applications/%{name}.desktop
+
+%changelog
+* Wed Oct 10 2007 Kaido Kert <kaidokert@gmail.com>
+- Initial spec file.
