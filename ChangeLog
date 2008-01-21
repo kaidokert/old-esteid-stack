@@ -1,0 +1,45 @@
+Changes for version 0.9.12
+-------------------------
+	* Card library fixes and cleanup
+	* one more registry read error fix
+	* spec file for Mandriva
+
+Changes for version 0.9.11
+-------------------------
+	* Option to compile without openssl 
+	* fix menus when no smartcard readers found
+	* fix missing translations
+
+Changes for version 0.9.10
+-------------------------
+	* added pkcs11 module diagnostics
+	* fix/workaround libc++ stack trashes in linux diagnostics
+
+Changes for version 0.9.9
+-------------------------
+	* added debian packaging
+	* added linux image download function with openssl/pkcs11
+	* fix certificate Autoremove menu option
+	* fix windows registry handling for limited user rights
+	* added menus for related websites
+
+Changes for version 0.9.8
+-------------------------
+	* fixed picture download when using CTAPI
+	* improved CTAPI exception details
+	* add revision number for windows binary
+
+Changes for version 0.9.7
+-------------------------
+	* added version numbering for windows binary
+
+Changes for version 0.9.6
+-------------------------
+	* remove custom cert dialog from windows build
+	* add PinDialogSecure to translation files
+	* Doxygen-documented cardlib/ classes
+
+Changes for version 0.9.5
+-------------------------
+	* added pin/puk changes over CTAPI
+	* implemented basic cert dialog for non-windows machines
