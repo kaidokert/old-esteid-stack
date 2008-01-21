@@ -1,0 +1,360 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: EsteidUtil VERSION\n"
+"Report-Msgid-Bugs-To: kaidokert@gmail.com\n"
+"POT-Creation-Date: 2007-12-04 10:11+0200\n"
+"PO-Revision-Date: 2007-11-29 12:42+0200\n"
+"Last-Translator: kaidokert@gmail.com\n"
+"Language-Team: language <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Save to file"
+msgstr "Salvesta faili"
+
+msgid "Close"
+msgstr "Sulge aken"
+
+msgid "Download picture"
+msgstr "Lae pilt"
+
+msgid "ORGANIZATION"
+msgstr "ASUTUS"
+
+msgid "UNIT"
+msgstr "ÜKSUS"
+
+msgid "E-MAIL"
+msgstr "E-POST"
+
+msgid "VALIDITY"
+msgstr "KEHTIVUSAEG"
+
+msgid "CARD NUMBER"
+msgstr "KAARDI NUMBER"
+
+msgid "Card not found"
+msgstr "Kaarti ei leitud"
+
+msgid "There are no smart card readers installed"
+msgstr "Ei leitud ühtegi kaardilugejat"
+
+msgid "Reading data.."
+msgstr "Loen andmeid.."
+
+msgid "Reading certificate.."
+msgstr "Loen sertifikaati.."
+
+msgid "Checking card status.."
+msgstr "Kontrollin kaardi staatust.."
+
+msgid "The PUK code of this card is blocked\n"
+msgstr "Kaardi PUK kood on blokeeritud\n"
+
+msgid "Authentication PIN (PIN 1) of this card is blocked\n"
+msgstr "Kaardi autentimise PIN (PIN 1) on blokeeritud\n"
+
+msgid "Signature PIN (PIN 2) of this card is blocked\n"
+msgstr "Kaardi allkirjastamise PIN (PIN 2) on blokeeritud\n"
+
+msgid "Your certificates are expired. Start the renewal now ?"
+msgstr "Sertifikaadid on aegunud. Alustada uuenduse protsessi ?"
+
+msgid "Select reader"
+msgstr "Vali kaardilugeja"
+
+msgid "Read data"
+msgstr "Loe andmed"
+
+msgid "Show"
+msgstr "Vaata"
+
+msgid "Personal data"
+msgstr "Peronaalne andmefail"
+
+msgid "Open 'Welcome' webpage"
+msgstr "Sisene SK tervituse lehele"
+
+msgid "Exit"
+msgstr "Välju"
+
+msgid "Estonian"
+msgstr "Eesti"
+
+msgid "English"
+msgstr "English"
+
+msgid "Russian"
+msgstr "Русский"
+
+msgid "Language"
+msgstr "Keel"
+
+msgid "Interface"
+msgstr "Liides"
+
+msgid "Register"
+msgstr "Registreeri"
+
+msgid "On"
+msgstr "Sees"
+
+msgid "Off"
+msgstr "Väljas"
+
+msgid "Automatic removal"
+msgstr "Automaatne eemaldamine"
+
+msgid "Authentication certificate"
+msgstr "Autentimissertifikaat"
+
+msgid "Signature certificate"
+msgstr "Signeerimissertifikaat"
+
+msgid "Verify certificates"
+msgstr "Kontrolli sertifikaate"
+
+msgid "PIN counter"
+msgstr "PIN sisestuste lugeja"
+
+msgid "Change authentication PIN (PIN 1)"
+msgstr "Muuda autentimise PIN (PIN 1)"
+
+msgid "Change signature PIN (PIN 2)"
+msgstr "Muuda allkirjastamise PIN (PIN 2)"
+
+msgid "Change PUK"
+msgstr "Muuda PUK"
+
+msgid "Unblock authentication PIN (PIN 1)"
+msgstr "Blokeeri lahti autentimise PIN (PIN 1)"
+
+msgid "Unblock signature PIN (PIN 2)"
+msgstr "Blokeeri lahti allkirjastamise PIN (PIN 2)"
+
+msgid "User guide"
+msgstr "Kasutajajuhend"
+
+msgid "Open ID-card website"
+msgstr "Ava ID-veeb"
+
+msgid "Open support website"
+msgstr "Ava ID-abikeskus"
+
+msgid "Diagnostics"
+msgstr "Diagnostika"
+
+msgid "System information"
+msgstr "Süsteemiinfo"
+
+msgid "About"
+msgstr "Info"
+
+msgid "Card"
+msgstr "Kaart"
+
+msgid "Settings"
+msgstr "Seaded"
+
+msgid "Certificates"
+msgstr "Sertifikaadid"
+
+msgid "PIN"
+msgstr "PIN"
+
+msgid "Help"
+msgstr "Abi"
+
+msgid "Error occured"
+msgstr "Tekkis viga"
+
+msgid "No smart card readers"
+msgstr "Ei leitud ühtegi kaardilugejat"
+
+msgid "ID-card tool"
+msgstr "ID-kaardi utiliit"
+
+msgid "..."
+msgstr "..."
+
+msgid "ID-card utility"
+msgstr "ID-kaardi utiliit"
+
+msgid "Connecting"
+msgstr "Ühendan"
+
+msgid "Retrieving data"
+msgstr "Loen andmeid"
+
+msgid "Image loaded"
+msgstr "Pilt laetud"
+
+msgid "Authentication key has been used "
+msgstr "Autentimise võtit on kasutatud "
+
+msgid " times\n"
+msgstr " korda\n"
+
+msgid "Signature key has been used "
+msgstr "Allkirjastamise võtit on kasutatud "
+
+msgid "Authentication PIN has been changed"
+msgstr "Autentimise PIN on muudetud"
+
+msgid "Signature PIN has been changed"
+msgstr "Allkirjastamise PIN on muudetud"
+
+msgid "PUK code has been changed"
+msgstr "PUK kood on muudetud"
+
+msgid "Authentication PIN has been unblocked"
+msgstr "Autentimise PIN on lahti blokeeritud"
+
+msgid "Signature PIN has been unblocked"
+msgstr "Allkirjastamise PIN on lahti blokeeritud"
+
+msgid "Wrong PIN entered"
+msgstr "Sisestati vale PIN"
+
+msgid "Wrong PUK entered"
+msgstr "Sisestati vale PUK"
+
+#, c-format
+msgid "You have %d retries left"
+msgstr "%d katset järel"
+
+msgid "Certificates registered"
+msgstr "Sertifikaadid registreeritud"
+
+msgid "Certificates are not registered. Register now ?"
+msgstr "Sertifikaadid on registreerimata. Registreerida ?"
+
+msgid "Last name"
+msgstr "Perenimi"
+
+msgid "Given names"
+msgstr "Eesnimed"
+
+msgid "Sex"
+msgstr "Sugu"
+
+msgid "Citizenship"
+msgstr "Kodakondsus"
+
+msgid "Date of birth (dd.mm.yyyy)"
+msgstr "Sünnikuupäev (pp.kk.aaaa)"
+
+msgid "Personal Code"
+msgstr "Isikukood"
+
+msgid "Document number"
+msgstr "Dokumendi number"
+
+msgid "Date of expiry (dd.mm.yyyy)"
+msgstr "Kehtivuse viimane päev (pp.kk.aaaa)"
+
+msgid "Birth-place"
+msgstr "Sünnikoht"
+
+msgid "Date of issue (dd.mm.yyyy)"
+msgstr "Väljaandmise kuupäev (pp.kk.aaaa)"
+
+msgid "Type of residence permit"
+msgstr "Elamisloa tüüp"
+
+msgid "Comment 1"
+msgstr "Märkused 1"
+
+msgid "Comment 2"
+msgstr "Märkused 2"
+
+msgid "Comment 3"
+msgstr "Märkused 3"
+
+msgid "Comment 4"
+msgstr "Märkused 4"
+
+msgid "Current authentication PIN (PIN 1)"
+msgstr "Kehtiv autentimise PIN (PIN 1)"
+
+msgid "New authentication PIN"
+msgstr "Uus autentimise PIN"
+
+msgid "Repeat new authentication PIN"
+msgstr "Korda uus autentimise PIN"
+
+msgid "Current signature PIN (PIN 2)"
+msgstr "Kehtiv allkirjastamise PIN (PIN 2)"
+
+msgid "New signature PIN"
+msgstr "Uus allkirjastamise PIN"
+
+msgid "Repeat new signature PIN"
+msgstr "Korda uus allkirjastamise PIN"
+
+msgid "Current PUK"
+msgstr "Kehtiv PUK"
+
+msgid "New PUK"
+msgstr "Uus PUK"
+
+msgid "Repeat new PUK"
+msgstr "Korda uus PUK"
+
+msgid "PUK code"
+msgstr "PUK kood"
+
+msgid "New authentication PIN (PIN 1)"
+msgstr "Uus autentimise PIN (PIN 1)"
+
+msgid "New signature PIN (PIN 2)"
+msgstr "Uus allkirjastamise PIN (PIN 2)"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Cancel"
+msgstr "Katkesta"
+
+msgid "Current authentication PIN length"
+msgstr "Kehtiva autentimise PINi (PIN 1) pikkus"
+
+msgid "New authentication PIN (PIN 1) length"
+msgstr "Uue autentimise PINi (PIN 1) pikkus"
+
+msgid "Current signature PIN length"
+msgstr "Kehtiva allkirjastamise PINi (PIN 2) pikkus"
+
+msgid "New signature PIN (PIN 2) length"
+msgstr "Uue allkirjastamise PINi (PIN 2) pikkus"
+
+msgid "Current PUK length"
+msgstr "Kehtiva PUK koodi pikkus"
+
+msgid "New PUK length"
+msgstr "Uue PUK koodi pikkus"
+
+msgid "Length of PUK code"
+msgstr "PUK koodi pikkus"
+
+msgid ""
+"To unblock PIN code on Secure PINpad reader the PUK code and new PIN length "
+"have to be entered first. For example if Your PUK code is '17777777' and for "
+"new PIN You would enter '77711', then You should choose 8 and 5 accordingly."
+msgstr ""
+
+msgid ""
+"To change PIN or PUK code on Secure PINpad reader the current PIN and new "
+"PIN length have to be entered first. For example if Your current "
+"authentication PIN is '1777' and for new PIN You would enter '77711', then "
+"You should choose 4 and 5 accordingly."
+msgstr ""
+
+#~ msgid "ID-card help"
+#~ msgstr "ID-kaardi abi"

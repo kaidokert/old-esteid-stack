@@ -1,0 +1,16 @@
+# List of source files containing translatable strings.
+
+#only wx GUI stuff itself
+src/AppSetting.cpp
+src/CertificateDialog.cpp
+src/DiagnosticsDialog.cpp
+src/EsteidUtil.cpp
+src/MainDialog_2.cpp
+src/MainDialog.cpp
+src/MainDialog_Image.cpp
+src/MainDialog_Pin.cpp
+src/MainDialog_Windows.cpp
+src/PersonalDataDialog.cpp
+src/PinChangeDialog.cpp
+src/PinChangeSecureDialog.cpp
+src/PinDialog.cpp

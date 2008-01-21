@@ -1,0 +1,358 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Kaido Kert <kaidokert@gmail.com>
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: kaidokert@gmail.com\n"
+"POT-Creation-Date: 2007-12-04 10:11+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Save to file"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "Download picture"
+msgstr ""
+
+msgid "ORGANIZATION"
+msgstr ""
+
+msgid "UNIT"
+msgstr ""
+
+msgid "E-MAIL"
+msgstr ""
+
+msgid "VALIDITY"
+msgstr ""
+
+msgid "CARD NUMBER"
+msgstr ""
+
+msgid "Card not found"
+msgstr ""
+
+msgid "There are no smart card readers installed"
+msgstr ""
+
+msgid "Reading data.."
+msgstr ""
+
+msgid "Reading certificate.."
+msgstr ""
+
+msgid "Checking card status.."
+msgstr ""
+
+msgid "The PUK code of this card is blocked\n"
+msgstr ""
+
+msgid "Authentication PIN (PIN 1) of this card is blocked\n"
+msgstr ""
+
+msgid "Signature PIN (PIN 2) of this card is blocked\n"
+msgstr ""
+
+msgid "Your certificates are expired. Start the renewal now ?"
+msgstr ""
+
+msgid "Select reader"
+msgstr ""
+
+msgid "Read data"
+msgstr ""
+
+msgid "Show"
+msgstr ""
+
+msgid "Personal data"
+msgstr ""
+
+msgid "Open 'Welcome' webpage"
+msgstr ""
+
+msgid "Exit"
+msgstr ""
+
+msgid "Estonian"
+msgstr ""
+
+msgid "English"
+msgstr ""
+
+msgid "Russian"
+msgstr ""
+
+msgid "Language"
+msgstr ""
+
+msgid "Interface"
+msgstr ""
+
+msgid "Register"
+msgstr ""
+
+msgid "On"
+msgstr ""
+
+msgid "Off"
+msgstr ""
+
+msgid "Automatic removal"
+msgstr ""
+
+msgid "Authentication certificate"
+msgstr ""
+
+msgid "Signature certificate"
+msgstr ""
+
+msgid "Verify certificates"
+msgstr ""
+
+msgid "PIN counter"
+msgstr ""
+
+msgid "Change authentication PIN (PIN 1)"
+msgstr ""
+
+msgid "Change signature PIN (PIN 2)"
+msgstr ""
+
+msgid "Change PUK"
+msgstr ""
+
+msgid "Unblock authentication PIN (PIN 1)"
+msgstr ""
+
+msgid "Unblock signature PIN (PIN 2)"
+msgstr ""
+
+msgid "User guide"
+msgstr ""
+
+msgid "Open ID-card website"
+msgstr ""
+
+msgid "Open support website"
+msgstr ""
+
+msgid "Diagnostics"
+msgstr ""
+
+msgid "System information"
+msgstr ""
+
+msgid "About"
+msgstr ""
+
+msgid "Card"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "Certificates"
+msgstr ""
+
+msgid "PIN"
+msgstr ""
+
+msgid "Help"
+msgstr ""
+
+msgid "Error occured"
+msgstr ""
+
+msgid "No smart card readers"
+msgstr ""
+
+msgid "ID-card tool"
+msgstr ""
+
+msgid "..."
+msgstr ""
+
+msgid "ID-card utility"
+msgstr ""
+
+msgid "Connecting"
+msgstr ""
+
+msgid "Retrieving data"
+msgstr ""
+
+msgid "Image loaded"
+msgstr ""
+
+msgid "Authentication key has been used "
+msgstr ""
+
+msgid " times\n"
+msgstr ""
+
+msgid "Signature key has been used "
+msgstr ""
+
+msgid "Authentication PIN has been changed"
+msgstr ""
+
+msgid "Signature PIN has been changed"
+msgstr ""
+
+msgid "PUK code has been changed"
+msgstr ""
+
+msgid "Authentication PIN has been unblocked"
+msgstr ""
+
+msgid "Signature PIN has been unblocked"
+msgstr ""
+
+msgid "Wrong PIN entered"
+msgstr ""
+
+msgid "Wrong PUK entered"
+msgstr ""
+
+#, c-format
+msgid "You have %d retries left"
+msgstr ""
+
+msgid "Certificates registered"
+msgstr ""
+
+msgid "Certificates are not registered. Register now ?"
+msgstr ""
+
+msgid "Last name"
+msgstr ""
+
+msgid "Given names"
+msgstr ""
+
+msgid "Sex"
+msgstr ""
+
+msgid "Citizenship"
+msgstr ""
+
+msgid "Date of birth (dd.mm.yyyy)"
+msgstr ""
+
+msgid "Personal Code"
+msgstr ""
+
+msgid "Document number"
+msgstr ""
+
+msgid "Date of expiry (dd.mm.yyyy)"
+msgstr ""
+
+msgid "Birth-place"
+msgstr ""
+
+msgid "Date of issue (dd.mm.yyyy)"
+msgstr ""
+
+msgid "Type of residence permit"
+msgstr ""
+
+msgid "Comment 1"
+msgstr ""
+
+msgid "Comment 2"
+msgstr ""
+
+msgid "Comment 3"
+msgstr ""
+
+msgid "Comment 4"
+msgstr ""
+
+msgid "Current authentication PIN (PIN 1)"
+msgstr ""
+
+msgid "New authentication PIN"
+msgstr ""
+
+msgid "Repeat new authentication PIN"
+msgstr ""
+
+msgid "Current signature PIN (PIN 2)"
+msgstr ""
+
+msgid "New signature PIN"
+msgstr ""
+
+msgid "Repeat new signature PIN"
+msgstr ""
+
+msgid "Current PUK"
+msgstr ""
+
+msgid "New PUK"
+msgstr ""
+
+msgid "Repeat new PUK"
+msgstr ""
+
+msgid "PUK code"
+msgstr ""
+
+msgid "New authentication PIN (PIN 1)"
+msgstr ""
+
+msgid "New signature PIN (PIN 2)"
+msgstr ""
+
+msgid "OK"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Current authentication PIN length"
+msgstr ""
+
+msgid "New authentication PIN (PIN 1) length"
+msgstr ""
+
+msgid "Current signature PIN length"
+msgstr ""
+
+msgid "New signature PIN (PIN 2) length"
+msgstr ""
+
+msgid "Current PUK length"
+msgstr ""
+
+msgid "New PUK length"
+msgstr ""
+
+msgid "Length of PUK code"
+msgstr ""
+
+msgid ""
+"To unblock PIN code on Secure PINpad reader the PUK code and new PIN length "
+"have to be entered first. For example if Your PUK code is '17777777' and for "
+"new PIN You would enter '77711', then You should choose 8 and 5 accordingly."
+msgstr ""
+
+msgid ""
+"To change PIN or PUK code on Secure PINpad reader the current PIN and new "
+"PIN length have to be entered first. For example if Your current "
+"authentication PIN is '1777' and for new PIN You would enter '77711', then "
+"You should choose 4 and 5 accordingly."
+msgstr ""
