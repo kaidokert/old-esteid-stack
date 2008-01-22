@@ -2,8 +2,8 @@
 	\file		pkcs11module.h
 	\copyright	(c) Kaido Kert ( kaidokert@gmail.com )
 	\licence	BSD
-	\author		$Author: kaido $
-	\date		$Date: 2007-11-30 14:12:01 +0200 (Fri, 30 Nov 2007) $
+	\author		$Author$
+	\date		$Date$
 */
 #include <cardlib/DynamicLibrary.h>
 

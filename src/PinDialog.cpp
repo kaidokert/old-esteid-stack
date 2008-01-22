@@ -2,10 +2,10 @@
 	\file		PinDialog.cpp
 	\copyright	(c) Kaido Kert ( kaidokert@gmail.com )    
 	\licence	BSD
-	\author		$Author: kaido $
-	\date		$Date: 2007-11-27 00:54:07 +0200 (Tue, 27 Nov 2007) $
+	\author		$Author$
+	\date		$Date$
 */
-// Revision $Revision: 162 $
+// Revision $Revision$
 #include "precompiled.h"
 #include "PinDialog.h"
 

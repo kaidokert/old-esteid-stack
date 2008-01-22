@@ -2,10 +2,10 @@
 	\file		 MainDialog.h
 	\copyright	(c) Kaido Kert ( kaidokert@gmail.com )    
 	\licence	BSD
-	\author		$Author: kaido $
-	\date		$Date: 2007-11-29 12:37:43 +0200 (Thu, 29 Nov 2007) $
+	\author		$Author$
+	\date		$Date$
 */
-// Revision $Revision: 184 $
+// Revision $Revision$
 #pragma once
 #include "wx/frame.h"
 #include "wx/intl.h"

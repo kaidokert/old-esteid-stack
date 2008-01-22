@@ -2,10 +2,10 @@
 	\file		MainDialog_Image.cpp
 	\copyright	(c) Kaido Kert ( kaidokert@gmail.com )
 	\licence	BSD
-	\author		$Author: kaido $
-	\date		$Date: 2007-11-28 14:38:54 +0200 (Wed, 28 Nov 2007) $
+	\author		$Author$
+	\date		$Date$
 */
-// Revision $Revision: 178 $
+// Revision $Revision$
 #include "precompiled.h"
 #include "MainDialog.h"
 #include "AppSetting.h"

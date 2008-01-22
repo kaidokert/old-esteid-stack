@@ -2,10 +2,10 @@
 	\file		pkcs11module.cpp
 	\copyright	(c) Kaido Kert ( kaidokert@gmail.com )
 	\licence	BSD
-	\author		$Author: kaido $
-	\date		$Date: 2007-11-30 14:40:34 +0200 (Fri, 30 Nov 2007) $
+	\author		$Author$
+	\date		$Date$
 */
-// Revision $Revision: 206 $
+// Revision $Revision$
 #include "precompiled.h"
 #include "pkcs11module.h"
 

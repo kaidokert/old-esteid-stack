@@ -2,10 +2,10 @@
 	\file		PinDialog.h
 	\copyright	(c) Kaido Kert ( kaidokert@gmail.com )    
 	\licence	BSD
-	\author		$Author: kaido $
-	\date		$Date: 2007-11-26 23:42:58 +0200 (Mon, 26 Nov 2007) $
+	\author		$Author$
+	\date		$Date$
 */
-// Revision $Revision: 157 $
+// Revision $Revision$
 #pragma once
 
 class PinDialog : public wxDialog 

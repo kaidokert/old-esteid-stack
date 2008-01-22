@@ -2,10 +2,10 @@
 	\file		MainDialog_Windows.cpp
 	\copyright	(c) Kaido Kert ( kaidokert@gmail.com )    
 	\licence	BSD
-	\author		$Author: kaido $
-	\date		$Date: 2007-12-06 02:22:53 +0200 (Thu, 06 Dec 2007) $
+	\author		$Author$
+	\date		$Date$
 */
-// Revision $Revision: 224 $
+// Revision $Revision$
 #include "precompiled.h"
 #include "MainDialog.h"
 #include "AppSetting.h"

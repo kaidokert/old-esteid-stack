@@ -2,8 +2,8 @@
 	\file		opensslObj.h
 	\copyright	(c) Kaido Kert ( kaidokert@gmail.com )
 	\licence	BSD
-	\author		$Author: kaido $
-	\date		$Date: 2007-12-03 01:00:28 +0200 (Mon, 03 Dec 2007) $
+	\author		$Author$
+	\date		$Date$
 */
 #pragma once
 #include "cardlib/DynamicLibrary.h" //bad ..

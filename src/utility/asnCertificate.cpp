@@ -2,10 +2,10 @@
 	\file		AsnCertificate.cpp
 	\copyright	(c) Kaido Kert ( kaidokert@gmail.com )    
 	\licence	BSD
-	\author		$Author: kaido $
-	\date		$Date: 2007-11-26 20:56:37 +0200 (Mon, 26 Nov 2007) $
+	\author		$Author$
+	\date		$Date$
 */
-// Revision $Revision: 150 $
+// Revision $Revision$
 #include "precompiled.h"
 #include "asnCertificate.h"
 #include <sstream>

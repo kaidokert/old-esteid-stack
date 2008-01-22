@@ -2,10 +2,10 @@
 	\file		CardBase.h
 	\copyright	(c) Kaido Kert ( kaidokert@gmail.com )    
 	\licence	BSD
-	\author		$Author: kaido $
-	\date		$Date: 2007-12-05 00:09:38 +0200 (Wed, 05 Dec 2007) $
+	\author		$Author$
+	\date		$Date$
 */
-// Revision $Revision: 215 $
+// Revision $Revision$
 #pragma once
 #include "ManagerInterface.h"
 
