@@ -30,8 +30,10 @@ public:
 /// Exception class for authentication errors, like wrong PIN input etc.
 class AuthError :public CardError {
 public:
-	AuthError(byte a,byte b) : CardError(a,b) {};
-	AuthError(CardError _base) : CardError(_base) {}
+	bool m_blocked;
+	AuthError(byte a,byte b) : CardError(a,b), m_blocked(false) {};
+	AuthError(byte a,byte b,bool block) : CardError(a,b), m_blocked(block) {};
+	AuthError(CardError _base) : CardError(_base) , m_blocked(false) {}
 };
 
 /// Represents basic ISO7816-4 smartcard

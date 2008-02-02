@@ -42,6 +42,7 @@ void EstEidCard::enterPin(PinType pinType,string pin,bool forceUnsecure) {
 		throw AuthError(ae); 
 	} catch(CardError &e) {
 		if (e.SW1 == 0x63) throw AuthError(e);
+		if (e.SW1 == 0x69 && e.SW2 == 0x83) throw AuthError(e.SW1,e.SW2,true);
 		throw e;
 		}
 	}
@@ -94,7 +95,7 @@ ByteVec EstEidCard::calcSign_internal(AlgType type,KeyType keyId,ByteVec hash,bo
 	try {
 		result = execute(cmd);
 	} catch(CardError e) {
-		if (e.SW1 == 0x69 && (e.SW2 == 0x82 || e.SW2 == 0x00 )) 
+		if (e.SW1 == 0x69 && (e.SW2 == 0x82 || e.SW2 == 0x00 || e.SW2 == 0x85 )) 
 			throw AuthError(e);
 		throw e;
 		}
@@ -128,8 +129,8 @@ ByteVec EstEidCard::RSADecrypt_internal(ByteVec cipher) {
 	try {
 		result = execute(decCmd,false);
 	} catch(CardError e) {
-		if ((e.SW1 == 0x69 && (e.SW2 == 0x82 || e.SW2 == 0x00 || e.SW2 == 0x88 ) 
-			|| e.SW1 == 0x64 ))
+		if ((e.SW1 == 0x69 && (e.SW2 == 0x82 || e.SW2 == 0x00 || e.SW2 == 0x88  || e.SW2 == 0x85 ) 
+			|| e.SW1 == 0x64 || e.SW1 == 0x6B ))
 			throw AuthError(e);
 		throw e;
 		}
@@ -245,9 +246,9 @@ string EstEidCard::readCardID() {
 
 string EstEidCard::readCardName() {
 	vector<string> temp;
-		Transaction _m(mManager,mConnection);
+	Transaction _m(mManager,mConnection);
 	checkProtocol();
-		readPersonalData_internal(temp,SURNAME,FIRSTNAME);
+	readPersonalData_internal(temp,SURNAME,FIRSTNAME);
 
 	string ret = temp[SURNAME] + " " + temp[FIRSTNAME] ;
 	return ret;
@@ -350,6 +351,7 @@ ByteVec EstEidCard::calcSignMD5(ByteVec hash,KeyType keyId,std::string pin,bool 
 ByteVec EstEidCard::RSADecrypt(ByteVec cipher) {
 	Transaction _m(mManager,mConnection);
 
+	checkProtocol();
 	return RSADecrypt_internal(cipher);
 	}
 
@@ -440,7 +442,9 @@ bool EstEidCard::getRetryCounts(byte &puk,byte &pinAuth,byte &pinSign) {
 	}
 
 void EstEidCard::resetAuth() {
-	Transaction _m(mManager,mConnection);
-	selectMF();
-	setSecEnv(3);
+	try {
+		Transaction _m(mManager,mConnection);
+		selectMF();
+		setSecEnv(0);
+	} catch (...) {}
 	}
