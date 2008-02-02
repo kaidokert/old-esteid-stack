@@ -68,8 +68,10 @@ class PCSCManager : public ManagerInterface {
 		LPSCARD_IO_REQUEST pioRecvPci,LPBYTE pbRecvBuffer,
 		LPDWORD pcbRecvLength);
 	LONG (SCAPI *pSCardGetAttrib)(SCARDHANDLE hCard,DWORD dwAttrId,LPBYTE pbAttr,LPDWORD pcbAttrLen);
-	LONG(SCAPI *pSCardConnect)(SCARDCONTEXT hContext,CSTRTYPE szReader,DWORD dwShareMode,
+	LONG (SCAPI *pSCardConnect)(SCARDCONTEXT hContext,CSTRTYPE szReader,DWORD dwShareMode,
 		DWORD dwPreferredProtocols,LPSCARDHANDLE phCard,LPDWORD pdwActiveProtocol);
+	LONG (SCAPI *pSCardReconnect)(SCARDHANDLE hCard, DWORD dwShareMode,DWORD dwPreferredProtocols,DWORD dwInitialization,
+		LPDWORD pdwActiveProtocol);
 	LONG (SCAPI *pSCardDisconnect)(SCARDHANDLE hCard,DWORD dwDisposition);
 	LONG (SCAPI *pSCardBeginTransaction)(SCARDHANDLE hCard);
 	LONG (SCAPI *pSCardEndTransaction)(	SCARDHANDLE hCard,DWORD dwDisposition);
@@ -95,4 +97,5 @@ public:
 	std::string getATRHex(uint idx);
 	PCSCConnection * connect(uint idx,bool forceT0);
 	PCSCConnection * connect(SCARDHANDLE existingHandle);
+	PCSCConnection * reconnect(ConnectionBase *c,bool forceT0);
 };

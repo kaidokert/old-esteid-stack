@@ -63,6 +63,8 @@ void PCSCManager::construct()
 #endif
 	pSCardConnect = (LONG(SCAPI *)(SCARDCONTEXT ,CSTRTYPE ,DWORD ,DWORD ,SCARDHANDLE *,LPDWORD ))
 		mLibrary.getProc("SCardConnect"  SUFFIX);
+	pSCardReconnect = (LONG(SCAPI *)(SCARDHANDLE , DWORD ,DWORD ,DWORD ,LPDWORD ))
+		mLibrary.getProc("SCardReconnect");
 	pSCardDisconnect = (LONG (SCAPI *)(SCARDHANDLE hCard,DWORD dwDisposition))
 		mLibrary.getProc("SCardDisconnect");
 	pSCardBeginTransaction = (LONG(SCAPI *)(SCARDHANDLE ))
@@ -183,6 +185,14 @@ PCSCConnection * PCSCManager::connect(SCARDHANDLE existingHandle) {
 #endif
 	return new PCSCConnection(*this,existingHandle,proto);
 }
+
+PCSCConnection * PCSCManager::reconnect(ConnectionBase *c,bool forceT0) {
+	PCSCConnection *pc = (PCSCConnection *)c;
+	SCError::check((*pSCardReconnect)(pc->hScard, 
+		SCARD_SHARE_SHARED, (pc->mForceT0 ? 0 : SCARD_PROTOCOL_T1 ) | SCARD_PROTOCOL_T0,
+		SCARD_RESET_CARD,&pc->proto));
+	return pc;
+	}
 
 void PCSCManager::makeConnection(ConnectionBase *c,uint idx)
 {

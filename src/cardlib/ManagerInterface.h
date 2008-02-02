@@ -41,6 +41,8 @@ public:
 	virtual std::string getATRHex(uint index) = 0;
 	/// connects instance of card to reader at index, forceT0 is used for cards that cant speak T1
 	virtual ConnectionBase * connect(uint index,bool forceT0=false) = 0;
+	/// reconnect using a different protocol
+	virtual ConnectionBase * reconnect(ConnectionBase *c,bool forceT0=false) {return c;}
 
 protected:
 	friend struct ConnectionBase;

@@ -154,6 +154,7 @@ void EstEidCard::readPersonalData_internal(vector<string>& data,int recStart,int
 
 bool EstEidCard::validatePin_internal(PinType pinType,string pin, byte &retriesLeft,bool forceUnsecure) { 
 	retriesLeft = 0;
+	checkProtocol();
 	selectMF();
 	selectEF(FILEID_RETRYCT);
 	ByteVec data = readRecord(pinType == PUK ? 3 : pinType );
@@ -212,53 +213,52 @@ bool EstEidCard::changePin_internal(
 	}
 
 void EstEidCard::reconnectWithT0() {
+	if (mConnection->mOwnConnection) {
 	uint prev = mConnection->mIndex;
 	delete mConnection;
 	connect(prev,true);
+	}
+	else {
+		mConnection = mManager.reconnect(mConnection,true);
+		}
+	}
+
+void EstEidCard::checkProtocol() {
+	try {
+		selectMF();
+	} catch(CardError &ce) {
+		if (ce.SW1 != 0x6A || ce.SW2 != 0x87 ) throw ce;
+		reconnectWithT0();
+		}
 	}
 
 //transacted, public methods
 string EstEidCard::readCardID() {
 	vector<string> temp;
-	try {
 		Transaction _m(mManager,mConnection);
+	checkProtocol();
 		readPersonalData_internal(temp,ID,ID);
-	} catch(CardError &ce) {
-		if (ce.SW1 != 0x6A || ce.SW2 != 0x87 ) throw ce;
-		reconnectWithT0();
-		Transaction _m(mManager,mConnection);
-		readPersonalData_internal(temp,ID,ID);
-		}
+
 	string ret = temp[ID];
 	return ret;
 	}
 
 string EstEidCard::readCardName() {
 	vector<string> temp;
-	try {
 		Transaction _m(mManager,mConnection);
+	checkProtocol();
 		readPersonalData_internal(temp,SURNAME,FIRSTNAME);
-	} catch(CardError &ce) {
-		if (ce.SW1 != 0x6A || ce.SW2 != 0x87 ) throw ce;
-		reconnectWithT0();
-		Transaction _m(mManager,mConnection);
-		readPersonalData_internal(temp,SURNAME,FIRSTNAME);
-		}
+
 	string ret = temp[SURNAME] + " " + temp[FIRSTNAME] ;
 	return ret;
 	}
 
 bool EstEidCard::readPersonalData(vector<string>& data,
 		int firstRecord,int lastRecord) {
-	try {
+	checkProtocol();
+
 		Transaction _m(mManager,mConnection);
 		readPersonalData_internal(data,firstRecord,lastRecord);
-	} catch(CardError &ce) {
-		if (ce.SW1 != 0x6A || ce.SW2 != 0x87 ) throw ce;
-		reconnectWithT0();
-		Transaction _m(mManager,mConnection);
-		readPersonalData_internal(data,firstRecord,lastRecord);
-		}
 	return true;
 	}
 

@@ -50,6 +50,7 @@ private:
 	bool changePin_internal(
 		PinType pinType,std::string newPin,std::string oldPin,bool useUnblockCommand=false);
 	void reconnectWithT0();
+	void checkProtocol();
 
 public:
 	EstEidCard(ManagerInterface &ref) : CardBase(ref) {}
