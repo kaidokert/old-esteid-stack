@@ -336,8 +336,12 @@ void MainDialog::doCheckCertRegistration(ByteVec &certBytes) { }
 void MainDialog::doWindowsCertCheck(ByteVec &certBytes,void ** ref) { }
 
 void MainDialog::doShowCert(ByteVec &certBytes) {
+#ifdef __WXMAC__
+	::wxExecute(_T("open tmp.cer"));
+#else
 	wxDialog *dlg = new CertificateDialog(this,getAppName(),certBytes);
 	dlg->ShowModal();
+#endif
 	}
 #endif
 

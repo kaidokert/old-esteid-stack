@@ -103,6 +103,7 @@ PersonalDataDialog::PersonalDataDialog(wxWindow *parent,wxString title,wxArraySt
 	surroundSizer->Add(vertSizer,0,wxALL,5);
 	this->SetSizer( surroundSizer );
 	this->Layout();
+	this->Fit();
 }
 
 PersonalDataDialog::~PersonalDataDialog(void)

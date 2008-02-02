@@ -64,7 +64,7 @@ std::string DynamicLibrary::getVersionStr() {
 
 #endif //WIN32
 
-#ifdef linux
+#if defined(linux) || defined(__APPLE__)
 #include <dlfcn.h>
 #include <sys/stat.h>
 
@@ -83,6 +83,7 @@ void DynamicLibrary::construct(int version) {
 	std::ostringstream buf;
 	buf << version;
 	std::string arrStr[] = {
+			name,
 			name + ".so",
 		"lib" + name + ".so",
 			name + ".so." + buf.str(),

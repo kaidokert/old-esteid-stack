@@ -94,11 +94,11 @@ class opensslObj : public DynamicLibrary {
 public:
     opensslObj(void *app) :DynamicLibrary("ssl") { 
 	throw std::runtime_error("compiled without openSSL, function not available");};
-    void init(int readerNum);
+    void init(int readerNum) {}
 };
 
 struct opensslConnect {
-    opensslConnect(opensslObj &ref,std::string site,connType type,void *);
-    bool getHttpsFile(std::string url,std::vector<unsigned char> &buffer);
+    opensslConnect(opensslObj &ref,std::string site,connType type,void *) {}
+    bool getHttpsFile(std::string url,std::vector<unsigned char> &buffer) {}
     };
 #endif

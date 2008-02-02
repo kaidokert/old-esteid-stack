@@ -19,11 +19,16 @@
 #define SCARD_READERSTATE SCARD_READERSTATEA
 #else
 #define SCAPI
-#define CSTRTYPE LPCTSTR
+#ifdef LPCTSTR
+define CSTRTYPE LPCTSTR
+#else
+#define CSTRTYPE LPTSTR
+#endif
 #define STRTYPE LPTSTR
 #ifndef SCARD_E_NO_READERS_AVAILABLE
 #define SCARD_E_NO_READERS_AVAILABLE SCARD_E_READER_UNAVAILABLE
 #endif
+#include <wintypes.h>
 #endif
 
 /// Holds connection parameters for PCSC card connection

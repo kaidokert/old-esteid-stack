@@ -14,8 +14,13 @@
 #define LIBNAME "winscard"
 #define SUFFIX "A"
 #else
+#if defined(__APPLE__)
+#define LIBNAME "PCSC.framework/PCSC"
+#define SUFFIX ""
+#else
 #define LIBNAME "pcsclite"
 #define SUFFIX ""
+#endif
 #endif
 
 using std::string;
@@ -52,8 +57,10 @@ void PCSCManager::construct()
 		mLibrary.getProc("SCardListReaders"  SUFFIX);
 	pSCardTransmit = (LONG(SCAPI *)(SCARDHANDLE,LPCSCARD_IO_REQUEST,LPCBYTE,DWORD,LPSCARD_IO_REQUEST,LPBYTE,LPDWORD))
 		mLibrary.getProc("SCardTransmit");
+#ifndef __APPLE__
 	pSCardGetAttrib = (LONG(SCAPI *)(SCARDHANDLE,DWORD,LPBYTE,LPDWORD))
 		mLibrary.getProc("SCardGetAttrib");
+#endif
 	pSCardConnect = (LONG(SCAPI *)(SCARDCONTEXT ,CSTRTYPE ,DWORD ,DWORD ,SCARDHANDLE *,LPDWORD ))
 		mLibrary.getProc("SCardConnect"  SUFFIX);
 	pSCardDisconnect = (LONG (SCAPI *)(SCARDHANDLE hCard,DWORD dwDisposition))
@@ -143,7 +150,9 @@ string PCSCManager::getReaderState(uint idx)
 	SS(EXCLUSIVE);
 	SS(INUSE);
 	SS(MUTE);
+#ifdef SCARD_STATE_UNPOWERED
 	SS(UNPOWERED);
+#endif
 	if (stateStr.length() > 0 ) stateStr = stateStr.substr(0,stateStr.length()-1);
 	return stateStr ;
 }
@@ -178,7 +187,7 @@ PCSCConnection * PCSCManager::connect(SCARDHANDLE existingHandle) {
 void PCSCManager::makeConnection(ConnectionBase *c,uint idx)
 {
 	PCSCConnection *pc = (PCSCConnection *)c;
-	SCError::check((*pSCardConnect)(mSCardContext, mReaderStates[idx].szReader,
+	SCError::check((*pSCardConnect)(mSCardContext, (CSTRTYPE) mReaderStates[idx].szReader,
 		SCARD_SHARE_SHARED,
 		(pc->mForceT0 ? 0 : SCARD_PROTOCOL_T1 ) | SCARD_PROTOCOL_T0
 		, & pc->hScard,& pc->proto));
