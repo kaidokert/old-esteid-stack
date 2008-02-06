@@ -1,3 +1,9 @@
+Changes for version 0.9.13
+-------------------------
+	* Mac compilation fixes
+	* cardlib reconnect fixed
+	* PCSC manager works with preconnected handles
+
 Changes for version 0.9.12
 -------------------------
 	* Card library fixes and cleanup
