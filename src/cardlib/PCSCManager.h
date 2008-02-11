@@ -89,6 +89,7 @@ class PCSCManager : public ManagerInterface {
 
 public:
 	PCSCManager(void);
+	/// construct with application-supplied card context
 	PCSCManager(SCARDCONTEXT existingContext);
 	~PCSCManager(void);
 	uint getReaderCount();
@@ -96,6 +97,7 @@ public:
 	std::string getReaderState(uint idx);
 	std::string getATRHex(uint idx);
 	PCSCConnection * connect(uint idx,bool forceT0);
+	/// connect using an application-supplied connection handle
 	PCSCConnection * connect(SCARDHANDLE existingHandle);
 	PCSCConnection * reconnect(ConnectionBase *c,bool forceT0);
 };

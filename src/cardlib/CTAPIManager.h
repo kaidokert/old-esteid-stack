@@ -57,7 +57,9 @@ struct CTAPIConnection : public ConnectionBase {
 	CTAPIConnection(ManagerInterface &iface,unsigned int index,bool force) : 
 		ConnectionBase(iface,index,force),isT1(false) {}
 	CTDriver::CTPort * dri;
+	/// tracks preexisting connection to reader
 	bool wasConnected;
+	/// T1 protocol in use
 	bool isT1;
 	virtual bool isSecure() {return true;}
 };

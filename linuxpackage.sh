@@ -1,5 +1,5 @@
 #!/bin/bash -x
-./configure --with-wx-config=/home/kaido/Projects/wxWidgets-2.8.5/staticinst/bin/wx-config
+./configure --with-wx-config=/home/kaido/Projects/wxWidgets-2.8/staticinst/bin/wx-config
 make clean
 make -C po/ update-po
 make -C po/ update-gmo

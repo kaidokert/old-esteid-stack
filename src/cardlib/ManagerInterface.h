@@ -72,10 +72,14 @@ protected:
     Concrete derivations are PCSCConnection and CTAPIConnection */
 struct ConnectionBase {
 	ManagerInterface &mManager;
+	/// force T0 protocol for connection
 	bool mForceT0;
+	/// reader index
 	uint mIndex;
+	/// if false, we are using application-supplied connection handle
 	bool mOwnConnection;
 
+	/// tells if the manager has a secure PIN input method, true for CTAPI
 	virtual bool isSecure() {return false;}
 	ConnectionBase(ManagerInterface &manager) : 
 		mManager(manager),mOwnConnection(false) {}
