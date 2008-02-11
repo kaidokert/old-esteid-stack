@@ -2,7 +2,7 @@
 DLSRC=testdownload.cpp \
 	../utility/opensslObj.cpp ../cardlib/DynamicLibrary.cpp
 
-CXXFLAGS=-I. -I..
+CXXFLAGS=-I. -I.. -g
 LDFLAGS=-ldl
 
 all: testdownload
