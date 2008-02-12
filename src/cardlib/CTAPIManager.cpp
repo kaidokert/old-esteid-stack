@@ -41,10 +41,10 @@ using std::runtime_error;
 
 const char* libNames[] =
 	//omnikey , SCM ??
-	{"ctdeutin.dll","ctpcsc32.dll"};
+	{"openctapi","ctdeutin.dll","ctpcsc32.dll"};
 #define MAXPORTS 5
 const unsigned char ports[LENOF(libNames)][MAXPORTS]={
-	{0,30,60,70,75},{0,0,0,0,0}};
+	{0,1,2,3,4},{0,30,60,70,75},{0,0,0,0,0}};
 
 class CTAPIError : public CardError {
 public:
@@ -184,8 +184,12 @@ string CTAPIManager::getReaderName(uint index)
 
 	ByteVec resp;
 	dri->performCmd(CTDAD_CT,MAKEVECTOR(cmd),resp);
-	if (resp[0] != 0x46)
-		throw CTAPIError("getReaderName",0,resp.size(),resp[0],resp[1]);
+	if (resp[0] != 0x46) {
+		cmd[3] = 0x0;
+		dri->performCmd(CTDAD_CT,MAKEVECTOR(cmd),resp);
+		if (resp[0] != 0x46) 
+			throw CTAPIError("getReaderName",0,resp.size(),resp[0],resp[1]);
+		}
 	resp.erase(resp.begin(),resp.begin()+2);
 	retval.resize(resp.size());
 	copy(resp.begin(),resp.end(),retval.begin());
