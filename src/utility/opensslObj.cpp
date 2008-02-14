@@ -71,9 +71,20 @@ static int my_ui_method_read(UI *ui, UI_STRING *uis)
 	return 1;
 }
 
+//most distros dont have "libssl" symlink, so try exact versions
+//order of approximate likelyhood ?
+const char *sslLibName() {
+	const char *arrNames[] = {"libssl.so.0.9.8", "libssl.so.0.9.9","libssl.so.0.9.7"};
+	for (int i = 0; i < 3; i++)
+		try {
+			DynamicLibrary l(arrNames[i]);
+			return arrNames[i];
+		} catch(std::runtime_error &) {}
+	return "ssl";
+	}
 
 opensslObj::opensslObj(void *app) :
-	DynamicLibrary("ssl"),m_appPtr(app),engine(NULL),pENGINE_finish(NULL) {
+	DynamicLibrary(sslLibName()),m_appPtr(app),engine(NULL),pENGINE_finish(NULL) {
     pSSL_library_init = (int (*)(void)) getProc("SSL_library_init");
     pSSL_load_error_strings = (void (*)(void))getProc("SSL_load_error_strings");
 
