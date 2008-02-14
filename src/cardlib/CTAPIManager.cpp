@@ -10,9 +10,14 @@
 #include "CTAPIManager.h"
 #include "helperMacro.h"
 #include "CardBase.h" //for exceptions
-
 using std::string;
 using std::runtime_error;
+
+#ifdef DEBUG
+#include <iostream>
+using std::cout;
+using std::endl;
+#endif
 
 #define CTERR_OK		0		//Function call was successful
 #define CTERR_INVALID	-1		//Invalid parameter or value
@@ -56,18 +61,31 @@ public:
 		desc = buf.str() + desc;
 		}
 	};
+#ifdef DEBUG
+void dump(const char *prefix,ByteVec &cmd) {
+	cout << prefix;
+	for(ByteVec::iterator it=cmd.begin();it < cmd.end(); it++ ) 
+		cout << std::hex << std::setfill('0') << std::setw(2) <<  (int) *it << " ";
+	cout << std::endl << std::endl;
+	}
+#endif
 
 void CTDriver::CTPort::performCmd(byte target,ByteVec cmd,ByteVec &resp,bool consumeStatus) {
 	byte response[512];
 	ushort lenr = sizeof(response);
 	byte sad = CTSAD_HOST;
+#ifdef DEBUG
+dump("->cmd ",cmd);
+#endif
 	byte res = dri->pCTData(mCtn,&target,&sad,
 		ushort(cmd.size()),&cmd[0],&lenr,response);
 	if (res!=CTERR_OK || lenr < 2)
 		throw CTAPIError("performCmd",res,lenr,0,0);
 	resp.resize(0);
 	resp.insert(resp.end(),response,response+lenr);
-
+#ifdef DEBUG
+dump("->res ",resp);
+#endif
 	if (consumeStatus) {
 		byte SW1 = resp[ lenr - 2 ];
 		byte SW2 = resp[ lenr - 1 ];
@@ -185,10 +203,10 @@ string CTAPIManager::getReaderName(uint index)
 	ByteVec resp;
 	dri->performCmd(CTDAD_CT,MAKEVECTOR(cmd),resp);
 	if (resp[0] != 0x46) {
-		cmd[3] = 0x0;
-		dri->performCmd(CTDAD_CT,MAKEVECTOR(cmd),resp);
-		if (resp[0] != 0x46) 
+		if (resp.size() != 2) { //openCT
 			throw CTAPIError("getReaderName",0,resp.size(),resp[0],resp[1]);
+			}
+		return "opensc?";
 		}
 	resp.erase(resp.begin(),resp.begin()+2);
 	retval.resize(resp.size());
@@ -208,8 +226,12 @@ string CTAPIManager::getReaderState(uint index)
 
 	ByteVec resp;
 	dri->performCmd(CTDAD_CT,MAKEVECTOR(cmd),resp);
-	if(resp.size() != 3)
-		throw CTAPIError("getReaderState0",0,resp.size(),0,0);
+	if(resp.size() != 3) {
+		if (resp.size() == 2) //workaround for openct
+			resp.insert(resp.begin(),0x80);
+		else
+			throw CTAPIError("getReaderState0",0,resp.size(),0,0);
+		}
 	if (resp[0] != 0x80)
 		throw CTAPIError("getReaderState1",0,resp.size(),resp[0],0);
 	byte statusICC0 = resp[2];
