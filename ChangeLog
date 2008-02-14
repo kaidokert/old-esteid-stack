@@ -3,6 +3,8 @@ Changes for version 0.9.13
 	* Mac compilation fixes
 	* cardlib reconnect fixed
 	* PCSC manager works with preconnected handles
+	* CTAPI interface fixed to work with OpenCT
+	* fix locating openssl libs for image download
 
 Changes for version 0.9.12
 -------------------------
