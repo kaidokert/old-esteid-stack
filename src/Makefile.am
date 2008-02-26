@@ -4,7 +4,7 @@ BUILTSTUFF=resources/esteid.xpm resources/logo_sk.xpm resources/auth_icon.xpm \
 	resources/esteidbmp.cdata resources/digistampbmp.cdata resources/cert.cdata resources/cert_invalid.cdata
 
 EsteidUtil_SOURCES = \
-				precompiled.h \
+	wxprec.cpp		precompiled.h \
 	EsteidUtil.cpp		\
 	MainDialog.cpp		MainDialog.h	\
 	MainDialog_2.cpp			\
@@ -19,6 +19,7 @@ EsteidUtil_SOURCES = \
 	PinChangeSecureDialog.cpp	PinChangeSecureDialog.h	\
 				utility/netObj.h	\
 	utility/opensslObj.cpp	utility/opensslObj.h	\
+	utility/winInetObj.cpp	utility/winInetObj.h	\
 	utility/asnObject.cpp	utility/asnObject.h	\
 	utility/asnCertificate.cpp utility/asnCertificate.h	\
 	utility/pkcs11module.cpp utility/pkcs11module.h	\

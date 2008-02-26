@@ -6,6 +6,7 @@
 	\date		$Date$
 */
 // Revision $Revision$
+#ifdef WIN32
 #include "precompiled.h"
 #include "netObj.h"
 #include "winInetObj.h"
@@ -184,4 +185,4 @@ bool inetConnect::getHttpsFile(
 	buffer.erase(buffer.begin() + bytesTotal,buffer.end());
 	return true;
 	}
-
+#endif

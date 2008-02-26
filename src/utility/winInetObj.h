@@ -7,6 +7,7 @@
 */
 // Revision $Revision$
 #pragma once
+#ifdef WIN32
 #include "cardlib/DynamicLibrary.h" //bad ..
 #include <wininet.h>
 
@@ -73,3 +74,4 @@ struct inetConnect {
 	operator HINTERNET() const {return connect;}
 	bool getHttpsFile(std::string url,std::vector<byte> &buffer);
 	};
+#endif
