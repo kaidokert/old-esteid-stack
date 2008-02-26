@@ -256,9 +256,8 @@ string EstEidCard::readCardName() {
 
 bool EstEidCard::readPersonalData(vector<string>& data,
 		int firstRecord,int lastRecord) {
-	checkProtocol();
-
 		Transaction _m(mManager,mConnection);
+		checkProtocol();
 		readPersonalData_internal(data,firstRecord,lastRecord);
 	return true;
 	}
