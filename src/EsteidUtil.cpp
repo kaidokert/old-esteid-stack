@@ -8,11 +8,15 @@
 // Revision $Revision$
 #include "precompiled.h"
 #include "MainDialog.h"
+#include <wx/cmdline.h>
 
 class mApp : public wxApp
 {
+	bool verbose;
 public:
     virtual bool OnInit();
+	virtual bool OnCmdLineParsed(wxCmdLineParser& parser);
+	virtual void OnInitCmdLine(wxCmdLineParser& parser);
 };
 
 DECLARE_APP(mApp)
@@ -20,6 +24,15 @@ IMPLEMENT_APP(mApp)
 
 #undef PALOOKA 
 #define PALOOKA
+
+bool mApp::OnCmdLineParsed(wxCmdLineParser& parser) {
+	verbose = parser.Found(_("verbose"));
+	return wxApp::OnCmdLineParsed(parser);
+	}
+
+void mApp::OnInitCmdLine(wxCmdLineParser& parser) {
+	wxApp::OnInitCmdLine(parser);
+	}
 
 bool mApp::OnInit()
 {
@@ -36,7 +49,7 @@ bool mApp::OnInit()
     if ( !wxApp::OnInit() )
         return false;
 
-	wxFrame * frame = new MainDialog();
+	wxFrame * frame = new MainDialog(verbose);
 	frame->Show();
 #if defined(_DEBUG) && defined(PALOOKA)
 	delete wxLog::SetActiveTarget(NULL);

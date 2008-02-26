@@ -13,6 +13,7 @@
 #include "wx/mstream.h"
 #include "wx/aboutdlg.h"
 #include "wx/help.h"
+#include <wx/filename.h>
 #include "cardlib/PCSCManager.h"
 #include "cardlib/CTAPIManager.h"
 #include "Setup.h"
@@ -246,6 +247,7 @@ void MainDialog::doShowError(std::runtime_error &err) {
 
 void MainDialog::SwitchCardManager(bool useCTAPI) {
 	if (mCardManager) {
+		logFile.close();
 		delete mCardManager;
 		mCardManager = NULL;
 		}
@@ -256,6 +258,14 @@ void MainDialog::SwitchCardManager(bool useCTAPI) {
 			mCardManager = new CTAPIManager();
 		else
 			mCardManager = new PCSCManager();
+		if (verboseLog) {
+			wxString file = wxFileName::CreateTempFileName(_(""));
+			::wxRemoveFile(file);
+			std::string tmp = std::string(file.ToAscii()) + ".esteidutil.log";
+			logFile.open(tmp.c_str());
+			bool kudos = logFile.good();
+			mCardManager->setLogging(&logFile);
+			}
 		numReaders = mCardManager->getReaderCount();
 		if (numReaders == 0 )
 			doShowError(_T("There are no smart card readers installed"));
@@ -300,7 +310,7 @@ void MainDialog::SwitchLanguage(wxLanguage lang)
 	ReflectSelectedReader();
 }
 
-MainDialog::MainDialog(void) :
+MainDialog::MainDialog(bool verbose) :
 	wxFrame(NULL, wxID_ANY,
              _("ID-card tool"),
              wxDefaultPosition,
@@ -309,7 +319,8 @@ MainDialog::MainDialog(void) :
              wxCAPTION | wxCLIP_CHILDREN)
 	,m_locale(NULL),mCardManager(NULL),havePersonalCard(true),
 	mIdConv(wxFONTENCODING_CP1252),mEnableErrorPopup(true),
-	mPicRect(280,98,100,132),handCursor(wxCURSOR_HAND)
+	mPicRect(280,98,100,132),handCursor(wxCURSOR_HAND),
+	verboseLog(verbose)
 {
 	wxImage::AddHandler( new wxGIFHandler );
 	wxImage::AddHandler( new wxJPEGHandler );

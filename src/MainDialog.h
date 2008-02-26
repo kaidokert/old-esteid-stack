@@ -11,12 +11,13 @@
 #include "wx/intl.h"
 #include "cardlib/ManagerInterface.h"
 #include "cardlib/CardBase.h"
+#include <fstream>
 
 class MainDialog :
 	public wxFrame
 {
 public:
-	MainDialog(void);
+	MainDialog(bool verbose);
 	~MainDialog(void);
 
     void OnQuit(wxCommandEvent& );
@@ -74,6 +75,8 @@ private:
 	static int rIDs[];
 	bool mEnableErrorPopup;
 	wxBitmap userBitmap;
+	bool verboseLog;
+	std::ofstream logFile;
 
 public:
 	enum BackBitmaps {
