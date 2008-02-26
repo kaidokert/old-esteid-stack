@@ -13,12 +13,6 @@
 using std::string;
 using std::runtime_error;
 
-#ifdef DEBUG
-#include <iostream>
-using std::cout;
-using std::endl;
-#endif
-
 #define CTERR_OK		0		//Function call was successful
 #define CTERR_INVALID	-1		//Invalid parameter or value
 #define CTERR_CT		-8		//CT error 1)
@@ -61,31 +55,28 @@ public:
 		desc = buf.str() + desc;
 		}
 	};
-#ifdef DEBUG
-void dump(const char *prefix,ByteVec &cmd) {
-	cout << prefix;
-	for(ByteVec::iterator it=cmd.begin();it < cmd.end(); it++ ) 
-		cout << std::hex << std::setfill('0') << std::setw(2) <<  (int) *it << " ";
-	cout << std::endl << std::endl;
-	}
-#endif
 
-void CTDriver::CTPort::performCmd(byte target,ByteVec cmd,ByteVec &resp,bool consumeStatus) {
+void dump(std::ostream *sout,string prefix,ByteVec &cmd) {
+	if (!sout) return;
+	*sout << prefix;
+	for(ByteVec::iterator it=cmd.begin();it < cmd.end(); it++ ) 
+		*sout << std::hex << std::setfill('0') << std::setw(2) <<  (int) *it << " ";
+	*sout << std::endl << std::endl;
+	}
+
+void CTDriver::CTPort::performCmd(byte target,ByteVec cmd,ByteVec &resp,
+				std::ostream *mLogger,bool consumeStatus ) {
 	byte response[512];
 	ushort lenr = sizeof(response);
 	byte sad = CTSAD_HOST;
-#ifdef DEBUG
-dump("->cmd ",cmd);
-#endif
+	dump(mLogger,string("CTAPI->cmd ") + (target == CTDAD_CT ? "CT " : "ICC " ),cmd);
 	byte res = dri->pCTData(mCtn,&target,&sad,
 		ushort(cmd.size()),&cmd[0],&lenr,response);
 	if (res!=CTERR_OK || lenr < 2)
 		throw CTAPIError("performCmd",res,lenr,0,0);
 	resp.resize(0);
 	resp.insert(resp.end(),response,response+lenr);
-#ifdef DEBUG
-dump("->res ",resp);
-#endif
+	dump(mLogger,"CTAPI<-resp ",resp);
 	if (consumeStatus) {
 		byte SW1 = resp[ lenr - 2 ];
 		byte SW2 = resp[ lenr - 1 ];
@@ -101,17 +92,16 @@ dump("->res ",resp);
 		}
 }
 
-void CTDriver::CTPort::performCmd(byte target,ByteVec cmd) {
+void CTDriver::CTPort::performCmd(byte target,ByteVec cmd,std::ostream *mLogger) {
 	ByteVec resp;
-	performCmd(target,cmd,resp);
+	performCmd(target,cmd,resp,mLogger);
 	}
 
-void CTDriver::CTPort::resetCT(byte unit) {
+void CTDriver::CTPort::resetCT(byte unit,std::ostream *mLogger) {
 	byte resetCmd[] = {0x20,INS_RESETCT,unit,0x00};
 	//if (unit != 0) resetCmd[3] = 0x01;//return ATR
-	performCmd(CTDAD_CT,MAKEVECTOR(resetCmd));
+	performCmd(CTDAD_CT,MAKEVECTOR(resetCmd),mLogger);
 	}
-
 
 bool CTDriver::CTPort::init(bool nothrow) {
 	mCtn = dri->nextCtn++;
@@ -201,7 +191,7 @@ string CTAPIManager::getReaderName(uint index)
 	initclose _i(dri);
 
 	ByteVec resp;
-	dri->performCmd(CTDAD_CT,MAKEVECTOR(cmd),resp);
+	dri->performCmd(CTDAD_CT,MAKEVECTOR(cmd),resp,mLogger);
 	if (resp[0] != 0x46) {
 		if (resp.size() != 2) { //openCT
 			throw CTAPIError("getReaderName",0,resp.size(),resp[0],resp[1]);
@@ -225,7 +215,7 @@ string CTAPIManager::getReaderState(uint index)
 	initclose _i(dri);
 
 	ByteVec resp;
-	dri->performCmd(CTDAD_CT,MAKEVECTOR(cmd),resp);
+	dri->performCmd(CTDAD_CT,MAKEVECTOR(cmd),resp,mLogger);
 	if(resp.size() != 3) {
 		if (resp.size() == 2) //workaround for openct
 			resp.insert(resp.begin(),0x80);
@@ -259,13 +249,13 @@ string CTAPIManager::getATRHex(uint index)
 	initclose _i(dri);
 
 	ByteVec resp;
-	dri->performCmd(CTDAD_CT,MAKEVECTOR(cmd),resp);
+	dri->performCmd(CTDAD_CT,MAKEVECTOR(cmd),resp,mLogger);
 	if (resp[2] == 0) {
 		return "";
 		}
 
 	byte cmdReq[] = {0x20,INS_REQICC,0x01,0x01,0x00}; // req ICC1, return ATR
-	dri->performCmd(CTDAD_CT,MAKEVECTOR(cmdReq),resp);
+	dri->performCmd(CTDAD_CT,MAKEVECTOR(cmdReq),resp,mLogger);
 
 	std::ostringstream buf;
 	buf << "";
@@ -289,7 +279,7 @@ void CTAPIManager::makeConnection(ConnectionBase *c,uint index)
 	conn->dri = dri;
 	if (!conn->wasConnected)
 		dri->init();
-	dri->resetCT(1);
+	dri->resetCT(1,mLogger);
 }
 
 void CTAPIManager::deleteConnection(ConnectionBase *c)
@@ -308,9 +298,13 @@ void CTAPIManager::beginTransaction(ConnectionBase *c)
 	int retry = 1;
 	byte SW1;
 	do {
-		conn->dri->performCmd(CTDAD_CT,MAKEVECTOR(cmdReq),resp,false);
+		conn->dri->performCmd(CTDAD_CT,MAKEVECTOR(cmdReq),resp,mLogger,false);
 		SW1 = *(resp.end() - 2);
 	} while(retry-- && SW1 == 0x64); //retry once
+	if (SW1 == 0x62 ) {//already present, SPR reader does that
+		conn->mForceT0 = true; //and works only with T0
+		return;
+		}
 	if (SW1 != 0x90)
 		throw CTAPIError("beginTransaction",0,resp.size(),SW1,0);
 	conn->isT1 = *(--resp.end()) != 0;
@@ -319,15 +313,15 @@ void CTAPIManager::beginTransaction(ConnectionBase *c)
 void CTAPIManager::endTransaction(ConnectionBase *c)
 {
 	CTAPIConnection *conn = (CTAPIConnection *) c;
-	conn->dri->resetCT(1);
+	conn->dri->resetCT(1,mLogger);
 	byte cmdReq[] = {0x20,INS_EJECTICC,0x01,0x04,0x00}; //EJECT ICC1, nothing returned
 	ByteVec resp;
 	try {
-	conn->dri->performCmd(CTDAD_CT,MAKEVECTOR(cmdReq),resp);
+	conn->dri->performCmd(CTDAD_CT,MAKEVECTOR(cmdReq),resp,mLogger);
 	} catch(CardError &) {
 		int i = 0;
 	}
-	conn->dri->resetCT(0);
+	conn->dri->resetCT(0,mLogger);
 }
 
 void CTAPIManager::execPinEntryCommand(ConnectionBase *c,std::vector<byte> &cmd) {
@@ -344,7 +338,7 @@ void CTAPIManager::execPinEntryCommand(ConnectionBase *c,std::vector<byte> &cmd)
 	command.push_back(byte(do52.size()));
 	command.insert(command.end(),do52.begin(),do52.end());
 
-	conn->dri->performCmd(CTDAD_CT,command);
+	conn->dri->performCmd(CTDAD_CT,command,mLogger);
 	}
 
 void CTAPIManager::execPinChangeCommand(ConnectionBase *c,std::vector<byte> &cmd
@@ -362,14 +356,14 @@ void CTAPIManager::execPinChangeCommand(ConnectionBase *c,std::vector<byte> &cmd
 	command.push_back(byte(do52.size()));
 	command.insert(command.end(),do52.begin(),do52.end());
 
-	conn->dri->performCmd(CTDAD_CT,command);
+	conn->dri->performCmd(CTDAD_CT,command,mLogger);
 }
 
 void CTAPIManager::execCommand(ConnectionBase *c,std::vector<byte> &cmd,std::vector<byte> &recv,
 							   unsigned int &recvLen)
 {
 	CTAPIConnection *conn = (CTAPIConnection *) c;
-	conn->dri->performCmd(CTDAD_ICC1,cmd,recv,false);
+	conn->dri->performCmd(CTDAD_ICC1,cmd,recv,mLogger,false);
 	recvLen = uint(recv.size());
 }
 

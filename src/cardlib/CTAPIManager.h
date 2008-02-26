@@ -19,16 +19,17 @@
 struct CTDriver {
 	struct CTPort {
 		CTPort(CTDriver *d,ushort n) : 
-			dri(d),portNum(n),isConnected(false),mCtn(0) {}
+			dri(d),portNum(n),isConnected(false),mCtn(0),mLogger(NULL) {}
 		CTDriver *dri;
 		ushort portNum;
 		bool isConnected;
 		ushort mCtn;
-		void performCmd(byte target,ByteVec cmd,ByteVec &resp,bool consumeStatus = true);
-		void performCmd(byte target,ByteVec cmd);
+		void performCmd(byte target,ByteVec cmd,ByteVec &resp,std::ostream *mLogger,bool consumeStatus = true);
+		void performCmd(byte target,ByteVec cmd,std::ostream *mLogger);
 		bool init(bool nothrow = false);
 		void close();
-		void resetCT(byte unit);
+		void resetCT(byte unit,std::ostream *mLogger);
+		std::ostream *mLogger;
 /*		CTPort(const CTPort& ref) : dri(ref.dri),portNum(ref.portNum),
 			isConnected(ref.isConnected) {}
 	private:

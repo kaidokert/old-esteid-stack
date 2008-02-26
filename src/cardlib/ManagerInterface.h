@@ -29,7 +29,7 @@ private: //disable object copying
 	ManagerInterface& operator=(const ManagerInterface &);
 
 public:
-	ManagerInterface(void) {}
+	ManagerInterface(void): mLogger(NULL) {}
 	virtual ~ManagerInterface(void) {}
 	/// number of installed readers
 	virtual uint getReaderCount() = 0;
@@ -43,11 +43,13 @@ public:
 	virtual ConnectionBase * connect(uint index,bool forceT0=false) = 0;
 	/// reconnect using a different protocol
 	virtual ConnectionBase * reconnect(ConnectionBase *c,bool forceT0=false) {return c;}
-
+	/// use given stream as APDU log
+	inline void setLogging(std::ostream *logStream) {mLogger = logStream;}
 protected:
+	std::ostream  *mLogger;
 	friend struct ConnectionBase;
 	friend struct Transaction;
-	friend class CardBase;
+	friend class  CardBase;
 	virtual void makeConnection(ConnectionBase *c,uint idx) = 0;
 	virtual void deleteConnection(ConnectionBase *c) = 0;
 	virtual void beginTransaction(ConnectionBase *c) = 0;

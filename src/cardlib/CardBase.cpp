@@ -26,16 +26,17 @@ CardError::CardError(byte a,byte b):SW1(a),SW2(b)
 }
 
 CardBase::CardBase(ManagerInterface &ref) :
-	mManager(ref),mConnection(NULL),mLogger(NULL) {}
+	mManager(ref),mConnection(NULL),mLogger(ref.mLogger) {
+	}
 
 CardBase::CardBase(ManagerInterface &ref,unsigned int idx) :
-	mManager(ref),mLogger(NULL)
+	mManager(ref),mLogger(ref.mLogger)
 {
 	connect(idx);
 }
 
 CardBase::CardBase(ManagerInterface &ref,ConnectionBase *conn):
-	mManager(ref),mConnection(conn),mLogger(NULL) {}
+	mManager(ref),mConnection(conn),mLogger(ref.mLogger) {}
 
 void CardBase::connect(unsigned int idx,bool forceT0) {
 	mConnection = mManager.connect(idx,forceT0);
