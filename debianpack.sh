@@ -8,5 +8,5 @@ cd deback
 tar xvzf esteidutil_$VERSION.orig.tar.gz
 cd EsteidUtil-$VERSION
 pdebuild --auto-debsign
-lintian -i /var/cache/pbuilder/result/*.changes 
-linda -i /var/cache/pbuilder/result/*.changes
+lintian -i /var/cache/pbuilder/result/*$VERSION*.changes 
+linda -i /var/cache/pbuilder/result/*$VERSION*.changes
