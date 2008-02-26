@@ -80,13 +80,15 @@ void MainDialog::doPinChange(int type ) {
 				break;
 			}
 		doPopupInfo(prompt);
-	} catch(AuthError &) {
+	} catch(AuthError &err) {
 		if (retriesLeft) retriesLeft--;
 		wxString prompt;
 		if (type == CHANGEAUTH ||
 			type == CHANGESIGN)
 			prompt = _("Wrong PIN entered");
 		else prompt = _("Wrong PUK entered");
+		if ((type == UNBLOCKAUTH ||type == UNBLOCKSIGN) && err.m_blocked )
+			prompt = _("New PIN must be different from old PIN");
 		prompt+= wxT("\n") +
 			wxString::Format(_("You have %d retries left"),retriesLeft);
 		doPopupError(prompt);

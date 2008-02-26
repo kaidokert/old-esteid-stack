@@ -206,6 +206,8 @@ bool EstEidCard::changePin_internal(
 	} catch(CardError &e) {
 		if (e.SW1 == 0x63) 
 			throw AuthError(e);
+		else if (useUnblockCmd && e.SW1==0x6a && e.SW2 == 0x80 ) //unblocking, repeating old pin
+			throw AuthError(e.SW1,e.SW2,true);
 		else 
 			throw e;
 		}

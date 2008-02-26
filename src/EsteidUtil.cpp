@@ -26,7 +26,7 @@ IMPLEMENT_APP(mApp)
 #define PALOOKA
 
 bool mApp::OnCmdLineParsed(wxCmdLineParser& parser) {
-	verbose = parser.Found(_("verbose"));
+	verbose = parser.Found(_T("verbose"));
 	return wxApp::OnCmdLineParsed(parser);
 	}
 
