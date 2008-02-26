@@ -37,9 +37,9 @@ EsteidUtil_SOURCES = \
 EXTRA_DIST = resources/esteidbmp.gif resources/digistampbmp.gif resources/cert.gif resources/cert_invalid.gif \
 	resources/esteid.ico resources/logo_sk.ico resources/auth_icon.ico \
 	resources/esteid.xpm resources/logo_sk.xpm resources/auth_icon.xpm \
-	resources/auth_icon.gif \
+	resources/auth_icon.gif resources/logo_grey.ico \
 	MainDialog_Windows.cpp \
-	EsteidUtil.rc EsteidUtil.vcproj EsteidUtil.cbp
+	EsteidUtil.rc EsteidUtil.vcproj EsteidUtil.cbp Setup.h
 	
 
 nodist_EsteidUtil_SOURCES =

@@ -6,10 +6,11 @@
 	\date		$Date$
 */
 // Revision $Revision$
-#ifdef WIN32
 #include "precompiled.h"
 #include "netObj.h"
 #include "winInetObj.h"
+
+#ifdef WIN32
 
 using std::string;
 using std::vector;
