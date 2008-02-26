@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: kaidokert@gmail.com\n"
-"POT-Creation-Date: 2007-12-04 10:11+0200\n"
+"POT-Creation-Date: 2008-02-27 00:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -224,6 +224,9 @@ msgid "Wrong PIN entered"
 msgstr ""
 
 msgid "Wrong PUK entered"
+msgstr ""
+
+msgid "New PIN must be different from old PIN"
 msgstr ""
 
 #, c-format
