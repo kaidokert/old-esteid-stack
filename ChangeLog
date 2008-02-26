@@ -1,3 +1,10 @@
+Changes for version 0.9.14
+-------------------------
+	* fixed bug "carderror 0x64 0xA2" with CTAPI
+	* add card command logging with --verbose option
+	* fix CTAPI comms for SPR532 reader
+	* fix release packaging for Windows and Mac
+
 Changes for version 0.9.13
 -------------------------
 	* Mac compilation fixes
