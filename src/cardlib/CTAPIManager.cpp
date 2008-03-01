@@ -41,9 +41,9 @@ using std::runtime_error;
 const char* libNames[] =
 	//omnikey , SCM ??
 	{"openctapi","ctdeutin.dll","ctpcsc32.dll"};
-#define MAXPORTS 5
+#define MAXPORTS 6
 const unsigned char ports[LENOF(libNames)][MAXPORTS]={
-	{0,1,2,3,4},{0,30,60,70,75},{0,0,0,0,0}};
+	{0,1,2,3,4,5},{0,30,35,60,70,75},{0,0,0,0,0,0}};
 
 class CTAPIError : public CardError {
 public:
@@ -82,7 +82,7 @@ void CTDriver::CTPort::performCmd(byte target,ByteVec cmd,ByteVec &resp,
 		byte SW2 = resp[ lenr - 1 ];
 		if (SW1 != 0x90) {
 			if (sad == CTDAD_CT) {
-				if (SW1==0x64 && ( SW2 == 0x00 || SW2 == 0x01) ) {
+				if (SW1==0x64 && ( SW2 == 0x00 || SW2 == 0x01 || SW2 == 0x02) ) {
 					throw AuthError(SW1,SW2);
 					}
 				}
