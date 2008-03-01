@@ -126,13 +126,23 @@ CTDriver::CTDriver(const char *libName,std::vector<ushort> probePorts) :
 	pCTData = (char (CTAPI *)(ushort ctn,byte * dad,byte * sad,ushort lenc,
 					byte * command,ushort * lenr,byte * response))
 					lib.getProc("CT_data");
+	ByteVec lastResp;
 	for(vector<ushort>::iterator it = probePorts.begin();
 			it != probePorts.end() ; it++)
 		try {
 			byte res = (*pCTInit)(++nextCtn,*it);
 			if (res == CTERR_OK ) {
+				byte cmd[] = {0x20,INS_GETSTATUS,0x00,0x46,0x00}; //get reader 
+				ByteVec resp;
+				CTPort port(this,*it);
+				port.init(true);
+				port.performCmd(CTDAD_CT,MAKEVECTOR(cmd),resp,NULL);
+				port.close();
 				pCTClose(nextCtn);
-				mPorts.push_back(CTPort(this,*it));
+				if (lastResp!= resp ) { //only add this port if different from previous
+					mPorts.push_back(CTPort(this,*it));
+					lastResp = resp;
+					}
 				}
 		} catch (std::runtime_error& )	{}
 	}
@@ -154,9 +164,11 @@ CTAPIManager::CTAPIManager(void)
 
 void CTAPIManager::getDefaultLibAndPort(std::string &lib,uint &port) {
 	if (!mDrivers.size()) return;
-	lib = mDrivers[0]->lib.getName();
-	if (mDrivers[0]->mPorts.size())
-		port = mDrivers[0]->mPorts.begin()->portNum;
+	for(size_t i = 0; i < mDrivers.size() ; i++ ) {
+		lib = mDrivers[i]->lib.getName();
+		if (!mDrivers[i]->mPorts.size()) continue;
+		port = mDrivers[i]->mPorts.begin()->portNum;
+		}
 	}
 
 CTAPIManager::~CTAPIManager(void)
