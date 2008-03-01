@@ -384,6 +384,10 @@ bool EstEidCard::changeAuthPin(std::string newPin,std::string oldPin, byte &retr
 	Transaction _m(mManager,mConnection);
 	if (!mConnection->isSecure())
 		validatePin_internal(PIN_AUTH,oldPin,retriesLeft);
+	else {
+		byte dummy;
+		getRetryCounts(dummy,retriesLeft,dummy);
+		}
 	return changePin_internal(PIN_AUTH,newPin,oldPin);
 	}
 
@@ -391,6 +395,10 @@ bool EstEidCard::changeSignPin(std::string newPin,std::string oldPin, byte &retr
 	Transaction _m(mManager,mConnection);
 	if (!mConnection->isSecure())
 		validatePin_internal(PIN_SIGN,oldPin,retriesLeft);
+	else {
+		byte dummy;
+		getRetryCounts(dummy,dummy,retriesLeft);
+		}
 	return changePin_internal(PIN_SIGN,newPin,oldPin);
 	}
 
@@ -398,6 +406,10 @@ bool EstEidCard::changePUK(std::string newPUK,std::string oldPUK, byte &retriesL
 	Transaction _m(mManager,mConnection);
 	if (!mConnection->isSecure())
 		validatePin_internal(PUK,oldPUK,retriesLeft);
+	else {
+		byte dummy;
+		getRetryCounts(retriesLeft,dummy,dummy);
+		}
 	return changePin_internal(PUK,newPUK,oldPUK);
 	}
 
