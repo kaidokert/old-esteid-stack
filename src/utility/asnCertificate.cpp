@@ -213,7 +213,7 @@ string asnCertificate::getValidTo() {
 	return getDateStr(validityPeriod->contents[1]);
 	}
 
-bool asnCertificate::isTimeValid() {
+bool asnCertificate::isTimeValid(int numDaysFromNow) {
 	time_t ti;
 	struct tm mTime;
 	time(&ti);
@@ -221,6 +221,13 @@ bool asnCertificate::isTimeValid() {
 	localtime_s(&mTime,&ti);
 #else
 	localtime_r(&ti,&mTime);
+#endif
+	mTime.tm_mday +=numDaysFromNow;
+	time_t ttmp = mktime(&mTime);
+#ifdef WIN32
+	localtime_s(&mTime,&ttmp);
+#else
+	localtime_r(&ttmp,&mTime);
 #endif
 	std::ostringstream buf;
 	buf << std::setfill('0') << std::setw(2) << (mTime.tm_year - 100);

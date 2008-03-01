@@ -26,7 +26,7 @@ public:
 	asnCertificate(byteVec &in,std::ostream &pout);
 	asnObject *findExtension(std::string ext);
 	string getSubjectAltName();
-	bool isTimeValid();
+	bool isTimeValid(int numDaysFromNow = 0);
 	string getValidFrom();
 	string getValidTo();
 	string getSubject();

@@ -261,14 +261,18 @@ void MainDialog::ReloadCardData(int lastRecord,bool withCert) {
 		if (blockMsg.Length() > 0)
 			doPopupError(blockMsg);
 
-		if (!cert.isTimeValid()) {
-			int answer = wxMessageBox(
+		int answer = wxCANCEL;
+		if (!cert.isTimeValid())
+			answer = wxMessageBox(
 				_("Your certificates are expired. Start the renewal now ?")
 				,getAppName(),wxYES_NO | wxCENTRE |wxICON_ERROR);
-			if (answer == wxYES )
-				doLaunchUrl(_T("http://www.sk.ee/id-uuendus"));
-			}
-		else
+		else if (!cert.isTimeValid(14))
+			answer = wxMessageBox(
+				_("Your certificates will expire in two weeks. Start the renewal now ?")
+				,getAppName(),wxYES_NO | wxCENTRE |wxICON_ERROR);
+		if (answer == wxYES )
+			doLaunchUrl(_T("http://www.sk.ee/id-uuendus"));
+		else if (answer == wxCANCEL)
 			doCheckCertRegistration(certBytes);
 
 		mEnableErrorPopup = false;
