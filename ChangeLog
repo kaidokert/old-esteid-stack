@@ -1,3 +1,11 @@
+Changes for version 0.9.15
+-------------------------
+	* CTAPI port setting fixed with multiple readers
+	* duplicate CTAPI reader instances display removed
+	* PIN retry counting fixed up for CTAPI
+	* some corner case error situations handled better
+	* warning when certificates are about to expire
+
 Changes for version 0.9.14
 -------------------------
 	* fixed bug "carderror 0x64 0xA2" with CTAPI
