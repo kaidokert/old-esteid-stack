@@ -231,7 +231,7 @@ bool asnCertificate::isTimeValid(int numDaysFromNow) {
 #endif
 	std::ostringstream buf;
 	buf << std::setfill('0') << std::setw(2) << (mTime.tm_year - 100);
-	buf << std::setfill('0') << std::setw(2) << mTime.tm_mon ;
+	buf << std::setfill('0') << std::setw(2) << (mTime.tm_mon + 1) ;
 	buf << std::setfill('0') << std::setw(2) << mTime.tm_mday;
 	string local = buf.str(),cer(13,'0');
 	copy(validityPeriod->contents[1]->body_start,
