@@ -241,7 +241,7 @@ void MainDialog::doShowError(wxString prompt) {
 	}
 void MainDialog::doShowError(std::runtime_error &err) {
 	wxString prompt = wxString(_("Error occured")) + _T(" : ")
-			+ wxString::FromAscii(err.what());
+			+ wxGetTranslation(wxString::FromAscii(err.what()));
 	doShowError(prompt);
 	}
 
