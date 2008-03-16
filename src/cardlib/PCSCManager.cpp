@@ -107,7 +107,7 @@ void PCSCManager::ensureReaders(uint idx)
 			p+= string(p).length() + 1;
 			}
 		if (mReaderStates.size() ==  0 )
-			throw std::runtime_error("No smartcard readers available");
+			throw SCError(SCARD_E_READER_UNAVAILABLE);
 		}
 
 	SCError::check((*pSCardGetStatusChange)
@@ -122,7 +122,7 @@ uint PCSCManager::getReaderCount()
 		ensureReaders(0);
 	} catch(SCError &err) {
 		if (err.error == long(SCARD_E_NO_READERS_AVAILABLE))
-			throw std::runtime_error("No smartcard readers available");
+			throw SCError(SCARD_E_READER_UNAVAILABLE);
 		else
 			throw err;
 		}
