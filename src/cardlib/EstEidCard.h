@@ -51,6 +51,7 @@ private:
 		PinType pinType,std::string newPin,std::string oldPin,bool useUnblockCommand=false);
 	void reconnectWithT0();
 	void checkProtocol();
+	bool getRetryCounts_internal(byte &puk,byte &pinAuth,byte &pinSign);
 
 public:
 	EstEidCard(ManagerInterface &ref) : CardBase(ref) {}

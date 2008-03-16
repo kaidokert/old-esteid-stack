@@ -386,7 +386,7 @@ bool EstEidCard::changeAuthPin(std::string newPin,std::string oldPin, byte &retr
 		validatePin_internal(PIN_AUTH,oldPin,retriesLeft);
 	else {
 		byte dummy;
-		getRetryCounts(dummy,retriesLeft,dummy);
+		getRetryCounts_internal(dummy,retriesLeft,dummy);
 		}
 	return changePin_internal(PIN_AUTH,newPin,oldPin);
 	}
@@ -397,7 +397,7 @@ bool EstEidCard::changeSignPin(std::string newPin,std::string oldPin, byte &retr
 		validatePin_internal(PIN_SIGN,oldPin,retriesLeft);
 	else {
 		byte dummy;
-		getRetryCounts(dummy,dummy,retriesLeft);
+		getRetryCounts_internal(dummy,dummy,retriesLeft);
 		}
 	return changePin_internal(PIN_SIGN,newPin,oldPin);
 	}
@@ -408,7 +408,7 @@ bool EstEidCard::changePUK(std::string newPUK,std::string oldPUK, byte &retriesL
 		validatePin_internal(PUK,oldPUK,retriesLeft);
 	else {
 		byte dummy;
-		getRetryCounts(retriesLeft,dummy,dummy);
+		getRetryCounts_internal(retriesLeft,dummy,dummy);
 		}
 	return changePin_internal(PUK,newPUK,oldPUK);
 	}
@@ -439,6 +439,10 @@ bool EstEidCard::unblockSignPin(std::string newPin,std::string mPUK, byte &retri
 
 bool EstEidCard::getRetryCounts(byte &puk,byte &pinAuth,byte &pinSign) {
 	Transaction _m(mManager,mConnection);
+	return getRetryCounts_internal(puk,pinAuth,pinSign);
+	}
+
+bool EstEidCard::getRetryCounts_internal(byte &puk,byte &pinAuth,byte &pinSign) {
 	ByteVec data,tag;
 	selectMF();
 	selectEF(FILEID_RETRYCT);
