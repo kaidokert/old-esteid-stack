@@ -6,11 +6,11 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: EsteidUtil VERSION\n"
 "Report-Msgid-Bugs-To: kaidokert@gmail.com\n"
 "POT-Creation-Date: 2008-03-02 00:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Last-Translator: kaidokert@gmail.com\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,25 +26,25 @@ msgid "Download picture"
 msgstr "загрузка изображение"
 
 msgid "ORGANIZATION"
-msgstr ""
+msgstr "ОРГАНИЗАЦИЯ"
 
 msgid "UNIT"
-msgstr ""
+msgstr "ПОДРАЗДЕЛЕНИЕ"
 
 msgid "E-MAIL"
-msgstr ""
+msgstr "Э-ПОЧТА"
 
 msgid "VALIDITY"
-msgstr ""
+msgstr "СРОК ДЕЙСТВИЯ"
 
 msgid "CARD NUMBER"
-msgstr ""
+msgstr "НОМЕР КАРТЫ"
 
 msgid "Card not found"
-msgstr ""
+msgstr "Карта не найдена"
 
 msgid "There are no smart card readers installed"
-msgstr ""
+msgstr "Не найдено ни одного устройсва считывания карт"
 
 msgid "Reading data.."
 msgstr "Считывание данных.."
@@ -53,10 +53,10 @@ msgid "Reading certificate.."
 msgstr "Считывание сертификатов..."
 
 msgid "Checking card status.."
-msgstr ""
+msgstr "Проверяю статус карты.."
 
 msgid "The PUK code of this card is blocked\n"
-msgstr ""
+msgstr "PUK карты заблокирован\n"
 
 msgid "Authentication PIN (PIN 1) of this card is blocked\n"
 msgstr "Аутентификационный код PIN (PIN 1) заблокирован!\n"
@@ -65,13 +65,13 @@ msgid "Signature PIN (PIN 2) of this card is blocked\n"
 msgstr "Сигнатурный код PIN (PIN 2) заблокирован!\n"
 
 msgid "Your certificates are expired. Start the renewal now ?"
-msgstr ""
+msgstr "Сертификаты просрочены. Начать процесс с начала ?"
 
 msgid "Your certificates will expire in two weeks. Start the renewal now ?"
-msgstr ""
+msgstr "Срок действия ваших сертификатов заканчивается через две недели. Обновить сертификаты сейчас?"
 
 msgid "Select reader"
-msgstr ""
+msgstr "Выбери считыватель карт"
 
 msgid "Read data"
 msgstr "Чтение данных"
@@ -83,7 +83,7 @@ msgid "Personal data"
 msgstr "Персональный файл данных"
 
 msgid "Open 'Welcome' webpage"
-msgstr ""
+msgstr "Откройте страницу приветствия SK"
 
 msgid "Exit"
 msgstr "Выход"
@@ -112,9 +112,8 @@ msgstr "Включена"
 msgid "Off"
 msgstr "Выключена"
 
-#, fuzzy
 msgid "Automatic removal"
-msgstr "Автоматическое зарегистрирование"
+msgstr "Автоматическое удаление"
 
 msgid "Authentication certificate"
 msgstr "Аутентификационный сертификат"
@@ -144,13 +143,13 @@ msgid "Unblock signature PIN (PIN 2)"
 msgstr "Разблокировка сигнатурного кода PIN (PIN 2)"
 
 msgid "User guide"
-msgstr ""
+msgstr "Инструкция по использованию"
 
 msgid "Open ID-card website"
-msgstr ""
+msgstr "Откройте интернет страницу ID карты"
 
 msgid "Open support website"
-msgstr ""
+msgstr "Откройте центр помощи ID карты"
 
 msgid "Diagnostics"
 msgstr "Диагностика"
@@ -177,10 +176,10 @@ msgid "Help"
 msgstr "Подсказка"
 
 msgid "Error occured"
-msgstr ""
+msgstr "Возникла ошибка"
 
 msgid "No smart card readers"
-msgstr ""
+msgstr "Не найдено ни одного устройсва считывания карт"
 
 msgid "ID-card tool"
 msgstr "Утилита идентификационной карты"
@@ -192,14 +191,13 @@ msgid "ID-card utility"
 msgstr "Утилита идентификационной карты"
 
 msgid "Connecting"
-msgstr ""
+msgstr "Соединяю"
 
-#, fuzzy
 msgid "Retrieving data"
-msgstr "Считывание данных.."
+msgstr "Считываю данные.."
 
 msgid "Image loaded"
-msgstr ""
+msgstr "Картинка загружена"
 
 msgid "Authentication key has been used "
 msgstr "Ключ аутентификации использован "
@@ -226,24 +224,23 @@ msgid "Signature PIN has been unblocked"
 msgstr "Сигнатурный код PIN незаблокирован!"
 
 msgid "Wrong PIN entered"
-msgstr ""
+msgstr "Введен неверый PIN"
 
 msgid "Wrong PUK entered"
-msgstr ""
+msgstr "Введен неверный PUK"
 
 msgid "New PIN must be different from old PIN"
 msgstr ""
 
 #, c-format
 msgid "You have %d retries left"
-msgstr ""
+msgstr "попытка %d"
 
-#, fuzzy
 msgid "Certificates registered"
-msgstr "Сертификаты"
+msgstr "Сертификаты зарегистрированы"
 
 msgid "Certificates are not registered. Register now ?"
-msgstr ""
+msgstr "Сертификаты не зарегистрированы. Регистр теперь ?"
 
 msgid "Last name"
 msgstr "Фамилия"
@@ -290,49 +287,41 @@ msgstr "Примечание 3"
 msgid "Comment 4"
 msgstr "Примечание 4"
 
-#, fuzzy
 msgid "Current authentication PIN (PIN 1)"
-msgstr "Смена аутентификационного кода PIN"
+msgstr "Действующий аутентификационный код PIN (PIN 1)"
 
-#, fuzzy
 msgid "New authentication PIN"
-msgstr "Смена аутентификационного кода PIN"
+msgstr "Новый аутентификационный код PIN"
 
-#, fuzzy
 msgid "Repeat new authentication PIN"
-msgstr "Смена аутентификационного кода PIN"
+msgstr "Повтор нового кода PIN"
 
-#, fuzzy
 msgid "Current signature PIN (PIN 2)"
-msgstr "Смена сигнатурного кода PIN"
+msgstr "Действующий сигнатурный код PIN (PIN 2)"
 
-#, fuzzy
 msgid "New signature PIN"
-msgstr "Смена сигнатурного кода PIN"
+msgstr "Новый сигнатурный код PIN"
 
-#, fuzzy
 msgid "Repeat new signature PIN"
-msgstr "Смена сигнатурного кода PIN"
+msgstr "Повтор нового кода PIN"
 
 msgid "Current PUK"
-msgstr ""
+msgstr "Действующий код PUK"
 
 msgid "New PUK"
-msgstr ""
+msgstr "Новый код PUK"
 
 msgid "Repeat new PUK"
-msgstr ""
+msgstr "Повтор нового кода PUK"
 
 msgid "PUK code"
-msgstr ""
+msgstr "код PUK"
 
-#, fuzzy
 msgid "New authentication PIN (PIN 1)"
-msgstr "Смена аутентификационного кода PIN"
+msgstr "Новый аутентификационный код PIN (PIN 1)"
 
-#, fuzzy
 msgid "New signature PIN (PIN 2)"
-msgstr "Смена сигнатурного кода PIN"
+msgstr "Новый сигнатурный код PIN (PIN 2)"
 
 msgid "OK"
 msgstr "OK"
@@ -340,36 +329,36 @@ msgstr "OK"
 msgid "Cancel"
 msgstr "Отмена"
 
-#, fuzzy
 msgid "Current authentication PIN length"
-msgstr "Смена аутентификационного кода PIN"
+msgstr "Длинна действующего авторизационного PIN-кода"
 
-#, fuzzy
 msgid "New authentication PIN (PIN 1) length"
-msgstr "Смена аутентификационного кода PIN"
+msgstr "Длина нового авторизационного PIN-кода"
 
-#, fuzzy
 msgid "Current signature PIN length"
-msgstr "Смена сигнатурного кода PIN"
+msgstr "Длинна действующего PIN-кода подписи"
 
-#, fuzzy
 msgid "New signature PIN (PIN 2) length"
-msgstr "Смена сигнатурного кода PIN"
+msgstr "Длина нового PIN-кода подписи"
 
 msgid "Current PUK length"
-msgstr ""
+msgstr "Длина старого PUK-кода"
 
 msgid "New PUK length"
-msgstr ""
+msgstr "Длина нового PUK-кода"
 
 msgid "Length of PUK code"
-msgstr ""
+msgstr "Длина PUK-кода"
 
 msgid ""
 "To unblock PIN code on Secure PINpad reader the PUK code and new PIN length "
 "have to be entered first. For example if Your PUK code is '17777777' and for "
 "new PIN You would enter '77711', then You should choose 8 and 5 accordingly."
 msgstr ""
+"При введении нового PIN либо PUK-кода в считывателях с повышенншй безопасностью "
+"ввода PIN-кода, требуется предварительно ввести длинну как старого так и нового "
+"кода. Например, ели Ваш старый авторизационный PIN-код '1777', а новый '77711', "
+"то соответственно Вам надо выбрать 4 и 5."
 
 msgid ""
 "To change PIN or PUK code on Secure PINpad reader the current PIN and new "
@@ -377,6 +366,10 @@ msgid ""
 "authentication PIN is '1777' and for new PIN You would enter '77711', then "
 "You should choose 4 and 5 accordingly."
 msgstr ""
+"При разблокировке при помощи PUK-кода в считывателях с повышенншй безопасностью"
+"ввода PIN-кода, требуется предварительно ввести как длинну PUK-кода так и нового" 
+"PIN-кода. Например, ели Ваш PUK-код '17777777', а новый PIN-код '77711', то "
+"соответственно Вам надо выбрать 8 и 5."
 
 #~ msgid "ID-card help"
 #~ msgstr "Подсказка идентификационной карты"
