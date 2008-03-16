@@ -63,19 +63,19 @@
 #define PACKAGE_NAME "EsteidUtil"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "EsteidUtil 0.9.15"
+#define PACKAGE_STRING "EsteidUtil 0.9.16"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "esteidutil"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.9.15"
+#define PACKAGE_VERSION "0.9.16"
 
 /* rc version */
-#define RC_VERSION 0,9,15,0
+#define RC_VERSION 0,9,16,0
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "0.9.15"
+#define VERSION "0.9.16"
