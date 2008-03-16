@@ -83,14 +83,15 @@ void MainDialog::doPinChange(int type ) {
 	} catch(AuthError &err) {
 		if (retriesLeft) retriesLeft--;
 		wxString prompt;
-		if (type == CHANGEAUTH ||
-			type == CHANGESIGN)
+		if (type == CHANGEAUTH || type == CHANGESIGN)
 			prompt = _("Wrong PIN entered");
-		else prompt = _("Wrong PUK entered");
+		else 
+			prompt = _("Wrong PUK entered");
 		if ((type == UNBLOCKAUTH ||type == UNBLOCKSIGN) && err.m_blocked )
 			prompt = _("New PIN must be different from old PIN");
-		prompt+= wxT("\n") +
-			wxString::Format(_("You have %d retries left"),retriesLeft);
+		else 
+			prompt+= wxT("\n") +
+				wxString::Format(_("You have %d retries left"),retriesLeft);
 		doPopupError(prompt);
 	} catch (std::runtime_error &ex) {
 		doPopupError(_T("Error occured\nTechnical description:") +

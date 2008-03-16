@@ -1,3 +1,9 @@
+Changes for version 0.9.16
+-------------------------
+	* Russian translation updates
+	* Fix bug for CTAPI pin change ( undo last update damage )
+	* Cert expiry check fixed
+
 Changes for version 0.9.15
 -------------------------
 	* CTAPI port setting fixed with multiple readers
