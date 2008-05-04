@@ -20,7 +20,7 @@
 /* Define if the GNU gettext() function is already present or preinstalled. */
 #define HAVE_GETTEXT 1
 
-/* Define if you have the iconv() function. */
+/* Define if you have the iconv() function and it works. */
 /* #undef HAVE_ICONV */
 
 /* Define to 1 if you have the <inttypes.h> header file. */
@@ -63,19 +63,19 @@
 #define PACKAGE_NAME "EsteidUtil"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "EsteidUtil 0.9.16"
+#define PACKAGE_STRING "EsteidUtil 0.9.17"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "esteidutil"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.9.16"
+#define PACKAGE_VERSION "0.9.17"
 
 /* rc version */
-#define RC_VERSION 0,9,16,0
+#define RC_VERSION 0,9,17,0
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "0.9.16"
+#define VERSION "0.9.17"

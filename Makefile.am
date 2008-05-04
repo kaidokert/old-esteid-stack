@@ -3,9 +3,7 @@ SUBDIRS = src po
 EXTRA_DIST = config.rpath  m4/ChangeLog \
 		bootstrap esteidutil.spec.in esteidutil.spec esteidutil.desktop	\
 		esteidutil.xpm EsteidUtil.sln COPYING \
-		debian/changelog  debian/control  debian/copyright \
-		debian/rules debian/menu debian/docs debian/compat \
-		debian/EsteidUtil.sgml esteidutil.desktop \
+		esteidutil.desktop \
 		mac/EsteidUtil.app/Contents/MacOS/EsteidUtil \
 		mac/EsteidUtil.app/Contents/Resources/wxmac.icns \
 		mac/EsteidUtil.app/Contents/Info.plist \
