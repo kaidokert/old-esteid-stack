@@ -13,7 +13,16 @@
 class EstEidCard:
 	public CardBase
 {
+	friend class EstEidCardMaintainer;
+protected:
+	enum {
+		FILEID_MASTER = 0x3F00,
+		FILEID_APP	  =	0xEEEE,
+		FILEID_RETRYCT =	0x0016,
+		FILEID_KEYPOINTER  = 0x0033
+	};
 public:
+
 	enum PinType {
 		PUK = 0,
 		PIN_AUTH = 1,

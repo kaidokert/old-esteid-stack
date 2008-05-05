@@ -12,10 +12,6 @@
 
 using std::string;
 
-#define FILEID_MASTER	0x3F00
-#define FILEID_APP		0xEEEE
-#define FILEID_RETRYCT	0x0016
-
 bool EstEidCard::isInReader(unsigned int idx) {
 	string ATR = mManager.getATRHex(idx);
 	string::size_type p =ATR.find("4573744549442076657220312e30"); //"EstEID ver1.0"
@@ -109,7 +105,7 @@ ByteVec EstEidCard::RSADecrypt_internal(ByteVec cipher) {
 
 	selectMF();
 	selectDF(FILEID_APP);
-	selectEF(0x0033);
+	selectEF(FILEID_KEYPOINTER);
 	ByteVec keyRec = readRecord(1);
 	if (keyRec.size() != 0x15)
 			throw CardDataError("key ptr len is not 0x15");
@@ -269,7 +265,7 @@ bool EstEidCard::getKeyUsageCounters(dword &authKey,dword &signKey) {
 	selectMF();
 	selectDF(FILEID_APP);
 
-	selectEF(0x0033);
+	selectEF(FILEID_KEYPOINTER);
 	ByteVec keyRec = readRecord(1);
 	if (keyRec.size() != 0x15)
 			throw CardDataError("key ptr len is not 0x15");
