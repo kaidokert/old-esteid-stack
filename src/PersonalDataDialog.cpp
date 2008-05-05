@@ -42,8 +42,9 @@ void PersonalDataDialog::SaveFile(wxString path,wxArrayString &mPersonalData) {
 	wxArrayString labels = getLabels();
 	std::ofstream fs(path.ToAscii());
 	for(size_t i = 1;i < mPersonalData.Count() ; i++) {
-		fs << (const char *) labels[i].ToUTF8() << " - "
-            << (const char *) mPersonalData[i].ToUTF8() << std::endl;
+
+		fs << (const char *) labels[i].mb_str(wxConvUTF8)  << " - "
+            << (const char *) mPersonalData[i].mb_str(wxConvUTF8) << std::endl;
 		}
 	}
 

@@ -448,6 +448,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\cardlib\EstEidCardMaintainer.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\cardlib\PCSCManager.cpp"
 					>
 				</File>
@@ -543,6 +547,10 @@
 				</File>
 				<File
 					RelativePath=".\cardlib\EstEidCard.h"
+					>
+				</File>
+				<File
+					RelativePath=".\cardlib\EstEidCardMaintainer.h"
 					>
 				</File>
 				<File

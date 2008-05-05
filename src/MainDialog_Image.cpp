@@ -13,6 +13,7 @@
 #include "cardlib/EstEidCard.h"
 #include <wx/filename.h>
 #include "wx/mstream.h"
+#include "wx/image.h"
 #include <fstream>
 
 #include "utility/netObj.h"
@@ -91,7 +92,7 @@ try {
 
 	wxMemoryInputStream mstream( &picBytes[0],picBytes.size());
 	wxImage bmp(mstream);
-	if (!bmp.IsOk()) throw runtime_error("Corrupted data received");
+	if (!bmp.Ok()) throw runtime_error("Corrupted data received");
 	bmp.Rescale(100,132);
 	userBitmap = wxBitmap(bmp);
 	SetStatusText(_("Image loaded"));

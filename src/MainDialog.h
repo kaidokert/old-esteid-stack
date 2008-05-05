@@ -122,3 +122,11 @@ public:
 	wxString validTo;
 
 };
+
+#if wxCHECK_VERSION(2,8,0)
+#define CONTAINS Contains
+#define wxFD_SAVEFLAGS wxFD_SAVE | wxFD_OVERWRITE_PROMPT
+#else
+#define CONTAINS Inside
+#define wxFD_SAVEFLAGS wxSAVE | wxOVERWRITE_PROMPT
+#endif

@@ -10,6 +10,7 @@
 #include "CertificateDialog.h"
 #include "utility/asnCertificate.h"
 #include "wx/mstream.h"
+#include <wx/image.h>
 
 typedef std::vector<unsigned char> ByteVec;
 
@@ -233,7 +234,7 @@ wxString l_fromX509Data(ByteVec val) {
 		val.push_back(0);val.push_back(0);
 		return (wchar_t *) &val[0];
 	} else
-		return wxString::FromUTF8((const char*)&val[0],val.size());
+		return wxString((const char*)&val[0],wxConvUTF8,val.size());
 	}
 
 void CertificateDialog::OnInitDialog(wxInitDialogEvent& event) {

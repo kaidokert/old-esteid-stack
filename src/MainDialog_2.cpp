@@ -25,10 +25,11 @@ void renderPair(wxPaintDC &dc,wxString lbl,wxString val,int x, int y) {
 	wxFont fsmall(8 ,wxSWISS,wxNORMAL,wxFONTWEIGHT_NORMAL,false,wxT("Arial"));
 	wxFont fbold(10 ,wxSWISS,wxNORMAL,wxFONTWEIGHT_BOLD,false,wxT("Arial"));
 	dc.SetFont(fsmall);
-	wxSize sz = dc.GetTextExtent(lbl);
+	int xx,yy;
+	dc.GetTextExtent(lbl,&xx,&yy);
 	dc.DrawText(lbl,x,y);
 	dc.SetFont(fbold);
-	dc.DrawText(val,x+sz.GetWidth(),y-2);
+	dc.DrawText(val,x+xx,y-2);
 	}
 
 void MainDialog::OnPaint(wxPaintEvent &refEvent) {
@@ -61,12 +62,14 @@ void MainDialog::OnPaint(wxPaintEvent &refEvent) {
 		wxRect frame(mPicRect);
 		frame.Inflate(2,2);
 		dc.SetPen(*wxLIGHT_GREY_PEN);
-		dc.DrawLine(frame.GetTopLeft()		, frame.GetTopRight());
-		dc.DrawLine(frame.GetTopRight()		, frame.GetBottomRight());
+		wxPoint tl = frame.GetTopLeft();
+		wxPoint br = frame.GetBottomRight();
+		dc.DrawLine(tl.x , tl.y	, br.x , tl.y );
+		dc.DrawLine(br.x , tl.y , br.x , tl.y  );
 		dc.SetPen(*wxWHITE_PEN);
-		dc.DrawLine(frame.GetBottomRight()	, frame.GetBottomLeft());
-		dc.DrawLine(frame.GetBottomLeft()	, frame.GetTopLeft());
-		if (userBitmap.IsOk()) {
+		dc.DrawLine(tl.x, tl.y , tl.x , br.y );
+		dc.DrawLine(tl.x, br.y , br.x , br.y );
+		if (userBitmap.Ok()) {
 			dcMem.SelectObject(userBitmap);
 			dc.Blit(mPicRect.GetX(),mPicRect.GetY()
 				,userBitmap.GetWidth() , userBitmap.GetHeight(),
@@ -80,11 +83,14 @@ void MainDialog::OnPaint(wxPaintEvent &refEvent) {
 			wxString prompt = _("Download picture");
 			wxString lb1=prompt.Left(prompt.Find(_T(" ")));
 			wxString lb2=prompt.Right(prompt.Len() - lb1.Len() - 1);
+			int w1,w2,dummy;
+			dc.GetTextExtent(lb1,&w1,&dummy);
+			dc.GetTextExtent(lb2,&w2,&dummy);
 			int midx = (frame.GetLeft() + frame.GetRight()) / 2
-				- (dc.GetTextExtent(lb1).GetWidth() / 2);
+				- (w1 / 2);
 			dc.DrawText(lb1,midx, frame.GetTop() + 50);
 			midx = (frame.GetLeft() + frame.GetRight()) / 2
-				- (dc.GetTextExtent(lb2).GetWidth() / 2);
+				- (w2 / 2);
 			dc.DrawText(lb2,midx, frame.GetTop() + 62);
 			}
 //#endif
@@ -127,11 +133,17 @@ void MainDialog::ClearCardData() {
 		}
 	}
 
+bool endsWith(wxString &comp,wxString look) {
+	if (look.length() > comp.length() ) return false;
+	wxString test = comp.Mid( comp.length() - look.length() );
+	return test == look;
+	}
+
 wxString MainDialog::menuFromReaderName(std::string reader,std::string name) {
 	wxString ret = wxString::FromAscii(reader.c_str());
-	if (ret.EndsWith(_T(" 0"))) ret.Truncate(ret.Len() - 2);
-	if (ret.EndsWith(_T(" 00"))) ret.Truncate(ret.Len() - 3);
-	if (ret.EndsWith(_T(" 00"))) ret.Truncate(ret.Len() - 3);
+	if (endsWith(ret,_T(" 0"))) ret.Truncate(ret.Len() - 2);
+	if (endsWith(ret,_T(" 00"))) ret.Truncate(ret.Len() - 3);
+	if (endsWith(ret,_T(" 00"))) ret.Truncate(ret.Len() - 3);
 	if (name.length() >0 )
 		ret += _T(" [") + wxString(name.c_str(),mIdConv) + _T("]");
 	return ret;
@@ -195,7 +207,7 @@ wxString fromX509Data(ByteVec val) {
 		val.push_back(0);val.push_back(0);
 		return (wchar_t *) &val[0];
 	} else
-		return wxString::FromUTF8((const char*)&val[0],val.size());
+		return wxString((const char*)&val[0],wxConvUTF8,val.size());
 	}
 
 void MainDialog::ReloadCardData(int lastRecord,bool withCert) {
@@ -305,7 +317,7 @@ void MainDialog::OnSaveToFile(wxCommandEvent&  event)
 	ReloadCardData(EstEidCard::COMMENT4);
 	wxFileDialog* SaveDialog = new wxFileDialog(
 		this, _("Save to file"),wxEmptyString,_T("idcarddata.txt"),
-		_T("*.txt"),wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+		_T("*.txt"), wxFD_SAVEFLAGS);
 	if (SaveDialog->ShowModal() == wxID_OK ) {
 		PersonalDataDialog::SaveFile(SaveDialog->GetPath(),mPersonalData);
 		}
@@ -400,7 +412,7 @@ void MainDialog::doSaveCert(bool authCert) {
 	wxFileDialog* SaveDialog = new wxFileDialog(
 		this, _("Save to file"),wxEmptyString,m_cardId + _T("_") +
 		( authCert ? _T("auth") : _T("sign") )+ _T(".cer"),
-		_T("DER encoded binary X.509 (*.CER)|*.cer"),wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+		_T("DER encoded binary X.509 (*.CER)|*.cer"), wxFD_SAVEFLAGS);
 	if (SaveDialog->ShowModal() == wxID_OK ) {
 		std::ofstream fs(SaveDialog->GetPath().ToAscii(),std::ios_base::binary);
 		fs.write((const char*)&certBytes[0], std::streamsize(certBytes.size()) );
@@ -430,7 +442,7 @@ void MainDialog::doLaunchUrl(wxString url) {
 	if (ie.Exists() && ie.Open(wxRegKey::Read)) {
 		wxString path;
 		ie.QueryValue(_T(""),path);
-		if (path.EndsWith(_T("%1"))) path.Truncate(path.Len() - 2);
+		if (endsWith(path,_T("%1"))) path.Truncate(path.Len() - 2);
 		result = wxExecute(path + _T(" ") + url);
 		}
 #endif

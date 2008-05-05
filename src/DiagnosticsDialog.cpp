@@ -8,12 +8,12 @@
 // Revision $Revision$
 #include "precompiled.h"
 #include "DiagnosticsDialog.h"
+#include "MainDialog.h"
 #include "cardlib/DynamicLibrary.h"
 #include "cardlib/PCSCManager.h"
 #include "cardlib/CTAPIManager.h"
 #include "cardlib/EstEidCard.h"
 #include "utility/pkcs11module.h"
-#include <wx/platinfo.h>
 #include <wx/utils.h>
 #include <fstream>
 
@@ -33,10 +33,11 @@ END_EVENT_TABLE()
 void DiagnosticsDialog::OnSaveToFile( wxCommandEvent &event ) {
 	wxFileDialog* SaveDialog = new wxFileDialog(
 		this, _("Save to file"),wxEmptyString,_T("IDdiagnostics.txt"),
-		_T("*.txt"),wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+		_T("*.txt"), wxFD_SAVEFLAGS);
 	if (SaveDialog->ShowModal() == wxID_OK ) {
 		std::ofstream fs(SaveDialog->GetPath().ToAscii());
-		wxCharBuffer data = mDiagText->GetValue().ToUTF8();
+		wxString val = mDiagText->GetValue();
+		wxCharBuffer data = val.mb_str(wxConvUTF8);
 		fs << (char *) data.data();
 		}
 	}

@@ -11,12 +11,16 @@
 #include "AppSetting.h"
 #include "wx/menu.h"
 #include "wx/mstream.h"
+#if wxCHECK_VERSION(2,8,0)
 #include "wx/aboutdlg.h"
+#endif
 #include "wx/help.h"
 #include <wx/filename.h>
+#include <wx/image.h>
 #include "cardlib/PCSCManager.h"
 #include "cardlib/CTAPIManager.h"
 #include "Setup.h"
+
 
 enum MainMenu {
 	idNoReaders,
@@ -54,6 +58,14 @@ enum MainMenu {
 	idOpenSupportWeb,
 	idSysinfo,
 //builtin	idAbout,
+//menus, 2.6 req
+	idMenuReader,
+	idMenuPersonal,
+	idMenuLanguage,
+	idMenuInterface,
+	idMenuAutoRemove,
+	idMenuShow,
+	idMenuSave,
 };
 
 int MainDialog::rIDs[] = {idSelectReader0,idSelectReader1,idSelectReader2,idSelectReader3};
@@ -137,13 +149,13 @@ void MainDialog::ReloadMenu(wxLanguage lang)
 	//
 	//wxMenu *readerMenu = new wxMenu;
 	readerMenu = new wxMenu;
-	cardMenu->AppendSubMenu(readerMenu,_("Select reader"));
+	cardMenu->Append(idMenuReader,_("Select reader"), readerMenu);
 	//
 	cardMenu->Append(idReadData,_("Read data"));
     wxMenu *personalMenu = new wxMenu;
 	personalMenu->Append(idShow,_("Show"));
 	personalMenu->Append(idSaveToFile,_("Save to file"));
-	cardMenu->AppendSubMenu(personalMenu,_("Personal data"));
+	cardMenu->Append(idMenuPersonal,_("Personal data"), personalMenu);
 	cardMenu->Append(idDownloadPicture,_("Download picture"));
 	cardMenu->FindItem(idDownloadPicture)->Enable(false);
 	cardMenu->Append(idOpenWelcomeWeb,_("Open 'Welcome' webpage"));
@@ -159,13 +171,13 @@ void MainDialog::ReloadMenu(wxLanguage lang)
 	languageMenu->Check(idLangEnglish, lang == wxLANGUAGE_ENGLISH);
 	languageMenu->AppendCheckItem(idLangRussian,_("Russian"));
 	languageMenu->Check(idLangRussian, lang == wxLANGUAGE_RUSSIAN);
-	settingsMenu->AppendSubMenu(languageMenu,_("Language"));
+	settingsMenu->Append(idMenuLanguage,_("Language"),languageMenu);
 	interfaceMenu = new wxMenu;
 	interfaceMenu->AppendCheckItem(idPCSC,_T("PCSC"));
 	interfaceMenu->Check(idPCSC,!AppSetting().getUseCTAPI());
 	interfaceMenu->AppendCheckItem(idCTAPI,_T("CTAPI"));
 	interfaceMenu->Check(idCTAPI,AppSetting().getUseCTAPI());
-	settingsMenu->AppendSubMenu(interfaceMenu,_("Interface"));
+	settingsMenu->Append(idMenuInterface,_("Interface"),interfaceMenu);
 
     wxMenu *certMenu = new wxMenu;
 #ifdef __WXMSW__
@@ -175,17 +187,17 @@ void MainDialog::ReloadMenu(wxLanguage lang)
 	autoRemoveMenu->Check(idCertAutoremoveOn, AppSetting().getAutoRemove());
 	autoRemoveMenu->AppendCheckItem(idCertAutoremoveOff,_("Off"));
 	autoRemoveMenu->Check(idCertAutoremoveOff, !AppSetting().getAutoRemove());
-	certMenu->AppendSubMenu(autoRemoveMenu,_("Automatic removal"));
+	certMenu->Append(idMenuAutoRemove,_("Automatic removal"),autoRemoveMenu);
 	certMenu->AppendSeparator();
 #endif
 	wxMenu* showMenu = new wxMenu;
 	showMenu->Append(idShowAuthCert,_("Authentication certificate"));
 	showMenu->Append(idShowSignCert,_("Signature certificate"));
-	certMenu->AppendSubMenu(showMenu,_("Show"));
+	certMenu->Append(idMenuShow,_("Show"), showMenu);
 	wxMenu* saveMenu = new wxMenu;
 	saveMenu->Append(idSaveAuthCert,_("Authentication certificate"));
 	saveMenu->Append(idSaveSignCert,_("Signature certificate"));
-	certMenu->AppendSubMenu(saveMenu,_("Save to file"));
+	certMenu->Append(idMenuSave,_("Save to file"), saveMenu);
 	certMenu->AppendSeparator();
 	certMenu->Append(idVerifyCerts,_("Verify certificates"));
 
@@ -375,8 +387,8 @@ MainDialog::~MainDialog(void)
 
 void MainDialog::OnMouseClick(wxMouseEvent &evt) {
 	if (!havePersonalCard) return;
-	if (userBitmap.IsOk()) return;
-	if (mPicRect.Contains(evt.GetX(),evt.GetY())) {
+	if (userBitmap.Ok()) return;
+	if (mPicRect.CONTAINS(evt.GetX(),evt.GetY())) {
 		wxCommandEvent evt(wxEVT_COMMAND_MENU_SELECTED,	idDownloadPicture);
 		wxPostEvent(this,evt);
 		}
@@ -384,9 +396,9 @@ void MainDialog::OnMouseClick(wxMouseEvent &evt) {
 
 void MainDialog::OnMouseMove(wxMouseEvent &evt) {
 	if (!havePersonalCard) return;
-	if (mPicRect.Contains(evt.GetX(),evt.GetY())) {
+	if (mPicRect.CONTAINS(evt.GetX(),evt.GetY())) {
 		if (!mCursorIsHand) {
-			if (userBitmap.IsOk()) return;
+			if (userBitmap.Ok()) return;
 			this->SetCursor(handCursor);
 			mCursorIsHand = true;
 			}
@@ -491,6 +503,7 @@ void MainDialog::OnOpenSupportWeb(wxCommandEvent&  event) {
 }
 
 void MainDialog::OnAbout(wxCommandEvent&  event) {
+#if wxCHECK_VERSION(2,8,0)
 	wxAboutDialogInfo in;
 	in.SetIcon(wxICON(logo_sk));
 	in.SetWebSite(_T("http://www.sk.ee"));
@@ -498,4 +511,5 @@ void MainDialog::OnAbout(wxCommandEvent&  event) {
 	in.SetCopyright(_T("(C) 2007 AS Sertifitseerimiskeskus"));
 	in.SetVersion(_T(VERSION));
 	wxAboutBox(in);
+#endif
 }
