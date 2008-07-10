@@ -1,0 +1,9 @@
+; idutil2.def : Declares the module parameters.
+
+LIBRARY      "idutil2.DLL"
+
+EXPORTS
+	DllCanUnloadNow		PRIVATE
+	DllGetClassObject	PRIVATE
+	DllRegisterServer	PRIVATE
+	DllUnregisterServer	PRIVATE

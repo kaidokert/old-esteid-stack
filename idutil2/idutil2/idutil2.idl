@@ -1,0 +1,68 @@
+// idutil2.idl : IDL source for idutil2
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (idutil2.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(619AE3E0-2B7C-4538-9DA9-18D1258AB549),
+	dual,
+	nonextensible,
+	helpstring("Icard Interface"),
+	pointer_default(unique)
+]
+interface Icard : IDispatch{
+	[propget, id(1), helpstring("property familyName")] HRESULT familyName([out, retval] VARIANT* pVal);
+	[propget, id(2), helpstring("property firstName1")] HRESULT firstName1([out, retval] VARIANT* pVal);
+	[propget, id(3), helpstring("property firstName2")] HRESULT firstName2([out, retval] VARIANT* pVal);
+	[propget, id(4), helpstring("property sex")] HRESULT sex([out, retval] VARIANT* pVal);
+	[id(5), helpstring("method ReadCard")] HRESULT ReadCard(void);
+	[propget, id(6), helpstring("property nationality")] HRESULT nationality([out, retval] VARIANT* pVal);
+	[propget, id(7), helpstring("property birthDate")] HRESULT birthDate([out, retval] VARIANT* pVal);
+	[propget, id(8), helpstring("property personalCode")] HRESULT personalCode([out, retval] VARIANT* pVal);
+	[propget, id(9), helpstring("property documentNumber")] HRESULT documentNumber([out, retval] VARIANT* pVal);
+	[propget, id(10), helpstring("property expiry")] HRESULT expiry([out, retval] VARIANT* pVal);
+	[propget, id(11), helpstring("property birthPlace")] HRESULT birthPlace([out, retval] VARIANT* pVal);
+	[propget, id(12), helpstring("property issued")] HRESULT issued([out, retval] VARIANT* pVal);
+	[propget, id(13), helpstring("property residencePermitType")] HRESULT residencePermitType([out, retval] VARIANT* pVal);
+	[propget, id(14), helpstring("property comment1")] HRESULT comment1([out, retval] VARIANT* pVal);
+	[propget, id(15), helpstring("property comment2")] HRESULT comment2([out, retval] VARIANT* pVal);
+	[propget, id(16), helpstring("property comment3")] HRESULT comment3([out, retval] VARIANT* pVal);
+	[propget, id(17), helpstring("property comment4")] HRESULT comment4([out, retval] VARIANT* pVal);
+	[propget, id(18), helpstring("property selectReader")] HRESULT selectReader([out, retval] LONG* pVal);
+	[propput, id(18), helpstring("property selectReader")] HRESULT selectReader([in] LONG newVal);
+	[id(19), helpstring("method getReaders")] HRESULT getReaders([out,retval] VARIANT* arrReaders);
+};
+[
+	uuid(B9EBF551-75EB-4EE5-9FBE-901E3C920440),
+	version(1.0),
+	helpstring("idutil2 1.0 Type Library")
+]
+library idutil2Lib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(B62EC5D1-6F75-4966-AA82-6A6CBEC486A6),
+		helpstring("_IcardEvents Interface")
+	]
+	dispinterface _IcardEvents
+	{
+		properties:
+		methods:
+			[id(3), helpstring("method CardWasInserted")] HRESULT CardWasInserted([in] LONG readerNum);
+			[id(4), helpstring("method CardWasRemoved")] HRESULT CardWasRemoved([in] LONG readerNum);
+	};
+	[
+		uuid(3C13A5AF-BF0F-4B64-BDB2-77E2091D2B4F),
+		helpstring("card Class")
+	]
+	coclass card
+	{
+		[default] interface Icard;
+		[default, source] dispinterface _IcardEvents;
+	};
+};

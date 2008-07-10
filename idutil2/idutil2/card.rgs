@@ -1,0 +1,27 @@
+HKCR
+{
+	idutil2.card.1 = s 'card Class'
+	{
+		CLSID = s '{3C13A5AF-BF0F-4B64-BDB2-77E2091D2B4F}'
+	}
+	idutil2.card = s 'card Class'
+	{
+		CLSID = s '{3C13A5AF-BF0F-4B64-BDB2-77E2091D2B4F}'
+		CurVer = s 'idutil2.card.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {3C13A5AF-BF0F-4B64-BDB2-77E2091D2B4F} = s 'card Class'
+		{
+			ProgID = s 'idutil2.card.1'
+			VersionIndependentProgID = s 'idutil2.card'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{B9EBF551-75EB-4EE5-9FBE-901E3C920440}'
+		}
+	}
+}

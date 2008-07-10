@@ -1,0 +1,79 @@
+<HTML>
+<HEAD>
+
+<OBJECT  ID="myCard" CLASSID="CLSID:3C13A5AF-BF0F-4B64-BDB2-77E2091D2B4F" codebase="idutil.cab"></OBJECT>
+<SCRIPT LANGUAGE="JScript" FOR="myCard" EVENT="CardInserted() ">
+	var mTag = document.getElementById("mTag");
+	mTag.innerHTML = "Reading data...";
+	timerId = window.setInterval("reading()",500);
+</SCRIPT>
+<SCRIPT LANGUAGE="JScript" FOR="myCard" EVENT="CardRemoved() ">
+	var mTag = document.getElementById("mTag");
+	window.clearInterval(timerId);
+	mTag.innerHTML = "";
+</SCRIPT>
+
+<SCRIPT LANGUAGE="JScript">
+var timerId;
+
+function reading()
+{
+	var mTag = document.getElementById("mTag");
+	window.clearInterval(timerId);
+
+	mTag.innerHTML = "";
+	try {
+		myCard.ReadCard();
+		props=Array(
+			"familyName",
+			"firstName1",
+			"firstName2",
+			"sex",
+			"nationality",
+			"birthDate",
+			"personalCode",
+			"documentNumber",
+			"expiry",
+			"birthPlace",
+			"issued",
+			"residencePermitType",
+			"comment1",
+			"comment2",
+			"comment3",
+			"comment4")
+		var propVal;
+		for(prop in props) {
+			eval("propVal = myCard." + props[prop] + ";");
+			mTag.innerHTML+= props[prop] +"="  + propVal + "<br>";
+			}
+		}
+	catch(e) {
+		mTag.innerHTML="<font color=\"red\">Reading failed!</font>"
+		}
+	}
+</SCRIPT>
+
+
+</HEAD>
+
+<BODY>
+
+
+
+<div id="inst"></div>
+<div id="mTag"></div>
+
+<script language="Jscript">
+	var iTag = document.getElementById("inst");
+	if (myCard.object !=null ) {
+		iTag.innerHTML = "Idutil successfully installed, insert ID-card to test";
+		}
+	else {
+		iTag.innerHTML = "<font color=\"red\">Idutil installation failed!</font>";
+		}
+</script>
+
+</BODY>
+</HTML>
+
+

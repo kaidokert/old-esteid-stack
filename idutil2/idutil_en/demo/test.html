@@ -1,0 +1,294 @@
+<html>
+<head>
+
+
+<object id=certColl classid="clsid:20CA0570-6E5D-4A0F-A9FF-A2227F2C4543" codebase="http://kaidokert.com/work/pki/dsiglite2.cab"></object>
+<OBJECT  ID="myCard" CLASSID="CLSID:3C13A5AF-BF0F-4B64-BDB2-77E2091D2B4F" codebase="idutil.cab" ></OBJECT>
+
+<style>
+.linp,.rinp,.linp2,.rinp2
+{
+    POSITION: absolute;
+    HEIGHT: 22px;
+}
+.linp,.rinp 
+{
+	WIDTH: 250px;
+}
+.linp 
+{
+	LEFT: 100px;
+}
+.linp2
+{
+	LEFT: 250px;
+	WIDTH: 100px;
+}
+
+.rinp 
+{
+	LEFT: 420px;
+}
+.rinp2 
+{
+	LEFT: 590px;
+	WIDTH: 100px;
+}
+
+.contdiv {
+	position:relative;
+	left:0px;
+	top:10px;
+	height:1130px;
+	width:800px;
+	background:transparent url(back800.gif);
+	}
+</style>
+
+<SCRIPT FOR="window" EVENT="onfocus" >
+	try {
+		VBPopReaders();
+		myCard.ReadCard();
+		setVbPC(myCard.personalCode);
+		}
+	catch (e) {}
+</SCRIPT>
+
+<script language="javascript">
+var timerID = 0;
+var updates = true;
+
+var tmpl = '<?xml version="1.0" encoding="UTF-8"?><vorm>' +
+	'<entrant name="#1" licence="#2" adress="#3" telfax="#4" representative="#5"/>' +
+	'<driver surname="#6" firstname="#7" nationality="#8" licenceNo="#9" address="#10" telfax="#11" birthdate="#12"/>' +
+	'<codriver surname="#13" firstname="#14" nationality="#15" licenceNo="#16" address="#17" telfax="#18" birthdate="#19"/>' +
+	'<car make="#20" model="#21" group="#22" class="#23" turbo="#24" yearBuilt="#25" regno="#26" cc="#27"/>' + 
+	'</vorm>';
+	
+function enableupdate() {
+	updates = true;
+	}
+function disableupdate() {
+	updates = false;
+	}
+	
+function calcDoc(rvar) {
+
+	document.getElementById("sig1").src = "spacer.gif"
+	document.getElementById("sig2").src = "spacer.gif"
+	
+	tmpRes = tmpl;
+	for (i=1;i<=28;i++) {
+		tmpRes = eval("tmpRes.replace(/#" + i + "/,rally.text" + i + ".value);");
+		}
+
+	var xmldoc = makeDoc(tmpRes);
+	if (typeof(xmldoc) != 'object') return false;
+
+	var digidoc = DD_CreateContainer();
+	DD_addXmlDataNode(digidoc,xmldoc,'dataform.xml');
+
+	document.rally.dd_disp.value = '<?xml version="1.0" encoding="UTF-8"?>' + digidoc.xml;
+	return true;
+	}
+
+function relistReaders() {
+	var vbArr = new VBArray (myCard.getReaders())
+	var jsArr = vbArr.toArray();
+	var prevSel = rally.selectReader.selectedIndex;
+	while(rally.selectReader.options.length > 0 ) rally.selectReader.options.remove(0);
+	rally.selectReader.options[0] = new Option("Autoselect",-1);
+	for(var i = 0; i < jsArr.length ; i++)
+		rally.selectReader.options[rally.selectReader.length] = new Option(jsArr[i],i);
+	rally.selectReader.selectedIndex = prevSel;
+	myCard.selectReader = prevSel - 1;
+	}
+
+function reading() {
+	window.clearInterval(timerID);
+	timerID = 0;
+	relistReaders();
+	myCard.ReadCard();
+
+	setVbPC(myCard.personalCode);
+
+	timerID = 0;
+	window.status = "Data read..";
+	if (!updates) return;
+	
+	if (rally.radio[0].checked) {
+		rally.text1.value = myCard.familyName + ' ' + myCard.firstName1;
+		}
+	if (rally.radio[1].checked) {
+		rally.text6.value = myCard.familyName;
+		rally.text7.value = myCard.firstName1;
+		rally.text8.value = myCard.nationality;
+		rally.text12.value = myCard.birthDate;
+		}
+	if (rally.radio[2].checked) {
+		rally.text13.value = myCard.familyName;
+		rally.text14.value = myCard.firstName1;
+		rally.text15.value = myCard.nationality;
+		rally.text19.value = myCard.birthDate;
+		}
+	calcDoc(1);
+	}	
+</script>
+<script language="vbscript">
+dim vbPC
+
+function setVbPC(newval)
+	vbPC = newVal
+'	window.alert "vbpc=" & vbPC
+end function
+
+function dosign(num) 
+	call disableupdate()
+	set signingCert = nothing
+	for each c in certColl.myCerts 
+		if len(c.displaystring) >= 13 then
+			if right(c.displaystring,11) = vbPc then
+				if c.keySpec = "SIGNATURE" then
+					set signingCert = c
+					exit for
+				end if
+			end if
+		end if
+	next
+	if not signingCert is nothing then
+		on error resume next
+		set digidoc = makedoc(document.rally.dd_disp.value)
+		if digidoc is nothing then exit function
+		DD_signContainer digidoc,signingCert
+		errnum = err.number 
+		on error goto 0
+		if errnum = 0 then
+			document.rally.dd_disp.value = digidoc.xml
+			if num=1 then
+				document.getElementById("sig1").src = "sig.gif"
+			else
+				document.getElementById("sig2").src = "sig.gif"
+			end if
+		end if
+	end if
+end function
+
+</script>
+<script language="vbscript" src="digidoc.vbs"></script>
+<script language="vbscript" src="xmldom.vbs"></script>
+
+<SCRIPT LANGUAGE="JavaScript" FOR="myCard" EVENT="CardWasInserted(number)">
+	window.status = "Reading data..." + number;
+	timerID = window.setTimeout("reading()",500);
+</SCRIPT>
+<SCRIPT LANGUAGE="JavaScript" FOR="myCard" EVENT="CardWasRemoved(number)">
+	window.status = "no card" + number;
+	window.clearInterval(timerID);
+	timerID = 0;
+	setVbPC('');
+</SCRIPT>
+
+</head>
+
+<body  bgcolor=mintcream>
+<form name="rally">
+<table><tr ><td align="left">
+
+<div id="formdiv" 
+	class="contdiv">
+<span style="POSITION: absolute;LEFT: 100px; TOP: 10px;">Select reader:</span>
+<SELECT NAME="selectReader" 
+		 style ="POSITION: absolute; LEFT: 200px; TOP: 10px; WIDTH: 200px; height=22px" onchange="">
+<OPTION VALUE="-1">Autoselect</OPTION>
+</SELECT>
+	<!--entrant-->
+	<INPUT class="linp" id=text1
+		 style ="TOP: 300px" size=40 onchange="calcDoc(1);">
+	<INPUT class="rinp" id=text2
+		 style ="TOP: 300px" size=40 onchange="calcDoc(1);">
+
+	<INPUT class="linp" id=text3
+		 style ="TOP: 340px" size=40 onchange="calcDoc(1);">
+	<INPUT class="rinp" id=text4
+		 style ="TOP: 340px" size=40 onchange="calcDoc(1);">
+
+	<INPUT class="linp" id=text5
+		 style  ="TOP: 380px; HEIGHT: 15px" size=40 onchange="calcDoc(1);">
+
+	<!--driver-->
+	<INPUT class="linp" id=text6
+		 style   ="WIDTH: 100px; TOP: 440px" size=40 onchange="calcDoc(1);">
+	<INPUT class="linp2" id=text7
+		 style   ="WIDTH: 100px; TOP: 440px" size=40 onchange="calcDoc(1);">
+	<INPUT class="rinp" id=text8
+		 style   ="WIDTH: 100px; TOP: 440px" size=40 onchange="calcDoc(1);">
+	<INPUT class="rinp2" id=text9
+		 style   ="WIDTH: 100px; TOP: 440px" size=40 onchange="calcDoc(1);">
+
+	<INPUT class="linp" id=text10
+		 style ="TOP: 490px" size=40 onchange="calcDoc(1);">
+	<INPUT class="rinp" id=text11
+		 style   ="WIDTH: 100px; TOP: 490px" size=40 onchange="calcDoc(1);">
+	<INPUT class="rinp2" id=text12
+		 style   ="WIDTH: 100px; TOP: 490px" size=40 onchange="calcDoc(1);">
+
+	<!--codriver-->
+	<INPUT class="linp" id=text13
+		 style   ="WIDTH: 100px; TOP: 560px" size=40 onchange="calcDoc(1);">
+	<INPUT class="linp2" id=text14
+		 style   ="WIDTH: 100px; TOP: 560px" size=40 onchange="calcDoc(1);">
+	<INPUT class="rinp" id=text15
+		 style   ="WIDTH: 100px; TOP: 560px" size=40 onchange="calcDoc(1);">
+	<INPUT class="rinp2" id=text16
+		 style   ="WIDTH: 100px; TOP: 560px" size=40 onchange="calcDoc(1);">
+
+	<INPUT class="linp" id=text17
+		 style ="TOP: 607px" size=40 onchange="calcDoc(1);">
+	<INPUT class="rinp" id=text18
+		 style   ="WIDTH: 100px; TOP: 607px" size=40 onchange="calcDoc(1);">
+	<INPUT class="rinp2" id=text19
+		 style   ="WIDTH: 100px; TOP: 607px" size=40 onchange="calcDoc(1);">
+
+	<!--car-->
+	<INPUT class="linp" id=text20
+		 style   ="WIDTH: 100px; TOP: 676px" size=40 onchange="calcDoc(1);">
+	<INPUT class="linp2" id=text21
+		 style   ="WIDTH: 100px; TOP: 676px" size=40 onchange="calcDoc(1);">
+	<INPUT class="rinp" id=text22
+		 style   ="WIDTH: 100px; TOP: 676px" size=40 onchange="calcDoc(1);">
+	<INPUT class="rinp2" id=text23
+		 style   ="WIDTH: 100px; TOP: 676px" size=40 onchange="calcDoc(1);">
+
+	<INPUT class="linp" id=text24
+		 style   ="WIDTH: 100px; TOP: 720px" size=40 onchange="calcDoc(1);">
+	<INPUT class="linp2" id=text25
+		 style   ="WIDTH: 100px; TOP: 720px" size=40 onchange="calcDoc(1);">
+	<INPUT class="rinp" id=text26
+		 style    ="LEFT: 370px; WIDTH: 100px; TOP: 720px" size=40 onchange="calcDoc(1);">
+	<INPUT class="rinp" id=text27
+		 style    ="LEFT: 500px; WIDTH: 100px; TOP: 720px" size=40 onchange="calcDoc(1);">
+	<INPUT class="rinp2" id=text28
+		 style    ="LEFT: 610px; WIDTH: 100px; TOP: 720px" size=40 onchange="calcDoc(1);">
+
+	<INPUT type="button" value="Allkirjasta"
+		 style    ="position:absolute;LEFT: 560px; TOP: 840px" onclick="dosign(1);">
+	<img id="sig1" src="spacer.gif" style="position:absolute;LEFT: 660px;TOP:840px">
+	
+	<INPUT type="button" value="Allkirjasta"
+		 style    ="position:absolute;LEFT: 560px; TOP: 880px" onclick="dosign(2);">
+	<img id="sig2" src="spacer.gif" style="position:absolute;LEFT: 660px;TOP:880px">
+	
+	<INPUT type=radio name="radio" CHECKED onclick="enableupdate()"
+		style="position:absolute;LEFT: 50px;TOP: 300px;">
+	<INPUT type=radio name="radio" onclick="enableupdate()"
+		style="position:absolute;LEFT: 50px;TOP: 440px;">
+	<INPUT type=radio name="radio" onclick="enableupdate()"
+		style="position:absolute;LEFT: 50px;TOP: 560px;">
+</div>
+</td><td>
+<TEXTAREA style="WIDTH: 170px; HEIGHT: 646px" name=dd_disp rows=40 cols=79 readonly></TEXTAREA>
+</td></tr></table>
+</form>
+</body>
+
+</html>
