@@ -1,4 +1,4 @@
-﻿/*!
+/*!
 	\file		EstEidCardMaintainer.h
 	\copyright	(c) Kaido Kert ( kaidokert@gmail.com )    
 	\licence	BSD

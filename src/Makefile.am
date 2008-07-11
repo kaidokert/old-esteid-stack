@@ -29,6 +29,7 @@ EsteidUtil_SOURCES = \
 	cardlib/PCSCManager.cpp 	cardlib/PCSCManager.h	\
 	cardlib/CTAPIManager.cpp	cardlib/CTAPIManager.h	\
 	cardlib/EstEidCard.cpp 		cardlib/EstEidCard.h	\
+	cardlib/EstEidCardMaintainer.cpp cardlib/EstEidCardMaintainer.h	\
 	cardlib/CardBase.cpp 		cardlib/CardBase.h	\
 	cardlib/DynamicLibrary.cpp	cardlib/DynamicLibrary.h \
 	cardlib/SCError.cpp		cardlib/SCError.h \
