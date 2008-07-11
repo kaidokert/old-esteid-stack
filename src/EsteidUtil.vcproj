@@ -62,7 +62,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wxbase28d.lib wxmsw28d_core.lib wxmsw28d_adv.lib wxjpegd.lib comctl32.lib Rpcrt4.lib Crypt32.lib"
+				AdditionalDependencies="wxbase$(WXLIBVER)d.lib wxmsw$(WXLIBVER)d_core.lib wxmsw$(WXLIBVER)d_adv.lib wxjpegd.lib comctl32.lib Rpcrt4.lib Crypt32.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="$(WXWIN)\lib\vc_lib"
 				GenerateDebugInformation="true"
@@ -139,7 +139,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wxmsw28m_core.lib wxbase28m.lib wxmsw28m_adv.lib wxjpeg.lib comctl32.lib Crypt32.lib"
+				AdditionalDependencies="wxmsw$(WXLIBVER)m_core.lib wxbase$(WXLIBVER)m.lib wxmsw$(WXLIBVER)m_adv.lib wxjpeg.lib comctl32.lib Crypt32.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(WXWIN)\lib\vc_lib"
 				GenerateDebugInformation="true"
@@ -220,7 +220,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wxbase28ud.lib wxmsw28ud_core.lib wxmsw28ud_adv.lib wxjpegd.lib comctl32.lib Rpcrt4.lib Crypt32.lib"
+				AdditionalDependencies="wxbase$(WXLIBVER)ud.lib wxmsw$(WXLIBVER)ud_core.lib wxmsw$(WXLIBVER)ud_adv.lib wxjpegd.lib comctl32.lib Rpcrt4.lib Crypt32.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="$(WXWIN)\lib\vc_lib"
 				GenerateDebugInformation="true"
@@ -297,7 +297,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wxmsw28um_core.lib wxbase28um.lib wxmsw28um_adv.lib wxjpeg.lib comctl32.lib Crypt32.lib"
+				AdditionalDependencies="wxbase$(WXLIBVER)um.lib wxmsw$(WXLIBVER)um_core.lib wxmsw$(WXLIBVER)um_adv.lib wxjpeg.lib comctl32.lib Crypt32.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(WXWIN)\lib\vc_lib"
 				GenerateDebugInformation="true"
