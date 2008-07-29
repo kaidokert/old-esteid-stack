@@ -111,33 +111,37 @@ CardBase::FCI CardBase::parseFCI(ByteVec fci) {
 	return tmp;
 }
 
-CardBase::FCI CardBase::selectMF(void)
+CardBase::FCI CardBase::selectMF(bool ignoreFCI)
 {
-	byte cmdMF[]= {0x00,0xA4,0x00,0x00,0x00/*0x02,0x3F,0x00*/}; 
+	byte cmdMF[]= {0x00,0xA4,0x00,ignoreFCI ? 0x08 : 0x00,0x00/*0x02,0x3F,0x00*/}; 
 	ByteVec code;
 	code = execute( MAKEVECTOR(cmdMF));
+	if (ignoreFCI) return FCI();
 	return parseFCI(code);;
 }
 
-int CardBase::selectDF(int fileID)
+int CardBase::selectDF(int fileID,bool ignoreFCI)
 {
-	byte cmdSelectDF[] = {0x00,0xA4,0x01,0x04,0x02};
+	byte cmdSelectDF[] = {0x00,0xA4,0x01,ignoreFCI ? 0x08 : 0x04,0x02};
 	ByteVec cmd(MAKEVECTOR(cmdSelectDF));
 	cmd.push_back(HIBYTE(fileID));
 	cmd.push_back(LOBYTE(fileID));
 	ByteVec fcp =  execute(cmd);
+	if (ignoreFCI) return 0;
 	FCI blah = parseFCI(fcp);
 	return 0;
 }
 
-CardBase::FCI CardBase::selectEF(int fileID)
+CardBase::FCI CardBase::selectEF(int fileID,bool ignoreFCI)
 {
-	byte cmdSelectEF[] = {0x00,0xA4,0x02,0x04,0x02 };
+	byte cmdSelectEF[] = {0x00,0xA4,0x02,ignoreFCI ? 0x08 : 0x04,0x02 };
 	ByteVec cmd(MAKEVECTOR(cmdSelectEF));
 	cmd.push_back(HIBYTE(fileID));
 	cmd.push_back(LOBYTE(fileID));
 	ByteVec fci = execute(cmd);
 
+	if (ignoreFCI) 
+		return FCI();
 	return parseFCI(fci);
 }
 

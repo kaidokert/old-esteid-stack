@@ -52,8 +52,8 @@ void EstEidCard::setSecEnv(byte env) {
 }
 
 void EstEidCard::prepareSign_internal(KeyType keyId,string pin) { 
-	selectMF();
-	selectDF(FILEID_APP);
+	selectMF(true);
+	selectDF(FILEID_APP,true);
 	if (keyId == 0 )	enterPin(PIN_AUTH,pin);
 	else				enterPin(PIN_SIGN,pin);
 	}
@@ -104,9 +104,9 @@ ByteVec EstEidCard::RSADecrypt_internal(ByteVec cipher) {
 	byte modEnv2[] = {0x00,0x22,0x41,0xB6,0x02,0x83,0x00};
 	byte modEnv0[] = {0x00,0x22,0x41,0xB8,0x05,0x83,0x03,0x80}; 
 
-	selectMF();
-	selectDF(FILEID_APP);
-	selectEF(FILEID_KEYPOINTER);
+	selectMF(true);
+	selectDF(FILEID_APP,true);
+	selectEF(FILEID_KEYPOINTER,true);
 	ByteVec keyRec = readRecord(1);
 	if (keyRec.size() != 0x15)
 			throw CardDataError("key ptr len is not 0x15");
@@ -140,8 +140,8 @@ ByteVec EstEidCard::RSADecrypt_internal(ByteVec cipher) {
 	}
 
 void EstEidCard::readPersonalData_internal(vector<string>& data,int recStart,int recEnd) {
-	selectMF();
-	selectDF(FILEID_APP);
+	selectMF(true);
+	selectDF(FILEID_APP,true);
 	FCI fileInfo = selectEF(0x5044);
 	
 	if (fileInfo.recCount != 0x10 && fileInfo.recCount != 0x0A ) 
@@ -156,14 +156,16 @@ void EstEidCard::readPersonalData_internal(vector<string>& data,int recStart,int
 	}
 
 bool EstEidCard::validatePin_internal(PinType pinType,string pin, byte &retriesLeft,bool forceUnsecure) { 
-	retriesLeft = 0;
 	checkProtocol();
-	selectMF();
-	selectEF(FILEID_RETRYCT);
-	ByteVec data = readRecord(pinType == PUK ? 3 : pinType );
-	ByteVec tag = getTag(0x90,1,data);
-	retriesLeft = tag[0];
-	selectDF(FILEID_APP);
+	selectMF(true);
+	if (retriesLeft != 0xFA ) { //sorry, thats a bad hack around sloppy interface definition
+		retriesLeft = 0;
+		selectEF(FILEID_RETRYCT,true);
+		ByteVec data = readRecord(pinType == PUK ? 3 : pinType );
+		ByteVec tag = getTag(0x90,1,data);
+		retriesLeft = tag[0];
+		}
+	selectDF(FILEID_APP,true);
 	enterPin(pinType,pin);
 	return true;
 	}
@@ -269,10 +271,10 @@ bool EstEidCard::readPersonalData(vector<string>& data,
 
 bool EstEidCard::getKeyUsageCounters(dword &authKey,dword &signKey) {
 	Transaction _m(mManager,mConnection);
-	selectMF();
-	selectDF(FILEID_APP);
+	selectMF(true);
+	selectDF(FILEID_APP,true);
 
-	selectEF(FILEID_KEYPOINTER);
+	selectEF(FILEID_KEYPOINTER,true);
 	ByteVec keyRec = readRecord(1);
 	if (keyRec.size() != 0x15)
 			throw CardDataError("key ptr len is not 0x15");
@@ -297,8 +299,8 @@ bool EstEidCard::getKeyUsageCounters(dword &authKey,dword &signKey) {
 ByteVec EstEidCard::getAuthCert() {
 	Transaction _m(mManager,mConnection);
 
-	selectMF();
-	selectDF(FILEID_APP);
+	selectMF(true);
+	selectDF(FILEID_APP,true);
 	FCI fileInfo = selectEF(0xAACE);
 
 	return readEF(fileInfo.fileLength );
@@ -307,8 +309,8 @@ ByteVec EstEidCard::getAuthCert() {
 ByteVec EstEidCard::getSignCert() {
 	Transaction _m(mManager,mConnection);
 
-	selectMF();
-	selectDF(FILEID_APP);
+	selectMF(true);
+	selectDF(FILEID_APP,true);
 	FCI fileInfo = selectEF(0xDDCE);
 	return readEF(fileInfo.fileLength );
 	}
@@ -362,8 +364,8 @@ ByteVec EstEidCard::RSADecrypt(ByteVec cipher) {
 ByteVec EstEidCard::RSADecrypt(ByteVec cipher,string pin) {
 	Transaction _m(mManager,mConnection);
 
-	selectMF();
-	selectDF(FILEID_APP);
+	selectMF(true);
+	selectDF(FILEID_APP,true);
 	enterPin(PIN_AUTH,pin);
 	return RSADecrypt_internal(cipher);
 	}
@@ -447,8 +449,8 @@ bool EstEidCard::getRetryCounts(byte &puk,byte &pinAuth,byte &pinSign) {
 
 bool EstEidCard::getRetryCounts_internal(byte &puk,byte &pinAuth,byte &pinSign) {
 	ByteVec data,tag;
-	selectMF();
-	selectEF(FILEID_RETRYCT);
+	selectMF(true);
+	selectEF(FILEID_RETRYCT,true);
 	data = readRecord(3);
 	tag = getTag(0x90,1,data);
 	puk = tag[0];
@@ -464,7 +466,7 @@ bool EstEidCard::getRetryCounts_internal(byte &puk,byte &pinAuth,byte &pinSign) 
 void EstEidCard::resetAuth() {
 	try {
 		Transaction _m(mManager,mConnection);
-		selectMF();
+		selectMF(true);
 		setSecEnv(0);
 	} catch (...) {}
 	}
