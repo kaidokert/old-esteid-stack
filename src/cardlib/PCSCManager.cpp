@@ -238,5 +238,5 @@ void PCSCManager::execCommand(ConnectionBase *c,std::vector<BYTE> &cmd
 
 bool PCSCManager::isT1Protocol(ConnectionBase *c) {
 	PCSCConnection *pc = (PCSCConnection *)c;
-	return pc->proto == SCARD_PROTOCOL_T1;
+	return pc->proto == SCARD_PROTOCOL_T1 && !pc->mForceT0;
 	}
