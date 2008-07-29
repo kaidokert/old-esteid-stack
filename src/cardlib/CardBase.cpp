@@ -113,8 +113,9 @@ CardBase::FCI CardBase::parseFCI(ByteVec fci) {
 
 CardBase::FCI CardBase::selectMF(void)
 {
-	byte cmdMF[]= {0x00,0xA4,0x00,0x00}; 
-	ByteVec code = execute( MAKEVECTOR(cmdMF));
+	byte cmdMF[]= {0x00,0xA4,0x00,0x00,0x00/*0x02,0x3F,0x00*/}; 
+	ByteVec code;
+	code = execute( MAKEVECTOR(cmdMF));
 	return parseFCI(code);;
 }
 
@@ -197,7 +198,9 @@ ByteVec CardBase::execute(ByteVec cmd,bool noreply)
 		}
 
 	if (mLogger != 0 && mLogger->good()) {
-		*mLogger << "-> ";
+		*mLogger << "-> " ;
+		if (mManager.isT1Protocol(mConnection)) *mLogger << "(T1)";
+		else *mLogger << "(T0)";
 		for(ByteVec::iterator it=cmd.begin();it < cmd.end(); it++ ) 
 			*mLogger << std::hex << std::setfill('0') << std::setw(2) <<  (int) *it << " ";
 		*mLogger << std::endl << std::endl;
