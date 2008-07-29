@@ -9,6 +9,7 @@
 #include "precompiled.h"
 #include "EstEidCard.h"
 #include "helperMacro.h"
+#include <algorithm>
 
 using std::string;
 
@@ -125,6 +126,11 @@ ByteVec EstEidCard::RSADecrypt_internal(ByteVec cipher) {
 	try {
 		result = execute(decCmd,false);
 	} catch(CardError e) {
+/*		if (e.SW1 == 0x69 && e.SW2 == 0x88 ) {
+			reverse(decCmd.begin() + 6, decCmd.end());
+			result = execute(decCmd,false);
+			return result;
+			}*/
 		if ((e.SW1 == 0x69 && (e.SW2 == 0x82 || e.SW2 == 0x00 || e.SW2 == 0x88  || e.SW2 == 0x85 ) 
 			|| e.SW1 == 0x64 || e.SW1 == 0x6B ))
 			throw AuthError(e);
@@ -223,20 +229,21 @@ void EstEidCard::reconnectWithT0() {
 	}
 
 void EstEidCard::checkProtocol() {
+//	return;
 	try {
 		selectMF();
 	} catch(CardError &ce) {
 		if (ce.SW1 != 0x6A || ce.SW2 != 0x87 ) throw ce;
 		reconnectWithT0();
 		}
-	}
+}
 
 //transacted, public methods
 string EstEidCard::readCardID() {
 	vector<string> temp;
-		Transaction _m(mManager,mConnection);
+	Transaction _m(mManager,mConnection);
 	checkProtocol();
-		readPersonalData_internal(temp,ID,ID);
+	readPersonalData_internal(temp,ID,ID);
 
 	string ret = temp[ID];
 	return ret;
