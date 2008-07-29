@@ -84,7 +84,7 @@ struct ConnectionBase {
 	/// tells if the manager has a secure PIN input method, true for CTAPI
 	virtual bool isSecure() {return false;}
 	ConnectionBase(ManagerInterface &manager) : 
-		mManager(manager),mOwnConnection(false) {}
+		mManager(manager),mOwnConnection(false),mForceT0(false),mIndex(-1) {}
 	ConnectionBase(ManagerInterface &manager,unsigned int index,bool f) 
 		: mManager(manager), mForceT0(f),mIndex(index),mOwnConnection(true) {
 		mManager.makeConnection(this,index);
