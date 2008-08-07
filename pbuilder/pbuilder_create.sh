@@ -1,0 +1,1 @@
+for i in intrepid hardy gutsy feisty ; do echo $i; export DIST=$i ; DIST=$i sudo pbuilder create ;  done 
