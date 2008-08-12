@@ -18,7 +18,7 @@ else
 	LDFLAGS+=-s
 endif
 
-all: EsteidUtil et/EsteidUtil.mo ru/EsteidUtil.mo
+all: esteidutil et/EsteidUtil.mo ru/EsteidUtil.mo
 
 MainDialog.cpp: resources/esteid.xpm resources/logo_grey.xpm resources/esteidbmp.cdata
 
@@ -31,7 +31,7 @@ SOURCES+= utility/asnObject.cpp utility/asnCertificate.cpp
 
 OBJECTS=$(SOURCES:.cpp=.o)
 
-EsteidUtil: $(OBJECTS)
+esteidutil: $(OBJECTS)
 	$(LINK.cc) $^ $(LOADLIBES) $(LDLIBS) -o $@
 
 %.ppm: %.ico
@@ -59,4 +59,4 @@ resources/esteidbmp.cdata: resources/esteidbmp.gif
 	echo "};" >> $@
 
 clean:
-	rm -rf *.o *~ *.xpm *.ppm *.cdata EsteidUtil resources/*.cdata resources/*.xpm resources/*.ppm
+	rm -rf *.o *~ *.xpm *.ppm *.cdata esteidutil resources/*.cdata resources/*.xpm resources/*.ppm

@@ -3,10 +3,10 @@ echo $VERSION
 
 rm -rf deback
 mkdir deback
-cp -f EsteidUtil-$VERSION.tar.gz deback/esteidutil_$VERSION.orig.tar.gz
+cp -f esteidutil-$VERSION.tar.gz deback/esteidutil_$VERSION.orig.tar.gz
 cd deback
 tar xvzf esteidutil_$VERSION.orig.tar.gz
-cd EsteidUtil-$VERSION
+cd esteidutil-$VERSION
 pdebuild --auto-debsign
 lintian -i /var/cache/pbuilder/result/*$VERSION*.changes 
 linda -i /var/cache/pbuilder/result/*$VERSION*.changes

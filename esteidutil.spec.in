@@ -1,4 +1,4 @@
-%define real_name EsteidUtil
+%define real_name esteidutil
 %define name	esteidutil
 %define version @VERSION@
 %define release %mkrel 1

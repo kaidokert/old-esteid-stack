@@ -63,9 +63,9 @@ manpage.1: manpage.sgml
     <cmdsynopsis>
       <command>&dhpackage;</command>
 
-      <arg><option>-e <replaceable>this</replaceable></option></arg>
+      <arg><option>-h <replaceable>help message</replaceable></option></arg>
 
-      <arg><option>--example <replaceable>that</replaceable></option></arg>
+      <arg><option>--verbose <replaceable>verbose logging</replaceable></option></arg>
     </cmdsynopsis>
   </refsynopsisdiv>
   <refsect1>

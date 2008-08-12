@@ -1,9 +1,9 @@
-bin_PROGRAMS = EsteidUtil
+bin_PROGRAMS = esteidutil
 
 BUILTSTUFF=resources/esteid.xpm resources/logo_sk.xpm resources/auth_icon.xpm \
 	resources/esteidbmp.cdata resources/digistampbmp.cdata resources/cert.cdata resources/cert_invalid.cdata
 
-EsteidUtil_SOURCES = \
+esteidutil_SOURCES = \
 	wxprec.cpp		precompiled.h \
 	EsteidUtil.cpp		\
 	MainDialog.cpp		MainDialog.h	\
@@ -44,21 +44,21 @@ EXTRA_DIST = resources/esteidbmp.gif resources/digistampbmp.gif resources/cert.g
 	tests/Makefile  tests/precompiled.h  tests/testctapi.cpp  \
 	tests/testdownload.cpp  tests/testreadcardid.cpp	
 
-nodist_EsteidUtil_SOURCES =
-#nodist_EsteidUtil_SOURCES = \
+nodist_esteidutil_SOURCES =
+#nodist_esteidutil_SOURCES = \
 #	resources/esteidbmp.cdata resources/digistampbmp.cdata 
 #	resources/esteid.xpm resources/logo_sk.xpm
 
 $(PACKAGE)-MainDialog.$(OBJEXT): $(BUILTSTUFF)
 MainDialog.$(OBJEXT): $(BUILTSTUFF)
 
-CLEANFILES = $(nodist_EsteidUtil_SOURCES)
+CLEANFILES = $(nodist_esteidutil_SOURCES)
 
-EsteidUtil_LDFLAGS =
-EsteidUtil_LDADD = $(WX_LIBS)
+esteidutil_LDFLAGS =
+esteidutil_LDADD = $(WX_LIBS)
 
 #moved to configure.in
-#EsteidUtil_CPPFLAGS = -I$(includedir)/PCSC -I$(oldincludedir)/PCSC
+#esteidutil_CPPFLAGS = -I$(includedir)/PCSC -I$(oldincludedir)/PCSC
 DiagnosticsDialog.o: CXXFLAGS+=-O0 #workaround stack trash in libc
 
 et/EsteidUtil.mo: ../po/et.gmo

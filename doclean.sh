@@ -18,7 +18,7 @@ rm po/Rules-quot
 rm po/stamp-po
 rm src/*~
 rm -rf src/cardlib/html src/cardlib/latex
-rm ./EsteidUtil
+rm ./esteidutil
 rm -rf ru et src/Release src/Debug
 #rm src/resources/*.xpm 
 rm src/resources/*.cdata 

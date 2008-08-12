@@ -54,28 +54,28 @@
 #define HAVE_UNISTD_H 1
 
 /* Name of package */
-#define PACKAGE "EsteidUtil"
+#define PACKAGE "esteidutil"
 
 /* Define to the address where bug reports for this package should be sent. */
 #define PACKAGE_BUGREPORT "kaidokert@gmail.com"
 
 /* Define to the full name of this package. */
-#define PACKAGE_NAME "EsteidUtil"
+#define PACKAGE_NAME "esteidutil"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "EsteidUtil 0.9.17"
+#define PACKAGE_STRING "esteidutil 0.9.18"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "esteidutil"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.9.17"
+#define PACKAGE_VERSION "0.9.18"
 
 /* rc version */
-#define RC_VERSION 0,9,17,0
+#define RC_VERSION 0,9,18,0
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "0.9.17"
+#define VERSION "0.9.18"

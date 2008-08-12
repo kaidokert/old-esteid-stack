@@ -1,42 +1,18 @@
-esteidutil (0.9.15-1) unstable; urgency=low
+esteidutil (0.9.17-3) unstable; urgency=low
 
-  * New upstream release.
+  * Include correct orig.tar again
 
- -- Kaido Kert <kaidokert@gmail.com>  Sun,  2 Mar 2008 01:02:59 +0200
+ -- Kaido Kert <kaidokert@gmail.com>  Thu, 31 Jul 2008 18:29:56 +0300
 
-esteidutil (0.9.14-1) unstable; urgency=low
+esteidutil (0.9.17-2) unstable; urgency=low
 
-  * New upstream release.
+  * Repackaging for wx2.6 (closes: #477267)
 
- -- Kaido Kert <kaidokert@gmail.com>  Wed, 27 Feb 2008 00:30:25 +0200
+ -- Kaido Kert <kaidokert@gmail.com>  Fri, 11 Jul 2008 21:36:59 +0300
 
-esteidutil (0.9.13-1) unstable; urgency=low
+esteidutil (0.9.17-1) experimental; urgency=low
 
-  * New upstream release.
+  * Initial release (closes: #477267)
 
- -- Kaido Kert <kaidokert@gmail.com>  Mon, 11 Feb 2008 14:04:31 +0200
-
-esteidutil (0.9.12-1) unstable; urgency=low
-
-  * New release.
-
- -- Kaido Kert <kaidokert@gmail.com>  Tue, 06 Dec 2007 08:26:28 +0200
-
-esteidutil (0.9.11-1) unstable; urgency=low
-
-  * New upstream release.
-
- -- Kaido Kert <kaidokert@gmail.com>  Tue, 04 Dec 2007 08:26:28 +0200
-
-esteidutil (0.9.10-1) unstable; urgency=low
-
-  * New upstream release.
-
- -- Kaido Kert <kaidokert@gmail.com>  Tue, 29 Nov 2007 08:26:28 +0200
-
-esteidutil (0.9.9-1) unstable; urgency=low
-
-  * Initial release
-
- -- Kaido Kert <kaidokert@gmail.com>  Tue, 27 Nov 2007 08:26:28 +0200
+ -- Kaido Kert <kaidokert@gmail.com>  Sun, 27 Apr 2008 11:14:48 +0300
 

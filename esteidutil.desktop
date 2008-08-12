@@ -1,11 +1,11 @@
 [Desktop Entry]
 Encoding=UTF-8
-Name=EsteidUtil
-Name[ee]=EsteidUtil
+Name=esteidutil
+Name[ee]=esteidutil
 GenericName=Smartcard tool
 Comment=EstEID smartcard management tool
 Comment[et]=ID-kaardi utiliit
-Exec=EsteidUtil
+Exec=esteidutil
 Terminal=false
 Icon=esteidutil
 Type=Application

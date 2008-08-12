@@ -9,7 +9,7 @@ EXTRA_DIST = config.rpath  m4/ChangeLog \
 		mac/EsteidUtil.app/Contents/Info.plist \
 		mac/EsteidUtil.app/Contents/PkgInfo
 
-docdir = ${datadir}/EsteidUtil
+docdir = ${datadir}/esteidutil
 doc_DATA = README
 
 pixmapdir = $(datadir)/pixmaps
@@ -19,6 +19,6 @@ pixmap_DATA = esteidutil.xpm
 xdg_appsdir = ${datadir}/applications
 xdg_apps_DATA = esteidutil.desktop
 
-EsteidUtil.app: all
+esteidutil.app: all
 
 ACLOCAL_AMFLAGS = -I m4

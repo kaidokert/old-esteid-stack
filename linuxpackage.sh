@@ -7,13 +7,13 @@ make
 
 cd src/cardlib/ && doxygen && zip -r ../../cardlib_basic_docs.zip html && cd ../..
 
-cp src/EsteidUtil .
+cp src/esteidUtil .
 rm -rf et ru
 mkdir -p et ru
 cp po/et.po et
 cp po/ru.po ru
-cp po/et.gmo et/EsteidUtil.mo
-cp po/ru.gmo ru/EsteidUtil.mo
+cp po/et.gmo et/esteidutil.mo
+cp po/ru.gmo ru/esteidutil.mo
 
-tar cvzf EsteidUtil_`grep PACKAGE_VERSION src/Setup.h | sed -e 's/.* \"//' -e 's/\"//'`_Linux86Static.tar.gz \
-	EsteidUtil et/ ru/ ChangeLog cardlib_basic_docs.zip
+tar cvzf esteidutil_`grep PACKAGE_VERSION src/Setup.h | sed -e 's/.* \"//' -e 's/\"//'`_Linux86Static.tar.gz \
+	esteidutil et/ ru/ ChangeLog cardlib_basic_docs.zip
