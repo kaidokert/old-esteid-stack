@@ -58,7 +58,7 @@ void pkcs11module::test(std::ostream &strm) {
 		CK_TOKEN_INFO tInfo;
 		strm << "slot ID [" << *it << "]" << endl;
 		if (0!= (ret = pGetTokenInfo(*it,&tInfo))) {
-			if (ret == 0xE0) //not present
+			if (ret == 0xE0 || ret == 0x32) //not present
 				strm << "\t[EMPTY]" << endl;
 			else 
 				strm << "\tGetTokenInfo failed (code: "<< ret << ")" << endl;
@@ -74,3 +74,4 @@ void pkcs11module::test(std::ostream &strm) {
 			}
 		}
 }
+

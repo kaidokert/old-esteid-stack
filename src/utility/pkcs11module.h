@@ -7,7 +7,8 @@
 */
 #include <cardlib/DynamicLibrary.h>
 
-class pkcs11module : DynamicLibrary {
+class pkcs11module : protected DynamicLibrary {
+protected:
     typedef unsigned long  ULONG;
     typedef unsigned char  BYTE;
 #pragma pack(2)
