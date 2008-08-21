@@ -72,6 +72,10 @@ void PCSCManager::construct()
 	pSCardEndTransaction=(LONG(SCAPI *)(SCARDHANDLE ,DWORD ))
 		mLibrary.getProc("SCardEndTransaction");
 #ifdef WIN32
+	pSCardStatus = (LONG(SCAPI *)(SCARDHANDLE ,LPTSTR ,LPDWORD ,
+		LPDWORD ,LPDWORD ,LPBYTE ,LPDWORD ))
+		mLibrary.getProc("SCardStatus" SUFFIX);
+
 	mSCStartedEvent = (*pSCardAccessStartedEvent)();
 	if (!mSCStartedEvent)
 		throw std::runtime_error("SCardAccessStartedEvent returns NULL");

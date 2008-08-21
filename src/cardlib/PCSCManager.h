@@ -75,6 +75,8 @@ class PCSCManager : public ManagerInterface {
 	LONG (SCAPI *pSCardDisconnect)(SCARDHANDLE hCard,DWORD dwDisposition);
 	LONG (SCAPI *pSCardBeginTransaction)(SCARDHANDLE hCard);
 	LONG (SCAPI *pSCardEndTransaction)(	SCARDHANDLE hCard,DWORD dwDisposition);
+	LONG (SCAPI *pSCardStatus)( SCARDHANDLE hCard,LPTSTR szReaderName,LPDWORD pcchReaderLen,
+		LPDWORD pdwState,LPDWORD pdwProtocol,LPBYTE pbAtr,LPDWORD pcbAtrLen);
 
 	void construct(void);
 	void ensureReaders(uint idx);
