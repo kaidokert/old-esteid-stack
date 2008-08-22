@@ -36,6 +36,9 @@ public:
 	vector<byte> getIssuerCN();
 	vector<byte> getIssuerO();
 	vector<byte> getIssuerOU();
+	vector<byte> getIssuerBlob();
+	vector<byte> getSerialBlob();
+	vector<byte> getSubjectBlob();
 	vector<byte> getPubKey();
 	bool checkKeyUsage(std::string keyUsageId);
 	bool hasExtKeyUsage();

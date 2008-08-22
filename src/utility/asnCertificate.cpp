@@ -194,6 +194,18 @@ vector<byte> asnCertificate::getIssuerOU() {
 	return getNameValue(issuerName,"2.5.4.11");
 	}
 
+vector<byte> asnCertificate::getIssuerBlob() {
+	return vector<byte>(issuerName->body_start,issuerName->stop);
+	}
+
+vector<byte> asnCertificate::getSerialBlob() {
+	return vector<byte>(serialNumber->body_start,serialNumber->stop);
+	}
+
+vector<byte> asnCertificate::getSubjectBlob() {
+	return vector<byte>(subjectName->body_start,subjectName->stop);
+	}
+
 vector<byte> asnCertificate::getPubKey() {
 	vector<byte> retVal;
 	string comp = getAlgid(publicKeyInfo->contents[0]->contents[0]);
