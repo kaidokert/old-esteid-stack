@@ -194,6 +194,17 @@ vector<byte> asnCertificate::getIssuerOU() {
 	return getNameValue(issuerName,"2.5.4.11");
 	}
 
+vector<byte> asnCertificate::getPubKey() {
+	vector<byte> retVal;
+	string comp = getAlgid(publicKeyInfo->contents[0]->contents[0]);
+	asnObject decode(
+		publicKeyInfo->contents[1]->body_start + 1,publicKeyInfo->contents[1]->stop,0,bout);
+	asnObject *target = publicKeyInfo->contents[1];
+	retVal.resize(target->size - 1);
+	copy(target->body_start +1 ,target->stop,retVal.begin());
+	return retVal;
+	}
+
 string getDateStr(asnObject *v) {
 	if (v->size != 13) throw asn_error("invalid date");
 
