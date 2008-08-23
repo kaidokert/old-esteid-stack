@@ -11,6 +11,7 @@ class pkcs11module : protected DynamicLibrary {
 protected:
     typedef unsigned long  ULONG;
     typedef unsigned char  BYTE;
+#pragma pack(push)
 #pragma pack(2)
     typedef struct CK_VERSION {
         BYTE       major,minor;
@@ -39,7 +40,7 @@ protected:
         BYTE   utcTime[16];
         BYTE reserve[64];
     } CK_TOKEN_INFO;
-
+#pragma pack(pop)
 protected:
 	ULONG (*pGetFunctionList)(void * pInitArgs);
 	ULONG (*pInitialize)(void * pInitArgs);
@@ -47,6 +48,7 @@ protected:
 	ULONG (*pGetInfo)(CK_INFO * pInfo);
 	ULONG (*pGetSlotList)(BYTE tokenPresent,ULONG *pSlotList,ULONG * pulCount);
 	ULONG (*pGetTokenInfo)(ULONG slotID,CK_TOKEN_INFO * pInfo);
+	std::string buf2str(const void *in,size_t len);
 public:
 	pkcs11module(const char *n);
 	~pkcs11module();

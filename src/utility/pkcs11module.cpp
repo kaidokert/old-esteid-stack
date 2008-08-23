@@ -28,8 +28,8 @@ using std::vector;
 #define LENOF(x) (sizeof(x) / sizeof(*x))
 #define GETSTR(x) buf2str((const char*)x,sizeof(x))
 
-std::string buf2str(const char *in,size_t len) {
-	std::string tmp(in,len);
+std::string pkcs11module::buf2str(const void *in,size_t len) {
+	std::string tmp((char *)in,len);
 	if(!*tmp.begin()) tmp.clear();
 	tmp.erase(tmp.find_last_not_of(" \t")+1);
 	return tmp;

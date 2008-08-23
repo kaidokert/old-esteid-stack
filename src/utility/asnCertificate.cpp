@@ -195,7 +195,7 @@ vector<byte> asnCertificate::getIssuerOU() {
 	}
 
 vector<byte> asnCertificate::getIssuerBlob() {
-	return vector<byte>(issuerName->body_start,issuerName->stop);
+	return vector<byte>(issuerName->start,issuerName->stop);
 	}
 
 vector<byte> asnCertificate::getSerialBlob() {
@@ -203,7 +203,7 @@ vector<byte> asnCertificate::getSerialBlob() {
 	}
 
 vector<byte> asnCertificate::getSubjectBlob() {
-	return vector<byte>(subjectName->body_start,subjectName->stop);
+	return vector<byte>(subjectName->start,subjectName->stop);
 	}
 
 vector<byte> asnCertificate::getPubKey() {
