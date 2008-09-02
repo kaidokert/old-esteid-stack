@@ -8,7 +8,8 @@
 
 enum connType {
 	HTTP,
-	HTTPS
+	HTTPS,
+	FTP
 };
 
 #ifdef WIN32 

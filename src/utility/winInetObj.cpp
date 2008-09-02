@@ -15,6 +15,10 @@
 using std::string;
 using std::vector;
 
+struct inetGenericRequest {
+	virtual operator HINTERNET() const = 0;
+	};
+
 class inetError:public std::runtime_error {
 public:
 	DWORD error;
@@ -80,6 +84,16 @@ winInetObj::winInetObj(void *) : DynamicLibrary("wininet") {
 			LPVOID lpBuffer, DWORD dwBufferLength))
 		getProc("InternetSetOptionA");
 
+	pFtpOpenFileA = (HINTERNET (STD *)(
+		IN HINTERNET hConnect,IN LPCSTR lpszFileName,IN DWORD dwAccess,
+		IN DWORD dwFlags,IN DWORD_PTR dwContext))
+		getProc("FtpOpenFileA");
+	pInternetCrackUrlA = (BOOL (STD *)(
+		IN LPCSTR lpszUrl,IN DWORD dwUrlLength,
+		IN DWORD dwFlags,IN OUT LPURL_COMPONENTSA lpUrlComponents
+		)) 
+		getProc("InternetCrackUrlA");
+
 	inetError::check("openSession",hSession = pInternetOpenA(
                         "Wininet Client App",
                         PRE_CONFIG_INTERNET_ACCESS,
@@ -123,14 +137,14 @@ inetConnect::~inetConnect() {
                     INTERNET_FLAG_IGNORE_CERT_DATE_INVALID | \
 					INTERNET_FLAG_KEEP_CONNECTION
 
-struct inetHttpRequest {
+struct inetHttpRequest : public inetGenericRequest {
 	HINTERNET file;
 	inetConnect &mConnect;
 	inetHttpRequest(inetConnect &conn,
-			const char *verb,string url) : mConnect(conn) {
+			const char *verb,string url,DWORD flags) : mConnect(conn) {
 		inetError::check(string("OpenRequest '") + verb + " " + url + "'",
 			file = mConnect.mNet.pHttpOpenRequestA(mConnect,
-				verb,url.c_str(),NULL,"",NULL,SECUREFLAGS,0));
+				verb,url.c_str(),NULL,"",NULL,flags,0));
 		}
 	~inetHttpRequest() {
 		mConnect.mNet.pInternetCloseHandle(file);
@@ -142,9 +156,29 @@ struct inetHttpRequest {
 				FLAGS_ERROR_UI_FLAGS_GENERATE_DATA | \
 				FLAGS_ERROR_UI_FLAGS_CHANGE_OPTIONS
 
+bool inetConnect::readFile(std::string name,
+						   inetGenericRequest &req, vector<byte> &buffer) {
+	DWORD bytesTotal = 0;
+    DWORD bytesRead;
+	DWORD readChunk = 4096;
+
+	buffer.resize(readChunk * 4);
+	do {
+		if (bytesTotal > (buffer.size() - readChunk))
+			buffer.resize(buffer.size() + (readChunk * 4));
+		inetError::check(string("pInternetReadFile '") + name +"'",
+			mNet.pInternetReadFile(req, 
+			&buffer[bytesTotal],readChunk ,&bytesRead));
+		bytesTotal +=bytesRead;
+	} while(bytesRead != 0 );
+	buffer[bytesTotal] = 0;
+	buffer.erase(buffer.begin() + bytesTotal,buffer.end());
+	return true;
+	}
+
 bool inetConnect::getHttpsFile(
 	  string url,vector<byte> &buffer) {
-	inetHttpRequest req(*this,"GET",url);
+	inetHttpRequest req(*this,"GET",url,SECUREFLAGS);
 
 	if (!authenticated) 
 		inetError::check("InternetSetOption(authCert)",
@@ -152,7 +186,6 @@ bool inetConnect::getHttpsFile(
 			(void *) authCert,sizeof(CERT_CONTEXT)));
 
 	//authenticated = true;
-
 	while(! mNet.pHttpSendRequestA(req,NULL,0,0,0)) {
 		if (GetLastError() == ERROR_INTERNET_CLIENT_AUTH_CERT_NEEDED) {
 			mNet.pInternetErrorDlg(NULL,req,
@@ -172,31 +205,25 @@ bool inetConnect::getHttpsFile(
 		throw std::runtime_error(buf.str());
 		}
 
-	DWORD bytesTotal = 0;
-    DWORD bytesRead;
-	DWORD readChunk = 4096;
-
-	buffer.resize(readChunk * 4);
-	do {
-		if (bytesTotal > (buffer.size() - readChunk))
-			buffer.resize(buffer.size() + (readChunk * 4));
-		inetError::check(string("pInternetReadFile '") + url +"'",
-			mNet.pInternetReadFile(req, 
-			&buffer[bytesTotal],readChunk ,&bytesRead));
-		bytesTotal +=bytesRead;
-	} while(bytesRead != 0 );
-	buffer[bytesTotal] = 0;
-	buffer.erase(buffer.begin() + bytesTotal,buffer.end());
+	readFile(url,req,buffer);
 	return true;
 	}
 
-struct inetFtpFileRequest {
+bool inetConnect::getHttpFile(std::string url,std::vector<byte> &buffer) {
+	inetHttpRequest req(*this,"GET",url,INTERNET_FLAG_KEEP_CONNECTION);
+
+	//not implemented/tested, never needed it
+	readFile(url,req,buffer);
+	return false;
+	}
+
+struct inetFtpFileRequest : public inetGenericRequest{
 	HINTERNET file;
 	inetConnect &mConnect;
-	inetFtpFileRequest(inetConnect &conn,string file) : mConnect(conn) {
-		/*inetError::check(string("OpenRequest '") + file+ "'",
-			file = mConnect.mNet.pHttpOpenRequestA(mConnect,
-				verb,url.c_str(),NULL,"",NULL,SECUREFLAGS,0));*/
+	inetFtpFileRequest(inetConnect &conn,string fileName) : mConnect(conn) {
+		inetError::check(string("pFtpOpenFile '") + fileName + "'",
+		file = mConnect.mNet.pFtpOpenFileA(mConnect,fileName.c_str(),GENERIC_READ,
+				FTP_TRANSFER_TYPE_BINARY,0));
 		}
 	~inetFtpFileRequest() {
 		mConnect.mNet.pInternetCloseHandle(file);
@@ -204,8 +231,43 @@ struct inetFtpFileRequest {
 	operator HINTERNET() const {return file;}
 	};
 
-bool inetConnect::getFtpFile(std::string url,std::vector<byte> &buffer) {
-	inetFtpFileRequest req(*this,url);
+bool inetConnect::getFtpFile(std::string file,std::vector<byte> &buffer) {
+	inetFtpFileRequest req(*this,file);
+
+	readFile(file,req,buffer);
+
+	return true;
+	}
+
+bool inetConnect::getAnyFile(std::string url,std::vector<byte> &buffer) {
+	winInetObj net(NULL);
+	net.init(0);
+
+	URL_COMPONENTSA URLparts;
+	memset(&URLparts,0,sizeof(URLparts));
+	URLparts.dwStructSize = sizeof( URLparts );
+	URLparts.dwSchemeLength    = 
+	URLparts.dwHostNameLength  = 
+	URLparts.dwUserNameLength  = 
+	URLparts.dwPasswordLength  = 
+	URLparts.dwUrlPathLength   = 
+	URLparts.dwExtraInfoLength = 1;
+
+	net.pInternetCrackUrlA(url.c_str(),0,0,&URLparts);
+	std::string scheme(URLparts.lpszScheme,URLparts.dwSchemeLength);
+	std::string server(URLparts.lpszHostName,URLparts.dwHostNameLength);
+	std::string target(URLparts.lpszUrlPath, URLparts.dwUrlPathLength);
+	if (scheme == "ftp") {
+		netConnect conn(net,server, FTP , 0);
+		return conn.getFtpFile(target,buffer);
+	} else if(scheme == "https") {
+		netConnect conn(net,server, HTTPS ,0 );
+		return conn.getHttpsFile(target,buffer);
+	} else if(scheme == "http") {
+		netConnect conn(net,server, HTTPS, 0);
+		return conn.getHttpFile(target,buffer);
+		}
+
 	return true;
 	}
 

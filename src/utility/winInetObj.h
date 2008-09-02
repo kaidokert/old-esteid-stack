@@ -57,6 +57,13 @@ protected:
 		HINTERNET hInternet, DWORD dwOption,
 		LPVOID lpBuffer, DWORD dwBufferLength
 		);
+	HINTERNET (STD *pFtpOpenFileA)(
+		IN HINTERNET hConnect,IN LPCSTR lpszFileName,IN DWORD dwAccess,
+		IN DWORD dwFlags,IN DWORD_PTR dwContext);
+	BOOL (STD *pInternetCrackUrlA)(
+		IN LPCSTR lpszUrl,IN DWORD dwUrlLength,
+		IN DWORD dwFlags,IN OUT LPURL_COMPONENTSA lpUrlComponents
+		);
 
 	HINTERNET hSession;
 public:
@@ -65,6 +72,7 @@ public:
 	~winInetObj(void);
 };
 
+struct inetGenericRequest;
 struct inetConnect {
 	winInetObj &mNet;
 	HINTERNET connect;
@@ -74,5 +82,9 @@ struct inetConnect {
 	~inetConnect();
 	operator HINTERNET() const {return connect;}
 	bool getHttpsFile(std::string url,std::vector<byte> &buffer);
+	bool getHttpFile(std::string url,std::vector<byte> &buffer);
+	bool getFtpFile(std::string file,std::vector<byte> &buffer);
+	static bool getAnyFile(std::string url,std::vector<byte> &buffer);
+	bool readFile(std::string name,inetGenericRequest &req,std::vector<byte> &buffer);
 	};
 #endif
