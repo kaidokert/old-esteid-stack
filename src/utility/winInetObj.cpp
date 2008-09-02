@@ -99,6 +99,9 @@ inetConnect::inetConnect(winInetObj &net,string site,connType type,void *auth) :
 	if (type == HTTP) {
 		port = INTERNET_DEFAULT_HTTP_PORT;
 		service = INTERNET_SERVICE_HTTP;
+	} else if(type==FTP) {
+		port = INTERNET_DEFAULT_FTP_PORT;
+		service = INTERNET_SERVICE_FTP;
 	} else {
 		port = INTERNET_DEFAULT_HTTPS_PORT;
 		service = INTERNET_SERVICE_HTTP;
@@ -120,16 +123,16 @@ inetConnect::~inetConnect() {
                     INTERNET_FLAG_IGNORE_CERT_DATE_INVALID | \
 					INTERNET_FLAG_KEEP_CONNECTION
 
-struct inetRequest {
+struct inetHttpRequest {
 	HINTERNET file;
 	inetConnect &mConnect;
-	inetRequest(inetConnect &conn,
+	inetHttpRequest(inetConnect &conn,
 			const char *verb,string url) : mConnect(conn) {
 		inetError::check(string("OpenRequest '") + verb + " " + url + "'",
 			file = mConnect.mNet.pHttpOpenRequestA(mConnect,
 				verb,url.c_str(),NULL,"",NULL,SECUREFLAGS,0));
 		}
-	~inetRequest() {
+	~inetHttpRequest() {
 		mConnect.mNet.pInternetCloseHandle(file);
 		}
 	operator HINTERNET() const {return file;}
@@ -141,7 +144,7 @@ struct inetRequest {
 
 bool inetConnect::getHttpsFile(
 	  string url,vector<byte> &buffer) {
-	inetRequest req(*this,"GET",url);
+	inetHttpRequest req(*this,"GET",url);
 
 	if (!authenticated) 
 		inetError::check("InternetSetOption(authCert)",
@@ -186,4 +189,24 @@ bool inetConnect::getHttpsFile(
 	buffer.erase(buffer.begin() + bytesTotal,buffer.end());
 	return true;
 	}
-#endif
+
+struct inetFtpFileRequest {
+	HINTERNET file;
+	inetConnect &mConnect;
+	inetFtpFileRequest(inetConnect &conn,string file) : mConnect(conn) {
+		/*inetError::check(string("OpenRequest '") + file+ "'",
+			file = mConnect.mNet.pHttpOpenRequestA(mConnect,
+				verb,url.c_str(),NULL,"",NULL,SECUREFLAGS,0));*/
+		}
+	~inetFtpFileRequest() {
+		mConnect.mNet.pInternetCloseHandle(file);
+		}
+	operator HINTERNET() const {return file;}
+	};
+
+bool inetConnect::getFtpFile(std::string url,std::vector<byte> &buffer) {
+	inetFtpFileRequest req(*this,url);
+	return true;
+	}
+
+#endif WIN32

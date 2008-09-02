@@ -24,7 +24,8 @@
 class winInetObj : public DynamicLibrary
 {
 	friend struct inetConnect;
-	friend struct inetRequest;
+	friend struct inetHttpRequest;
+	friend struct inetFtpFileRequest;
 protected:
 	HINTERNET (STD *pInternetOpenA)(
 		IN LPCSTR lpszAgent,IN DWORD dwAccessType,
