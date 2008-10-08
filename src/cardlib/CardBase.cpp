@@ -246,3 +246,8 @@ ByteVec CardBase::execute(ByteVec cmd,bool noreply)
 
 	return RecvBuffer;
 }
+
+
+void CardBase::endTransaction() {
+	mManager.endTransaction(mConnection,true);
+	}

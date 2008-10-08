@@ -217,10 +217,23 @@ void PCSCManager::beginTransaction(ConnectionBase *c)
 	SCError::check((*pSCardBeginTransaction)( (( PCSCConnection *)c)->hScard));
 }
 
-void PCSCManager::endTransaction(ConnectionBase *c)
+void PCSCManager::endTransaction(ConnectionBase *c,bool forceReset)
 {
+	if (forceReset) { //workaround for reader driver bug
+		WCHAR reader[1024];
+		DWORD rdrLen = sizeof(reader);
+		DWORD state,proto,result,active;
+		BYTE atr[1024];
+		DWORD atrLen = sizeof(atr);
+		result = (*pSCardStatus)((( PCSCConnection *)c)->hScard,reader,&rdrLen,&state,&proto,atr,&atrLen);
+		if (result == SCARD_W_RESET_CARD) {
+			result = (*pSCardReconnect)((( PCSCConnection *)c)->hScard,SCARD_SHARE_SHARED,SCARD_PROTOCOL_T0 | SCARD_PROTOCOL_T1, 
+				SCARD_LEAVE_CARD,&active);
+			(*pSCardStatus)((( PCSCConnection *)c)->hScard,reader,&rdrLen,&state,&proto,atr,&atrLen);
+			}
+		}
 	/*SCError::check(*/
-	(*pSCardEndTransaction)((( PCSCConnection *)c)->hScard,SCARD_LEAVE_CARD)
+	(*pSCardEndTransaction)((( PCSCConnection *)c)->hScard,forceReset ? SCARD_RESET_CARD : SCARD_LEAVE_CARD)
 		/*)*/;
 }
 

@@ -89,4 +89,6 @@ public:
 	virtual bool isInReader(unsigned int idx) {return false;}
 	/// set logging stream. set to NULL for no logging ( default )
 	void setLogging(std::ostream *logStream);
+	/// sigh .. just a hack to reset card in some instances
+	void endTransaction();
 };

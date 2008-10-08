@@ -84,7 +84,7 @@ class PCSCManager : public ManagerInterface {
 	void makeConnection(ConnectionBase *c,uint idx);
 	void deleteConnection(ConnectionBase *c);
 	void beginTransaction(ConnectionBase *c);
-	void endTransaction(ConnectionBase *c);
+	void endTransaction(ConnectionBase *c,bool forceReset = false);
 	void execCommand(ConnectionBase *c,std::vector<BYTE> &cmd,std::vector<BYTE> &recv,
 		unsigned int &recvLen);
 	bool isT1Protocol(ConnectionBase *c);

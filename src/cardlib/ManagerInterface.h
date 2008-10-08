@@ -53,7 +53,7 @@ protected:
 	virtual void makeConnection(ConnectionBase *c,uint idx) = 0;
 	virtual void deleteConnection(ConnectionBase *c) = 0;
 	virtual void beginTransaction(ConnectionBase *c) = 0;
-	virtual void endTransaction(ConnectionBase *c) = 0;
+	virtual void endTransaction(ConnectionBase *c,bool forceReset = false) = 0;
 
 	virtual void execCommand(ConnectionBase *c,std::vector<byte> &cmd,std::vector<byte> &recv,
 		unsigned int &recvLen) = 0;
