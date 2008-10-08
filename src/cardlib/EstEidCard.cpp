@@ -132,7 +132,7 @@ ByteVec EstEidCard::RSADecrypt_internal(ByteVec cipher) {
 			return result;
 			}*/
 		if ((e.SW1 == 0x69 && (e.SW2 == 0x82 || e.SW2 == 0x00 || e.SW2 == 0x88  || e.SW2 == 0x85 ) 
-			|| e.SW1 == 0x64 || e.SW1 == 0x6B ))
+			/*|| e.SW1 == 0x64 */|| e.SW1 == 0x6B ))
 			throw AuthError(e);
 		throw e;
 		}
@@ -233,7 +233,7 @@ void EstEidCard::reconnectWithT0() {
 void EstEidCard::checkProtocol() {
 //	return;
 	try {
-		selectMF();
+		selectMF(true);
 	} catch(CardError &ce) {
 		if (ce.SW1 != 0x6A || ce.SW2 != 0x87 ) throw ce;
 		reconnectWithT0();
