@@ -104,6 +104,7 @@ void DiagnosticsDialog::doDiagnostics() {
 	listFileVersion(_T("Crypto API32"),_T("crypt32"));
 	listFileVersion(_T("MS Smart Card API"),_T("winscard"));
 	listFileVersion(_T("EstEID CSP"),_T("esteid"));
+	m_haveCardmodule = listFileVersion(_T("EstEID cardmodule"),_T("esteidcm"));
 #else
 	listFileVersion(_T("PC/SC Lite"),_T("pcsclite"));
 #endif
@@ -118,16 +119,19 @@ void DiagnosticsDialog::doDiagnostics() {
 	addLine(_T("All done!"));
 }
 
-void DiagnosticsDialog::listFileVersion(wxString desc,wxString libName,int libVer) {
+bool DiagnosticsDialog::listFileVersion(wxString desc,wxString libName,int libVer) {
+	bool found = false;
 	wxString version = _T("missing");
 	try {
 		DynamicLibrary lib(libName.ToAscii(),libVer);
 		version = wxString(_T("ver ")) +
 			Asc(lib.getVersionStr());
+		found = true;
 	} catch(std::runtime_error &err) {
 		version = wxT("exception:") + wxString::FromAscii(err.what());
 		}
 	addLine(desc + _T(" |") + libName + _T("| ") + version);
+	return found;
 }
 
 void DiagnosticsDialog::SCTest(int level,ManagerInterface &cardMgr) {
@@ -282,10 +286,10 @@ struct cUserKey {
 	~cUserKey() {CryptDestroyKey(key);}
 	};
 
-void testCSP(DiagnosticsDialog *d) {
+void testCSP(DiagnosticsDialog *d,TCHAR *cspName) {
 	try {
 		d->addLine(_T("Doing CSP diagnosis .."));
-		cContext ctx(_T("EstEID Card CSP"),0);
+		cContext ctx(cspName,0);
 		d->addLine(_T("Initialized .."));
 		ByteVec buff(80);
 		ctx.getContainerName(buff);
@@ -353,7 +357,9 @@ wxString getMemoryMB() {
 #ifdef __WXMSW__
 void DiagnosticsDialog::systemSpecificTests() {
 	addLine(testMutexState());
-	testCSP(this);
+	testCSP(this,_T("EstEID Card CSP"));
+	if (m_haveCardmodule)
+		testCSP(this,_T("Microsoft Base Smart Card Crypto Provider"));
 	}
 #else
 

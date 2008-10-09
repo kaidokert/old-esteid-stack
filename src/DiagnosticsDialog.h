@@ -12,7 +12,8 @@
 class DiagnosticsDialog :
 	public wxDialog
 {
-	void listFileVersion(wxString desc,wxString libName,int libVer = 1);
+	bool m_haveCardmodule;
+	bool listFileVersion(wxString desc,wxString libName,int libVer = 1);
 	void doDiagnostics();
 	void SCTest(int level,ManagerInterface &cardMgr);
 	void PCSCTests();
