@@ -322,7 +322,7 @@ void CTAPIManager::beginTransaction(ConnectionBase *c)
 	conn->isT1 = *(--resp.end()) != 0;
 }
 
-void CTAPIManager::endTransaction(ConnectionBase *c)
+void CTAPIManager::endTransaction(ConnectionBase *c,bool )
 {
 	CTAPIConnection *conn = (CTAPIConnection *) c;
 	conn->dri->resetCT(1,mLogger);

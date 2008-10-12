@@ -83,7 +83,7 @@ protected:
 	void makeConnection(ConnectionBase *c,uint idx);
 	void deleteConnection(ConnectionBase *c);
 	void beginTransaction(ConnectionBase *c);
-	void endTransaction(ConnectionBase *c);
+	void endTransaction(ConnectionBase *c,bool forceReset = false);
 	void execCommand(ConnectionBase *c,std::vector<byte> &cmd,
 		std::vector<byte> &recv,unsigned int &recvLen);
 	void execPinEntryCommand(ConnectionBase *c,std::vector<byte> &cmd);
