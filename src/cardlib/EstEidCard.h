@@ -68,6 +68,7 @@ public:
 	  CardBase(ref,idx) {}
 	EstEidCard(ManagerInterface &ref,ConnectionBase *conn)  :
 	  CardBase(ref,conn) {}
+	~EstEidCard() {}
 	bool isInReader(unsigned int idx);
 
 	/// Reads the card holder identification code from personal data file

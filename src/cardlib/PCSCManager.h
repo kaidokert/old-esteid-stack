@@ -39,6 +39,8 @@ struct PCSCConnection : public ConnectionBase {
 		ConnectionBase(iface,index,force) {}
 	PCSCConnection(ManagerInterface &iface,SCARDHANDLE existing,DWORD mProto): 
 		ConnectionBase(iface),hScard(existing),proto(mProto) {}
+	~PCSCConnection() {
+	}
 };
 
 /// WinSCard/PCSCLite wrapper

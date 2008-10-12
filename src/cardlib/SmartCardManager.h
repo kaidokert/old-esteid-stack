@@ -14,14 +14,15 @@ struct SmartCardConnectionPriv;
 
 struct SmartCardConnection : public ConnectionBase {
 	SmartCardConnectionPriv *d;
-	SmartCardConnection(int manager,ManagerInterface &iface,unsigned int index,bool force);
+	SmartCardConnection(int manager,ManagerInterface &iface,unsigned int index,
+		bool force,ManagerInterface &orig);
 	~SmartCardConnection();
 };
 
 /// Unified class for smarcard managers
 /** SmartCardManager combines all system smartcard managers into one view
  Currently included are PCSCManager and CTAPIManager.
- NOT COMPLETE */
+ */
 class SmartCardManager : public ManagerInterface {
 	SmartCardManagerPriv *d;
 

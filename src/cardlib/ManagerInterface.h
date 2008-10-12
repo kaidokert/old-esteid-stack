@@ -50,6 +50,8 @@ protected:
 	friend struct ConnectionBase;
 	friend struct Transaction;
 	friend class  CardBase;
+	friend class SmartCardManager;
+	friend struct SmartCardConnection;
 	virtual void makeConnection(ConnectionBase *c,uint idx) = 0;
 	virtual void deleteConnection(ConnectionBase *c) = 0;
 	virtual void beginTransaction(ConnectionBase *c) = 0;
@@ -89,7 +91,7 @@ struct ConnectionBase {
 		: mManager(manager), mForceT0(f),mIndex(index),mOwnConnection(true) {
 		mManager.makeConnection(this,index);
 		}
-	~ConnectionBase() {
+	virtual ~ConnectionBase() {
 		if (mOwnConnection)
 			mManager.deleteConnection(this);
 		}

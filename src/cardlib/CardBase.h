@@ -82,7 +82,7 @@ public:
 	/// Constructor, connects the card instance to existing connection
 	CardBase(ManagerInterface &ref,ConnectionBase *conn);
 
-	~CardBase(void);
+	virtual ~CardBase(void);
 	/// connects the card instance to the reader at index idx
 	void connect(unsigned int idx,bool forceT0=false);
 	/// virtual to be overridden by concrete cards, that can check for ATR or other card specific data

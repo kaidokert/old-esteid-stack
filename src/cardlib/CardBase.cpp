@@ -44,8 +44,10 @@ void CardBase::connect(unsigned int idx,bool forceT0) {
 
 CardBase::~CardBase(void)
 {
-	if (mConnection) 
+	if (mConnection) {
 		delete mConnection;
+		mConnection = NULL;
+		}
 }
 
 #define tagFCP 0x62 //file control parameters
