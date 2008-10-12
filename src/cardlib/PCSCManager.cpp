@@ -90,6 +90,9 @@ PCSCManager::~PCSCManager(void)
 {
 	if (mOwnContext)
 		(*pSCardReleaseContext)(mSCardContext);
+#ifdef WIN32
+	(*pSCardReleaseStartedEvent)(mSCStartedEvent);
+#endif
 }
 
 void PCSCManager::ensureReaders(uint idx)
@@ -184,8 +187,10 @@ PCSCConnection * PCSCManager::connect(uint idx,bool forceT0)
 PCSCConnection * PCSCManager::connect(SCARDHANDLE existingHandle) {
 	DWORD proto = SCARD_PROTOCOL_T0,sz=sizeof(DWORD);
 #ifdef WIN32 //quick hack, pcsclite headers dont have that
-	(*pSCardGetAttrib)(existingHandle,SCARD_ATTR_CURRENT_PROTOCOL_TYPE,
-		(LPBYTE)&proto,&sz);
+	DWORD tmpProto;
+	if (!(*pSCardGetAttrib)(existingHandle,SCARD_ATTR_CURRENT_PROTOCOL_TYPE,
+		(LPBYTE)&tmpProto,&sz)) 
+		proto = tmpProto;
 #endif
 	return new PCSCConnection(*this,existingHandle,proto);
 }
