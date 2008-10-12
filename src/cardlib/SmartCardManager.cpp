@@ -46,13 +46,16 @@ struct SmartCardManagerPriv {
 		ctCount = ctMgr.getReaderCount();
 		}
 
-	ManagerInterface & getIndex(uint &i) {
-		if (i <= pcscCount ) 
+	ManagerInterface & getIndex(uint &i);
+	};
+
+ManagerInterface & SmartCardManagerPriv::getIndex(uint &i) {
+		if (i < pcscCount ) 
 			return pcscMgr;
 		i-= pcscCount;
 		return ctMgr;
-		}
-	};
+}
+
 
 SmartCardManager::SmartCardManager(void) {
 	d = new SmartCardManagerPriv();

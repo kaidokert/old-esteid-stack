@@ -20,7 +20,8 @@ struct SmartCardConnection : public ConnectionBase {
 
 /// Unified class for smarcard managers
 /** SmartCardManager combines all system smartcard managers into one view
- Currently included are PCSCManager and CTAPIManager. */
+ Currently included are PCSCManager and CTAPIManager.
+ NOT COMPLETE */
 class SmartCardManager : public ManagerInterface {
 	SmartCardManagerPriv *d;
 
@@ -28,7 +29,7 @@ class SmartCardManager : public ManagerInterface {
 	void deleteConnection(ConnectionBase *c);
 	void beginTransaction(ConnectionBase *c);
 	void endTransaction(ConnectionBase *c,bool forceReset = false);
-	void execCommand(ConnectionBase *c,std::vector<BYTE> &cmd,std::vector<BYTE> &recv,
+	void execCommand(ConnectionBase *c,std::vector<byte> &cmd,std::vector<byte> &recv,
 		unsigned int &recvLen);
 	bool isT1Protocol(ConnectionBase *c);
 

@@ -220,7 +220,7 @@ void PCSCManager::beginTransaction(ConnectionBase *c)
 void PCSCManager::endTransaction(ConnectionBase *c,bool forceReset)
 {
 	if (forceReset) { //workaround for reader driver bug
-		WCHAR reader[1024];
+		TCHAR reader[1024];
 		DWORD rdrLen = sizeof(reader);
 		DWORD state,proto,result,active;
 		BYTE atr[1024];
