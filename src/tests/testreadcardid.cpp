@@ -1,8 +1,5 @@
+#include "precompiled.h"
 #include <iostream>
-#include <string>
-#include <vector>
-#include <stdexcept>
-#include <fstream>
 #include "cardlib/PCSCManager.h"
 #include "cardlib/EstEidCard.h"
 
