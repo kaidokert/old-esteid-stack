@@ -3,6 +3,7 @@
 #include <vector>
 #include <stdexcept>
 #include <fstream>
+#include "precompiled.h"
 #include "utility/netObj.h"
 
 using std::string;
