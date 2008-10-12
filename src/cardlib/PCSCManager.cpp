@@ -91,7 +91,8 @@ PCSCManager::~PCSCManager(void)
 	if (mOwnContext)
 		(*pSCardReleaseContext)(mSCardContext);
 #ifdef WIN32
-	(*pSCardReleaseStartedEvent)(mSCStartedEvent);
+// this crashes with "ESP not being preserved", wrong calling convention apparently
+//	(*pSCardReleaseStartedEvent)(mSCStartedEvent);
 #endif
 }
 
