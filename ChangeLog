@@ -1,3 +1,9 @@
+Changes for version 0.9.19
+-------------------------
+	* Cardlib bugfixes
+	* unified SmartCardManager added
+	* test projects created for Win
+
 Changes for version 0.9.18
 -------------------------
 	* more packaging changes
