@@ -271,4 +271,4 @@ bool inetConnect::getAnyFile(std::string url,std::vector<byte> &buffer) {
 	return true;
 	}
 
-#endif WIN32
+#endif //WIN32

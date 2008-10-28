@@ -20,11 +20,11 @@
 #else
 #define SCAPI
 #ifdef LPCTSTR
-define CSTRTYPE LPCTSTR
+define CSTRTYPE LPCSTR
 #else
-#define CSTRTYPE LPTSTR
+#define CSTRTYPE LPSTR
 #endif
-#define STRTYPE LPTSTR
+#define STRTYPE LPSTR
 #ifndef SCARD_E_NO_READERS_AVAILABLE
 #define SCARD_E_NO_READERS_AVAILABLE SCARD_E_READER_UNAVAILABLE
 #endif
@@ -77,7 +77,7 @@ class PCSCManager : public ManagerInterface {
 	LONG (SCAPI *pSCardDisconnect)(SCARDHANDLE hCard,DWORD dwDisposition);
 	LONG (SCAPI *pSCardBeginTransaction)(SCARDHANDLE hCard);
 	LONG (SCAPI *pSCardEndTransaction)(	SCARDHANDLE hCard,DWORD dwDisposition);
-	LONG (SCAPI *pSCardStatus)( SCARDHANDLE hCard,LPTSTR szReaderName,LPDWORD pcchReaderLen,
+	LONG (SCAPI *pSCardStatus)( SCARDHANDLE hCard,STRTYPE szReaderName,LPDWORD pcchReaderLen,
 		LPDWORD pdwState,LPDWORD pdwProtocol,LPBYTE pbAtr,LPDWORD pcbAtrLen);
 
 	void construct(void);

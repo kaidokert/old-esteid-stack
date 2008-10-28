@@ -11,10 +11,10 @@
 #include "PCSCManager.h"
 #include "CTAPIManager.h"
 
-enum {
+enum mgrType {
 	MANAGER_PCSC,
 	MANAGER_CTAPI
-	} mgrType;
+	};
 
 struct SmartCardConnectionPriv {
 	int m_manager;
