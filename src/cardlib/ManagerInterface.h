@@ -75,20 +75,21 @@ protected:
     and holds the connection parameters. 
     Concrete derivations are PCSCConnection and CTAPIConnection */
 struct ConnectionBase {
+	/// reference to Manager
 	ManagerInterface &mManager;
-	/// force T0 protocol for connection
-	bool mForceT0;
 	/// reader index
 	uint mIndex;
+	/// force T0 protocol for connection
+	bool mForceT0;
 	/// if false, we are using application-supplied connection handle
 	bool mOwnConnection;
 
 	/// tells if the manager has a secure PIN input method, true for CTAPI
 	virtual bool isSecure() {return false;}
 	ConnectionBase(ManagerInterface &manager) : 
-		mManager(manager),mOwnConnection(false),mForceT0(false),mIndex(-1) {}
+		mManager(manager),mIndex(-1),mForceT0(false),mOwnConnection(false) {}
 	ConnectionBase(ManagerInterface &manager,unsigned int index,bool f) 
-		: mManager(manager), mForceT0(f),mIndex(index),mOwnConnection(true) {
+		: mManager(manager),mIndex(index),mForceT0(f),mOwnConnection(true) {
 		mManager.makeConnection(this,index);
 		}
 	virtual ~ConnectionBase() {

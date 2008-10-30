@@ -13,6 +13,8 @@ package.links = { "cardlib", "utilitycode" }
 package.pchheader = "precompiled.h"
 package.pchsource = "wxprec.cpp"
 
+--package.buildflags = {"extra-warnings","fatal-warnings"}
+
 if (linux) then
   table.insert(package.includepaths, "/usr/include/PCSC")
   package.buildoptions = { "`wx-config --cxxflags`" }

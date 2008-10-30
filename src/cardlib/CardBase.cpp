@@ -11,8 +11,8 @@
 #include <algorithm>
 #include "helperMacro.h"
 
-CardError::CardError(byte a,byte b):SW1(a),SW2(b)
-	,runtime_error("invalid condition on card") {
+CardError::CardError(byte a,byte b):runtime_error("invalid condition on card")
+	,SW1(a),SW2(b) {
 	std::ostringstream buf;
 	buf << "CardError:'" << runtime_error::what() << "'" << 
 		" SW1:'0x" <<

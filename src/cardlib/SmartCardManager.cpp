@@ -77,8 +77,7 @@ SmartCardManager::~SmartCardManager(void) {
 }
 
 void SmartCardManager::makeConnection(ConnectionBase *c,uint idx) {
-	uint t_idx = idx;
-	SmartCardConnection *pc = (SmartCardConnection *)c;
+//	SmartCardConnection *pc = (SmartCardConnection *)c;
 	d->connIf->makeConnection( c , idx);
 	}
 

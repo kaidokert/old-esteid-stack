@@ -117,7 +117,6 @@ DynamicLibrary::~DynamicLibrary() {
 
 DynamicLibrary::fProc DynamicLibrary::getProc(const char *procName) {
 	std::ostringstream buf;
-	const char *err;
 	fProc proc = (fProc) dlsym(mLibhandle,procName);
 	if (dlerror() == 0)
 		return proc;

@@ -17,9 +17,9 @@ class SCError :
 {
 	std::string desc;
 public:
-    const long error; //SC Api returns longs
+	const long error; //SC Api returns longs
 	SCError(long err);
-    	virtual ~SCError() throw() {}
+	virtual ~SCError() throw() {}
 	virtual const char * what() const throw() {	return desc.c_str();} 
 	static void check(long err);
 };

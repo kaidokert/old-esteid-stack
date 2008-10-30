@@ -113,7 +113,7 @@ bool CTDriver::CTPort::init(bool nothrow) {
 	}
 
 void CTDriver::CTPort::close() {
-	byte res= dri->pCTClose(mCtn);
+	dri->pCTClose(mCtn);
 /*	if (res!=CTERR_OK) //thou shalt not throw in desctructors, alrite ?
 		throw runtime_error("ctapi3");*/
 	isConnected = false;
@@ -331,7 +331,7 @@ void CTAPIManager::endTransaction(ConnectionBase *c,bool )
 	try {
 	conn->dri->performCmd(CTDAD_CT,MAKEVECTOR(cmdReq),resp,mLogger);
 	} catch(CardError &) {
-		int i = 0;
+//		int i = 0;
 	}
 	conn->dri->resetCT(0,mLogger);
 }

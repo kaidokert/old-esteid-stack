@@ -7,6 +7,8 @@ package.files = {
   matchfiles("*.h","*.cpp"),
 }
 
+package.buildflags = {"extra-warnings","fatal-warnings"}
+
 if (linux) then
 	package.includepaths = { "/usr/include/PCSC" }
 end

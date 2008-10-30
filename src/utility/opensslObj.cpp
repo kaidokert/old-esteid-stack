@@ -84,7 +84,7 @@ const char *sslLibName() {
 	}
 
 opensslObj::opensslObj(void *app) :
-	DynamicLibrary(sslLibName()),m_appPtr(app),engine(NULL),pENGINE_finish(NULL) {
+	DynamicLibrary(sslLibName()),engine(NULL),pENGINE_finish(NULL),m_appPtr(app) {
     pSSL_library_init = (int (*)(void)) getProc("SSL_library_init");
     pSSL_load_error_strings = (void (*)(void))getProc("SSL_load_error_strings");
 

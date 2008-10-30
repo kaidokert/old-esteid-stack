@@ -110,7 +110,7 @@ void PCSCManager::ensureReaders(uint idx)
 		SCError::check((*pSCardListReaders)(mSCardContext,NULL,&mReaders[0],&ccReaders));
 		char* p = &mReaders[0];
 		while(p < &*(--mReaders.end()) ) {
-			SCARD_READERSTATE s = {p,NULL,SCARD_STATE_UNAWARE,0,0,'\0'};
+			SCARD_READERSTATE s = {p,NULL,SCARD_STATE_UNAWARE,0,0,{'\0'}};
 			mReaderStates.push_back(s);
 			p+= string(p).length() + 1;
 			}
@@ -186,9 +186,9 @@ PCSCConnection * PCSCManager::connect(uint idx,bool forceT0)
 }
 
 PCSCConnection * PCSCManager::connect(SCARDHANDLE existingHandle) {
-	DWORD proto = SCARD_PROTOCOL_T0,sz=sizeof(DWORD);
+	DWORD proto = SCARD_PROTOCOL_T0;
 #ifdef WIN32 //quick hack, pcsclite headers dont have that
-	DWORD tmpProto;
+	DWORD tmpProto,sz=sizeof(DWORD);
 	if (!(*pSCardGetAttrib)(existingHandle,SCARD_ATTR_CURRENT_PROTOCOL_TYPE,
 		(LPBYTE)&tmpProto,&sz)) 
 		proto = tmpProto;

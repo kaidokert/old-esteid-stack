@@ -33,8 +33,8 @@ define CSTRTYPE LPCSTR
 
 /// Holds connection parameters for PCSC card connection
 struct PCSCConnection : public ConnectionBase {
-	DWORD proto;
 	SCARDHANDLE hScard;
+	DWORD proto;
 	PCSCConnection(ManagerInterface &iface,unsigned int index,bool force) :
 		ConnectionBase(iface,index,force) {}
 	PCSCConnection(ManagerInterface &iface,SCARDHANDLE existing,DWORD mProto): 

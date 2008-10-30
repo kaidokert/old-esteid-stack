@@ -38,8 +38,8 @@ struct CTDriver {
 			}*/
 	};
 	CTDriver(const char *libName,std::vector<ushort>);
-	ushort nextCtn; // next connection CTN
 	DynamicLibrary lib;
+	ushort nextCtn; // next connection CTN
 	char (CTAPI *pCTInit)(ushort ctn,ushort pn);
 	char (CTAPI *pCTClose)(ushort ctn);
 	char (CTAPI *pCTData)(

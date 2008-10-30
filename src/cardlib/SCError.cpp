@@ -9,7 +9,7 @@
 #include "precompiled.h"
 #include "SCError.h"
 
-SCError::SCError(long err) : error(err),runtime_error("smart card API error")
+SCError::SCError(long err) : runtime_error("smart card API error"),error(err)
 {
 	std::ostringstream buf;
 	switch(err) {

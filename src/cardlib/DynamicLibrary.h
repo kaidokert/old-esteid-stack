@@ -15,8 +15,8 @@
 struct DynamicLibrary {
 	typedef void (*fProc)();
 	void *mLibhandle;
-	const char *m_pathHint;
 	std::string name;
+	const char *m_pathHint;
 	void construct(int version = 1);
 	static std::string arrPaths[];
 public:
