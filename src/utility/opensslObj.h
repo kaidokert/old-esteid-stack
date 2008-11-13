@@ -12,6 +12,7 @@
 #if HAVE_OPENSSL
 #include <openssl/ssl.h>
 #include <openssl/ui.h>
+#include <stdint.h>
 
 class opensslObj : public DynamicLibrary {
     friend struct wrapCTX;

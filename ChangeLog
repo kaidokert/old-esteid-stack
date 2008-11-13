@@ -3,6 +3,8 @@ Changes for version 0.9.19
 	* Cardlib bugfixes
 	* unified SmartCardManager added
 	* test projects created for Win
+	* Cardlib speedup ( less APDUs transmitted )
+	* compilation fix for upcoming GCC-4.4+openssl ( debian #505420 )
 
 Changes for version 0.9.18
 -------------------------
