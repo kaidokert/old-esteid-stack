@@ -36,7 +36,7 @@ PinChangeSecureDialog::PinChangeSecureDialog(wxWindow *parent,wxString title, in
 		wxSize(450,200))
 {
 	wxString prompt1,prompt2;
-	int mMinPinLen1,mMinPinLen2;
+	int mMinPinLen1 = 4,mMinPinLen2 = 4;
 	wxString mChoices[] = { wxT("4"), wxT("5"), wxT("6"), wxT("7"), wxT("8"), wxT("9"), wxT("10"), wxT("11"),wxT("12") };
 	switch (type) {
 		case CHANGEAUTH :

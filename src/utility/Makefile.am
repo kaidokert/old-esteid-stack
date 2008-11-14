@@ -1,5 +1,7 @@
 ## sub directory
 
+AM_CXXFLAGS=-Wall -pedantic -Werror -Wno-long-long
+
 h_sources = asnCertificate.h  asnObject.h
 cc_sources = asnCertificate.cpp  asnObject.cpp
 

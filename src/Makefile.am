@@ -1,5 +1,7 @@
 bin_PROGRAMS = esteidutil
 
+AM_CXXFLAGS=-Wall -pedantic -Werror -Wno-long-long
+
 BUILTSTUFF=resources/esteid.xpm resources/logo_sk.xpm resources/auth_icon.xpm \
 	resources/esteidbmp.cdata resources/digistampbmp.cdata resources/cert.cdata resources/cert_invalid.cdata
 

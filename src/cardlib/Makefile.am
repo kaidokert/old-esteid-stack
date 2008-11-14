@@ -1,5 +1,7 @@
 ## sub directory
 
+AM_CXXFLAGS=-Wall -pedantic -Werror -Wno-long-long
+
 h_sources = EstEidCard.h PCSCManager.h
 cc_sources = CardBase.cpp DynamicLibrary.cpp EstEidCard.cpp PCSCManager.cpp SCError.cpp
 
