@@ -138,7 +138,7 @@ bool myLoadUserResource(const wxString& resourceName, LPCTSTR resourceType,wxMem
 }
 #else
 #include "resources/esteid.xpm"
-#include "resources/logo_sk.xpm"
+//#include "resources/logo_sk.xpm"
 #include "resources/esteidbmp.cdata"
 #include "resources/digistampbmp.cdata"
 #endif
@@ -275,7 +275,6 @@ void MainDialog::SwitchCardManager(bool useCTAPI) {
 			::wxRemoveFile(file);
 			std::string tmp = std::string(file.ToAscii()) + ".esteidutil.log";
 			logFile.open(tmp.c_str());
-			bool kudos = logFile.good();
 			mCardManager->setLogging(&logFile);
 			}
 		numReaders = mCardManager->getReaderCount();
@@ -329,10 +328,9 @@ MainDialog::MainDialog(bool verbose) :
 			wxSize(417,328),
             wxSYSTEM_MENU | wxMINIMIZE_BOX | wxCLOSE_BOX |
              wxCAPTION | wxCLIP_CHILDREN)
-	,m_locale(NULL),mCardManager(NULL),havePersonalCard(true),
-	mIdConv(wxFONTENCODING_CP1252),mEnableErrorPopup(true),
-	mPicRect(280,98,100,132),handCursor(wxCURSOR_HAND),
-	verboseLog(verbose)
+	,m_locale(NULL),mPicRect(280,98,100,132),handCursor(wxCURSOR_HAND),
+	mIdConv(wxFONTENCODING_CP1252),mCardManager(NULL),
+	mEnableErrorPopup(true),verboseLog(verbose),havePersonalCard(true)
 {
 	wxImage::AddHandler( new wxGIFHandler );
 	wxImage::AddHandler( new wxJPEGHandler );

@@ -131,7 +131,7 @@ ByteVec EstEidCard::RSADecrypt_internal(ByteVec cipher) {
 			result = execute(decCmd,false);
 			return result;
 			}*/
-		if ((e.SW1 == 0x69 && (e.SW2 == 0x82 || e.SW2 == 0x00 || e.SW2 == 0x88  || e.SW2 == 0x85 ) 
+		if (e.SW1 == 0x69 && (e.SW2 == 0x82 || e.SW2 == 0x00 || e.SW2 == 0x88  || e.SW2 == 0x85  
 			/*|| e.SW1 == 0x64 */|| e.SW1 == 0x6B ))
 			throw AuthError(e);
 		throw e;

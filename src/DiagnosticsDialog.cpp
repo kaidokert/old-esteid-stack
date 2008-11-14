@@ -322,7 +322,8 @@ wxString getMemoryMB() {
 bool readValue(const char *file,std::string pref,std::string &value) {
 	std::string line;
 	std::ifstream strm;
-	const char stackProtect1[8] = "0"; //libstc++6 ifstream trashes stack here!
+	char stackProtect1[8] = "0"; //libstc++6 ifstream trashes stack here!
+	stackProtect1[1]=stackProtect1[0]; //avoid unused warning
 	strm.exceptions ( std::ifstream::failbit | std::ifstream::badbit );
 	try {
 		strm.open(file);

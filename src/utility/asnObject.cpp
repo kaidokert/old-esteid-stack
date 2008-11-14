@@ -9,9 +9,9 @@
 #include "precompiled.h"
 #include "asnObject.h"
 
-asnObject::asnObject(byteVec &in,std::ostream &pout):bout(pout),byteVec(in),tab(0) {init();}
-asnObject::asnObject(byteIter from,byteIter to,int tabs,std::ostream &pout):start(from),stop(to),
-		bout(pout),tab(0) {
+asnObject::asnObject(byteVec &in,std::ostream &pout):byteVec(in),tab(0),bout(pout) {init();}
+asnObject::asnObject(byteIter from,byteIter to,int tabs,std::ostream &pout):tab(0),
+		bout(pout),start(from),stop(to) {
 		decode(tabs);
 		}
 

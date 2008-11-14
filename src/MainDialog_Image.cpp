@@ -41,7 +41,7 @@ void findUrlFromPage(ByteVec &page,string lookFor,string &pageUrl) {
 	}
 
 void MainDialog::OnDownloadPicture(wxCommandEvent&  event) {
-	void * clientCert;
+	void * clientCert = NULL;
 	if (!havePersonalCard) return;
 	if (!mCardManager) return;
 
