@@ -178,7 +178,7 @@ void opensslObj::init(int readerNum) {
     m_cert = parms.cert;
 
 	UI_METHOD * ui_method = NULL;
-	ui_method = pUI_create_method("myssl ui meth");
+	ui_method = pUI_create_method((char *)"myssl ui meth");
 	pUI_method_set_reader(ui_method, my_ui_method_read);
 
 	sslError::check("wrong pin ?",
