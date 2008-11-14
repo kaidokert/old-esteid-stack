@@ -36,7 +36,7 @@ wxArrayString PersonalDataDialog::getLabels() {
 	ret.Add(_("Comment 3"));
 	ret.Add(_("Comment 4"));
 	return ret;
-	};
+	}
 
 void PersonalDataDialog::SaveFile(wxString path,wxArrayString &mPersonalData) {
 	wxArrayString labels = getLabels();

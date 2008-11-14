@@ -117,7 +117,9 @@ DynamicLibrary::~DynamicLibrary() {
 
 DynamicLibrary::fProc DynamicLibrary::getProc(const char *procName) {
 	std::ostringstream buf;
-	fProc proc = (fProc) dlsym(mLibhandle,procName);
+	void * ptr = dlsym(mLibhandle,procName);
+	fProc proc = NULL;
+	memcpy(&proc,&ptr,sizeof(ptr)); //hack around not being able to copy void to fn ptr
 	if (dlerror() == 0)
 		return proc;
 	buf << "proc not found:" << procName;

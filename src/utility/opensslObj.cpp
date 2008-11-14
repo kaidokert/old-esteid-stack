@@ -195,11 +195,11 @@ wrapCTX::wrapCTX(opensslObj &ref) : ossl(ref) {
 	ossl.pSSL_CTX_use_certificate(ctx,ossl.getCert());
 	ossl.pSSL_CTX_use_PrivateKey(ctx,ossl.getPrivKey());
     ossl.pSSL_CTX_check_private_key(ctx);
-    };
+    }
 
 wrapCTX::~wrapCTX() {
     ossl.pSSL_CTX_free(ctx);
-    };
+    }
 
 opensslConnect::opensslConnect(opensslObj &ref,std::string site,connType type,void *) :
     ossl(ref),ctx(ref),sitename(site)
