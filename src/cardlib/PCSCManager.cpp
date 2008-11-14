@@ -72,7 +72,7 @@ void PCSCManager::construct()
 	pSCardEndTransaction=(LONG(SCAPI *)(SCARDHANDLE ,DWORD ))
 		mLibrary.getProc("SCardEndTransaction");
 #ifdef WIN32
-	pSCardStatus = (LONG(SCAPI *)(SCARDHANDLE ,LPTSTR ,LPDWORD ,
+	pSCardStatus = (LONG(SCAPI *)(SCARDHANDLE ,STRTYPE ,LPDWORD ,
 		LPDWORD ,LPDWORD ,LPBYTE ,LPDWORD ))
 		mLibrary.getProc("SCardStatus" SUFFIX);
 
