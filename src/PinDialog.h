@@ -16,7 +16,7 @@ class PinDialog : public wxDialog
 		wxButton* mBtnOk;
 		wxButton* mBtnCancel;
 		wxTextCtrl* m_pinEntry;
-		DECLARE_EVENT_TABLE();
+		DECLARE_EVENT_TABLE()
 		void OnText(wxCommandEvent& );
 	public:
 		wxString mInput1;

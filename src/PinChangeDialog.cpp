@@ -14,7 +14,7 @@
 enum {
 	idInput1,
 	idInput2,
-	idInput3,
+	idInput3
 };
 
 BEGIN_EVENT_TABLE(PinChangeDialog, wxDialog)

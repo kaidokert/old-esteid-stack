@@ -20,7 +20,7 @@ protected:
 
 	void OnSelect(wxCommandEvent& );
 
-	DECLARE_EVENT_TABLE();
+	DECLARE_EVENT_TABLE()
 
 public:
 	PinChangeSecureDialog(wxWindow *parent,wxString title, int type);

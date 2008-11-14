@@ -26,7 +26,7 @@ public:
 	enum PinType {
 		PUK = 0,
 		PIN_AUTH = 1,
-		PIN_SIGN = 2,
+		PIN_SIGN = 2
 		};
 	enum KeyType { AUTH = 0,SIGN = 1 };
 	enum AlgType {

@@ -24,7 +24,7 @@ class PinChangeDialog :
 	wxButton *mBtnOk,*mBtnCancel;
 	unsigned int mMinPinLen1,mMinPinLen2,mMaxPinLen;
 
-	DECLARE_EVENT_TABLE();
+	DECLARE_EVENT_TABLE()
 	void OnText(wxCommandEvent& );
 public:
 	PinChangeDialog(wxWindow *parent,wxString title, int type);

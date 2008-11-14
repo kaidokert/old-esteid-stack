@@ -65,7 +65,7 @@ enum MainMenu {
 	idMenuInterface,
 	idMenuAutoRemove,
 	idMenuShow,
-	idMenuSave,
+	idMenuSave
 };
 
 int MainDialog::rIDs[] = {idSelectReader0,idSelectReader1,idSelectReader2,idSelectReader3};
@@ -301,7 +301,7 @@ void MainDialog::SwitchCardManager(bool useCTAPI) {
 
 wxString MainDialog::getAppName() {
 	return _("ID-card tool");
-};
+}
 
 void MainDialog::SwitchLanguage(wxLanguage lang)
 {

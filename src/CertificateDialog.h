@@ -48,7 +48,7 @@ protected:
 	wxButton* m_button1;
 
 	void OnInitDialog(wxInitDialogEvent& event);
-	DECLARE_EVENT_TABLE();
+	DECLARE_EVENT_TABLE()
 	std::vector<unsigned char> &certBytes;
 /*	asnCertificate cert;
 	std::ostringstream strbuf;*/

@@ -26,7 +26,7 @@ protected:
 	wxButton* mBtnClose;
 	void OnMyEvent( wxEvent &event );
 	void OnSaveToFile( wxCommandEvent &event );
-	DECLARE_EVENT_TABLE();
+	DECLARE_EVENT_TABLE()
 public:
 	void addLine(wxString line);
 	DiagnosticsDialog(wxWindow *parent,wxString title);
