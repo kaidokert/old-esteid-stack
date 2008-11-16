@@ -120,7 +120,7 @@ void PCSCManager::ensureReaders(uint idx)
 
 	SCError::check((*pSCardGetStatusChange)
 		(mSCardContext,0, &mReaderStates[0],DWORD(mReaderStates.size())));
-	if (idx > mReaderStates.size())
+	if (idx >= mReaderStates.size())
 		throw std::range_error("ensureReaders: Index out of bounds");
 }
 
