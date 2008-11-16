@@ -44,7 +44,8 @@ EXTRA_DIST = resources/esteidbmp.gif resources/digistampbmp.gif resources/cert.g
 	MainDialog_Windows.cpp \
 	EsteidUtil.rc EsteidUtil.vcproj EsteidUtil.cbp Setup.h \
 	tests/Makefile  tests/precompiled.h  tests/testctapi.cpp  \
-	tests/testdownload.cpp  tests/testreadcardid.cpp	
+	tests/testdownload.cpp  tests/testreadcardid.cpp \
+	premake.lua cardlib/premake.lua utility/premake.lua tests/premake.lua
 
 nodist_esteidutil_SOURCES =
 #nodist_esteidutil_SOURCES = \
