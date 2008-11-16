@@ -1,6 +1,7 @@
 Changes for version 0.9.19
 -------------------------
 	* Cardlib bugfixes
+	* Crash fix in PSCSManager when readers were removed
 	* unified SmartCardManager added
 	* test projects created for Win
 	* Cardlib speedup ( less APDUs transmitted )
