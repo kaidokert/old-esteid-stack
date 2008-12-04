@@ -19,7 +19,7 @@
 struct CTDriver {
 	struct CTPort {
 		CTPort(CTDriver *d,ushort n) : 
-			dri(d),portNum(n),isConnected(false),mCtn(0),mLogger(NULL) {}
+			dri(d),portNum(n),isConnected(false),mCtn(0) {}
 		CTDriver *dri;
 		ushort portNum;
 		bool isConnected;
@@ -29,7 +29,6 @@ struct CTDriver {
 		bool init(bool nothrow = false);
 		void close();
 		void resetCT(byte unit,std::ostream *mLogger);
-		std::ostream *mLogger;
 /*		CTPort(const CTPort& ref) : dri(ref.dri),portNum(ref.portNum),
 			isConnected(ref.isConnected) {}
 	private:
@@ -37,7 +36,7 @@ struct CTDriver {
 			dri = c.dri;
 			}*/
 	};
-	CTDriver(const char *libName,std::vector<ushort>);
+	CTDriver(const char *libName,int version,std::vector<ushort>,std::ostream *log = NULL);
 	DynamicLibrary lib;
 	ushort nextCtn; // next connection CTN
 	char (CTAPI *pCTInit)(ushort ctn,ushort pn);
@@ -46,6 +45,7 @@ struct CTDriver {
 		ushort ctn,byte * dad,byte * sad,ushort lenc,
 		byte * command,ushort * lenr,byte * response);
 	std::vector<CTPort> mPorts;
+	std::ostream *mLogger;
 private: //disable object copying
 	CTDriver(const CTDriver &ref);
 	CTDriver& operator=(const CTDriver &);
@@ -93,7 +93,7 @@ protected:
 	bool isT1Protocol(ConnectionBase *c);
 
 public:
-	CTAPIManager(void);
+	CTAPIManager(std::ostream *log = NULL);
 	~CTAPIManager(void);
 	uint getReaderCount();
 	std::string getReaderName(uint index);

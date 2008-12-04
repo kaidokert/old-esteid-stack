@@ -9,6 +9,8 @@
 #include "precompiled.h"
 #include "DynamicLibrary.h"
 
+#include <string.h>
+
 DynamicLibrary::DynamicLibrary(const char *dllName) :
 	name(dllName),m_pathHint("") {
 	construct();

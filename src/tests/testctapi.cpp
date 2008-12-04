@@ -3,7 +3,7 @@
 #include "cardlib/CTAPIManager.h"
 
 int main(int argc,char **argv) {
-	CTAPIManager cardMgr;
+	CTAPIManager cardMgr(&std::cout);
 	for(uint i = 0;i < cardMgr.getReaderCount();i++) {
 		std::cout << cardMgr.getReaderName(i) << std::endl;
 		}

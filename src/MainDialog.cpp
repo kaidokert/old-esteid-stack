@@ -138,7 +138,7 @@ bool myLoadUserResource(const wxString& resourceName, LPCTSTR resourceType,wxMem
 }
 #else
 #include "resources/esteid.xpm"
-//#include "resources/logo_sk.xpm"
+#include "resources/logo_sk.xpm"
 #include "resources/esteidbmp.cdata"
 #include "resources/digistampbmp.cdata"
 #endif

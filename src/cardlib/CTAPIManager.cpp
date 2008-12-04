@@ -40,10 +40,13 @@ using std::runtime_error;
 
 const char* libNames[] =
 	//omnikey , SCM ??
-	{"openctapi","ctdeutin.dll","ctpcsc32.dll"};
+	{"openctapi","ctdeutin.dll","ctpcsc32.dll","chipcard_ctapi"};
+const int  libVer[] =
+	{1,1,1,0};
+
 #define MAXPORTS 6
 const unsigned char ports[LENOF(libNames)][MAXPORTS]={
-	{0,1,2,3,4,5},{0,30,35,60,70,75},{0,0,0,0,0,0}};
+	{0,1,2,3,4,5},{0,30,35,60,70,75},{0,0,0,0,0,0},{0,0,0,0,0}};
 
 class CTAPIError : public CardError {
 public:
@@ -119,8 +122,8 @@ void CTDriver::CTPort::close() {
 	isConnected = false;
 	}
 
-CTDriver::CTDriver(const char *libName,std::vector<ushort> probePorts) :
-		lib(libName),nextCtn(100)  {
+CTDriver::CTDriver(const char *libName,int version,std::vector<ushort> probePorts,std::ostream *log) :
+		lib(libName,"",version),nextCtn(100),mLogger(log)  {
 	pCTInit = (char (CTAPI *)(ushort ctn,ushort pn)) lib.getProc("CT_init");
 	pCTClose= (char (CTAPI *)(ushort ctn)) lib.getProc("CT_close");
 	pCTData = (char (CTAPI *)(ushort ctn,byte * dad,byte * sad,ushort lenc,
@@ -147,18 +150,22 @@ CTDriver::CTDriver(const char *libName,std::vector<ushort> probePorts) :
 		} catch (std::runtime_error& )	{}
 	}
 
-CTAPIManager::CTAPIManager(void)
+CTAPIManager::CTAPIManager(std::ostream *log) 
 {
+	setLogging(log);
 	for(size_t i=0;i < LENOF(libNames);i++) {
 		try {
-			CTDriver *dri = new CTDriver(libNames[i],
-				std::vector<ushort>(ports[i],ports[i] + MAXPORTS));
+			if (mLogger) *mLogger << "CTAPIManager : trying " << libNames[i] << " version:" << libVer[i] << std::endl;
+			CTDriver *dri = new CTDriver(libNames[i],libVer[i],
+				std::vector<ushort>(ports[i],ports[i] + MAXPORTS),mLogger);
 			mDrivers.push_back(dri);
 			for(size_t j=0;j < dri->mPorts.size(); j++) {
 				std::vector<cPort>::iterator port = dri->mPorts.begin() + j;
 				mPorts.push_back(&*port);
 				}
-		} catch (std::runtime_error& )	{}
+		} catch (std::runtime_error& err)	{
+		  if (mLogger) *mLogger << "CTAPIManager : error: " << err.what() << std::endl;
+		  }
 	}
 }
 

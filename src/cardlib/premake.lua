@@ -10,5 +10,5 @@ package.files = {
 package.buildflags = {"extra-warnings","fatal-warnings"}
 
 if (linux) then
-	package.includepaths = { "/usr/include/PCSC" }
+	table.insert(package.includepaths, "/usr/include/PCSC")
 end
