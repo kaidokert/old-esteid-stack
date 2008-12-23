@@ -1,0 +1,47 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "esteidcsp", "esteidcsp\esteidcsp.vcproj", "{08AB5E6D-8113-4B0F-80AC-39519C5FC7C2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testac", "..\..\esteidcm\testac\testac.vcproj", "{5D3EC775-7DD3-4ADB-B43E-C87414E0E699}"
+	ProjectSection(ProjectDependencies) = postProject
+		{08AB5E6D-8113-4B0F-80AC-39519C5FC7C2} = {08AB5E6D-8113-4B0F-80AC-39519C5FC7C2}
+	EndProjectSection
+EndProject
+Project("{A49CE20D-CE64-4A08-9F24-92A6443D6699}") = "EsteidCSPWix", "EsteidCSPWix\EsteidCSPWix.wixproj", "{134137AB-2BDD-45DD-AAC5-76CA6783E5E8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{08AB5E6D-8113-4B0F-80AC-39519C5FC7C2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{08AB5E6D-8113-4B0F-80AC-39519C5FC7C2}.Debug|Win32.Build.0 = Debug|Win32
+		{08AB5E6D-8113-4B0F-80AC-39519C5FC7C2}.Debug|x64.ActiveCfg = Debug|x64
+		{08AB5E6D-8113-4B0F-80AC-39519C5FC7C2}.Debug|x64.Build.0 = Debug|x64
+		{08AB5E6D-8113-4B0F-80AC-39519C5FC7C2}.Release|Win32.ActiveCfg = Release|Win32
+		{08AB5E6D-8113-4B0F-80AC-39519C5FC7C2}.Release|Win32.Build.0 = Release|Win32
+		{08AB5E6D-8113-4B0F-80AC-39519C5FC7C2}.Release|x64.ActiveCfg = Release|x64
+		{08AB5E6D-8113-4B0F-80AC-39519C5FC7C2}.Release|x64.Build.0 = Release|x64
+		{5D3EC775-7DD3-4ADB-B43E-C87414E0E699}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5D3EC775-7DD3-4ADB-B43E-C87414E0E699}.Debug|Win32.Build.0 = Debug|Win32
+		{5D3EC775-7DD3-4ADB-B43E-C87414E0E699}.Debug|x64.ActiveCfg = Debug|x64
+		{5D3EC775-7DD3-4ADB-B43E-C87414E0E699}.Release|Win32.ActiveCfg = Release|Win32
+		{5D3EC775-7DD3-4ADB-B43E-C87414E0E699}.Release|Win32.Build.0 = Release|Win32
+		{5D3EC775-7DD3-4ADB-B43E-C87414E0E699}.Release|x64.ActiveCfg = Release|x64
+		{134137AB-2BDD-45DD-AAC5-76CA6783E5E8}.Debug|Win32.ActiveCfg = Debug
+		{134137AB-2BDD-45DD-AAC5-76CA6783E5E8}.Debug|Win32.Build.0 = Debug
+		{134137AB-2BDD-45DD-AAC5-76CA6783E5E8}.Debug|x64.ActiveCfg = Debug
+		{134137AB-2BDD-45DD-AAC5-76CA6783E5E8}.Debug|x64.Build.0 = Debug
+		{134137AB-2BDD-45DD-AAC5-76CA6783E5E8}.Release|Win32.ActiveCfg = Release
+		{134137AB-2BDD-45DD-AAC5-76CA6783E5E8}.Release|Win32.Build.0 = Release
+		{134137AB-2BDD-45DD-AAC5-76CA6783E5E8}.Release|x64.ActiveCfg = Release
+		{134137AB-2BDD-45DD-AAC5-76CA6783E5E8}.Release|x64.Build.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
