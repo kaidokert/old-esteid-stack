@@ -79,6 +79,13 @@ void RegKey::setInt(tstring valueName,DWORD value) {
 		(LPBYTE)&value,sizeof(DWORD));
 	}
 
+void RegKey::setBin(tstring valueName,std::vector<BYTE> &bin) {
+    LONG nStatus = RegSetValueEx(key,
+		valueName.c_str(),0,
+		REG_BINARY,
+		&bin[0],(DWORD)bin.size());
+	}
+
 void RegKey::deleteKey(tstring keyName) {
 	RegDeleteKey(key,keyName.c_str());
 	}

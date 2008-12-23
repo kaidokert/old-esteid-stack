@@ -141,12 +141,17 @@ BOOL Csp::CPGetHashParam(
 		OUT LPBYTE pbData,
 		IN OUT LPDWORD pcbDataLen,
 		IN  DWORD dwFlags){
+	retType ret("CPGetHashParam");
 	try {
-		throw std::runtime_error("not implemented");
-	} catch(std::runtime_error &) {
-		return FALSE;
+		//fRes=CryptGetHashParam(sha1,HP_HASHVAL, hash,hashLen ,0);
+		CSPContext * it = *findContext(hProv);
+		CSPHashContext * hash = *it->findHashContext(hHash);
+		CryptGetHashParam( *hash->m_wrapHash,dwParam, pbData, pcbDataLen, dwFlags);
+		ret.SetOk();
+	} catch(std::runtime_error &err) {
+		ret.logReturn(err);
 	}
-	return TRUE;
+	return ret;
 }
 
 BOOL Csp::CPDuplicateHash(

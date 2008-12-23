@@ -27,6 +27,8 @@ public:
 
 	void setString(tstring valueName,tstring value);
 	void setInt(tstring valueName,DWORD value);
+	void setBin(tstring valueName,std::vector<BYTE> &bin);
+
 	void deleteKey(tstring keyName);
 
 	operator HKEY() const {return key;}

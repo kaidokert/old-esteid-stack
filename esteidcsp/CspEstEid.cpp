@@ -13,6 +13,7 @@
 #include "EstEidCard.h"
 #include "SmartCardManager.h"
 #include "utility.h"
+#include "RegKey.h"
 #include <iostream>
 #include <wincrypt.h>
 #include <algorithm>
@@ -90,11 +91,11 @@ EstEidContext::EstEidContext() {
 		}
 }
 
-std::string getPin() {
+std::string getPin(PCWSTR prompt) {
 	CREDUI_INFO ui_info = {
 		sizeof(CREDUI_INFO),
 		NULL,
-		_T("enter authentication pin"),
+		prompt,
 		_T("idcard authentication"),
 		NULL
 		};
@@ -116,12 +117,12 @@ std::string getPin() {
 
 std::string EstEidContext::getAuthPin() {
 	if (!cachedAuthPin.length())
-		cachedAuthPin = getPin();
+		cachedAuthPin = getPin(_T("Enter authentication PIN"));
 	return cachedAuthPin;
 	}
 
 std::string EstEidContext::getSignPin() {
-	return getPin();
+	return getPin(_T("Enter signature PIN"));
 	}
 
 EstEidContext::~EstEidContext() {
@@ -134,6 +135,63 @@ CspEstEid::CspEstEid(HMODULE module,TCHAR *name) : Csp(module,name)
 CspEstEid::~CspEstEid(void)
 {
 }
+
+struct CspEstEid::cardSetup CspEstEid::cards[3] = {
+	{_T("EstEID National ID Card"),
+		_T("3b000000000000000000004573744549442076657220312e3000"),
+		_T("ff00000000000000000000ffffffffffffffffffffffffffff00")},
+	{_T("EstEID National ID Card (MultOS)"),
+		_T("3b000000000000000000  4573744549442076657220312e3000"),
+		_T("ff000000000000000000  ffffffffffffffffffffffffffff00")},
+	{_T("EstEID National ID Card (short ATR)"),
+		_T("3b000000              4573744549442076657220312e30"),
+		_T("ff000000              ffffffffffffffffffffffffffff")}
+	};
+
+HRESULT CspEstEid::DllUnregisterServer(void) {
+	if (Csp::DllUnregisterServer() != S_OK) return FALSE;
+	RegKey scKey(HKEY_LOCAL_MACHINE,
+		_T("SOFTWARE\\Microsoft\\Cryptography\\Calais\\SmartCards"));
+	scKey.deleteKey(cards[0].name);
+	scKey.deleteKey(cards[1].name);
+	scKey.deleteKey(cards[2].name);
+	return S_OK;
+	}
+
+HRESULT CspEstEid::DllRegisterServer(void) {
+	if (Csp::DllRegisterServer() != S_OK) return FALSE;
+	regCard(cards[0]);
+	regCard(cards[1]);
+	regCard(cards[2]);
+	return S_OK;
+	}
+
+unsigned char x2b(wchar_t c) {
+	if (c >= '0' && c <= '9') return c - '0';
+	else if (c >= 'a') return c - 'a' + 10;
+	return c - 'A' + 10;
+}
+
+std::vector<BYTE> hex2bin(tstring hex) {
+	std::vector<BYTE> ret;
+	for (size_t i = 0; i < hex.length(); ) {
+		BYTE c;
+		c =  x2b(hex[i++]) << 4;
+		c |= x2b(hex[i++]);
+		if (c!=249) ret.push_back(c);
+		}
+	return ret;
+	}
+
+void CspEstEid::regCard(CspEstEid::cardSetup &card) {
+	RegKey scKey(HKEY_LOCAL_MACHINE,
+		_T("SOFTWARE\\Microsoft\\Cryptography\\Calais\\SmartCards"));
+	RegKey subKey(scKey,card.name,KEY_WRITE);
+	subKey.setString(_T("Crypto Provider"),m_cspName);
+	std::vector<BYTE> atr(hex2bin(card.atr)),atrMask(hex2bin(card.atrMask));
+	subKey.setBin(_T("ATR"),atr);
+	subKey.setBin(_T("ATRMask"),atrMask);
+	}
 
 CSPContext * CspEstEid::createCSPContext() {
 	return new EstEidContext();}
@@ -152,6 +210,12 @@ std::vector<BYTE> EsteidHashContext::sign(std::vector<BYTE> &hash) {
 		EstEidCard card(m_ctx->getMgr());
 		if (!m_ctx->findCard(card)) throw err_noKey();
 		ret = card.calcSSL(hash, m_ctx->getAuthPin() ) ;
+		reverse(ret.begin(),ret.end());		
+		}
+	if (m_algId == CALG_SHA1 ) {
+		EstEidCard card(m_ctx->getMgr());
+		if (!m_ctx->findCard(card)) throw err_noKey();
+		ret = card.calcSignSHA1(hash, EstEidCard::SIGN, m_ctx->getSignPin() ) ;
 		reverse(ret.begin(),ret.end());		
 		}
 	return ret;

@@ -41,13 +41,14 @@ typedef struct _VTableProvStrucW {
 class Csp
 {
 	HMODULE m_module;
-	tstring m_cspName;
 	std::vector<CSPContext *> m_contexts;
 	typedef std::vector<CSPContext *>::iterator CSPContextIter;
 	DWORD m_nextHandle;
 	CSPContextIter findContext(HCRYPTPROV hProv);
 	std::vector<PROV_ENUMALGS> m_enumAlgs;
 	std::vector<PROV_ENUMALGS_EX> m_enumAlgsEx;
+protected:
+	tstring m_cspName;
 public:
 	Csp(HMODULE module,TCHAR *);
 	virtual ~Csp(void);
