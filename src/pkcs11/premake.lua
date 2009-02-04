@@ -11,7 +11,7 @@ package.files = {
 package.includepaths = { "..","pkcs11" }
 
 package.buildflags = {"extra-warnings","fatal-warnings"}
-package.libpaths = {"../cardlib"}
+package.libpaths = {"../cardlib","../.."}
 
 if (linux) then
 	table.insert(package.includepaths, "/usr/include/PCSC")
