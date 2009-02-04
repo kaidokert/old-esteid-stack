@@ -7,6 +7,7 @@ Changes for version 0.9.19
 	* Cardlib speedup ( less APDUs transmitted )
 	* compilation fix for upcoming GCC-4.4+openssl ( debian #505420 )
 	* general code warnings cleanup
+	* premake buildscripts added
 
 Changes for version 0.9.18
 -------------------------
