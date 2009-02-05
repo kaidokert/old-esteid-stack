@@ -13,6 +13,7 @@ using std::vector;
 
 /// Exception class for smart card errors, keeps the SW1 SW2 codes
 class CardError: public std::runtime_error {
+	const CardError operator=(const CardError &) {}
 public:
 	const byte SW1,SW2;
 	std::string desc;
@@ -42,6 +43,7 @@ public:
  or it can be used directly with basic command set. */
 class CardBase
 {
+	const CardBase operator=(const CardBase &) {}
 protected:
 	/// File Control Info structure, parsed
 	struct FCI {

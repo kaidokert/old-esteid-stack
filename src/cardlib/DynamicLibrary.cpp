@@ -21,6 +21,12 @@ DynamicLibrary::DynamicLibrary(const char *dllName,int version) :
 	construct(version);
 	}
 
+DynamicLibrary::DynamicLibrary(const char *dllName,const char *pathHint,
+	int version) : name(dllName) {
+	m_pathHint = pathHint;
+	construct(version);
+	}
+
 #ifdef WIN32
 #include <windows.h>
 #pragma comment(lib,"version")
@@ -71,12 +77,6 @@ std::string DynamicLibrary::getVersionStr() {
 #include <sys/stat.h>
 
 std::string DynamicLibrary::arrPaths[] = { "","/lib/","/usr/local/lib/","/usr/lib/"};
-
-DynamicLibrary::DynamicLibrary(const char *dllName,const char *pathHint,
-	int version) : name(dllName) {
-	m_pathHint = pathHint;
-	construct(version);
-	}
 
 #include <iostream>
 

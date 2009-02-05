@@ -130,7 +130,7 @@ int CardBase::selectDF(int fileID,bool ignoreFCI)
 	cmd.push_back(LOBYTE(fileID));
 	ByteVec fcp =  execute(cmd);
 	if (ignoreFCI) return 0;
-	FCI blah = parseFCI(fcp);
+/*	FCI blah = */parseFCI(fcp);
 	return 0;
 }
 
@@ -200,7 +200,7 @@ ByteVec CardBase::execute(ByteVec cmd,bool noreply)
 	uint realLen = (uint) RecvBuffer.size() ;
 
 	if (mManager.isT1Protocol(mConnection) && !noreply) {
-		cmd.push_back(realLen);
+		cmd.push_back((byte)realLen);
 		}
 
 	if (mLogger != 0 && mLogger->good()) {

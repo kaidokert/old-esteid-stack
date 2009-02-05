@@ -96,6 +96,8 @@ struct ConnectionBase {
 		if (mOwnConnection)
 			mManager.deleteConnection(this);
 		}
+private:
+	const ConnectionBase operator=(const ConnectionBase &) {}
 };
 
 /// Wraps a beginTransaction/endTransaction pair
@@ -111,4 +113,6 @@ struct Transaction {
 	~Transaction() {
 		mManager.endTransaction(mConnection);
 		}
+private:
+	const Transaction operator=(const Transaction &) {}
 	};

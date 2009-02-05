@@ -16,6 +16,7 @@ class SCError :
 	public std::runtime_error
 {
 	std::string desc;
+	const SCError operator=(const SCError &) {};
 public:
 	const long error; //SC Api returns longs
 	SCError(long err);

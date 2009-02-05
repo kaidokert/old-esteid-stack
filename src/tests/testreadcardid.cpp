@@ -4,6 +4,7 @@
 #include "cardlib/EstEidCard.h"
 
 int main(int argc,char **argv) {
+	try {
 	PCSCManager cardMgr;
 
 	for(uint i = 0;i < cardMgr.getReaderCount();i++) {
@@ -18,6 +19,8 @@ int main(int argc,char **argv) {
 			std::cout << "card id:" << card.readCardID() << std::endl;
 			}
 		}
-
+	} catch(std::runtime_error &err) {
+		std::cout << "exception: " << err.what() << std::endl;
+		}
 	return 0;
 	}

@@ -8,7 +8,7 @@ int main(int argc,char **argv) {
 	_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF |_CRTDBG_CHECK_ALWAYS_DF |
 			_CRTDBG_CHECK_CRT_DF |_CRTDBG_DELAY_FREE_MEM_DF );
 #endif
-
+	try {
 	SmartCardManager cardMgr;
 	for(uint i = 0;i < cardMgr.getReaderCount();i++) {
 		std::cout << cardMgr.getReaderName(i) << std::endl;
@@ -22,6 +22,9 @@ int main(int argc,char **argv) {
 			}
 
 	}
+	} catch(std::runtime_error &err) {
+		std::cout << "exception: " << err.what() << std::endl;
+		}
 
 	return 0;
 	}

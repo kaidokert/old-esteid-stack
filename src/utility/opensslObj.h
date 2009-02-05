@@ -100,6 +100,6 @@ public:
 
 struct opensslConnect {
     opensslConnect(opensslObj &ref,std::string site,connType type,void *) {}
-    bool getHttpsFile(std::string url,std::vector<unsigned char> &buffer) {}
+    bool getHttpsFile(std::string url,std::vector<unsigned char> &buffer) {return false;}
     };
 #endif
