@@ -1,5 +1,7 @@
 #pragma once
+extern "C" {
 #include <cryptoki.h>
+}
 #include <vector>
 
 #define NOCOPY(ptype) private: ptype(const ptype &o); const ptype &operator=(const ptype &o)
