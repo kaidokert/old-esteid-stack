@@ -34,7 +34,7 @@ public:
     }
 }; 
 
-std::string narrow(std::wstring source)
+inline std::string narrow(std::wstring source)
 {
     std::string result(source.size(), char(0));
     typedef std::ctype<wchar_t> ctype_t;
