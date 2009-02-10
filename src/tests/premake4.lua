@@ -16,7 +16,7 @@ project "testcardmanager"
   kind     "ConsoleApp"
   files  { "testcardmanager.cpp" }
   includedirs { "..","/usr/include/PCSC" }
-  links { "cardlib","dl" }
+  links { "cardlib" }
   if os.is("linux") then
     links "dl"
   end
