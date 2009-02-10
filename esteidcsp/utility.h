@@ -33,3 +33,13 @@ public:
         return std::basic_string<E, T, A>(&tmp[0], srcLen);
     }
 }; 
+
+std::string narrow(std::wstring source)
+{
+    std::string result(source.size(), char(0));
+    typedef std::ctype<wchar_t> ctype_t;
+    const ctype_t& ct = std::use_facet<ctype_t>(std::locale());
+    ct.narrow(source.data(), source.data() + source.size(), '\u00B6',&(*result.begin()));
+    return result;
+
+} 
