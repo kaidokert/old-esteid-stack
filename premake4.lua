@@ -1,4 +1,5 @@
 solution "esteid"
+  location ("build/" .. _ACTION)
   configurations { "Debug", "Release" }
 
 include "src/cardlib"

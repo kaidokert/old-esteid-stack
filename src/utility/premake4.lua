@@ -1,4 +1,5 @@
 project "utility"
+  location ("../../build/" .. _ACTION)
   language "C++"
   kind     "StaticLib"
   files  { "**.h", "**.cpp" }

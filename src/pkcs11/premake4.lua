@@ -1,4 +1,5 @@
 project "esteidpkcs11"
+  location ("../../build/" .. _ACTION)
   language "C++"
   kind     "SharedLib"
   files  { "*.h","*.cpp" }

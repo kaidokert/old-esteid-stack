@@ -1,4 +1,5 @@
 project "testreadcardid"
+  location ("../../build/" .. _ACTION)
   language "C++"
   kind     "ConsoleApp"
   files  { "testreadcardid.cpp" }
@@ -12,6 +13,7 @@ project "testreadcardid"
     flags   { "Symbols" }
 
 project "testcardmanager"
+  location ("../../build/" .. _ACTION)
   language "C++"
   kind     "ConsoleApp"
   files  { "testcardmanager.cpp" }
@@ -25,6 +27,7 @@ project "testcardmanager"
     flags   { "Symbols" }
 
 project "testctapi"
+  location ("../../build/" .. _ACTION)
   language "C++"
   kind     "ConsoleApp"
   files  { "testctapi.cpp" }
@@ -38,6 +41,7 @@ project "testctapi"
     flags   { "Symbols" }
 
 project "testdownload"
+  location ("../../build/" .. _ACTION)
   language "C++"
   kind     "ConsoleApp"
   files  { "testdownload.cpp" }
