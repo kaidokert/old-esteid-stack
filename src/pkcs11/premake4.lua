@@ -7,5 +7,8 @@ project "esteidpkcs11"
   if os.is("windows") then
 	includedirs "pkcs11"
   end
+  if os.is("macosx") then
+        includedirs "mac_pkcs11_headers"
+  end
   links { "cardlib" ,"utility"}
 
