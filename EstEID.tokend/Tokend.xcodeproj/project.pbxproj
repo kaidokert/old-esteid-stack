@@ -1,0 +1,477 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		52B2601F0BC5A864007E00F1 /* world */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 52B260280BC5A864007E00F1 /* Build configuration list for PBXAggregateTarget "world" */;
+			buildPhases = (
+			);
+			dependencies = (
+				52B260D90BC5A864007E00F1 /* PBXTargetDependency */,
+			);
+			name = world;
+			productName = world;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		47C251950F5C80F1007D49BD /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47C251940F5C80F1007D49BD /* CoreFoundation.framework */; };
+		47C251F50F5C8658007D49BD /* CardBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 47C251F00F5C8658007D49BD /* CardBase.cpp */; };
+		47C251F60F5C8658007D49BD /* DynamicLibrary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 47C251F10F5C8658007D49BD /* DynamicLibrary.cpp */; };
+		47C251F70F5C8658007D49BD /* EstEidCard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 47C251F20F5C8658007D49BD /* EstEidCard.cpp */; };
+		47C251F80F5C8658007D49BD /* PCSCManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 47C251F30F5C8658007D49BD /* PCSCManager.cpp */; };
+		47C251F90F5C8658007D49BD /* SCError.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 47C251F40F5C8658007D49BD /* SCError.cpp */; };
+		52B260680BC5A864007E00F1 /* esteid_csp_capabilities.mdsinfo in Resources */ = {isa = PBXBuildFile; fileRef = 4C5C1CE8073065EA00AECB7F /* esteid_csp_capabilities.mdsinfo */; };
+		52B260690BC5A864007E00F1 /* esteid_csp_capabilities_common.mds in Resources */ = {isa = PBXBuildFile; fileRef = 4C5C1CE9073065EA00AECB7F /* esteid_csp_capabilities_common.mds */; };
+		52B2606A0BC5A864007E00F1 /* esteid_csp_primary.mdsinfo in Resources */ = {isa = PBXBuildFile; fileRef = 4C5C1CEA073065EA00AECB7F /* esteid_csp_primary.mdsinfo */; };
+		52B2606B0BC5A864007E00F1 /* esteid_dl_primary.mdsinfo in Resources */ = {isa = PBXBuildFile; fileRef = 4C5C1CEB073065EA00AECB7F /* esteid_dl_primary.mdsinfo */; };
+		52B2606C0BC5A864007E00F1 /* esteid_smartcard.mdsinfo in Resources */ = {isa = PBXBuildFile; fileRef = 4C5C1CEC073065EA00AECB7F /* esteid_smartcard.mdsinfo */; };
+		52B2606E0BC5A864007E00F1 /* esteid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C86D3A0070B4122006A0C7F /* esteid.cpp */; };
+		52B2606F0BC5A864007E00F1 /* EstEIDError.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C86D3A3070B4122006A0C7F /* EstEIDError.cpp */; };
+		52B260700BC5A864007E00F1 /* EstEIDKeyHandle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C86D3A5070B4122006A0C7F /* EstEIDKeyHandle.cpp */; };
+		52B260710BC5A864007E00F1 /* EstEIDRecord.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C86D3A7070B4122006A0C7F /* EstEIDRecord.cpp */; };
+		52B260720BC5A864007E00F1 /* EstEIDSchema.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C86D3A9070B4122006A0C7F /* EstEIDSchema.cpp */; };
+		52B260730BC5A864007E00F1 /* EstEIDToken.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C86D3AB070B4122006A0C7F /* EstEIDToken.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		52B260D80BC5A864007E00F1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 52B260640BC5A864007E00F1;
+			remoteInfo = "EstEID (Copied)";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		47C250D70F5C7C7E007D49BD /* CardBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CardBase.h; path = cardlib/CardBase.h; sourceTree = "<group>"; };
+		47C250D80F5C7C7E007D49BD /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = common.h; path = cardlib/common.h; sourceTree = "<group>"; };
+		47C250DA0F5C7C7E007D49BD /* DynamicLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DynamicLibrary.h; path = cardlib/DynamicLibrary.h; sourceTree = "<group>"; };
+		47C250DC0F5C7C7E007D49BD /* EstEidCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EstEidCard.h; path = cardlib/EstEidCard.h; sourceTree = "<group>"; };
+		47C250DE0F5C7C7E007D49BD /* PCSCManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PCSCManager.h; path = cardlib/PCSCManager.h; sourceTree = "<group>"; };
+		47C250E00F5C7C7E007D49BD /* SCError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SCError.h; path = cardlib/SCError.h; sourceTree = "<group>"; };
+		47C251940F5C80F1007D49BD /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
+		47C251F00F5C8658007D49BD /* CardBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CardBase.cpp; path = cardlib/CardBase.cpp; sourceTree = "<group>"; };
+		47C251F10F5C8658007D49BD /* DynamicLibrary.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DynamicLibrary.cpp; path = cardlib/DynamicLibrary.cpp; sourceTree = "<group>"; };
+		47C251F20F5C8658007D49BD /* EstEidCard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EstEidCard.cpp; path = cardlib/EstEidCard.cpp; sourceTree = "<group>"; };
+		47C251F30F5C8658007D49BD /* PCSCManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PCSCManager.cpp; path = cardlib/PCSCManager.cpp; sourceTree = "<group>"; };
+		47C251F40F5C8658007D49BD /* SCError.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SCError.cpp; path = cardlib/SCError.cpp; sourceTree = "<group>"; };
+		4C5C1CE8073065EA00AECB7F /* esteid_csp_capabilities.mdsinfo */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = esteid_csp_capabilities.mdsinfo; path = EstEID/mds/esteid_csp_capabilities.mdsinfo; sourceTree = SOURCE_ROOT; };
+		4C5C1CE9073065EA00AECB7F /* esteid_csp_capabilities_common.mds */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = esteid_csp_capabilities_common.mds; path = EstEID/mds/esteid_csp_capabilities_common.mds; sourceTree = SOURCE_ROOT; };
+		4C5C1CEA073065EA00AECB7F /* esteid_csp_primary.mdsinfo */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = esteid_csp_primary.mdsinfo; path = EstEID/mds/esteid_csp_primary.mdsinfo; sourceTree = SOURCE_ROOT; };
+		4C5C1CEB073065EA00AECB7F /* esteid_dl_primary.mdsinfo */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = esteid_dl_primary.mdsinfo; path = EstEID/mds/esteid_dl_primary.mdsinfo; sourceTree = SOURCE_ROOT; };
+		4C5C1CEC073065EA00AECB7F /* esteid_smartcard.mdsinfo */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = esteid_smartcard.mdsinfo; path = EstEID/mds/esteid_smartcard.mdsinfo; sourceTree = SOURCE_ROOT; };
+		4C86D3A0070B4122006A0C7F /* esteid.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = esteid.cpp; sourceTree = "<group>"; };
+		4C86D3A3070B4122006A0C7F /* EstEIDError.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = EstEIDError.cpp; sourceTree = "<group>"; };
+		4C86D3A4070B4122006A0C7F /* EstEIDError.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EstEIDError.h; sourceTree = "<group>"; };
+		4C86D3A5070B4122006A0C7F /* EstEIDKeyHandle.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = EstEIDKeyHandle.cpp; sourceTree = "<group>"; };
+		4C86D3A6070B4122006A0C7F /* EstEIDKeyHandle.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EstEIDKeyHandle.h; sourceTree = "<group>"; };
+		4C86D3A7070B4122006A0C7F /* EstEIDRecord.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = EstEIDRecord.cpp; sourceTree = "<group>"; };
+		4C86D3A8070B4122006A0C7F /* EstEIDRecord.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EstEIDRecord.h; sourceTree = "<group>"; };
+		4C86D3A9070B4122006A0C7F /* EstEIDSchema.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = EstEIDSchema.cpp; sourceTree = "<group>"; };
+		4C86D3AA070B4122006A0C7F /* EstEIDSchema.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EstEIDSchema.h; sourceTree = "<group>"; };
+		4C86D3AB070B4122006A0C7F /* EstEIDToken.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = EstEIDToken.cpp; sourceTree = "<group>"; };
+		4C86D3AC070B4122006A0C7F /* EstEIDToken.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EstEIDToken.h; sourceTree = "<group>"; };
+		4C86D3AD070B4122006A0C7F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
+		4CBF5CBE0704E76200EEADC2 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /usr/lib/libz.1.dylib; sourceTree = "<absolute>"; };
+		52B2607B0BC5A864007E00F1 /* EstEID.tokend */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EstEID.tokend; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		52B260740BC5A864007E00F1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				47C251950F5C80F1007D49BD /* CoreFoundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		08FB7794FE84155DC02AAC07 /* TokendEstEID */ = {
+			isa = PBXGroup;
+			children = (
+				4C86D39F070B4122006A0C7F /* EstEID */,
+				4CA858F0065441220083DED3 /* External Frameworks */,
+				4C415098073061D6004C9490 /* External Libraries */,
+				1AB674ADFE9D54B511CA2CBB /* Products */,
+			);
+			name = TokendEstEID;
+			sourceTree = "<group>";
+		};
+		1AB674ADFE9D54B511CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				52B2607B0BC5A864007E00F1 /* EstEID.tokend */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		47C250D50F5C7C54007D49BD /* cardlib */ = {
+			isa = PBXGroup;
+			children = (
+				47C251F00F5C8658007D49BD /* CardBase.cpp */,
+				47C251F10F5C8658007D49BD /* DynamicLibrary.cpp */,
+				47C251F20F5C8658007D49BD /* EstEidCard.cpp */,
+				47C251F30F5C8658007D49BD /* PCSCManager.cpp */,
+				47C251F40F5C8658007D49BD /* SCError.cpp */,
+				47C250D70F5C7C7E007D49BD /* CardBase.h */,
+				47C250D80F5C7C7E007D49BD /* common.h */,
+				47C250DA0F5C7C7E007D49BD /* DynamicLibrary.h */,
+				47C250DC0F5C7C7E007D49BD /* EstEidCard.h */,
+				47C250DE0F5C7C7E007D49BD /* PCSCManager.h */,
+				47C250E00F5C7C7E007D49BD /* SCError.h */,
+			);
+			name = cardlib;
+			sourceTree = "<group>";
+		};
+		4C415098073061D6004C9490 /* External Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				4CBF5CBE0704E76200EEADC2 /* libz.dylib */,
+			);
+			name = "External Libraries";
+			sourceTree = "<group>";
+		};
+		4C5C1CE0073065EA00AECB7F /* mds */ = {
+			isa = PBXGroup;
+			children = (
+				4C5C1CE8073065EA00AECB7F /* esteid_csp_capabilities.mdsinfo */,
+				4C5C1CE9073065EA00AECB7F /* esteid_csp_capabilities_common.mds */,
+				4C5C1CEA073065EA00AECB7F /* esteid_csp_primary.mdsinfo */,
+				4C5C1CEB073065EA00AECB7F /* esteid_dl_primary.mdsinfo */,
+				4C5C1CEC073065EA00AECB7F /* esteid_smartcard.mdsinfo */,
+			);
+			name = mds;
+			path = EstEID/mds;
+			sourceTree = SOURCE_ROOT;
+		};
+		4C86D39F070B4122006A0C7F /* EstEID */ = {
+			isa = PBXGroup;
+			children = (
+				47C250D50F5C7C54007D49BD /* cardlib */,
+				4C5C1CE0073065EA00AECB7F /* mds */,
+				4C86D3A0070B4122006A0C7F /* esteid.cpp */,
+				4C86D3A3070B4122006A0C7F /* EstEIDError.cpp */,
+				4C86D3A4070B4122006A0C7F /* EstEIDError.h */,
+				4C86D3A5070B4122006A0C7F /* EstEIDKeyHandle.cpp */,
+				4C86D3A6070B4122006A0C7F /* EstEIDKeyHandle.h */,
+				4C86D3A7070B4122006A0C7F /* EstEIDRecord.cpp */,
+				4C86D3A8070B4122006A0C7F /* EstEIDRecord.h */,
+				4C86D3A9070B4122006A0C7F /* EstEIDSchema.cpp */,
+				4C86D3AA070B4122006A0C7F /* EstEIDSchema.h */,
+				4C86D3AB070B4122006A0C7F /* EstEIDToken.cpp */,
+				4C86D3AC070B4122006A0C7F /* EstEIDToken.h */,
+				4C86D3AD070B4122006A0C7F /* Info.plist */,
+			);
+			path = EstEID;
+			sourceTree = "<group>";
+		};
+		4CA858F0065441220083DED3 /* External Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				47C251940F5C80F1007D49BD /* CoreFoundation.framework */,
+			);
+			name = "External Frameworks";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		52B260640BC5A864007E00F1 /* EstEID */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 52B260760BC5A864007E00F1 /* Build configuration list for PBXNativeTarget "EstEID" */;
+			buildPhases = (
+				52B260670BC5A864007E00F1 /* Resources */,
+				52B2606D0BC5A864007E00F1 /* Sources */,
+				52B260740BC5A864007E00F1 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = EstEID;
+			productName = "Common Access Card";
+			productReference = 52B2607B0BC5A864007E00F1 /* EstEID.tokend */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		08FB7793FE84155DC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C27AD2220987FCDC001272E0 /* Build configuration list for PBXProject "Tokend" */;
+			compatibilityVersion = "Xcode 2.4";
+			hasScannedForEncodings = 1;
+			mainGroup = 08FB7794FE84155DC02AAC07 /* TokendEstEID */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				52B2601F0BC5A864007E00F1 /* world */,
+				52B260640BC5A864007E00F1 /* EstEID */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		52B260670BC5A864007E00F1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52B260680BC5A864007E00F1 /* esteid_csp_capabilities.mdsinfo in Resources */,
+				52B260690BC5A864007E00F1 /* esteid_csp_capabilities_common.mds in Resources */,
+				52B2606A0BC5A864007E00F1 /* esteid_csp_primary.mdsinfo in Resources */,
+				52B2606B0BC5A864007E00F1 /* esteid_dl_primary.mdsinfo in Resources */,
+				52B2606C0BC5A864007E00F1 /* esteid_smartcard.mdsinfo in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		52B2606D0BC5A864007E00F1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52B2606E0BC5A864007E00F1 /* esteid.cpp in Sources */,
+				52B2606F0BC5A864007E00F1 /* EstEIDError.cpp in Sources */,
+				52B260700BC5A864007E00F1 /* EstEIDKeyHandle.cpp in Sources */,
+				52B260710BC5A864007E00F1 /* EstEIDRecord.cpp in Sources */,
+				52B260720BC5A864007E00F1 /* EstEIDSchema.cpp in Sources */,
+				52B260730BC5A864007E00F1 /* EstEIDToken.cpp in Sources */,
+				47C251F50F5C8658007D49BD /* CardBase.cpp in Sources */,
+				47C251F60F5C8658007D49BD /* DynamicLibrary.cpp in Sources */,
+				47C251F70F5C8658007D49BD /* EstEidCard.cpp in Sources */,
+				47C251F80F5C8658007D49BD /* PCSCManager.cpp in Sources */,
+				47C251F90F5C8658007D49BD /* SCError.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		52B260D90BC5A864007E00F1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 52B260640BC5A864007E00F1 /* EstEID */;
+			targetProxy = 52B260D80BC5A864007E00F1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		52B260290BC5A864007E00F1 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_VARIANTS = debug;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"/System/Library/PrivateFrameworks/**",
+					"/usr/local/SecurityPieces/Frameworks/**",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
+				GCC_WARN_INHIBIT_ALL_WARNINGS = NO;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
+				GCC_WARN_PEDANTIC = NO;
+				GCC_WARN_SHADOW = NO;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PRODUCT_NAME = world;
+				SECTORDER_FLAGS = "";
+				ZERO_LINK = NO;
+			};
+			name = Development;
+		};
+		52B2602A0BC5A864007E00F1 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = world;
+				SECTORDER_FLAGS = "";
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		52B260770BC5A864007E00F1 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				BUILD_VARIANTS = debug;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 35209;
+				FRAMEWORK_SEARCH_PATHS = /usr/local/SecurityPieces/Frameworks;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = "ESTEID_NAMESPACE=1";
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
+				GCC_WARN_INHIBIT_ALL_WARNINGS = NO;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
+				GCC_WARN_PEDANTIC = NO;
+				GCC_WARN_SHADOW = NO;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = EstEID/Info.plist;
+				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Security/tokend";
+				OPT_CPPXFLAGS = "$(OPT_CXFLAGS) -fno-enforce-eh-specs -fno-implement-inlines";
+				OPT_CXFLAGS = "-DNDEBUG $(OPT_INLINEXFLAGS)";
+				OPT_INLINEXFLAGS = " -finline-functions";
+				OPT_LDXFLAGS = "-dead_strip";
+				OPT_LDXNOPIC = ",_nopic";
+				OTHER_ASFLAGS_debug = "$(OTHER_CFLAGS)";
+				OTHER_ASFLAGS_normal = "$(OTHER_CFLAGS) -DNDEBUG";
+				OTHER_ASFLAGS_profile = "-DNDEBUG $(OTHER_CFLAGS) -pg";
+				OTHER_CFLAGS_debug = "$(OTHER_CFLAGS) -O0 -fno-inline";
+				OTHER_CFLAGS_normal = "$(OPT_CXFLAGS) $(OTHER_CFLAGS)";
+				OTHER_CFLAGS_profile = "$(OPT_CXFLAGS) $(OTHER_CFLAGS) -pg";
+				OTHER_CPLUSPLUSFLAGS_debug = "$(OTHER_CPLUSPLUSFLAGS) -O0 -fno-inline";
+				OTHER_CPLUSPLUSFLAGS_normal = "$(OPT_CPPXFLAGS) $(OTHER_CPLUSPLUSFLAGS)";
+				OTHER_CPLUSPLUSFLAGS_profile = "$(OPT_CPPXFLAGS) $(OTHER_CPLUSPLUSFLAGS) -pg";
+				OTHER_LDFLAGS_debug = "$(OTHER_LDFLAGS) -framework tokend,_debug -framework PCSC,_debug -framework SecurityTokend,_debug -framework Security,_debug -framework security_cdsa_client,_debug -framework security_cdsa_utilities,_debug -framework security_utilities,_debug";
+				OTHER_LDFLAGS_normal = "$(OPT_LDXFLAGS) $(OTHER_LDFLAGS) -framework tokend -framework PCSC -framework SecurityTokend -framework Security -framework security_cdsa_client$(OPT_LDXNOPIC) -framework security_cdsa_utilities$(OPT_LDXNOPIC) -framework security_utilities$(OPT_LDXNOPIC)";
+				OTHER_LDFLAGS_profile = "$(OPT_LDXFLAGS) $(OTHER_LDFLAGS) -pg -framework tokend,_profile -framework PCSC,_profile -framework SecurityTokend,_profile -framework Security,_profile -framework security_cdsa_client,_profile  -framework security_cdsa_utilities,_profile -framework security_utilities,_profile";
+				PRODUCT_NAME = EstEID;
+				VERSIONING_SYSTEM = "apple-generic";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = tokend;
+				ZERO_LINK = NO;
+			};
+			name = Development;
+		};
+		52B260780BC5A864007E00F1 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_VARIANTS = (
+					normal,
+					debug,
+				);
+				CURRENT_PROJECT_VERSION = 35209;
+				FRAMEWORK_SEARCH_PATHS = (
+					/usr/local/SecurityPieces/Frameworks,
+					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
+				);
+				GCC_DYNAMIC_NO_PIC = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = EstEID/Info.plist;
+				INSTALL_PATH = "$(SYSTEM_LIBRARY_DIR)/Security/tokend";
+				OPT_CPPXFLAGS = "$(OPT_CXFLAGS) -fno-enforce-eh-specs -fno-implement-inlines";
+				OPT_CXFLAGS = "-DNDEBUG $(OPT_INLINEXFLAGS)";
+				OPT_INLINEXFLAGS = " -finline-functions";
+				OPT_LDXFLAGS = "-dead_strip";
+				OPT_LDXNOPIC = ",_nopic";
+				OTHER_ASFLAGS_debug = "$(OTHER_CFLAGS)";
+				OTHER_ASFLAGS_normal = "$(OTHER_CFLAGS) -DNDEBUG";
+				OTHER_ASFLAGS_profile = "-DNDEBUG $(OTHER_CFLAGS) -pg";
+				OTHER_CFLAGS_debug = "$(OTHER_CFLAGS) -O0 -fno-inline";
+				OTHER_CFLAGS_normal = "$(OPT_CXFLAGS) $(OTHER_CFLAGS)";
+				OTHER_CFLAGS_profile = "$(OPT_CXFLAGS) $(OTHER_CFLAGS) -pg";
+				OTHER_CPLUSPLUSFLAGS_debug = "$(OTHER_CPLUSPLUSFLAGS) -O0 -fno-inline";
+				OTHER_CPLUSPLUSFLAGS_normal = "$(OPT_CPPXFLAGS) $(OTHER_CPLUSPLUSFLAGS)";
+				OTHER_CPLUSPLUSFLAGS_profile = "$(OPT_CPPXFLAGS) $(OTHER_CPLUSPLUSFLAGS) -pg";
+				OTHER_LDFLAGS_debug = "$(OTHER_LDFLAGS) -framework  tokend,_debug -framework PCSC,_debug -framework SecurityTokend,_debug -framework Security,_debug -framework security_cdsa_client,_debug -framework security_cdsa_utilities,_debug -framework security_utilities,_debug";
+				OTHER_LDFLAGS_normal = "$(OPT_LDXFLAGS) $(OTHER_LDFLAGS) -framework tokend -framework PCSC -framework SecurityTokend -framework Security -framework security_cdsa_client$(OPT_LDXNOPIC) -framework security_cdsa_utilities$(OPT_LDXNOPIC) -framework security_utilities$(OPT_LDXNOPIC)";
+				OTHER_LDFLAGS_profile = "$(OPT_LDXFLAGS) $(OTHER_LDFLAGS) -pg -framework tokend,_profile -framework PCSC,_profile -framework SecurityTokend,_profile -framework Security,_profile -framework security_cdsa_client,_profile  -framework security_cdsa_utilities,_profile -framework security_utilities,_profile";
+				PRODUCT_NAME = EstEID;
+				VERSIONING_SYSTEM = "apple-generic";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = tokend;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		C27AD2230987FCDC001272E0 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
+				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)";
+				FRAMEWORK_SEARCH_PATHS = "/usr/local/SecurityPieces/Frameworks/**";
+			};
+			name = Development;
+		};
+		C27AD2240987FCDC001272E0 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
+				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)";
+			};
+			name = Deployment;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		52B260280BC5A864007E00F1 /* Build configuration list for PBXAggregateTarget "world" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				52B260290BC5A864007E00F1 /* Development */,
+				52B2602A0BC5A864007E00F1 /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Deployment;
+		};
+		52B260760BC5A864007E00F1 /* Build configuration list for PBXNativeTarget "EstEID" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				52B260770BC5A864007E00F1 /* Development */,
+				52B260780BC5A864007E00F1 /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Deployment;
+		};
+		C27AD2220987FCDC001272E0 /* Build configuration list for PBXProject "Tokend" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C27AD2230987FCDC001272E0 /* Development */,
+				C27AD2240987FCDC001272E0 /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Deployment;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 08FB7793FE84155DC02AAC07 /* Project object */;
+}
