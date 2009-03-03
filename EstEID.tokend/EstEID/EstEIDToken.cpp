@@ -28,7 +28,7 @@
 using CssmClient::AclFactory;
 
 class EstEIDTokenPriv {
-	EstEID::PCSCManager cardMgr;
+	PCSCManager cardMgr;
 	EstEidCard *eCard;
 public:
 	EstEIDTokenPriv() : eCard(NULL) {}
@@ -54,7 +54,9 @@ public:
 		return false;
 		}
 	void disconnect() {
-		if (eCard) delete eCard;
+		if (eCard) {
+			delete eCard;
+			eCard = NULL;
 		}
 };
 
