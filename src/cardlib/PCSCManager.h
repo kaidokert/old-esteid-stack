@@ -9,7 +9,12 @@
 #pragma once
 #include "ManagerInterface.h"
 #include "DynamicLibrary.h"
+#ifdef __APPLE__
+#include <PCSC/winscard.h>
+#include <PCSC/wintypes.h>
+#else
 #include <winscard.h>
+#endif
 
 #ifdef WIN32
 #define SCAPI __stdcall
@@ -28,7 +33,9 @@ define CSTRTYPE LPCSTR
 #ifndef SCARD_E_NO_READERS_AVAILABLE
 #define SCARD_E_NO_READERS_AVAILABLE SCARD_E_READER_UNAVAILABLE
 #endif
+#ifndef __APPLE__
 #include <wintypes.h>
+#endif
 #endif
 
 /// Holds connection parameters for PCSC card connection
