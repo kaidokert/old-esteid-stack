@@ -57,6 +57,7 @@ public:
 		if (eCard) {
 			delete eCard;
 			eCard = NULL;
+			}
 		}
 };
 
