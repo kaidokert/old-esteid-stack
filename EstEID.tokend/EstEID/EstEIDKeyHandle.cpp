@@ -29,6 +29,7 @@ EstEIDKeyHandle::EstEIDKeyHandle(const Tokend::MetaRecord &metaRecord,
 	Tokend::Record &record) :
 	Tokend::KeyHandle(metaRecord, &record)
 {
+	FLOG;
 }
 
 EstEIDKeyHandle::~EstEIDKeyHandle()
@@ -55,6 +56,14 @@ void EstEIDKeyHandle::generateSignature(const Context &context,
 	secdebug("tok_esteid", "EstEIDKeyHandle::generateSignature alg: %u signOnly: %u",
 		context.algorithm(), signOnly);
 	IFDUMPING("esteid.tokend", context.dump("signature context"));
+
+	if (context.type() != CSSM_ALGCLASS_SIGNATURE)
+		CssmError::throwMe(CSSMERR_CSP_INVALID_CONTEXT);
+
+	if (context.algorithm() != CSSM_ALGID_RSA)
+		CssmError::throwMe(CSSMERR_CSP_INVALID_ALGORITHM);
+
+	// TBC
 	CssmError::throwMe(CSSM_ERRCODE_FUNCTION_NOT_IMPLEMENTED);
 }
 
@@ -113,6 +122,7 @@ Tokend::KeyHandle *EstEIDKeyHandleFactory::keyHandle(
 	Tokend::TokenContext *tokenContext, const Tokend::MetaRecord &metaRecord,
 	Tokend::Record &record) const
 {
+	FLOG;
 	EstEIDKeyRecord &keyRecord = dynamic_cast<EstEIDKeyRecord &>(record);			
 	return new EstEIDKeyHandle(metaRecord, record);
 }

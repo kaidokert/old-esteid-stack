@@ -16,4 +16,4 @@ public:
 	~blockLog();
 };
 
-#define FLOG blockLog _fLog(__func__,"function ")
+#define FLOG blockLog _fLog(__PRETTY_FUNCTION__,"function ")

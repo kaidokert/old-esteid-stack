@@ -36,6 +36,12 @@ public:
 		const Tokend::MetaRecord &metaRecord, bool signOnly);
 	virtual ~EstEIDKeyRecord();
 	size_t sizeInBits() const { return 1024; }
+    virtual void getAcl(const char *tag, uint32 &count,
+		AclEntryInfo *&aclList);
+private:
+	bool mSignOnly;
+	AutoAclEntryInfoList mAclEntries;
+
 };
 
 class EstEIDCertRecord : public EstEIDRecord 

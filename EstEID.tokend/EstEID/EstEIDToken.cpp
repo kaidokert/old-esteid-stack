@@ -257,25 +257,23 @@ void EstEIDToken::populate()
 		mSchema->findRelation(CSSM_DL_DB_RECORD_GENERIC);
 		
 	RefPointer<Tokend::Record> eAuthCert(new EstEIDCertRecord( "Authentication Certificate"));
-	RefPointer<Tokend::Record> eSignCert(new EstEIDCertRecord( "Signing Certificate"));
+//	RefPointer<Tokend::Record> eSignCert(new EstEIDCertRecord( "Signing Certificate"));
 
 	certRelation.insertRecord(eAuthCert);
-	certRelation.insertRecord(eSignCert);
-#if 0
+//	certRelation.insertRecord(eSignCert);
 	RefPointer<Tokend::Record> eAuthKey(new EstEIDKeyRecord(
 		"Authentication Key",
 		privateKeyRelation.metaRecord(), true));
-	RefPointer<Tokend::Record> eSignKey(new EstEIDKeyRecord(
+/*	RefPointer<Tokend::Record> eSignKey(new EstEIDKeyRecord(
 		 "Signature Key",
-		privateKeyRelation.metaRecord(), false));
+		privateKeyRelation.metaRecord(), false));*/
 
 	privateKeyRelation.insertRecord(eAuthKey);
-	privateKeyRelation.insertRecord(eSignKey);
+//	privateKeyRelation.insertRecord(eSignKey);
 
 	eAuthKey->setAdornment(mSchema->publicKeyHashCoder().certificateKey(),
                           new Tokend::LinkedRecordAdornment(eAuthCert));
-	eSignKey->setAdornment(mSchema->publicKeyHashCoder().certificateKey(),
-                          new Tokend::LinkedRecordAdornment(eSignCert)); 
-#endif
+/*	eSignKey->setAdornment(mSchema->publicKeyHashCoder().certificateKey(),
+                          new Tokend::LinkedRecordAdornment(eSignCert)); */
 }
 

@@ -19,8 +19,8 @@
 #include <tokend/MetaAttribute.h>
 #include <tokend/MetaRecord.h>
 
+#include <security_cdsa_client/aclclient.h>
 #include "EstEID_utility.h"
-#include "utility/asnCertificate.h"
 
 EstEIDRecord::EstEIDRecord(const char *description) :
 		mDescription(description) {
@@ -44,8 +44,10 @@ EstEIDRecord::~EstEIDRecord()
 EstEIDKeyRecord::EstEIDKeyRecord(
 	const char *description, const Tokend::MetaRecord &metaRecord,
 	bool signOnly) :
-    EstEIDRecord(description)
+    EstEIDRecord(description),
+	mSignOnly(signOnly)
 {
+	FLOG;
     attributeAtIndex(metaRecord.metaAttribute(kSecKeyDecrypt).attributeIndex(),
                      new Tokend::Attribute(!signOnly));
     attributeAtIndex(metaRecord.metaAttribute(kSecKeyUnwrap).attributeIndex(),
@@ -55,6 +57,33 @@ EstEIDKeyRecord::EstEIDKeyRecord(
 }
 
 EstEIDKeyRecord::~EstEIDKeyRecord() {}
+
+void EstEIDKeyRecord::getAcl(const char *tag, uint32 &count,
+	AclEntryInfo *&acls)
+{
+	FLOG;
+	
+	// @@@ Key 1 has any acl for sign, key 2 has pin1 acl, and key3 has pin1
+	// acl with auto-lock which we express as a prompted password subject.
+	if (!mAclEntries) {
+		mAclEntries.allocator(Allocator::standard());
+        // Anyone can read the DB record for this key (which is a reference
+		// CSSM_KEY)
+        mAclEntries.add(CssmClient::AclFactory::AnySubject(
+			mAclEntries.allocator()),
+			AclAuthorizationSet(CSSM_ACL_AUTHORIZATION_DB_READ, 0));
+
+		// Using this key to sign or decrypt will require PIN1
+		mAclEntries.add(CssmClient::AclFactory::PinSubject(
+			mAclEntries.allocator(), 1),
+			AclAuthorizationSet((mSignOnly
+				? CSSM_ACL_AUTHORIZATION_SIGN
+				: CSSM_ACL_AUTHORIZATION_DECRYPT), 0));
+	}
+	count = mAclEntries.size();
+	acls = mAclEntries.entries();
+}
+
 
 EstEIDCertRecord::~EstEIDCertRecord() {}
 
@@ -73,11 +102,6 @@ Tokend::Attribute *EstEIDCertRecord::getDataAttribute(Tokend::TokenContext *toke
 	}
 	try {
 		std::vector<unsigned char> arrCert = token.getAuthCert();
-		std::stringstream dummy;
-//		std::ofstream decodeLog("decode.log");
-		asnCertificate cert(arrCert,dummy);
-		arrCert.resize(cert.size + (cert.body_start - cert.start));
-
 		data.Data = &arrCert[0];
 		data.Length = arrCert.size();
 	} catch (std::exception &err) {
