@@ -14,7 +14,7 @@
 
 int main(int argc, const char *argv[])
 {
-	secdebug("esteid.tokend", "main starting with %d arguments", argc);
+	secdebug("tok_esteid", "main starting with %d arguments", argc);
 	secdelay("/tmp/delay/EstEID");
 
 	token = new EstEIDToken();

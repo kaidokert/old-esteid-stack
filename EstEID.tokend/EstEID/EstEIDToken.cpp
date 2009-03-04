@@ -24,6 +24,7 @@
 
 #include <CoreServices/../Frameworks/CarbonCore.framework/Headers/MacTypes.h>
 #include <tokend/Adornment.h>
+#include "EstEID_utility.h"
 
 using CssmClient::AclFactory;
 
@@ -40,14 +41,14 @@ public:
 	bool connectCard(const char *readerName) {
 		disconnect();
 		for(uint i = 0;i < cardMgr.getReaderCount();i++) {
-			secdebug("esteid.tokend", "reader %s", cardMgr.getReaderName(i).c_str() );
+			secdebug("tok_esteid", "reader %s", cardMgr.getReaderName(i).c_str() );
 			if ( cardMgr.getReaderName(i) != readerName ) continue;
 			
-			secdebug("esteid.tokend","we have our reader");
+			secdebug("tok_esteid","we have our reader");
 			eCard = new EstEidCard(cardMgr);
 			if (eCard->isInReader(i)) {
 				eCard->connect(i);
-				secdebug("esteid.tokend","card id: %s", eCard->readCardID().c_str());
+				secdebug("tok_esteid","card id: %s", eCard->readCardID().c_str());
 				return true;
 				}
 			}
@@ -61,8 +62,11 @@ public:
 		}
 };
 
-EstEIDToken::EstEIDToken() : d(NULL) 
+EstEIDToken::EstEIDToken() : 
+	d(NULL) ,
+	mPinStatus(0)
 {
+	mTokenContext = this;
 	try {
 		d = new EstEIDTokenPriv;
 	} catch(std::exception &) {} 
@@ -74,27 +78,30 @@ EstEIDToken::~EstEIDToken()
 		delete d;
 }
 
+void EstEIDToken::checkPrivate() {
+	if (!d) { 
+		secdebug("tok_esteid", "PCSSMgr uninitialized");
+		CssmError::throwMe(CSSM_ERRCODE_SELF_CHECK_FAILED);
+		}
+	}
+	
 uint32 EstEIDToken::probe(SecTokendProbeFlags flags,
 	char tokenUid[TOKEND_MAX_UID])
 {
+	FLOG;
+	checkPrivate();
 	uint32 retCode = 0;
-	secdebug("esteid.tokend", "EstEIDToken::probe() begin");
 	const SCARD_READERSTATE &readerState = *(*startupReaderInfo)();
-	if (!d) { 
-		secdebug("esteid.tokend", "PCSSMgr uninitialized");
-		return 0;
-		}
-	secdebug("esteid.tokend", "given reader was '%s'",readerState.szReader);
+	secdebug("tok_esteid", "given reader was '%s'",readerState.szReader);
 	try {
 		if (d->connectCard(readerState.szReader)) {
-			secdebug("esteid.tokend","card id: %s", d->card().readCardID().c_str());
+			secdebug("tok_esteid","card id: %s", d->card().readCardID().c_str());
 			retCode = 10;
 			d->disconnect();
 			}
 	} catch(std::runtime_error &err) {
-		secdebug("esteid.tokend","exception: %s" , err.what() );
+		secdebug("tok_esteid","exception: %s" , err.what() );
 		}
-	secdebug("esteid.tokend", "EstEIDToken::probe() end");
 	return retCode;
 }
 
@@ -103,26 +110,23 @@ void EstEIDToken::establish(const CSSM_GUID *guid, uint32 subserviceId,
 	const char *workDirectory, char mdsDirectory[PATH_MAX],
 	char printName[PATH_MAX])
 {
-	secdebug("esteid.tokend", "EstEIDToken::establish() begin");
+	FLOG;
+	checkPrivate();
+
 	const SCARD_READERSTATE &readerState = *(*startupReaderInfo)();
 	
-	if (!d) { 
-		secdebug("esteid.tokend", "PCSSMgr uninitialized");
-		return ;
-		}
 
 	try {
 		if (d->connectCard(readerState.szReader)) {
 			std::string cardId = d->card().readCardID();
-			secdebug("esteid.tokend","card id: %s", cardId.c_str());
 			::strncpy(printName, cardId.c_str(), PATH_MAX);
 			}
 
 	} catch(std::runtime_error &err) {
-		secdebug("esteid.tokend","exception: %s" , err.what() );
+		secdebug("tok_esteid","exception: %s" , err.what() );
 		}
 
-	secdebug("esteid.tokend", "name: %s", printName);
+	secdebug("tok_esteid", "name: %s", printName);
 
 	mSchema = new EstEIDSchema();
 	mSchema->create();
@@ -130,15 +134,64 @@ void EstEIDToken::establish(const CSSM_GUID *guid, uint32 subserviceId,
 	populate();
 }
 
+std::vector<byte> EstEIDToken::getAuthCert()  {
+	FLOG;
+	checkPrivate();
+	return d->card().getAuthCert();
+	}
 
-void EstEIDToken::authenticate(CSSM_DB_ACCESS_TYPE mode, const AccessCredentials *cred)
+uint32_t EstEIDToken::pinStatus(int pinNum)
 {
-	CssmError::throwMe(CSSM_ERRCODE_ACL_SUBJECT_TYPE_NOT_SUPPORTED);
+	FLOG;
+
+	if (pinNum != 1)
+		CssmError::throwMe(CSSM_ERRCODE_SAMPLE_VALUE_NOT_SUPPORTED);
+	return mPinStatus;
+}
+
+void EstEIDToken::verifyPIN(int pinNum,
+	const unsigned char *pin, size_t pinLength)
+{
+	FLOG;
+	checkPrivate();
+
+	secdebug("tok_esteid", "EstEIDToken::verifyPIN: pin num %d pin len %d", pinNum,pinLength);
+	std::vector<unsigned char > pinV(pin,pin + pinLength);
+	std::string pinStr(pinV.begin(),pinV.end());
+	byte retries=0;
+	mPinStatus = SCARD_AUTHENTICATION_FAILED;
+	switch (pinNum) {
+		case 1:
+			try {
+				secdebug("tok_esteid","pin was '%s'",pinStr.c_str());
+				d->card().validateAuthPin(pinStr, retries);
+				mPinStatus = SCARD_SUCCESS;
+			} catch(std::exception &e) {
+				secdebug("tok_esteid","authentication failed, %d retries left");
+				}
+			break;
+		default:
+			CssmError::throwMe(CSSM_ERRCODE_SAMPLE_VALUE_NOT_SUPPORTED);
+		}
+}
+
+void EstEIDToken::unverifyPIN(int pinNum)
+{
+	FLOG;
+	switch(pinNum) {
+		case 1:
+			mPinStatus = SCARD_AUTHENTICATION_FAILED;
+			break;
+		default:
+			CssmError::throwMe(CSSM_ERRCODE_SAMPLE_VALUE_NOT_SUPPORTED);
+		}
 }
 
 
 void EstEIDToken::getOwner(AclOwnerPrototype &owner)
 {
+	FLOG;
+
 	// we don't really know (right now), so claim we're owned by PIN #0
 	if (!mAclOwner) {
 		mAclOwner.allocator(Allocator::standard());
@@ -150,11 +203,29 @@ void EstEIDToken::getOwner(AclOwnerPrototype &owner)
 
 void EstEIDToken::getAcl(const char *tag, uint32 &count, AclEntryInfo *&acls)
 {
-	// we don't (yet) support queries by tag
-	if (tag)
-		CssmError::throwMe(CSSM_ERRCODE_INVALID_ACL_ENTRY_TAG);
+	FLOG;
 
 	Allocator &alloc = Allocator::standard();
+
+	// we don't (yet) support queries by tag
+	if (unsigned pin = pinFromAclTag(tag, "?")) {
+		static AutoAclEntryInfoList acl;
+		acl.clear();
+		acl.allocator(alloc);
+		uint32_t status = this->pinStatus(pin);
+		if (status == SCARD_SUCCESS) {
+			secdebug("tok_esteid","pin %d status AUTHORIZED",pin);
+			acl.addPinState(pin, CSSM_ACL_PREAUTH_TRACKING_AUTHORIZED);
+			}
+		else {
+			secdebug("tok_esteid","pin %d status AUTHORIZED",pin);
+			acl.addPinState(pin, CSSM_ACL_PREAUTH_TRACKING_UNKNOWN);
+			}
+		count = acl.size();
+		acls = acl.entries();
+		return;
+	}
+
 	// get pin list, then for each pin
 	if (!mAclEntries) {
 		mAclEntries.allocator(alloc);
@@ -162,6 +233,10 @@ void EstEIDToken::getAcl(const char *tag, uint32 &count, AclEntryInfo *&acls)
         // We don't support insertion modification or deletion yet.
         mAclEntries.add(CssmClient::AclFactory::AnySubject(mAclEntries.allocator()),
                         AclAuthorizationSet(CSSM_ACL_AUTHORIZATION_DB_READ, 0));
+        // We support PIN1 with either a passed in password
+        // subject or a prompted password subject.
+		mAclEntries.addPin(AclFactory::PWSubject(alloc), 1);
+		mAclEntries.addPin(AclFactory::PromptPWSubject(alloc, CssmData()), 1);
 	}
 
 	// return the ACL vector
@@ -172,7 +247,8 @@ void EstEIDToken::getAcl(const char *tag, uint32 &count, AclEntryInfo *&acls)
 
 void EstEIDToken::populate()
 {
-	secdebug("esteid.tokend", "EstEIDToken::populate() begin");
+	FLOG;
+
 	Tokend::Relation &certRelation =
 		mSchema->findRelation(CSSM_DL_DB_RECORD_X509_CERTIFICATE);
 	Tokend::Relation &privateKeyRelation =
@@ -185,7 +261,7 @@ void EstEIDToken::populate()
 
 	certRelation.insertRecord(eAuthCert);
 	certRelation.insertRecord(eSignCert);
-
+#if 0
 	RefPointer<Tokend::Record> eAuthKey(new EstEIDKeyRecord(
 		"Authentication Key",
 		privateKeyRelation.metaRecord(), true));
@@ -199,9 +275,7 @@ void EstEIDToken::populate()
 	eAuthKey->setAdornment(mSchema->publicKeyHashCoder().certificateKey(),
                           new Tokend::LinkedRecordAdornment(eAuthCert));
 	eSignKey->setAdornment(mSchema->publicKeyHashCoder().certificateKey(),
-                          new Tokend::LinkedRecordAdornment(eSignCert));
-
-
-	secdebug("esteid.tokend", "EstEIDToken::populate() end");
+                          new Tokend::LinkedRecordAdornment(eSignCert)); 
+#endif
 }
 

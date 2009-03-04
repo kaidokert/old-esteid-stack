@@ -19,6 +19,19 @@
 #include <tokend/MetaAttribute.h>
 #include <tokend/MetaRecord.h>
 
+#include "EstEID_utility.h"
+#include "utility/asnCertificate.h"
+
+EstEIDRecord::EstEIDRecord(const char *description) :
+		mDescription(description) {
+		secdebug("tok_esteid","EstEIDRecord '%s' created",mDescription);
+		}
+
+const char *EstEIDRecord::description() { 
+	secdebug("tok_esteid","EstEIDRecord::description '%s'",mDescription);
+	return mDescription; 
+	}
+
 //
 // EstEIDRecord
 //
@@ -46,7 +59,10 @@ EstEIDKeyRecord::~EstEIDKeyRecord() {}
 EstEIDCertRecord::~EstEIDCertRecord() {}
 
 Tokend::Attribute *EstEIDCertRecord::getDataAttribute(Tokend::TokenContext *tokenContext) {
+	FLOG;
+	secdebug("tok_esteid","getDAtaAttribute, tokenContext = %p",tokenContext);
 	EstEIDToken &token = dynamic_cast<EstEIDToken &>(*tokenContext);
+//return NULL;
 	CssmData data;
 	if (token.cachedObject(0, mDescription, data))
 	{
@@ -56,11 +72,16 @@ Tokend::Attribute *EstEIDCertRecord::getDataAttribute(Tokend::TokenContext *toke
 		return attribute;
 	}
 	try {
-		unsigned char arr[] = {0x30};
-		data.Data = arr;
-		data.Length = 1;
+		std::vector<unsigned char> arrCert = token.getAuthCert();
+		std::stringstream dummy;
+//		std::ofstream decodeLog("decode.log");
+		asnCertificate cert(arrCert,dummy);
+		arrCert.resize(cert.size + (cert.body_start - cert.start));
+
+		data.Data = &arrCert[0];
+		data.Length = arrCert.size();
 	} catch (std::exception &err) {
-		secdebug("esteid.tokend","exception thrown in *EstEIDCertRecord::getDataAttribute '%s'",err.what());
+		secdebug("tok_esteid","exception thrown in *EstEIDCertRecord::getDataAttribute '%s'",err.what());
 		return NULL;
 		}
 	token.cacheObject(0, mDescription, data);

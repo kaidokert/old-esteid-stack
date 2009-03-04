@@ -26,6 +26,10 @@
 		4728F1310F5D9B67003BD129 /* PCSCManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4728F12B0F5D9B67003BD129 /* PCSCManager.cpp */; };
 		4728F1320F5D9B67003BD129 /* SCError.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4728F12D0F5D9B67003BD129 /* SCError.cpp */; };
 		4728F16E0F5D9CC3003BD129 /* PCSC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4728F16D0F5D9CC3003BD129 /* PCSC.framework */; };
+		47B5F0AB0F5E6138007B9806 /* EstEID_2.xcclassmodel in Resources */ = {isa = PBXBuildFile; fileRef = 47B5F0AA0F5E6138007B9806 /* EstEID_2.xcclassmodel */; };
+		47B5F0BA0F5E61B8007B9806 /* EstEID_utility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 47B5F0B90F5E61B8007B9806 /* EstEID_utility.cpp */; };
+		47B5F17D0F5E7382007B9806 /* asnObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 47B5F17C0F5E7382007B9806 /* asnObject.cpp */; };
+		47B5F1B10F5E7407007B9806 /* asnCertificate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 47B5F1AF0F5E7407007B9806 /* asnCertificate.cpp */; };
 		47C251950F5C80F1007D49BD /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47C251940F5C80F1007D49BD /* CoreFoundation.framework */; };
 		47F3DA140F5D942E0046FB6D /* CardBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 47F3DA130F5D942E0046FB6D /* CardBase.cpp */; };
 		52B260680BC5A864007E00F1 /* esteid_csp_capabilities.mdsinfo in Resources */ = {isa = PBXBuildFile; fileRef = 4C5C1CE8073065EA00AECB7F /* esteid_csp_capabilities.mdsinfo */; };
@@ -63,6 +67,14 @@
 		4728F12D0F5D9B67003BD129 /* SCError.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SCError.cpp; path = ../src/cardlib/SCError.cpp; sourceTree = SOURCE_ROOT; };
 		4728F12E0F5D9B67003BD129 /* SCError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SCError.h; path = ../src/cardlib/SCError.h; sourceTree = SOURCE_ROOT; };
 		4728F16D0F5D9CC3003BD129 /* PCSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PCSC.framework; path = /System/Library/Frameworks/PCSC.framework; sourceTree = "<absolute>"; };
+		47B5F0930F5E60A6007B9806 /* helperMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = helperMacro.h; path = ../src/cardlib/helperMacro.h; sourceTree = SOURCE_ROOT; };
+		47B5F0AA0F5E6138007B9806 /* EstEID_2.xcclassmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcclassmodel; path = EstEID_2.xcclassmodel; sourceTree = "<group>"; };
+		47B5F0B80F5E619E007B9806 /* EstEID_utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EstEID_utility.h; sourceTree = "<group>"; };
+		47B5F0B90F5E61B8007B9806 /* EstEID_utility.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EstEID_utility.cpp; sourceTree = "<group>"; };
+		47B5F17B0F5E7382007B9806 /* asnCertificate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = asnCertificate.h; path = ../src/utility/asnCertificate.h; sourceTree = SOURCE_ROOT; };
+		47B5F17C0F5E7382007B9806 /* asnObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = asnObject.cpp; path = ../src/utility/asnObject.cpp; sourceTree = SOURCE_ROOT; };
+		47B5F1AF0F5E7407007B9806 /* asnCertificate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = asnCertificate.cpp; path = ../src/utility/asnCertificate.cpp; sourceTree = SOURCE_ROOT; };
+		47B5F1B00F5E7407007B9806 /* asnObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = asnObject.h; path = ../src/utility/asnObject.h; sourceTree = SOURCE_ROOT; };
 		47C251940F5C80F1007D49BD /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
 		47F3DA130F5D942E0046FB6D /* CardBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CardBase.cpp; path = ../src/cardlib/CardBase.cpp; sourceTree = SOURCE_ROOT; };
 		4C5C1CE8073065EA00AECB7F /* esteid_csp_capabilities.mdsinfo */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = esteid_csp_capabilities.mdsinfo; path = EstEID/mds/esteid_csp_capabilities.mdsinfo; sourceTree = SOURCE_ROOT; };
@@ -105,6 +117,7 @@
 				4CA858F0065441220083DED3 /* External Frameworks */,
 				4C415098073061D6004C9490 /* External Libraries */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
+				47B5F0AA0F5E6138007B9806 /* EstEID_2.xcclassmodel */,
 			);
 			name = TokendEstEID;
 			sourceTree = "<group>";
@@ -117,9 +130,21 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		47B5F17E0F5E7388007B9806 /* utility */ = {
+			isa = PBXGroup;
+			children = (
+				47B5F1AF0F5E7407007B9806 /* asnCertificate.cpp */,
+				47B5F1B00F5E7407007B9806 /* asnObject.h */,
+				47B5F17C0F5E7382007B9806 /* asnObject.cpp */,
+				47B5F17B0F5E7382007B9806 /* asnCertificate.h */,
+			);
+			name = utility;
+			sourceTree = "<group>";
+		};
 		47C250D50F5C7C54007D49BD /* cardlib */ = {
 			isa = PBXGroup;
 			children = (
+				47B5F0930F5E60A6007B9806 /* helperMacro.h */,
 				4728F1250F5D9B67003BD129 /* CardBase.h */,
 				4728F1260F5D9B67003BD129 /* common.h */,
 				4728F1270F5D9B67003BD129 /* DynamicLibrary.cpp */,
@@ -158,6 +183,7 @@
 		4C86D39F070B4122006A0C7F /* EstEID */ = {
 			isa = PBXGroup;
 			children = (
+				47B5F17E0F5E7388007B9806 /* utility */,
 				47C250D50F5C7C54007D49BD /* cardlib */,
 				4C5C1CE0073065EA00AECB7F /* mds */,
 				4C86D3A0070B4122006A0C7F /* esteid.cpp */,
@@ -172,6 +198,8 @@
 				4C86D3AB070B4122006A0C7F /* EstEIDToken.cpp */,
 				4C86D3AC070B4122006A0C7F /* EstEIDToken.h */,
 				4C86D3AD070B4122006A0C7F /* Info.plist */,
+				47B5F0B80F5E619E007B9806 /* EstEID_utility.h */,
+				47B5F0B90F5E61B8007B9806 /* EstEID_utility.cpp */,
 			);
 			path = EstEID;
 			sourceTree = "<group>";
@@ -233,6 +261,7 @@
 				52B2606A0BC5A864007E00F1 /* esteid_csp_primary.mdsinfo in Resources */,
 				52B2606B0BC5A864007E00F1 /* esteid_dl_primary.mdsinfo in Resources */,
 				52B2606C0BC5A864007E00F1 /* esteid_smartcard.mdsinfo in Resources */,
+				47B5F0AB0F5E6138007B9806 /* EstEID_2.xcclassmodel in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,6 +283,9 @@
 				4728F1300F5D9B67003BD129 /* EstEidCard.cpp in Sources */,
 				4728F1310F5D9B67003BD129 /* PCSCManager.cpp in Sources */,
 				4728F1320F5D9B67003BD129 /* SCError.cpp in Sources */,
+				47B5F0BA0F5E61B8007B9806 /* EstEID_utility.cpp in Sources */,
+				47B5F17D0F5E7382007B9806 /* asnObject.cpp in Sources */,
+				47B5F1B10F5E7407007B9806 /* asnCertificate.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

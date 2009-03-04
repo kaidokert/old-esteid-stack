@@ -20,6 +20,8 @@
 #include <Security/SecKeychainItem.h>
 #include <Security/SecKey.h>
 
+#include "EstEID_utility.h"
+
 using namespace Tokend;
 
 EstEIDSchema::EstEIDSchema() :
@@ -34,6 +36,8 @@ EstEIDSchema::~EstEIDSchema()
 
 Tokend::Relation *EstEIDSchema::createKeyRelation(CSSM_DB_RECORDTYPE keyType)
 {
+	FLOG;
+	
 	Relation *rn = createStandardRelation(keyType);
 
 	// Set up coders for key records.

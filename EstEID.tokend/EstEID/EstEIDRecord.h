@@ -19,12 +19,11 @@ class EstEIDRecord : public Tokend::Record
 {
 	NOCOPY(EstEIDRecord)
 public:
-	EstEIDRecord(const char *description) :
-		mDescription(description) {}
+	EstEIDRecord(const char *description);
 	~EstEIDRecord();
 
-	virtual const char *description() { return mDescription; }
-
+	virtual const char *description();
+	
 protected:
 	const char *mDescription;
 };

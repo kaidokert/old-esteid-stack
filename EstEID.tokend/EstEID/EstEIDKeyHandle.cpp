@@ -20,6 +20,7 @@
 #include <security_cdsa_utilities/cssmerrors.h>
 #include <Security/cssmerr.h>
 
+#include "EstEID_utility.h"
 
 //
 // EstEIDKeyHandle
@@ -36,66 +37,66 @@ EstEIDKeyHandle::~EstEIDKeyHandle()
 
 void EstEIDKeyHandle::getKeySize(CSSM_KEY_SIZE &keySize)
 {
-	secdebug("esteid.tokend", "EstEIDKeyHandle::getKeySize");
+	FLOG;
 	CssmError::throwMe(CSSM_ERRCODE_FUNCTION_NOT_IMPLEMENTED);
 }
 
 uint32 EstEIDKeyHandle::getOutputSize(const Context &context,
 	uint32 inputSize, bool encrypting)
 {
-	secdebug("esteid.tokend", "EstEIDKeyHandle::getOutputSize");
+	FLOG;
 	CssmError::throwMe(CSSM_ERRCODE_FUNCTION_NOT_IMPLEMENTED);
 }
 
 void EstEIDKeyHandle::generateSignature(const Context &context,
 	CSSM_ALGORITHMS signOnly, const CssmData &input, CssmData &signature)
 {
-	secdebug("esteid.tokend", "EstEIDKeyHandle::generateSignature alg: %u signOnly: %u",
+	FLOG;
+	secdebug("tok_esteid", "EstEIDKeyHandle::generateSignature alg: %u signOnly: %u",
 		context.algorithm(), signOnly);
 	IFDUMPING("esteid.tokend", context.dump("signature context"));
-	secdebug("esteid.tokend", "EstEIDKeyHandle::exportKey");
 	CssmError::throwMe(CSSM_ERRCODE_FUNCTION_NOT_IMPLEMENTED);
 }
 
 void EstEIDKeyHandle::verifySignature(const Context &context,
 	CSSM_ALGORITHMS signOnly, const CssmData &input, const CssmData &signature)
 {
-	secdebug("esteid.tokend", "EstEIDKeyHandle::verifySignature");
+	FLOG;
 	CssmError::throwMe(CSSM_ERRCODE_FUNCTION_NOT_IMPLEMENTED);
 }
 
 void EstEIDKeyHandle::generateMac(const Context &context,
 	const CssmData &input, CssmData &output)
 {
-	secdebug("esteid.tokend", "EstEIDKeyHandle::generateMac");
+	FLOG;
 	CssmError::throwMe(CSSM_ERRCODE_FUNCTION_NOT_IMPLEMENTED);
 }
 
 void EstEIDKeyHandle::verifyMac(const Context &context,
 	const CssmData &input, const CssmData &compare)
 {
-	secdebug("esteid.tokend", "EstEIDKeyHandle::verifyMac");
+	FLOG;
 	CssmError::throwMe(CSSM_ERRCODE_FUNCTION_NOT_IMPLEMENTED);
 }
 
 void EstEIDKeyHandle::encrypt(const Context &context,
 	const CssmData &clear, CssmData &cipher)
 {
-	secdebug("esteid.tokend", "EstEIDKeyHandle::encrypt");
+	FLOG;
 	CssmError::throwMe(CSSM_ERRCODE_FUNCTION_NOT_IMPLEMENTED);
 }
 
 void EstEIDKeyHandle::decrypt(const Context &context,
 	const CssmData &cipher, CssmData &clear)
 {
-	secdebug("esteid.tokend", "EstEIDKeyHandle::decrypt alg: %u", context.algorithm());
+	FLOG;
 	CssmError::throwMe(CSSMERR_CSP_KEY_USAGE_INCORRECT);
 }
 
 void EstEIDKeyHandle::exportKey(const Context &context,
 	const AccessCredentials *cred, CssmKey &wrappedKey)
 {
-	secdebug("esteid.tokend", "EstEIDKeyHandle::exportKey");
+	FLOG;
 	CssmError::throwMe(CSSM_ERRCODE_FUNCTION_NOT_IMPLEMENTED);
 }
 

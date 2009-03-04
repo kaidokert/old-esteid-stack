@@ -36,7 +36,7 @@ void EstEIDError::throwMe(uint16_t sw)
 
 void EstEIDError::debugDiagnose(const void *id) const
 {
-/*    secdebug("esteid.tokend", "%p EstEIDError %s (%04hX)",
+/*    secdebug("tok_esteid", "%p EstEIDError %s (%04hX)",
              id, errorstr(statusWord), statusWord);*/
 }
 

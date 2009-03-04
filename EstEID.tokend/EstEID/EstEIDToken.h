@@ -23,8 +23,10 @@ class EstEIDTokenPriv;
 //
 // "The" token
 //
-class EstEIDToken : public Tokend::Token
+class EstEIDToken : public Tokend::ISO7816Token
 {
+	friend class EstEIDRecord;
+	friend class EstEIDCertRecord;
 	NOCOPY(EstEIDToken)
 public:
 	EstEIDToken();
@@ -34,17 +36,26 @@ public:
 	virtual void establish(const CSSM_GUID *guid, uint32 subserviceId,
 		SecTokendEstablishFlags flags, const char *cacheDirectory, const char *workDirectory,
 		char mdsDirectory[PATH_MAX], char printName[PATH_MAX]);
-	virtual void authenticate(CSSM_DB_ACCESS_TYPE mode, const AccessCredentials *cred);
 	virtual void getOwner(AclOwnerPrototype &owner);
 	virtual void getAcl(const char *tag, uint32 &count, AclEntryInfo *&acls);
+
+	virtual uint32_t pinStatus(int pinNum);
+	virtual void verifyPIN(int pinNum,
+		const unsigned char *pin, size_t pinLength);
+	virtual void unverifyPIN(int pinNum);
 
 protected:
 
 	void populate();
+	std::vector<unsigned char> getAuthCert();
 
+private:
+	void checkPrivate();
 public:
 	void *mConnection;
 	EstEIDTokenPriv *d;
+
+	uint32_t mPinStatus;
 	
 	// temporary ACL cache hack - to be removed
 	AutoAclOwnerPrototype mAclOwner;
