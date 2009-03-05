@@ -2,10 +2,10 @@
 	\file		EstEID_utility.cpp
 	\copyright	(c) Kaido Kert ( kaidokert@gmail.com )
 	\licence	BSD
-	\author		$Author: kaidokert $
-	\date		$Date: 2008-11-16 19:12:33 +0200 (Sun, 16 Nov 2008) $
+	\author		$Author$
+	\date		$Date$
 */
-// Revision $Revision: 146 $
+// Revision $Revision$
 
 #include "EstEID_utility.h"
 #include <security_utilities/debugging.h>

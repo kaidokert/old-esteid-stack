@@ -2,8 +2,8 @@
 	\file		EstEIDKeyHandle.h
 	\copyright	(c) Kaido Kert ( kaidokert@gmail.com )    
 	\licence	BSD
-	\author		$Author: kaidokert $
-	\date		$Date: 2008-11-14 03:36:37 +0200 (Fri, 14 Nov 2008) $
+	\author		$Author$
+	\date		$Date$
 */
 
 /*
