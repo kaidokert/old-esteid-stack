@@ -1,55 +1,23 @@
-project "testreadcardid"
-  location ("../../build/" .. _ACTION)
-  language "C++"
-  kind     "ConsoleApp"
-  files  { "testreadcardid.cpp" }
-  includedirs { "..","/usr/include/PCSC" }
-  links { "cardlib" }
-  if os.is("linux") then
-    links "dl"
-  end
-  configuration { "Debug*" }
-    defines { "_DEBUG", "DEBUG" }
-    flags   { "Symbols" }
+function createSampleProject(name,cppfile)
+	location ("../../build/" .. _ACTION)
+	project(name)
+	language "C++"
+	kind     "ConsoleApp"
+	files  { cppfile }
+	includedirs { "..","/usr/include/" }
+	links { "cardlib","utility" }
+	if os.is("linux") then
+		links "dl"
+	end
+	configuration { "Debug*" }
+		defines { "_DEBUG", "DEBUG" }
+		flags   { "Symbols" }
 
-project "testcardmanager"
-  location ("../../build/" .. _ACTION)
-  language "C++"
-  kind     "ConsoleApp"
-  files  { "testcardmanager.cpp" }
-  includedirs { "..","/usr/include/PCSC" }
-  links { "cardlib" }
-  if os.is("linux") then
-    links "dl"
-  end
-  configuration { "Debug*" }
-    defines { "_DEBUG", "DEBUG" }
-    flags   { "Symbols" }
+	premake.buildconfigs()
+	return premake.CurrentContainer
+end
 
-project "testctapi"
-  location ("../../build/" .. _ACTION)
-  language "C++"
-  kind     "ConsoleApp"
-  files  { "testctapi.cpp" }
-  includedirs { "..","/usr/include/PCSC" }
-  links { "cardlib" }
-  if os.is("linux") then
-    links "dl"
-  end
-  configuration { "Debug*" }
-    defines { "_DEBUG", "DEBUG" }
-    flags   { "Symbols" }
-
-project "testdownload"
-  location ("../../build/" .. _ACTION)
-  language "C++"
-  kind     "ConsoleApp"
-  files  { "testdownload.cpp" }
-  includedirs { "..","/usr/include/PCSC" }
-  links { "cardlib","utility" }
-  if os.is("linux") then
-    links "dl"
-  end
-  configuration { "Debug*" }
-    defines { "_DEBUG", "DEBUG" }
-    flags   { "Symbols" }
+createSampleProject("testreadcardid","testreadcardid.cpp")
+createSampleProject("testcardmanager","testcardmanager.cpp")
+createSampleProject("testctapi","testctapi.cpp")
+createSampleProject("testdownload","testdownload.cpp")
