@@ -11,4 +11,3 @@ project "esteidpkcs11"
         includedirs "mac_pkcs11_headers"
   end
   links { "cardlib" ,"utility"}
-
