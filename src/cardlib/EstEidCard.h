@@ -61,7 +61,8 @@ private:
 	void reconnectWithT0();
 	void checkProtocol();
 	bool getRetryCounts_internal(byte &puk,byte &pinAuth,byte &pinSign);
-
+	ByteVec readEFAndTruncate(unsigned int fileLen);
+	
 public:
 	EstEidCard(ManagerInterface &ref) : CardBase(ref) {}
 	EstEidCard(ManagerInterface &ref,unsigned int idx) : 

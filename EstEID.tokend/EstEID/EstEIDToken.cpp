@@ -134,10 +134,10 @@ void EstEIDToken::establish(const CSSM_GUID *guid, uint32 subserviceId,
 	populate();
 }
 
-std::vector<byte> EstEIDToken::getAuthCert()  {
+EstEidCard & EstEIDToken::getCard() {
 	FLOG;
 	checkPrivate();
-	return d->card().getAuthCert();
+	return d->card();
 	}
 
 uint32_t EstEIDToken::pinStatus(int pinNum)

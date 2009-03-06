@@ -23,7 +23,8 @@ class EstEIDKeyHandle: public Tokend::KeyHandle
 {
 	NOCOPY(EstEIDKeyHandle)
 public:
-    EstEIDKeyHandle(const Tokend::MetaRecord &metaRecord,Tokend::Record &record);
+    EstEIDKeyHandle(EstEIDToken &token,
+		const Tokend::MetaRecord &metaRecord,Tokend::Record &record);
     ~EstEIDKeyHandle();
 
     virtual void getKeySize(CSSM_KEY_SIZE &keySize);
@@ -47,6 +48,7 @@ public:
 		const AccessCredentials *cred, CssmKey &wrappedKey);
 
 private:
+	EstEIDToken &mToken;
 };
 
 

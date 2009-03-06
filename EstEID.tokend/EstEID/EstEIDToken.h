@@ -16,6 +16,8 @@
 #include <tokend/Token.h>
 
 #include <security_utilities/pcsc++.h>
+#include <cardlib/common.h>
+#include <cardlib/EstEidCard.h>
 
 class EstEIDSchema;
 
@@ -27,6 +29,7 @@ class EstEIDToken : public Tokend::ISO7816Token
 {
 	friend class EstEIDRecord;
 	friend class EstEIDCertRecord;
+	friend class EstEIDKeyHandle;
 	NOCOPY(EstEIDToken)
 public:
 	EstEIDToken();
@@ -47,8 +50,8 @@ public:
 protected:
 
 	void populate();
-	std::vector<unsigned char> getAuthCert();
-
+	EstEidCard &getCard();
+	
 private:
 	void checkPrivate();
 public:

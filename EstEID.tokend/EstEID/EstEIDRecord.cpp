@@ -101,7 +101,7 @@ Tokend::Attribute *EstEIDCertRecord::getDataAttribute(Tokend::TokenContext *toke
 		return attribute;
 	}
 	try {
-		std::vector<unsigned char> arrCert = token.getAuthCert();
+		std::vector<unsigned char> arrCert = token.getCard().getAuthCert();
 		data.Data = &arrCert[0];
 		data.Length = arrCert.size();
 	} catch (std::exception &err) {

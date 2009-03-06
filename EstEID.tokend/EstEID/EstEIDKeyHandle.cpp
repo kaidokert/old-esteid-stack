@@ -21,13 +21,16 @@
 #include <Security/cssmerr.h>
 
 #include "EstEID_utility.h"
+#include "cardlib/EstEidCard.h"
 
 //
 // EstEIDKeyHandle
 //
-EstEIDKeyHandle::EstEIDKeyHandle(const Tokend::MetaRecord &metaRecord,
+EstEIDKeyHandle::EstEIDKeyHandle(EstEIDToken &token,
+	const Tokend::MetaRecord &metaRecord,
 	Tokend::Record &record) :
-	Tokend::KeyHandle(metaRecord, &record)
+	Tokend::KeyHandle(metaRecord, &record),
+	mToken(token)
 {
 	FLOG;
 }
@@ -63,8 +66,45 @@ void EstEIDKeyHandle::generateSignature(const Context &context,
 	if (context.algorithm() != CSSM_ALGID_RSA)
 		CssmError::throwMe(CSSMERR_CSP_INVALID_ALGORITHM);
 
+/*
+Mar  6 16:13:49 tok_esteid  EstEIDKeyHandle::generateSignature alg: 42 signOnly: 0
+Mar  6 16:13:49 tok_esteid  SSL signature request
+Context signature context{type=2, alg=42, CSP=502910256, 3 attributes@0x251000:
+ Attr{type=10800004, size=4, value=1}
+ Attr{type=80000024, size=308, value=0x251024}
+ Attr{type=40000003, size=88, value=0x251158}
+} // end Context
+Mar  6 16:13:49 exception   0x3371e0 CSSM CSSM_ERRCODE_FUNCTION_NOT_IMPLEMENTED (0x7)
+*/
 	// TBC
-	CssmError::throwMe(CSSM_ERRCODE_FUNCTION_NOT_IMPLEMENTED);
+	if (signOnly == CSSM_ALGID_NONE)
+	{
+		// Special case used by SSL it's an RSA signature, without the ASN1
+		// stuff
+		secdebug("tok_esteid","SSL signature request");
+	}
+	else
+		CssmError::throwMe(CSSMERR_CSP_INVALID_DIGEST_ALGORITHM);
+#if !defined(NDEBUG)
+	context.dump("signature context");
+#endif
+
+	uint32 padding = CSSM_PADDING_PKCS1;
+	context.getInt(CSSM_ATTRIBUTE_PADDING, padding);
+
+	if (padding != CSSM_PADDING_PKCS1)
+		CssmError::throwMe(CSSMERR_CSP_INVALID_ATTR_PADDING);
+
+	try {
+		ByteVec result = mToken.getCard().calcSSL(ByteVec(input.Data,input.Data+input.Length));
+		unsigned char *outputData = reinterpret_cast<unsigned char *>(malloc(result.size()));
+		memcpy(outputData, &result[0],result.size());
+		signature.Data = outputData;
+		signature.Length = result.size();
+	} catch(std::runtime_error &err) {
+		secdebug("tok_esteid","exception while signing");
+		CssmError::throwMe(CSSMERR_CSP_FUNCTION_FAILED);
+		}
 }
 
 void EstEIDKeyHandle::verifySignature(const Context &context,
@@ -123,7 +163,8 @@ Tokend::KeyHandle *EstEIDKeyHandleFactory::keyHandle(
 	Tokend::Record &record) const
 {
 	FLOG;
-	EstEIDKeyRecord &keyRecord = dynamic_cast<EstEIDKeyRecord &>(record);			
-	return new EstEIDKeyHandle(metaRecord, record);
+//	EstEIDKeyRecord &keyRecord = dynamic_cast<EstEIDKeyRecord &>(record);
+	EstEIDToken &eToken = static_cast<EstEIDToken &>(*tokenContext);	
+	return new EstEIDKeyHandle(eToken,metaRecord, record);
 }
 
