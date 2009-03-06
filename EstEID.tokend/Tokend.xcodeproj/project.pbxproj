@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
+		47A8FCEC0F61721D0027B5EF /* EstEID.tokend.dmg */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 47A8FD020F61721F0027B5EF /* Build configuration list for PBXAggregateTarget "EstEID.tokend.dmg" */;
+			buildPhases = (
+				47A8FCEB0F61721D0027B5EF /* ShellScript */,
+			);
+			dependencies = (
+				47A8FD050F6172450027B5EF /* PBXTargetDependency */,
+			);
+			name = EstEID.tokend.dmg;
+			productName = EstEID.tokend.dmg;
+		};
 		52B2601F0BC5A864007E00F1 /* world */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 52B260280BC5A864007E00F1 /* Build configuration list for PBXAggregateTarget "world" */;
@@ -14,6 +26,7 @@
 			);
 			dependencies = (
 				52B260D90BC5A864007E00F1 /* PBXTargetDependency */,
+				47A8FD330F6172BA0027B5EF /* PBXTargetDependency */,
 			);
 			name = world;
 			productName = world;
@@ -44,6 +57,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		47A8FD040F6172450027B5EF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 52B260640BC5A864007E00F1 /* EstEID */;
+			remoteInfo = EstEID;
+		};
+		47A8FD320F6172BA0027B5EF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 47A8FCEC0F61721D0027B5EF /* EstEID.tokend.dmg */;
+			remoteInfo = EstEID.tokend.dmg;
+		};
 		52B260D80BC5A864007E00F1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
@@ -229,6 +256,7 @@
 			targets = (
 				52B2601F0BC5A864007E00F1 /* world */,
 				52B260640BC5A864007E00F1 /* EstEID */,
+				47A8FCEC0F61721D0027B5EF /* EstEID.tokend.dmg */,
 			);
 		};
 /* End PBXProject section */
@@ -248,6 +276,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		47A8FCEB0F61721D0027B5EF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/EstEID.tokend",
+			);
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/EstEID.tokend.dmg",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here\nset -ex\n\n[ \"$ACTION\" = build ] || exit 0\n[ \"$BUILD_VARIANTS\" = \"normal\" ] || exit 0\n\ndir=\"$TEMP_FILES_DIR/disk\"\ndmg=\"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.dmg\"\n\nrm -rf \"$dir\"\nmkdir \"$dir\"\ncp -R \"$BUILT_PRODUCTS_DIR/EstEID.tokend\" \"$dir\"\nrm -f \"$dmg\"\nhdiutil create -srcfolder \"$dir\" -volname \"$PROJECT_NAME\" \"$dmg\"\nhdiutil internet-enable -yes \"$dmg\"\nrm -rf \"$dir\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		52B2606D0BC5A864007E00F1 /* Sources */ = {
@@ -272,6 +318,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		47A8FD050F6172450027B5EF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 52B260640BC5A864007E00F1 /* EstEID */;
+			targetProxy = 47A8FD040F6172450027B5EF /* PBXContainerItemProxy */;
+		};
+		47A8FD330F6172BA0027B5EF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 47A8FCEC0F61721D0027B5EF /* EstEID.tokend.dmg */;
+			targetProxy = 47A8FD320F6172BA0027B5EF /* PBXContainerItemProxy */;
+		};
 		52B260D90BC5A864007E00F1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 52B260640BC5A864007E00F1 /* EstEID */;
@@ -280,6 +336,27 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		47A8FCED0F61721D0027B5EF /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = EstEID.tokend.dmg;
+			};
+			name = Development;
+		};
+		47A8FCEE0F61721D0027B5EF /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = EstEID.tokend.dmg;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
 		52B260290BC5A864007E00F1 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -458,6 +535,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		47A8FD020F61721F0027B5EF /* Build configuration list for PBXAggregateTarget "EstEID.tokend.dmg" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				47A8FCED0F61721D0027B5EF /* Development */,
+				47A8FCEE0F61721D0027B5EF /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Deployment;
+		};
 		52B260280BC5A864007E00F1 /* Build configuration list for PBXAggregateTarget "world" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
