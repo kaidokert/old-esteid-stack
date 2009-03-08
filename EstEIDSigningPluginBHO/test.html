@@ -1,0 +1,22 @@
+<html>
+<head>
+<script language="javascript" type="text/javascript">
+
+var signer = null;
+
+function getSigner() {
+    if (!window.exteranl) return;
+    signer = window.external;
+    }
+
+function testComponent() {
+    if(!window.external) return;
+    window.external.sayHello("blaa blaa");
+    }
+</script>
+
+</head>
+<body onload="getSigner()">
+<input type="button" value="blaa" onclick="testComponent()"/>
+</body>
+</html>

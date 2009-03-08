@@ -1,0 +1,26 @@
+HKCR
+{
+	EstEIDSigningPluginBHO.SmartCardSigne.1 = s 'SmartCardSigner Class'
+	{
+		CLSID = s '{28821112-76D5-4C26-9F64-9E20AA91DDF3}'
+	}
+	EstEIDSigningPluginBHO.SmartCardSigner = s 'SmartCardSigner Class'
+	{
+		CLSID = s '{28821112-76D5-4C26-9F64-9E20AA91DDF3}'
+		CurVer = s 'EstEIDSigningPluginBHO.SmartCardSigne.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {28821112-76D5-4C26-9F64-9E20AA91DDF3} = s 'SmartCardSigner Class'
+		{
+			ProgID = s 'EstEIDSigningPluginBHO.SmartCardSigne.1'
+			VersionIndependentProgID = s 'EstEIDSigningPluginBHO.SmartCardSigner'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{536E87AF-8E4B-47C0-8046-273961378EF3}'
+		}
+	}
+}

@@ -1,0 +1,83 @@
+// EstEIDSigningPluginBHO.idl : IDL source for EstEIDSigningPluginBHO
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (EstEIDSigningPluginBHO.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(40A7AD1D-F50E-47D8-A9AC-8D7EFE8CCB17),
+	dual,
+	nonextensible,
+	helpstring("IEstEIDSigningBHO Interface"),
+	pointer_default(unique)
+]
+interface IEstEIDSigningBHO : IDispatch{
+};
+[
+	object,
+	uuid(0CC6179C-D391-49B5-8B3A-7A0DBED8BAC7),
+	dual,
+	nonextensible,
+	helpstring("ISmartCardSigner Interface"),
+	pointer_default(unique)
+]
+interface ISmartCardSigner : IDispatch{
+	[id(1), helpstring("method sayHello")] HRESULT sayHello([in] BSTR helloTag);
+};
+[
+	object,
+	uuid(1E65C9F8-E8A1-4BD3-A186-E53A1EE862DF),
+	dual,
+	nonextensible,
+	helpstring("ISmartCardCertificate Interface"),
+	pointer_default(unique)
+]
+interface ISmartCardCertificate : IDispatch{
+};
+[
+	uuid(536E87AF-8E4B-47C0-8046-273961378EF3),
+	version(1.0),
+	helpstring("EstEIDSigningPluginBHO 1.0 Type Library")
+]
+library EstEIDSigningPluginBHOLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(B1DDE0C0-E53D-477A-BA90-769C80E14AAB),
+		helpstring("EstEIDSigningBHO Class")
+	]
+	coclass EstEIDSigningBHO
+	{
+		[default] interface IEstEIDSigningBHO;
+	};
+	[
+		uuid(76B61F95-9F84-4DFC-B327-5DABD1A752B5),
+		helpstring("_ISmartCardSignerEvents Interface")
+	]
+	dispinterface _ISmartCardSignerEvents
+	{
+		properties:
+		methods:
+	};
+	[
+		uuid(28821112-76D5-4C26-9F64-9E20AA91DDF3),
+		helpstring("SmartCardSigner Class")
+	]
+	coclass SmartCardSigner
+	{
+		[default] interface ISmartCardSigner;
+		[default, source] dispinterface _ISmartCardSignerEvents;
+	};
+	[
+		uuid(151EA824-7FB3-4AF8-9B10-F69FF073730B),
+		helpstring("SmartCardCertificate Class")
+	]
+	coclass SmartCardCertificate
+	{
+		[default] interface ISmartCardCertificate;
+	};
+};
