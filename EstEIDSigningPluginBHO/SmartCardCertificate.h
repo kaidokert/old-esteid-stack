@@ -57,6 +57,13 @@ END_COM_MAP()
 
 public:
 
+	STDMETHOD(get_CN)(BSTR* pVal);
+	STDMETHOD(get_validFrom)(BSTR* pVal);
+	STDMETHOD(get_validTo)(BSTR* pVal);
+	STDMETHOD(get_issuerCN)(BSTR* pVal);
+	STDMETHOD(get_keyUsage)(BSTR* pVal);
+	STDMETHOD(get_cert)(BSTR* pVal);
+	STDMETHOD(get_certID)(BSTR* pVal);
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(SmartCardCertificate), CSmartCardCertificate)

@@ -27,6 +27,22 @@ interface IEstEIDSigningBHO : IDispatch{
 ]
 interface ISmartCardSigner : IDispatch{
 	[id(1), helpstring("method sayHello")] HRESULT sayHello([in] BSTR helloTag);
+	[propget, id(2), helpstring("property lastName")] HRESULT lastName([out, retval] BSTR* pVal);
+	[propget, id(3), helpstring("property firstName")] HRESULT firstName([out, retval] BSTR* pVal);
+	[propget, id(4), helpstring("property middleName")] HRESULT middleName([out, retval] BSTR* pVal);
+	[propget, id(5), helpstring("property sex")] HRESULT sex([out, retval] BSTR* pVal);
+	[propget, id(6), helpstring("property citizenship")] HRESULT citizenship([out, retval] BSTR* pVal);
+	[propget, id(7), helpstring("property birthDate")] HRESULT birthDate([out, retval] BSTR* pVal);
+	[propget, id(8), helpstring("property personalID")] HRESULT personalID([out, retval] BSTR* pVal);
+	[propget, id(9), helpstring("property documentID")] HRESULT documentID([out, retval] BSTR* pVal);
+	[propget, id(10), helpstring("property expiryDate")] HRESULT expiryDate([out, retval] BSTR* pVal);
+	[propget, id(11), helpstring("property placeOfBirth")] HRESULT placeOfBirth([out, retval] BSTR* pVal);
+	[propget, id(12), helpstring("property issuedDate")] HRESULT issuedDate([out, retval] BSTR* pVal);
+	[propget, id(13), helpstring("property residencePermit")] HRESULT residencePermit([out, retval] BSTR* pVal);
+	[propget, id(14), helpstring("property comment1")] HRESULT comment1([out, retval] BSTR* pVal);
+	[propget, id(15), helpstring("property comment2")] HRESULT comment2([out, retval] BSTR* pVal);
+	[propget, id(16), helpstring("property comment3")] HRESULT comment3([out, retval] BSTR* pVal);
+	[propget, id(17), helpstring("property comment4")] HRESULT comment4([out, retval] BSTR* pVal);
 };
 [
 	object,
@@ -37,6 +53,13 @@ interface ISmartCardSigner : IDispatch{
 	pointer_default(unique)
 ]
 interface ISmartCardCertificate : IDispatch{
+	[propget, id(1), helpstring("property CN")] HRESULT CN([out, retval] BSTR* pVal);
+	[propget, id(2), helpstring("property validFrom")] HRESULT validFrom([out, retval] BSTR* pVal);
+	[propget, id(3), helpstring("property validTo")] HRESULT validTo([out, retval] BSTR* pVal);
+	[propget, id(4), helpstring("property issuerCN")] HRESULT issuerCN([out, retval] BSTR* pVal);
+	[propget, id(5), helpstring("property keyUsage")] HRESULT keyUsage([out, retval] BSTR* pVal);
+	[propget, id(6), helpstring("property cert")] HRESULT cert([out, retval] BSTR* pVal);
+	[propget, id(7), helpstring("property certID")] HRESULT certID([out, retval] BSTR* pVal);
 };
 [
 	uuid(536E87AF-8E4B-47C0-8046-273961378EF3),

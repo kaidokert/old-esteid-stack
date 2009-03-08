@@ -20,3 +20,52 @@ STDMETHODIMP CSmartCardCertificate::InterfaceSupportsErrorInfo(REFIID riid)
 	}
 	return S_FALSE;
 }
+
+STDMETHODIMP CSmartCardCertificate::get_CN(BSTR* pVal)
+{
+	// TODO: Add your implementation code here
+
+	return S_OK;
+}
+
+STDMETHODIMP CSmartCardCertificate::get_validFrom(BSTR* pVal)
+{
+	// TODO: Add your implementation code here
+
+	return S_OK;
+}
+
+STDMETHODIMP CSmartCardCertificate::get_validTo(BSTR* pVal)
+{
+	// TODO: Add your implementation code here
+
+	return S_OK;
+}
+
+STDMETHODIMP CSmartCardCertificate::get_issuerCN(BSTR* pVal)
+{
+	// TODO: Add your implementation code here
+
+	return S_OK;
+}
+
+STDMETHODIMP CSmartCardCertificate::get_keyUsage(BSTR* pVal)
+{
+	// TODO: Add your implementation code here
+
+	return S_OK;
+}
+
+STDMETHODIMP CSmartCardCertificate::get_cert(BSTR* pVal)
+{
+	// TODO: Add your implementation code here
+
+	return S_OK;
+}
+
+STDMETHODIMP CSmartCardCertificate::get_certID(BSTR* pVal)
+{
+	// TODO: Add your implementation code here
+
+	return S_OK;
+}

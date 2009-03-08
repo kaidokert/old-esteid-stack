@@ -79,6 +79,23 @@ public:
 	STDMETHOD(sayHello)(BSTR helloTag);
 private:
 	CardMonitorThread m_monitorThread;
+public:
+	STDMETHOD(get_lastName)(BSTR* pVal);
+	STDMETHOD(get_firstName)(BSTR* pVal);
+	STDMETHOD(get_middleName)(BSTR* pVal);
+	STDMETHOD(get_sex)(BSTR* pVal);
+	STDMETHOD(get_citizenship)(BSTR* pVal);
+	STDMETHOD(get_birthDate)(BSTR* pVal);
+	STDMETHOD(get_personalID)(BSTR* pVal);
+	STDMETHOD(get_documentID)(BSTR* pVal);
+	STDMETHOD(get_expiryDate)(BSTR* pVal);
+	STDMETHOD(get_placeOfBirth)(BSTR* pVal);
+	STDMETHOD(get_issuedDate)(BSTR* pVal);
+	STDMETHOD(get_residencePermit)(BSTR* pVal);
+	STDMETHOD(get_comment1)(BSTR* pVal);
+	STDMETHOD(get_comment2)(BSTR* pVal);
+	STDMETHOD(get_comment3)(BSTR* pVal);
+	STDMETHOD(get_comment4)(BSTR* pVal);
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(SmartCardSigner), CSmartCardSigner)

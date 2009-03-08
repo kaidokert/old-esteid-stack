@@ -52,6 +52,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="../src"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL;_MERGE_PROXYSTUB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -141,6 +142,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
+				AdditionalIncludeDirectories="../src"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL;_MERGE_PROXYSTUB"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
@@ -398,10 +400,6 @@
 				>
 			</File>
 		</Filter>
-		<File
-			RelativePath=".\ReadMe.txt"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>
