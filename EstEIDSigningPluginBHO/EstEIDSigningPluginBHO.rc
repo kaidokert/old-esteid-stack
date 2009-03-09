@@ -11,7 +11,7 @@
 #include "targetver.h"
 #endif
 #include "winres.h"
-
+#include "Setup.h"
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -41,13 +41,12 @@ BEGIN
     "#include ""targetver.h""\r\n"
     "#endif\r\n"
     "#include ""winres.h""\r\n"
-    "\0"
+    "#include ""Setup.h\0"
 END
 
 3 TEXTINCLUDE 
 BEGIN
-    "1 TYPELIB ""EstEIDSigningPluginBHO.tlb""\r\n"
-    "\0"
+    "1 TYPELIB ""EstEIDSigningPluginBHO.tlb""\r\0"
 END
 
 #endif    // APSTUDIO_INVOKED
@@ -58,36 +57,35 @@ END
 // Version
 //
 
-VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,1
- PRODUCTVERSION 1,0,0,1
- FILEFLAGSMASK 0x3fL
+1 VERSIONINFO
+ FILEVERSION RC_VERSION
+ PRODUCTVERSION RC_VERSION
+ FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
 #else
  FILEFLAGS 0x0L
 #endif
  FILEOS 0x4L
- FILETYPE 0x2L
+ FILETYPE 0x1L
  FILESUBTYPE 0x0L
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
-        BLOCK "040904e4"
+        BLOCK "042504b0"
         BEGIN
-            VALUE "CompanyName", "JaJa Arendus"
-            VALUE "FileDescription", "EstEID Browsers Signing plugin"
-            VALUE "FileVersion", "1.0.0.1"
-            VALUE "InternalName", "EstEIDSigningPluginBHO.dll"
-            VALUE "LegalCopyright", "(c) JaJa Arendus.  All rights reserved."
-            VALUE "OriginalFilename", "EstEIDSigningPluginBHO.dll"
-            VALUE "ProductName", "EstEID Signing plugin"
-            VALUE "ProductVersion", "1.0.0.1"
+            VALUE "FileDescription", PACKAGE_NAME
+            VALUE "FileVersion", PACKAGE_VERSION ".0"
+            VALUE "InternalName", PACKAGE_NAME
+            VALUE "LegalCopyright", "Copyright (C) JaJa Arendus 2009"
+            VALUE "OriginalFilename", "EstEIDSigningBHO.dll"
+            VALUE "ProductName", PACKAGE_STRING
+            VALUE "ProductVersion", PACKAGE_VERSION ".0"
         END
     END
     BLOCK "VarFileInfo"
     BEGIN
-        VALUE "Translation", 0x409, 1252
+        VALUE "Translation", 0x425, 1200
     END
 END
 

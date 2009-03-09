@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "precompiled.h"
 #include "CardMonitorThread.h"
 
 CardMonitorThread::CardMonitorThread(CWindow &parent)

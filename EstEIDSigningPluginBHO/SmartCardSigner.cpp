@@ -1,13 +1,12 @@
 // SmartCardSigner.cpp : Implementation of CSmartCardSigner
 
-#include "stdafx.h"
+#include "precompiled.h"
 #include "SmartCardSigner.h"
 #include <comutil.h>
-
-#include <cardlib/common.h>
-#include <cardlib/EstEidCard.h>
+#include <WinCred.h> //for credui
 
 #pragma comment(lib,"comsuppw")
+#pragma comment(lib,"credui")
 
 // CSmartCardSigner
 
@@ -34,114 +33,57 @@ STDMETHODIMP CSmartCardSigner::sayHello(BSTR helloTag)
 	return S_OK;
 }
 
-STDMETHODIMP CSmartCardSigner::get_lastName(BSTR* pVal)
-{
-	// TODO: Add your implementation code here
+BSTR CSmartCardSigner::readField(EstEidCard::RecordNames rec  ) {
+	if (!cardData.size()) {
+		EstEidCard card(m_mgr,0U);
+		card.readPersonalData(cardData,EstEidCard::SURNAME,EstEidCard::COMMENT4);
+		}
+	return _bstr_t(cardData[rec].c_str()).Detach();
+	}
 
-	return S_OK;
+#define GET_METHOD(a,b) \
+STDMETHODIMP CSmartCardSigner::get_##a(BSTR* pVal) {\
+	*pVal = readField(EstEidCard::b); \
+	return S_OK; \
 }
 
-STDMETHODIMP CSmartCardSigner::get_firstName(BSTR* pVal)
+GET_METHOD(lastName,SURNAME);
+GET_METHOD(firstName,FIRSTNAME);
+GET_METHOD(middleName,MIDDLENAME);
+GET_METHOD(sex,SEX);
+GET_METHOD(citizenship,CITIZEN);
+GET_METHOD(birthDate,BIRTHDATE);
+GET_METHOD(personalID,ID);
+GET_METHOD(documentID,DOCUMENTID);
+GET_METHOD(expiryDate,EXPIRY);
+GET_METHOD(placeOfBirth,BIRTHPLACE);
+GET_METHOD(issuedDate,ISSUEDATE);
+GET_METHOD(residencePermit,RESIDENCEPERMIT);
+GET_METHOD(comment1,COMMENT1);
+GET_METHOD(comment2,COMMENT2);
+GET_METHOD(comment3,COMMENT3);
+GET_METHOD(comment4,COMMENT4);
+
+STDMETHODIMP CSmartCardSigner::sign(BSTR hashToBeSigned)
 {
-	// TODO: Add your implementation code here
-
-	return S_OK;
-}
-
-STDMETHODIMP CSmartCardSigner::get_middleName(BSTR* pVal)
-{
-	// TODO: Add your implementation code here
-
-	return S_OK;
-}
-
-STDMETHODIMP CSmartCardSigner::get_sex(BSTR* pVal)
-{
-	// TODO: Add your implementation code here
-
-	return S_OK;
-}
-
-STDMETHODIMP CSmartCardSigner::get_citizenship(BSTR* pVal)
-{
-	// TODO: Add your implementation code here
-
-	return S_OK;
-}
-
-STDMETHODIMP CSmartCardSigner::get_birthDate(BSTR* pVal)
-{
-	// TODO: Add your implementation code here
-
-	return S_OK;
-}
-
-STDMETHODIMP CSmartCardSigner::get_personalID(BSTR* pVal)
-{
-	// TODO: Add your implementation code here
-
-	return S_OK;
-}
-
-STDMETHODIMP CSmartCardSigner::get_documentID(BSTR* pVal)
-{
-	// TODO: Add your implementation code here
-
-	return S_OK;
-}
-
-STDMETHODIMP CSmartCardSigner::get_expiryDate(BSTR* pVal)
-{
-	// TODO: Add your implementation code here
-
-	return S_OK;
-}
-
-STDMETHODIMP CSmartCardSigner::get_placeOfBirth(BSTR* pVal)
-{
-	// TODO: Add your implementation code here
-
-	return S_OK;
-}
-
-STDMETHODIMP CSmartCardSigner::get_issuedDate(BSTR* pVal)
-{
-	// TODO: Add your implementation code here
-
-	return S_OK;
-}
-
-STDMETHODIMP CSmartCardSigner::get_residencePermit(BSTR* pVal)
-{
-	// TODO: Add your implementation code here
-
-	return S_OK;
-}
-
-STDMETHODIMP CSmartCardSigner::get_comment1(BSTR* pVal)
-{
-	// TODO: Add your implementation code here
-
-	return S_OK;
-}
-
-STDMETHODIMP CSmartCardSigner::get_comment2(BSTR* pVal)
-{
-	// TODO: Add your implementation code here
-
-	return S_OK;
-}
-
-STDMETHODIMP CSmartCardSigner::get_comment3(BSTR* pVal)
-{
-	// TODO: Add your implementation code here
-
-	return S_OK;
-}
-
-STDMETHODIMP CSmartCardSigner::get_comment4(BSTR* pVal)
-{
-	// TODO: Add your implementation code here
-
+	CREDUI_INFO ui_info = {
+		sizeof(CREDUI_INFO),
+		NULL,
+		_T("pls enter auth"),
+		_T("idcard authentication"),
+		NULL
+		};
+	BOOL bSave = FALSE;
+	TCHAR passPrompt[12] = {L'\0'};
+	TCHAR uName[100] = _T("idCard User");
+	DWORD ret = CredUIPromptForCredentials(&ui_info,_T("tgt_esteidcard"),
+		NULL,0,
+		uName,sizeof(uName),
+		passPrompt,12,
+		&bSave,
+		CREDUI_FLAGS_EXCLUDE_CERTIFICATES | CREDUI_FLAGS_DO_NOT_PERSIST |
+		CREDUI_FLAGS_GENERIC_CREDENTIALS | CREDUI_FLAGS_PASSWORD_ONLY_OK |
+		CREDUI_FLAGS_KEEP_USERNAME
+		);
 	return S_OK;
 }

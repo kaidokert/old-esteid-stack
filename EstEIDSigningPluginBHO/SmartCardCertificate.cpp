@@ -1,6 +1,6 @@
 // SmartCardCertificate.cpp : Implementation of CSmartCardCertificate
 
-#include "stdafx.h"
+#include "precompiled.h"
 #include "SmartCardCertificate.h"
 
 

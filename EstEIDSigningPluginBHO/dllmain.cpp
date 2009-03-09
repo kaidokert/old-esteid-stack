@@ -1,6 +1,6 @@
 // dllmain.cpp : Implementation of DllMain.
 
-#include "stdafx.h"
+#include "precompiled.h"
 #include "resource.h"
 #include "EstEIDSigningPluginBHO_i.h"
 #include "dllmain.h"

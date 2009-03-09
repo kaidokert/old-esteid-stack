@@ -5,18 +5,35 @@
 var signer = null;
 
 function getSigner() {
-    if (!window.exteranl) return;
+    if (!window.external) return;
     signer = window.external;
     }
 
 function testComponent() {
-    if(!window.external) return;
-    window.external.sayHello("blaa blaa");
+    signer.sayHello("hello from JavaScript");
+    dbgArea.value+= signer.lastName + "\r";
+    dbgArea.value+= signer.firstName + "\r";
+    dbgArea.value+= signer.middleName + "\r";
+    dbgArea.value+= signer.sex + "\r";
+    dbgArea.value+= signer.citizenship + "\r";
+    dbgArea.value+= signer.birthDate + "\r";
+    dbgArea.value+= signer.personalID + "\r";
+    dbgArea.value+= signer.documentID + "\r";
+    dbgArea.value+= signer.expiryDate + "\r";
+    dbgArea.value+= signer.placeOfBirth + "\r";
+    dbgArea.value+= signer.issuedDate + "\r";
+    dbgArea.value+= signer.residencePermit + "\r";
+    dbgArea.value+= signer.comment1 + "\r";
+    dbgArea.value+= signer.comment2 + "\r";
+    dbgArea.value+= signer.comment3 + "\r";
+    dbgArea.value+= signer.comment4 + "\r";
+    signedData = signer.sign("0A0B0C0D");
     }
 </script>
 
 </head>
 <body onload="getSigner()">
 <input type="button" value="blaa" onclick="testComponent()"/>
+<textarea cols="80" rows="20" id="dbgArea" name="dbgArea"></textarea>
 </body>
 </html>

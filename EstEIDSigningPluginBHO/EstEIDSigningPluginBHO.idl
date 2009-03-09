@@ -43,6 +43,7 @@ interface ISmartCardSigner : IDispatch{
 	[propget, id(15), helpstring("property comment2")] HRESULT comment2([out, retval] BSTR* pVal);
 	[propget, id(16), helpstring("property comment3")] HRESULT comment3([out, retval] BSTR* pVal);
 	[propget, id(17), helpstring("property comment4")] HRESULT comment4([out, retval] BSTR* pVal);
+	[id(18), helpstring("method sign")] HRESULT sign([in] BSTR hashToBeSigned);
 };
 [
 	object,

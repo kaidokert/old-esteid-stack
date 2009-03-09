@@ -1,6 +1,6 @@
 // EstEIDSigningBHO.cpp : Implementation of CEstEIDSigningBHO
 
-#include "stdafx.h"
+#include "precompiled.h"
 #include "EstEIDSigningBHO.h"
 
 

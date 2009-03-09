@@ -10,6 +10,7 @@
 
 #include "targetver.h"
 
+#define NOMINMAX
 #define _ATL_APARTMENT_THREADED
 #define _ATL_NO_AUTOMATIC_NAMESPACE
 
@@ -19,5 +20,6 @@
 #include <atlbase.h>
 #include <atlcom.h>
 #include <atlctl.h>
+#include <cardlib/common.h>
 
 using namespace ATL;

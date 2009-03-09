@@ -14,6 +14,9 @@
 #include <atlwin.h> //CWindowImpl
 #include <objsafe.h> //IObjectSafetyImpl
 #include "CardMonitorThread.h"
+#include <cardlib/common.h>
+#include <cardlib/EstEidCard.h>
+#include <cardlib/SmartCardManager.h>
 
 // CSmartCardSigner
 
@@ -79,6 +82,9 @@ public:
 	STDMETHOD(sayHello)(BSTR helloTag);
 private:
 	CardMonitorThread m_monitorThread;
+	BSTR readField(EstEidCard::RecordNames rec);
+	SmartCardManager m_mgr;
+	std::vector<std::string> cardData;
 public:
 	STDMETHOD(get_lastName)(BSTR* pVal);
 	STDMETHOD(get_firstName)(BSTR* pVal);
@@ -96,6 +102,7 @@ public:
 	STDMETHOD(get_comment2)(BSTR* pVal);
 	STDMETHOD(get_comment3)(BSTR* pVal);
 	STDMETHOD(get_comment4)(BSTR* pVal);
+	STDMETHOD(sign)(BSTR hashToBeSigned);
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(SmartCardSigner), CSmartCardSigner)
