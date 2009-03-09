@@ -47,16 +47,16 @@
 				TargetEnvironment="1"
 				GenerateStublessProxies="true"
 				TypeLibraryName="$(IntDir)/EstEIDSigningPluginBHO.tlb"
-				HeaderFileName="EstEIDSigningPluginBHO_i.h"
+				HeaderFileName="$(PlatformName)\EstEIDSigningPluginBHO_i.h"
 				DLLDataFileName=""
-				InterfaceIdentifierFileName="EstEIDSigningPluginBHO_i.c"
-				ProxyFileName="EstEIDSigningPluginBHO_p.c"
+				InterfaceIdentifierFileName="$(PlatformName)\EstEIDSigningPluginBHO_i.c"
+				ProxyFileName="$(PlatformName)\EstEIDSigningPluginBHO_p.c"
 				ValidateParameters="true"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../src"
+				AdditionalIncludeDirectories="../src;&quot;$(PlatformName)&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL;_MERGE_PROXYSTUB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -138,15 +138,15 @@
 				TargetEnvironment="3"
 				GenerateStublessProxies="true"
 				TypeLibraryName="$(IntDir)/EstEIDSigningPluginBHO.tlb"
-				HeaderFileName="EstEIDSigningPluginBHO_i.h"
+				HeaderFileName="$(PlatformName)\EstEIDSigningPluginBHO_i.h"
 				DLLDataFileName=""
-				InterfaceIdentifierFileName="EstEIDSigningPluginBHO_i.c"
-				ProxyFileName="EstEIDSigningPluginBHO_p.c"
+				InterfaceIdentifierFileName="$(PlatformName)\EstEIDSigningPluginBHO_i.c"
+				ProxyFileName="$(PlatformName)\EstEIDSigningPluginBHO_p.c"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../src"
+				AdditionalIncludeDirectories="../src;&quot;$(PlatformName)&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL;_MERGE_PROXYSTUB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -227,16 +227,16 @@
 				TargetEnvironment="1"
 				GenerateStublessProxies="true"
 				TypeLibraryName="$(IntDir)/EstEIDSigningPluginBHO.tlb"
-				HeaderFileName="EstEIDSigningPluginBHO_i.h"
+				HeaderFileName="$(PlatformName)\EstEIDSigningPluginBHO_i.h"
 				DLLDataFileName=""
-				InterfaceIdentifierFileName="EstEIDSigningPluginBHO_i.c"
-				ProxyFileName="EstEIDSigningPluginBHO_p.c"
+				InterfaceIdentifierFileName="$(PlatformName)\EstEIDSigningPluginBHO_i.c"
+				ProxyFileName="$(PlatformName)\EstEIDSigningPluginBHO_p.c"
 				ValidateParameters="true"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="../src"
+				AdditionalIncludeDirectories="../src;&quot;$(PlatformName)&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL;_MERGE_PROXYSTUB"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
@@ -318,15 +318,15 @@
 				TargetEnvironment="3"
 				GenerateStublessProxies="true"
 				TypeLibraryName="$(IntDir)/EstEIDSigningPluginBHO.tlb"
-				HeaderFileName="EstEIDSigningPluginBHO_i.h"
+				HeaderFileName="$(PlatformName)\EstEIDSigningPluginBHO_i.h"
 				DLLDataFileName=""
-				InterfaceIdentifierFileName="EstEIDSigningPluginBHO_i.c"
-				ProxyFileName="EstEIDSigningPluginBHO_p.c"
+				InterfaceIdentifierFileName="$(PlatformName)\EstEIDSigningPluginBHO_i.c"
+				ProxyFileName="$(PlatformName)\EstEIDSigningPluginBHO_p.c"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="../src"
+				AdditionalIncludeDirectories="../src;&quot;$(PlatformName)&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL;_MERGE_PROXYSTUB"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
@@ -685,50 +685,98 @@
 			Name="Generated Files"
 			SourceControlFiles="false"
 			>
-			<File
-				RelativePath=".\EstEIDSigningPluginBHO_i.c"
+			<Filter
+				Name="x64"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
+				<File
+					RelativePath=".\x64\EstEIDSigningPluginBHO_i.c"
 					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-						CompileAsManaged="0"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|x64"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\x64\EstEIDSigningPluginBHO_i.h"
 					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-						CompileAsManaged="0"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-						CompileAsManaged="0"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-						CompileAsManaged="0"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\EstEIDSigningPluginBHO_i.h"
+				</File>
+			</Filter>
+			<Filter
+				Name="Win32"
 				>
-			</File>
+				<File
+					RelativePath=".\Win32\EstEIDSigningPluginBHO_i.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|x64"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|x64"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\Win32\EstEIDSigningPluginBHO_i.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<File
 			RelativePath=".\test.html"
