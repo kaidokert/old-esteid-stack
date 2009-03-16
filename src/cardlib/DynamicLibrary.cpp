@@ -93,7 +93,7 @@ void DynamicLibrary::construct(int version) {
 		},search,qname;
 	mLibhandle = NULL;
 	for(j = 0;j < sizeof(arrPaths) / sizeof(*arrPaths);j++) {
-	for(i = 0;i < sizeof(arrStr) / sizeof(*arrStr);i++) {
+		for(i = 0;i < sizeof(arrStr) / sizeof(*arrStr);i++) {
 			qname = arrPaths[j] + arrStr[i];
 
 			search+= qname + ",";
