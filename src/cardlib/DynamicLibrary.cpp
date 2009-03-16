@@ -103,8 +103,8 @@ void DynamicLibrary::construct(int version) {
 		qname = arrPaths[j] + m_pathHint + "/" + arrStr[i];
 		search+= qname + ",";
 		mLibhandle=dlopen(qname.c_str(),RTLD_LAZY);
-		if (mLibhandle) break;
 		}
+		if (mLibhandle) break;
 		}
 	if (!mLibhandle) {
 		buf.str("");
