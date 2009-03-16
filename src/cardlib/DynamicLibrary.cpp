@@ -94,16 +94,17 @@ void DynamicLibrary::construct(int version) {
 	mLibhandle = NULL;
 	for(j = 0;j < sizeof(arrPaths) / sizeof(*arrPaths);j++) {
 	for(i = 0;i < sizeof(arrStr) / sizeof(*arrStr);i++) {
-		qname = arrPaths[j] + arrStr[i];
+			qname = arrPaths[j] + arrStr[i];
 
-		search+= qname + ",";
-		mLibhandle=dlopen(qname.c_str(),RTLD_LAZY);
-		if (mLibhandle) break;
+			search+= qname + ",";
+			mLibhandle=dlopen(qname.c_str(),RTLD_LAZY);
+			if (mLibhandle) break;
 
-		qname = arrPaths[j] + m_pathHint + "/" + arrStr[i];
-		search+= qname + ",";
-		mLibhandle=dlopen(qname.c_str(),RTLD_LAZY);
-		}
+			qname = arrPaths[j] + m_pathHint + "/" + arrStr[i];
+			search+= qname + ",";
+			mLibhandle=dlopen(qname.c_str(),RTLD_LAZY);
+			if (mLibhandle) break;
+			}
 		if (mLibhandle) break;
 		}
 	if (!mLibhandle) {
