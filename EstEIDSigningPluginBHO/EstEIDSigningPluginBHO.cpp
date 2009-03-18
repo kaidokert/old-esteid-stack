@@ -1,3 +1,12 @@
+/*!
+	\file		EstEIDSigningPluginBHO.cpp
+	\copyright	(c) Kaido Kert ( kaidokert@gmail.com )    
+	\licence	BSD
+	\author		$Author$
+	\date		$Date$
+*/
+// Revision $Revision$
+
 // EstEIDSigningPluginBHO.cpp : Implementation of DLL Exports.
 
 
@@ -70,7 +79,9 @@ STDAPI DllInstall(BOOL bInstall, LPCWSTR pszCmdLine)
     {
     	if (_wcsnicmp(pszCmdLine, szUserSwitch, _countof(szUserSwitch)) == 0)
     	{
+#if _MSC_VER >= 1500 //quickfix, need to implement it for vs2005 atl
     		AtlSetPerUserRegistration(true);
+#endif
     	}
     }
 

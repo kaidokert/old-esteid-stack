@@ -1,3 +1,12 @@
+/*!
+	\file		EstEIDSigningBHO.h
+	\copyright	(c) Kaido Kert ( kaidokert@gmail.com )    
+	\licence	BSD
+	\author		$Author$
+	\date		$Date$
+*/
+// Revision $Revision$
+
 // EstEIDSigningBHO.h : Declaration of the CEstEIDSigningBHO
 
 #pragma once

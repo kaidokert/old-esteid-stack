@@ -1,3 +1,12 @@
+/*!
+	\file		SmartCardCertificate.h
+	\copyright	(c) Kaido Kert ( kaidokert@gmail.com )    
+	\licence	BSD
+	\author		$Author$
+	\date		$Date$
+*/
+// Revision $Revision$
+
 // SmartCardCertificate.h : Declaration of the CSmartCardCertificate
 
 #pragma once
@@ -64,6 +73,14 @@ public:
 	STDMETHOD(get_keyUsage)(BSTR* pVal);
 	STDMETHOD(get_cert)(BSTR* pVal);
 	STDMETHOD(get_certID)(BSTR* pVal);
+	STDMETHOD(get_thumbPrint)(BSTR* pVal);
+	STDMETHOD(get_privateKeyContainer)(BSTR* pVal);
+	STDMETHOD(_loadArrayFrom)(BSTR privateKeyContainer, ULONG length, BYTE* data);
+private:
+	/// hold the actual cert data
+	std::vector<unsigned char> m_certBlob;
+	/// where the key is <CSP:NAME:CONTAINER:KEYID|CARD:NAME:ID|PKCS11MOD:SLOT:xx> 
+	_bstr_t m_privateKeyContainer;
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(SmartCardCertificate), CSmartCardCertificate)

@@ -1,3 +1,12 @@
+/*!
+	\file		CardMonitorThread.h
+	\copyright	(c) Kaido Kert ( kaidokert@gmail.com )    
+	\licence	BSD
+	\author		$Author$
+	\date		$Date$
+*/
+// Revision $Revision$
+
 // SmartCardSigner.h : Declaration of the CSmartCardSigner
 
 #pragma once
@@ -84,7 +93,10 @@ private:
 	CardMonitorThread m_monitorThread;
 	BSTR readField(EstEidCard::RecordNames rec);
 	SmartCardManager m_mgr;
-	std::vector<std::string> cardData;
+	std::vector<std::string> m_cardData;
+	std::vector<unsigned char> m_authCert;
+	std::vector<unsigned char> m_signCert;
+	void getEstEIDCerts(CInterfaceList<ISmartCardCertificate> &list);
 public:
 	STDMETHOD(get_lastName)(BSTR* pVal);
 	STDMETHOD(get_firstName)(BSTR* pVal);
@@ -102,7 +114,9 @@ public:
 	STDMETHOD(get_comment2)(BSTR* pVal);
 	STDMETHOD(get_comment3)(BSTR* pVal);
 	STDMETHOD(get_comment4)(BSTR* pVal);
-	STDMETHOD(sign)(BSTR hashToBeSigned);
+	STDMETHOD(sign)(BSTR hashToBeSigned,VARIANT pCert);
+	STDMETHOD(getCertificateList)(BSTR* retVal);
+	STDMETHOD(getCertificateByThumbprint)(BSTR thumbPrint, VARIANT* retVal);
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(SmartCardSigner), CSmartCardSigner)

@@ -43,7 +43,9 @@ interface ISmartCardSigner : IDispatch{
 	[propget, id(15), helpstring("property comment2")] HRESULT comment2([out, retval] BSTR* pVal);
 	[propget, id(16), helpstring("property comment3")] HRESULT comment3([out, retval] BSTR* pVal);
 	[propget, id(17), helpstring("property comment4")] HRESULT comment4([out, retval] BSTR* pVal);
-	[id(18), helpstring("method sign")] HRESULT sign([in] BSTR hashToBeSigned);
+	[id(18), helpstring("method sign")] HRESULT sign([in] BSTR hashToBeSigned,[in] VARIANT pCert);
+	[id(19), helpstring("Lists thumbprints of all available certs, comma separated")] HRESULT getCertificateList([out,retval] BSTR* retVal);
+	[id(20), helpstring("Returns a SmartCardCertificate object by given thumbprint")] HRESULT getCertificateByThumbprint([in] BSTR thumbPrint, [out,retval] VARIANT* retVal);
 };
 [
 	object,
@@ -61,6 +63,9 @@ interface ISmartCardCertificate : IDispatch{
 	[propget, id(5), helpstring("property keyUsage")] HRESULT keyUsage([out, retval] BSTR* pVal);
 	[propget, id(6), helpstring("property cert")] HRESULT cert([out, retval] BSTR* pVal);
 	[propget, id(7), helpstring("property certID")] HRESULT certID([out, retval] BSTR* pVal);
+	[propget, id(8), helpstring("property thumbPrint")] HRESULT thumbPrint([out, retval] BSTR* pVal);
+	[propget, id(9), helpstring("property privateKeyContainer")] HRESULT privateKeyContainer([out, retval] BSTR* pVal);
+	[id(10), helpstring("method _loadArrayFrom")] HRESULT _loadArrayFrom([in] BSTR privateKeyContainer, [in] ULONG length, [in] BYTE* data);
 };
 [
 	uuid(536E87AF-8E4B-47C0-8046-273961378EF3),

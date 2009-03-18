@@ -1,3 +1,12 @@
+/*!
+	\file		EstEIDSigningBHO.cpp
+	\copyright	(c) Kaido Kert ( kaidokert@gmail.com )    
+	\licence	BSD
+	\author		$Author$
+	\date		$Date$
+*/
+// Revision $Revision$
+
 // EstEIDSigningBHO.cpp : Implementation of CEstEIDSigningBHO
 
 #include "precompiled.h"
@@ -40,8 +49,6 @@ STDMETHODIMP CEstEIDSigningBHO::SetSite(IUnknown* pUnkSite) {
 }
 STDMETHODIMP CEstEIDSigningBHO::GetExternal(  //return a signer object
     /* [out] */ IDispatch **ppDispatch) {
-/*	CoCreateInstance(CLSID_SmartCardSigner, NULL, CLSCTX_INPROC_SERVER | CLSCTX_LOCAL_SERVER,
-		IID_ISmartCardSigner, (LPVOID *)ppDispatch); */
 	CComPtr<IDispatch> in;
 	in = m_signer;
 	*ppDispatch = in.Detach();

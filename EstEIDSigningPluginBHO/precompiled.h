@@ -21,5 +21,5 @@
 #include <atlcom.h>
 #include <atlctl.h>
 #include <cardlib/common.h>
-
+#include <comutil.h> //_bstr_t
 using namespace ATL;
