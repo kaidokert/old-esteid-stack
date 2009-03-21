@@ -1,6 +1,6 @@
 function createSampleProject(name,cppfile)
-	location ("../../build/" .. _ACTION)
 	project(name)
+	location ("../../build/" .. _ACTION)
 	language "C++"
 	kind     "ConsoleApp"
 	files  { cppfile }
