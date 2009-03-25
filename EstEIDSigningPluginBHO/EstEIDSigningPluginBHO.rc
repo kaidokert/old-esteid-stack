@@ -12,6 +12,8 @@
 #endif
 #include "winres.h"
 #include "Setup.h"
+#include "utility/pinDialog.rc"
+
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -41,7 +43,8 @@ BEGIN
     "#include ""targetver.h""\r\n"
     "#endif\r\n"
     "#include ""winres.h""\r\n"
-    "#include ""Setup.h\0"
+    "#include ""Setup.h""\r\n"
+    "#include ""utility/pinDialog.rc""\r\0"
 END
 
 3 TEXTINCLUDE 
@@ -58,8 +61,8 @@ END
 //
 
 1 VERSIONINFO
- FILEVERSION RC_VERSION
- PRODUCTVERSION RC_VERSION
+ FILEVERSION 0,6,0,0
+ PRODUCTVERSION 0,6,0,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -74,13 +77,13 @@ BEGIN
     BEGIN
         BLOCK "042504b0"
         BEGIN
-            VALUE "FileDescription", PACKAGE_NAME
-            VALUE "FileVersion", PACKAGE_VERSION ".0"
-            VALUE "InternalName", PACKAGE_NAME
+            VALUE "FileDescription", "EstEID Browser Signing plugin"
+            VALUE "FileVersion", "0.6.0.0"
+            VALUE "InternalName", "EstEID Browser Signing plugin"
             VALUE "LegalCopyright", "Copyright (C) JaJa Arendus 2009"
             VALUE "OriginalFilename", "EstEIDSigningBHO.dll"
-            VALUE "ProductName", PACKAGE_STRING
-            VALUE "ProductVersion", PACKAGE_VERSION ".0"
+            VALUE "ProductName", "EstEID Browser Signing plugin 0.6.0"
+            VALUE "ProductVersion", "0.6.0.0"
         END
     END
     BLOCK "VarFileInfo"

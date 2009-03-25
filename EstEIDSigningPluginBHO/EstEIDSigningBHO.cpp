@@ -19,8 +19,6 @@
 HRESULT CEstEIDSigningBHO::FinalConstruct()
 {
 	m_signer.CoCreateInstance(CLSID_SmartCardSigner);
-/*	CoCreateInstance(CLSID_SmartCardSigner, NULL, CLSCTX_INPROC_SERVER | CLSCTX_LOCAL_SERVER,
-		IID_ISmartCardSigner, (LPVOID *)ppDispatch); */
 	return S_OK;
 }
 

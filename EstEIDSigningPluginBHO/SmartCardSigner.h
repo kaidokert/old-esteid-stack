@@ -90,6 +90,8 @@ public:
 
 	STDMETHOD(sayHello)(BSTR helloTag);
 private:
+	STDMETHOD(errMsg)(LPCOLESTR err);
+
 	CardMonitorThread m_monitorThread;
 	BSTR readField(EstEidCard::RecordNames rec);
 	SmartCardManager m_mgr;

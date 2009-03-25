@@ -11,12 +11,11 @@
 
 #include "precompiled.h"
 #include "SmartCardSigner.h"
-#include <WinCred.h> //for credui
+#include "utility/pinDialog.h"
 
 #include <algorithm>
 
 #pragma comment(lib,"comsuppw")
-#pragma comment(lib,"credui")
 
 // CSmartCardSigner
 
@@ -45,8 +44,12 @@ STDMETHODIMP CSmartCardSigner::sayHello(BSTR helloTag)
 
 BSTR CSmartCardSigner::readField(EstEidCard::RecordNames rec  ) {
 	if (!m_cardData.size()) {
-		EstEidCard card(m_mgr,0U);
-		card.readPersonalData(m_cardData,EstEidCard::SURNAME,EstEidCard::COMMENT4);
+		try {
+			EstEidCard card(m_mgr,0U);
+			card.readPersonalData(m_cardData,EstEidCard::SURNAME,EstEidCard::COMMENT4);
+		} catch (std::runtime_error &err) {
+			return _bstr_t("").Detach();
+			}
 		}
 	return _bstr_t(m_cardData[rec].c_str()).Detach();
 	}
@@ -90,10 +93,26 @@ public:
 	{ 
 		return elem;
 	}
+	char operator() (WCHAR &elem) const
+	{
+		return (char)elem;
+	}
+};
+
+STDMETHODIMP CSmartCardSigner::errMsg(LPCOLESTR err) {
+	return Error(err,__uuidof(ISmartCardSigner));;
+	}
+
+struct pinDialogPriv_l {
+	HINSTANCE m_hInst;
+	WORD m_resourceID;
 };
 
 STDMETHODIMP CSmartCardSigner::sign(BSTR hashToBeSigned,VARIANT pCert)
 {
+	if (!pCert.uintVal )
+		return errMsg(L"Parameter needs to be a cert object");
+
 	_variant_t inputVar;
 	if (V_ISBYREF(&pCert)) inputVar = pCert.pvarVal;
 	else inputVar = &pCert;
@@ -107,14 +126,12 @@ STDMETHODIMP CSmartCardSigner::sign(BSTR hashToBeSigned,VARIANT pCert)
 	if (0 == keyContainer.compare(0,5,L"CARD:")) method = 1;
 	if (0 == keyContainer.compare(0,4,L"CSP:"))  method = 2;
 	if (0 == keyContainer.compare(0,7,L"PKCS11:"))method = 3;
-	if (!method) {
-		return Error("Unknown method specified",__uuidof(ISmartCardSigner));
-		}
-	if(0 == keyContainer.compare(6,7,L"EstEID:")) {
-		return Error("Unknown card specified",__uuidof(ISmartCardSigner));
-		}
+	if (!method)
+		return errMsg(L"Unknown method specified");
+	if(0 == keyContainer.compare(6,7,L"EstEID:"))
+		return errMsg(L"Unknown card specified");
 
-	CREDUI_INFO ui_info = {
+/*	CREDUI_INFO ui_info = {
 		sizeof(CREDUI_INFO),
 		NULL,
 		_T("pls enter auth"),
@@ -133,8 +150,16 @@ STDMETHODIMP CSmartCardSigner::sign(BSTR hashToBeSigned,VARIANT pCert)
 		CREDUI_FLAGS_GENERIC_CREDENTIALS | CREDUI_FLAGS_PASSWORD_ONLY_OK |
 		CREDUI_FLAGS_KEEP_USERNAME
 		);
+*/
+	
+	pinDialogPriv_l params = { ATL::_AtlBaseModule.GetResourceInstance(),
+		IDD_PIN_DIALOG_ENG
+		};
+	pinDialog dlg(&params,"Enter signature PIN");
+	if (!dlg.doDialog())
+		return errMsg(L"User cancelled");
 
-	std::string pin( narrow(passPrompt));
+	std::string pin = dlg.getPin();
 	try {
 		EstEidCard card(m_mgr,0U);
 		if(0 == keyContainer.compare(11,2,L":0"))
@@ -156,9 +181,11 @@ void CSmartCardSigner::getEstEIDCerts(CInterfaceList<ISmartCardCertificate> &lis
 	cert0.CoCreateInstance(CLSID_SmartCardCertificate);
 	cert1.CoCreateInstance(CLSID_SmartCardCertificate);
 	if (!m_authCert.size()) {
+		try {
 		EstEidCard card(m_mgr,0U);
 		m_authCert = card.getAuthCert();
 		m_signCert = card.getSignCert();
+		} catch (std::runtime_error &err) {return;}
 		}
 	cert0->_loadArrayFrom(L"CARD:EstEID:0", m_authCert.size(), &m_authCert[0] );
 	cert1->_loadArrayFrom(L"CARD:EstEID:1", m_signCert.size(), &m_signCert[0] );

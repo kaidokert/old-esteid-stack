@@ -1,12 +1,13 @@
 <html>
 <head>
+<object id="signer" classid="clsid:28821112-76D5-4C26-9F64-9E20AA91DDF3"></object>
 <script language="javascript" type="text/javascript">
 
-var signer = null;
+//var signer = null;
 
 function getSigner() {
-    if (!window.external) return;
-    signer = window.external;
+/*    if (!window.external) return;
+    signer = window.external;*/
     }
 
 function testCerts() {
@@ -48,6 +49,7 @@ function testComponent() {
 
 </head>
 <body onload="getSigner()">
+
 <input type="button" value="test component" onclick="testComponent()"/>
 <input type="button" value="test certs" onclick="testCerts()"/>
 <textarea cols="80" rows="20" id="dbgArea" name="dbgArea"></textarea>

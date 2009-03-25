@@ -7,6 +7,8 @@
 #define IDR_ESTEIDSIGNINGBHO            102
 #define IDR_SMARTCARDSIGNER             103
 #define IDR_SMARTCARDCERTIFICATE        104
+#define IDC_PININPUT                    105
+#define IDD_PIN_DIALOG_ENG              108
 
 // Next default values for new objects
 // 
@@ -15,6 +17,6 @@
 #define _APS_NEXT_RESOURCE_VALUE        201
 #define _APS_NEXT_COMMAND_VALUE         32768
 #define _APS_NEXT_CONTROL_VALUE         201
-#define _APS_NEXT_SYMED_VALUE           105
+#define _APS_NEXT_SYMED_VALUE           109
 #endif
 #endif

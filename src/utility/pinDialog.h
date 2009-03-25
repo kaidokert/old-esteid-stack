@@ -10,8 +10,8 @@
 struct pinDialogPriv;
 
 class pinDialog {
-	pinDialogPriv *d;
 public:
+	pinDialogPriv *d;
 	pinDialog(const void * opsysParam,std::string prompt);
 	~pinDialog();
 	bool doDialog();
