@@ -13,6 +13,8 @@
 #include <PCSC/wintypes.h>
 #include <PCSC/pcsclite.h>
 #include <PCSC/winscard.h>
+#else
+#include <winscard.h>
 #endif
 
 #ifdef WIN32

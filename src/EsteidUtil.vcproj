@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="EsteidUtil"
-	ProjectGUID="{96B9DB3B-D7BA-4CEE-B132-CDE5F5D8212D}"
+	ProjectGUID="{8226B6E0-D407-8F4F-A48D-832392C8CF84}"
 	RootNamespace="EsteidUtil"
 	Keyword="Win32Proj"
 	>
@@ -17,8 +17,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="."
+			IntermediateDirectory="obj\Debug"
 			ConfigurationType="1"
 			CharacterSet="2"
 			>
@@ -26,8 +26,7 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
-				Name="VCCustomBuildTool"
-			/>
+				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
 			/>
@@ -39,16 +38,18 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(WXWIN)\lib\vc_lib\mswd&quot;;&quot;$(WXWIN)\include&quot;;&quot;$(ProjectDir)&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;DEBUG"
+				Optimization="0"	
+				AdditionalIncludeDirectories="../../../../../../../../../wxWidgets-2.8.4/include;.;../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswd"
+				PreprocessorDefinitions="WIN32;WIN32;_DEBUG;DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
+				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="precompiled.h"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
+				ProgramDataBaseFileName="$(OutDir)\$(ProjectName).pdb"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -56,16 +57,20 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="WIN32;WIN32;_DEBUG;DEBUG"
+				AdditionalIncludeDirectories="../../../../../../../../../wxWidgets-2.8.4/include;.;../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswd"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wxbase$(WXLIBVER)d.lib wxmsw$(WXLIBVER)d_core.lib wxmsw$(WXLIBVER)d_adv.lib wxjpegd.lib comctl32.lib Rpcrt4.lib Crypt32.lib"
+				AdditionalDependencies="cardlib\cardlib.lib utility\utility.lib crypt32.lib comctl32.lib Rpcrt4.lib wxbase28d.lib wxmsw28d_core.lib wxmsw28d_adv.lib wxjpegd.lib"
+				OutputFile="$(OutDir)\EsteidUtil.exe"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="$(WXWIN)\lib\vc_lib"
+				AdditionalLibraryDirectories="..\..\..\..\..\..\..\..\..\wxWidgets-2.8.4\lib\vc_lib"
 				GenerateDebugInformation="true"
+				ProgramDatabaseFile="$(OutDir)\$(ProjectName).pdb"
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -96,18 +101,16 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="."
+			IntermediateDirectory="obj\Release"
 			ConfigurationType="1"
 			CharacterSet="2"
-			WholeProgramOptimization="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
-				Name="VCCustomBuildTool"
-			/>
+				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
 			/>
@@ -119,191 +122,38 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(WXWIN)\lib\vc_lib\mswm&quot;;&quot;$(WXWIN)\include&quot;;&quot;$(ProjectDir)&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
-				RuntimeLibrary="0"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="precompiled.h"
-				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
-				DebugInformationFormat="3"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="wxmsw$(WXLIBVER)m_core.lib wxbase$(WXLIBVER)m.lib wxmsw$(WXLIBVER)m_adv.lib wxjpeg.lib comctl32.lib Crypt32.lib"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="$(WXWIN)\lib\vc_lib"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				TargetMachine="1"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
-		<Configuration
-			Name="DebugUnicode|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
-			CharacterSet="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(WXWIN)\lib\vc_lib\mswd&quot;;&quot;$(WXWIN)\include&quot;;&quot;$(ProjectDir)&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
-				MinimalRebuild="true"
+				Optimization="0"	
+				AdditionalIncludeDirectories="../../../../../../../../../wxWidgets-2.8.4/include;.;../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/msw"
+				PreprocessorDefinitions="WIN32;WIN32"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
+				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="precompiled.h"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
-				DebugInformationFormat="4"
+				ProgramDataBaseFileName="$(OutDir)\$(ProjectName).pdb"
+				DebugInformationFormat="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="WIN32;WIN32"
+				AdditionalIncludeDirectories="../../../../../../../../../wxWidgets-2.8.4/include;.;../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/msw"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wxbase$(WXLIBVER)ud.lib wxmsw$(WXLIBVER)ud_core.lib wxmsw$(WXLIBVER)ud_adv.lib wxjpegd.lib comctl32.lib Rpcrt4.lib Crypt32.lib"
+				AdditionalDependencies="cardlib\cardlib.lib utility\utility.lib crypt32.lib comctl32.lib Rpcrt4.lib wxbase28.lib wxmsw28_core.lib wxmsw28_adv.lib wxjpeg.lib"
+				OutputFile="$(OutDir)\EsteidUtil.exe"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="$(WXWIN)\lib\vc_lib"
-				GenerateDebugInformation="true"
+				AdditionalLibraryDirectories="..\..\..\..\..\..\..\..\..\wxWidgets-2.8.4\lib\vc_lib"
+				GenerateDebugInformation="false"
 				SubSystem="2"
-				TargetMachine="1"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
-		<Configuration
-			Name="ReleaseUnicode|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
-			CharacterSet="1"
-			WholeProgramOptimization="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(WXWIN)\lib\vc_lib\mswum&quot;;&quot;$(WXWIN)\include&quot;;&quot;$(ProjectDir)&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
-				RuntimeLibrary="0"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="precompiled.h"
-				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
-				DebugInformationFormat="3"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="wxbase$(WXLIBVER)um.lib wxmsw$(WXLIBVER)um_core.lib wxmsw$(WXLIBVER)um_adv.lib wxjpeg.lib comctl32.lib Crypt32.lib"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="$(WXWIN)\lib\vc_lib"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -335,296 +185,126 @@
 	<References>
 	</References>
 	<Files>
-		<Filter
-			Name="Source Files"
-			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+		<File
+			RelativePath="AppSetting.cpp"
 			>
-			<File
-				RelativePath=".\AppSetting.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CertificateDialog.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\DiagnosticsDialog.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\EsteidUtil.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\MainDialog.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\MainDialog_2.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\MainDialog_Image.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\MainDialog_Pin.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\MainDialog_Windows.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\PersonalDataDialog.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\PinChangeDialog.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\PinChangeSecureDialog.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\PinDialog.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\wxprec.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="DebugUnicode|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseUnicode|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-			</File>
-			<Filter
-				Name="cardlib"
-				>
-				<File
-					RelativePath=".\cardlib\CardBase.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\cardlib\CTAPIManager.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\cardlib\DynamicLibrary.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\cardlib\EstEidCard.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\cardlib\EstEidCardMaintainer.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\cardlib\PCSCManager.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\cardlib\SCError.cpp"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="utility"
-				>
-				<File
-					RelativePath=".\utility\asnCertificate.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\utility\asnObject.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\utility\pkcs11module.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\utility\winInetObj.cpp"
-					>
-				</File>
-			</Filter>
-		</Filter>
-		<Filter
-			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+		</File>
+		<File
+			RelativePath="CertificateDialog.cpp"
 			>
-			<File
-				RelativePath=".\AppSetting.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CertificateDialog.h"
-				>
-			</File>
-			<File
-				RelativePath=".\DiagnosticsDialog.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MainDialog.h"
-				>
-			</File>
-			<File
-				RelativePath=".\PersonalDataDialog.h"
-				>
-			</File>
-			<File
-				RelativePath=".\PinChangeDialog.h"
-				>
-			</File>
-			<File
-				RelativePath=".\PinChangeSecureDialog.h"
-				>
-			</File>
-			<File
-				RelativePath=".\PinDialog.h"
-				>
-			</File>
-			<File
-				RelativePath=".\precompiled.h"
-				>
-			</File>
-			<File
-				RelativePath=".\resource.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Setup.h"
-				>
-			</File>
-			<Filter
-				Name="cardlib"
-				>
-				<File
-					RelativePath=".\cardlib\CardBase.h"
-					>
-				</File>
-				<File
-					RelativePath=".\cardlib\CTAPIManager.h"
-					>
-				</File>
-				<File
-					RelativePath=".\cardlib\DynamicLibrary.h"
-					>
-				</File>
-				<File
-					RelativePath=".\cardlib\EstEidCard.h"
-					>
-				</File>
-				<File
-					RelativePath=".\cardlib\EstEidCardMaintainer.h"
-					>
-				</File>
-				<File
-					RelativePath=".\cardlib\helperMacro.h"
-					>
-				</File>
-				<File
-					RelativePath=".\cardlib\ManagerInterface.h"
-					>
-				</File>
-				<File
-					RelativePath=".\cardlib\PCSCManager.h"
-					>
-				</File>
-				<File
-					RelativePath=".\cardlib\SCError.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="utility"
-				>
-				<File
-					RelativePath=".\utility\asnCertificate.h"
-					>
-				</File>
-				<File
-					RelativePath=".\utility\asnObject.h"
-					>
-				</File>
-				<File
-					RelativePath=".\utility\netObj.h"
-					>
-				</File>
-				<File
-					RelativePath=".\utility\pkcs11module.h"
-					>
-				</File>
-				<File
-					RelativePath=".\utility\winInetObj.h"
-					>
-				</File>
-			</Filter>
-		</Filter>
-		<Filter
-			Name="Resource Files"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
+		</File>
+		<File
+			RelativePath="DiagnosticsDialog.cpp"
 			>
-			<File
-				RelativePath=".\resources\digistampbmp.gif"
+		</File>
+		<File
+			RelativePath="EsteidUtil.cpp"
+			>
+		</File>
+		<File
+			RelativePath="MainDialog.cpp"
+			>
+		</File>
+		<File
+			RelativePath="MainDialog_2.cpp"
+			>
+		</File>
+		<File
+			RelativePath="MainDialog_Image.cpp"
+			>
+		</File>
+		<File
+			RelativePath="MainDialog_Pin.cpp"
+			>
+		</File>
+		<File
+			RelativePath="MainDialog_Windows.cpp"
+			>
+		</File>
+		<File
+			RelativePath="PersonalDataDialog.cpp"
+			>
+		</File>
+		<File
+			RelativePath="PinChangeDialog.cpp"
+			>
+		</File>
+		<File
+			RelativePath="PinChangeSecureDialog.cpp"
+			>
+		</File>
+		<File
+			RelativePath="PinDialog.cpp"
+			>
+		</File>
+		<File
+			RelativePath="wxprec.cpp"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
 				>
-			</File>
-			<File
-				RelativePath=".\resources\esteid.ico"
+				<Tool
+					Name="VCCLCompilerTool"
+					UsePrecompiledHeader="1"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32"
 				>
-			</File>
-			<File
-				RelativePath=".\resources\esteidbmp.gif"
-				>
-			</File>
-			<File
-				RelativePath=".\EsteidUtil.rc"
-				>
-			</File>
-			<File
-				RelativePath=".\resources\logo_grey.ico"
-				>
-			</File>
-			<File
-				RelativePath=".\resources\logo_sk.ico"
-				>
-			</File>
-		</Filter>
+				<Tool
+					Name="VCCLCompilerTool"
+					UsePrecompiledHeader="1"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="AppSetting.h"
+			>
+		</File>
+		<File
+			RelativePath="CertificateDialog.h"
+			>
+		</File>
+		<File
+			RelativePath="DiagnosticsDialog.h"
+			>
+		</File>
+		<File
+			RelativePath="MainDialog.h"
+			>
+		</File>
+		<File
+			RelativePath="PersonalDataDialog.h"
+			>
+		</File>
+		<File
+			RelativePath="PinChangeDialog.h"
+			>
+		</File>
+		<File
+			RelativePath="PinChangeSecureDialog.h"
+			>
+		</File>
+		<File
+			RelativePath="PinDialog.h"
+			>
+		</File>
+		<File
+			RelativePath="precompiled.h"
+			>
+		</File>
+		<File
+			RelativePath="resource.h"
+			>
+		</File>
+		<File
+			RelativePath="Setup.h"
+			>
+		</File>
+		<File
+			RelativePath="premake4.lua"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
