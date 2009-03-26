@@ -1,0 +1,3 @@
+#include "testpindialog_resource.h"
+#include "winres.h"
+#include "utility/pinDialog.rc"
