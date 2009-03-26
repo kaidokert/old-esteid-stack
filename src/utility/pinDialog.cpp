@@ -14,9 +14,14 @@
 struct pinDialogPriv{
 	HINSTANCE m_hInst;
 	WORD m_resourceID;
-	char buffer[20];
+	HWND m_hwnd;
+	char m_buffer[20];
 	std::string m_prompt;
+	virtual LRESULT on_message(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+	virtual LRESULT on_command(WPARAM wParam, LPARAM lParam);
+	virtual void on_init_dlg();
 };
+
 
 pinDialog::pinDialog(const void * opsysParam,std::string prompt) {
 	d = new pinDialogPriv;
@@ -30,40 +35,57 @@ pinDialog::~pinDialog() {
 #define IDC_PININPUT 105 //hack
 #define IDC_STATIC              65535
 
-LRESULT CALLBACK dialogProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
-	static pinDialog * th = NULL;
+void pinDialogPriv::on_init_dlg() {
+	SetDlgItemTextA(m_hwnd,IDC_STATIC, m_prompt.c_str() );
+	SendDlgItemMessage( m_hwnd, IDC_PININPUT , EM_SETLIMITTEXT, 12, 0 );
+	SetFocus(GetDlgItem(m_hwnd, IDC_PININPUT)); 
+}
 
-	switch (message) {
-		case WM_INITDIALOG:
-			th = (pinDialog *) lParam;
-			SetDlgItemTextA(hwnd,IDC_STATIC, th->d->m_prompt.c_str() );
-			SendDlgItemMessage( hwnd, IDC_PININPUT , EM_SETLIMITTEXT, 12, 0 );
-			SetFocus(GetDlgItem(hwnd, IDC_PININPUT)); 
-
-		case WM_COMMAND:
-			switch (LOWORD(wParam)) {
-				case IDC_PININPUT: {
-					if (HIWORD(wParam) == EN_CHANGE) {
-						GetDlgItemTextA(hwnd,IDC_PININPUT,th->d->buffer,sizeof(th->d->buffer));
-						if (lstrlenA(th->d->buffer) >= (LONG )4)
-							EnableWindow(GetDlgItem(hwnd,IDOK),TRUE);
-						else
-							EnableWindow(GetDlgItem(hwnd,IDOK),FALSE);
-						}
-					break;
-					}
-				case IDOK: {
-					GetDlgItemTextA(hwnd,IDC_PININPUT,th->d->buffer,sizeof(th->d->buffer));
-					}
-				case IDCANCEL:
-					EndDialog (hwnd,wParam );
-					return TRUE;
+LRESULT pinDialogPriv::on_command(WPARAM wParam, LPARAM lParam) {
+	switch (LOWORD(wParam)) {
+		case IDC_PININPUT: {
+			if (HIWORD(wParam) == EN_CHANGE) {
+				GetDlgItemTextA(m_hwnd,IDC_PININPUT,m_buffer,sizeof(m_buffer));
+				if (lstrlenA(m_buffer) >= (LONG )4)
+					EnableWindow(GetDlgItem(m_hwnd,IDOK),TRUE);
+				else
+					EnableWindow(GetDlgItem(m_hwnd,IDOK),FALSE);
 				}
-		case WM_SYSCOMMAND:
-			if (wParam == SC_CLOSE) EndDialog (hwnd, IDCANCEL );
 			break;
+			}
+		case IDOK:
+		case IDCANCEL:
+			GetDlgItemTextA(m_hwnd,IDC_PININPUT,buffer,sizeof(buffer));
+			EndDialog (m_hwnd,wParam );
+			return TRUE;
 		}
-	return FALSE;
+	}
+
+LRESULT pinDialogPriv::on_message(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+  switch (msg) {
+	case WM_INITDIALOG:
+		on_init_dlg();
+		return TRUE;
+	case WM_COMMAND:
+		return on_command(wParam,lParam);
+	case WM_SYSCOMMAND:
+		if (wParam == SC_CLOSE) EndDialog (hwnd, IDCANCEL );
+	}
+}
+
+LRESULT CALLBACK dialogProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
+	pinDialog *dlg = NULL;
+
+	if (message == WM_INITDIALOG) {
+		SetWindowLongPtr(hwnd, DWLP_USER, lParam);
+		dlg = (pinDialog *)lParam;
+		if (!dlg) return TRUE;
+		dlg->d->hwnd = hwnd;
+		}
+	dlg = (InfoDlg *)GetWindowLongPtr(hwnd, DWLP_USER);
+	if (!dlg)
+	    return FALSE;
+	return dlg->d->on_message(hwnd, uMsg, wParam, lParam);
 	}
 
 bool pinDialog::doDialog() {
