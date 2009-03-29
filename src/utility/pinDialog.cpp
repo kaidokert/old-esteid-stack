@@ -59,6 +59,7 @@ LRESULT pinDialogPriv::on_command(WPARAM wParam, LPARAM lParam) {
 			EndDialog (m_hwnd,wParam );
 			return TRUE;
 		}
+	return FALSE;
 	}
 
 LRESULT pinDialogPriv::on_message(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
@@ -71,6 +72,7 @@ LRESULT pinDialogPriv::on_message(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 	case WM_SYSCOMMAND:
 		if (wParam == SC_CLOSE) EndDialog (hwnd, IDCANCEL );
 	}
+  return FALSE;
 }
 
 LRESULT CALLBACK dialogProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
