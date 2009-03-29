@@ -19,7 +19,9 @@ struct monitorObserver {
 
 class monitorThread : public threadObj {
     monitorObserver &observer;
+    mutexObj &lock;
 public:
-    monitorThread(monitorObserver &ref) : observer(ref),threadObj("card monitor thread") {}
+    monitorThread(monitorObserver &ref,mutexObj &lockRef) :
+        observer(ref),threadObj("card monitor thread"),lock(lockRef) {}
     virtual void execute();
     };

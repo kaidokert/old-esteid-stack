@@ -52,6 +52,7 @@ void monitorThread::execute() {
     std::cout << "monitorThread::execute"<<std::endl;
     checker check(observer);
     while(1) {
+        mutexObjLocker lock_(lock);
         threadObj::wait(500);
         check.executeCheck();
         }

@@ -17,7 +17,8 @@ struct testFix : public monitorObserver {
 
 int main(int argc,char **argv) {
     testFix oneOb;
-    monitorThread mthread(oneOb);
+    mutexObj mutex("monitor_lock");
+    monitorThread mthread(oneOb,mutex);
     mthread.start();
     while(1) {
         sleep(1);
