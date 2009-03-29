@@ -32,7 +32,7 @@ public:
 	ManagerInterface(void): mLogger(NULL) {}
 	virtual ~ManagerInterface(void) {}
 	/// number of installed readers
-	virtual uint getReaderCount(bool forceRefresh) = 0;
+	virtual uint getReaderCount(bool forceRefresh=true) = 0;
 	/// name of the reader at index
 	virtual std::string getReaderName(uint index)  = 0;
 	/// string form of reader status at index, EMPTY, POWERED etc
@@ -97,7 +97,7 @@ struct ConnectionBase {
 			mManager.deleteConnection(this);
 		}
 private:
-	const ConnectionBase operator=(const ConnectionBase &) {}
+	const ConnectionBase operator=(const ConnectionBase &);
 };
 
 /// Wraps a beginTransaction/endTransaction pair
@@ -114,5 +114,5 @@ struct Transaction {
 		mManager.endTransaction(mConnection);
 		}
 private:
-	const Transaction operator=(const Transaction &) {}
+	const Transaction operator=(const Transaction &);
 	};

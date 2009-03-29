@@ -15,7 +15,7 @@
 class SCError :
 	public std::runtime_error
 {
-	const SCError operator=(const SCError &) {};
+	const SCError operator=(const SCError &);
 protected:
 	std::string desc;
 public:
