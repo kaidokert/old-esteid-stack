@@ -30,7 +30,6 @@ class ATL_NO_VTABLE CSmartCardCertificate :
 	public IObjectSafetyImpl<CSmartCardCertificate, INTERFACESAFE_FOR_UNTRUSTED_CALLER |
          INTERFACESAFE_FOR_UNTRUSTED_DATA >,
 	public IProvideClassInfo2Impl<&CLSID_SmartCardCertificate,&IID_ISmartCardCertificate>,
-
 	public IDispatchImpl<ISmartCardCertificate, &IID_ISmartCardCertificate, &LIBID_EstEIDSigningPluginBHOLib, /*wMajor =*/ 1, /*wMinor =*/ 0>
 {
 public:

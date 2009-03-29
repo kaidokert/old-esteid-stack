@@ -1,11 +1,11 @@
 /* rc version */
-#define RC_VERSION 0,6,0,0
+#define RC_VERSION 0,6,3,0
 
 /* Define to the full name of this package. */
 #define PACKAGE_NAME "EstEID Browser Signing plugin"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.6.0"
+#define PACKAGE_VERSION "0.6.3"
 
 /* Name of package */
 #define PACKAGE "EstEIDSigningPluginBHO.dll"

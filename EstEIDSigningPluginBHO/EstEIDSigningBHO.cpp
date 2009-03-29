@@ -58,11 +58,13 @@ void STDMETHODCALLTYPE CEstEIDSigningBHO::OnDocumentComplete(IDispatch *pDisp, V
 	if (FAILED(m_iWebBrowser2->get_Document(&spDispDoc))) return;
 
 	// ...and query for an HTML document.
-    CComQIPtr<IHTMLDocument2> pMainWinDocument = spDispDoc;
+#if 0 //disabled , used as ActiveX
+	CComQIPtr<IHTMLDocument2> pMainWinDocument = spDispDoc;
     if (pMainWinDocument == NULL) return;
 
 	CComQIPtr<ICustomDoc > pCustomDoc;
 	if (SUCCEEDED(pMainWinDocument->QueryInterface(IID_ICustomDoc, (void**)&pCustomDoc)))
 		if (pCustomDoc) 
-			pCustomDoc->SetUIHandler(this);				
+			pCustomDoc->SetUIHandler(this);			
+#endif
 }

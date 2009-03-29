@@ -12,12 +12,23 @@
 #include "precompiled.h"
 #include "SmartCardSigner.h"
 #include "utility/pinDialog.h"
-
+#include "cardlib/SCError.h"
 #include <algorithm>
+#include "Setup.h"
 
 #pragma comment(lib,"comsuppw")
 
 // CSmartCardSigner
+
+struct csLocker {
+	CComCriticalSection &m_cs;
+	csLocker(CComCriticalSection &ref) : m_cs(ref) {
+		m_cs.Lock();
+		}
+	~csLocker() {
+		m_cs.Unlock();
+		}
+};
 
 STDMETHODIMP CSmartCardSigner::InterfaceSupportsErrorInfo(REFIID riid)
 {
@@ -34,30 +45,36 @@ STDMETHODIMP CSmartCardSigner::InterfaceSupportsErrorInfo(REFIID riid)
 	return S_FALSE;
 }
 
-STDMETHODIMP CSmartCardSigner::sayHello(BSTR helloTag)
-{
-	// TODO: Add your implementation code here
-	_bstr_t hello(helloTag);
-	::MessageBox(GetForegroundWindow(),helloTag,L"CSmartCardSigner caption",MB_OK);
+STDMETHODIMP CSmartCardSigner::getVersion(BSTR *retVal) {
+	*retVal = _bstr_t(PACKAGE_VERSION).Detach();
 	return S_OK;
-}
+	}
 
-BSTR CSmartCardSigner::readField(EstEidCard::RecordNames rec  ) {
+STDMETHODIMP CSmartCardSigner::readField(EstEidCard::RecordNames rec ,BSTR* pVal ) {
 	if (!m_cardData.size()) {
-		try {
-			EstEidCard card(m_mgr,0U);
-			card.readPersonalData(m_cardData,EstEidCard::SURNAME,EstEidCard::COMMENT4);
-		} catch (std::runtime_error &err) {
-			return _bstr_t("").Detach();
+		csLocker _lock(criticalSection);
+		int retries = 3;
+		while(retries--) {
+			try {
+				EstEidCard card(m_mgr,m_selectedReader);
+				card.readPersonalData(m_cardData,EstEidCard::SURNAME,EstEidCard::COMMENT4);
+				break;
+			} catch (SCError &cErr)  {
+				if (retries && cErr.error == 0xff) //CTAPI sometimes fails
+					continue;
+				return errMsg("error");
+			} catch (std::runtime_error &err) {
+				return errMsg(err.what());
+				}
 			}
 		}
-	return _bstr_t(m_cardData[rec].c_str()).Detach();
+	*pVal = _bstr_t(m_cardData[rec].c_str()).Detach();
+	return S_OK;
 	}
 
 #define GET_METHOD(a,b) \
 STDMETHODIMP CSmartCardSigner::get_##a(BSTR* pVal) {\
-	*pVal = readField(EstEidCard::b); \
-	return S_OK; \
+	return readField(EstEidCard::b,pVal); \
 }
 
 GET_METHOD(lastName,SURNAME);
@@ -77,16 +94,6 @@ GET_METHOD(comment2,COMMENT2);
 GET_METHOD(comment3,COMMENT3);
 GET_METHOD(comment4,COMMENT4);
 
-
-inline std::string narrow(std::wstring source)
-{
-    std::string result(source.size(), char(0));
-    typedef std::ctype<wchar_t> ctype_t;
-    const ctype_t& ct = std::use_facet<ctype_t>(std::locale());
-    ct.narrow(source.data(), source.data() + source.size(), '\u00B6',&(*result.begin()));
-    return result;
-
-} 
 class widener {
 public:
 	WCHAR operator ( ) ( char& elem ) const 
@@ -103,20 +110,25 @@ STDMETHODIMP CSmartCardSigner::errMsg(LPCOLESTR err) {
 	return Error(err,__uuidof(ISmartCardSigner));;
 	}
 
+STDMETHODIMP CSmartCardSigner::errMsg(std::string err) {
+	std::wstring errStr(err.length() + 1,L' ');
+	std::transform(err.begin(),err.end(),errStr.begin(),widener());
+	return Error(errStr.c_str(),__uuidof(ISmartCardSigner));
+	}
+
 struct pinDialogPriv_l {
 	HINSTANCE m_hInst;
 	WORD m_resourceID;
 };
 
-STDMETHODIMP CSmartCardSigner::sign(BSTR hashToBeSigned,VARIANT pCert)
+STDMETHODIMP CSmartCardSigner::sign(BSTR hashToBeSigned,IDispatch * pCert)
 {
-	if (!pCert.uintVal )
-		return errMsg(L"Parameter needs to be a cert object");
-
-	_variant_t inputVar;
-	if (V_ISBYREF(&pCert)) inputVar = pCert.pvarVal;
-	else inputVar = &pCert;
-	CComQIPtr<ISmartCardCertificate> iCert(inputVar);
+	if (!pCert) 
+		return errMsg("Second parameter must be a certificate");
+	CComDispatchDriver iDisp(pCert);
+	CComQIPtr<ISmartCardCertificate> iCert(iDisp);
+	if (!iCert) 
+		return errMsg("Second parameter must be a certificate");
 
 	BSTR tmp;
 	iCert->get_privateKeyContainer(&tmp);
@@ -131,27 +143,6 @@ STDMETHODIMP CSmartCardSigner::sign(BSTR hashToBeSigned,VARIANT pCert)
 	if(0 == keyContainer.compare(6,7,L"EstEID:"))
 		return errMsg(L"Unknown card specified");
 
-/*	CREDUI_INFO ui_info = {
-		sizeof(CREDUI_INFO),
-		NULL,
-		_T("pls enter auth"),
-		_T("idcard authentication"),
-		NULL
-		};
-	BOOL bSave = FALSE;
-	TCHAR passPrompt[12] = {L'\0'};
-	TCHAR uName[100] = _T("idCard User");
-	DWORD ret = CredUIPromptForCredentials(&ui_info,_T("tgt_esteidcard"),
-		NULL,0,
-		uName,sizeof(uName),
-		passPrompt,12,
-		&bSave,
-		CREDUI_FLAGS_EXCLUDE_CERTIFICATES | CREDUI_FLAGS_DO_NOT_PERSIST |
-		CREDUI_FLAGS_GENERIC_CREDENTIALS | CREDUI_FLAGS_PASSWORD_ONLY_OK |
-		CREDUI_FLAGS_KEEP_USERNAME
-		);
-*/
-	
 	pinDialogPriv_l params = { ATL::_AtlBaseModule.GetResourceInstance(),
 		IDD_PIN_DIALOG_ENG
 		};
@@ -161,20 +152,24 @@ STDMETHODIMP CSmartCardSigner::sign(BSTR hashToBeSigned,VARIANT pCert)
 
 	std::string pin = dlg.getPin();
 	try {
-		EstEidCard card(m_mgr,0U);
+		csLocker _lock(criticalSection);
+		EstEidCard card(m_mgr,m_selectedReader);
 		if(0 == keyContainer.compare(11,2,L":0"))
 			card.calcSignSHA1(ByteVec(0,0),EstEidCard::AUTH,pin);
 		if(0 == keyContainer.compare(11,2,L":1"))
 			card.calcSignSHA1(ByteVec(0,0),EstEidCard::SIGN,pin);
 	} catch(std::runtime_error &e) {
-		std::string errx(e.what());
-		std::wstring errStr(errx.length() + 1,L' ');
-		std::transform(errx.begin(),errx.end(),errStr.begin(),widener());
-		return Error(errStr.c_str(),__uuidof(ISmartCardSigner));
+		return errMsg(e.what());
 		}
 
 	return S_OK;
 }
+
+void CSmartCardSigner::clearCaches() {
+	m_authCert.clear();
+	m_signCert.clear();
+	m_cardData.clear();
+	}
 
 void CSmartCardSigner::getEstEIDCerts(CInterfaceList<ISmartCardCertificate> &list) {
 	CComPtr<ISmartCardCertificate> cert0,cert1;
@@ -182,10 +177,14 @@ void CSmartCardSigner::getEstEIDCerts(CInterfaceList<ISmartCardCertificate> &lis
 	cert1.CoCreateInstance(CLSID_SmartCardCertificate);
 	if (!m_authCert.size()) {
 		try {
-		EstEidCard card(m_mgr,0U);
-		m_authCert = card.getAuthCert();
-		m_signCert = card.getSignCert();
-		} catch (std::runtime_error &err) {return;}
+			csLocker _lock(criticalSection);
+			EstEidCard card(m_mgr,m_selectedReader);
+			m_authCert = card.getAuthCert();
+			m_signCert = card.getSignCert();
+		} catch (std::runtime_error &err) {
+			std::string doh = err.what();
+			throw;
+			}
 		}
 	cert0->_loadArrayFrom(L"CARD:EstEID:0", m_authCert.size(), &m_authCert[0] );
 	cert1->_loadArrayFrom(L"CARD:EstEID:1", m_signCert.size(), &m_signCert[0] );
@@ -195,9 +194,13 @@ void CSmartCardSigner::getEstEIDCerts(CInterfaceList<ISmartCardCertificate> &lis
 
 STDMETHODIMP CSmartCardSigner::getCertificateList(BSTR* retVal)
 {
-	_bstr_t returnList;
+	_bstr_t returnList("");
 	CInterfaceList<ISmartCardCertificate> certs;
-	getEstEIDCerts(certs);
+	try {
+		getEstEIDCerts(certs);
+	} catch (std::runtime_error &err) {
+		return errMsg(err.what());
+		}
 	// optionally load certs from other sources
 	while( certs.GetCount() > 0 ) {
 		BSTR val;
@@ -211,20 +214,120 @@ STDMETHODIMP CSmartCardSigner::getCertificateList(BSTR* retVal)
 	return S_OK;
 }
 
-STDMETHODIMP CSmartCardSigner::getCertificateByThumbprint(BSTR thumbPrint, VARIANT* retVal)
+STDMETHODIMP CSmartCardSigner::getCertificateByThumbprint(BSTR thumbPrint, IDispatch** retVal)
 {
 	_bstr_t thumb(thumbPrint);
 	CInterfaceList<ISmartCardCertificate> certs;
-	getEstEIDCerts(certs);
+	try {
+		getEstEIDCerts(certs);
+	} catch(std::runtime_error &err) {
+		return errMsg(err.what());
+		}
 	while( certs.GetCount() > 0 ) {
 		BSTR val;
 		certs.GetTail()->get_thumbPrint(&val);
 		if (thumb == _bstr_t(val)) {
-			VariantInit(retVal);
-			*retVal = _variant_t(certs.GetTail().Detach()).Detach();
+			*retVal = certs.GetTail().Detach();
 			return S_OK;
 			}
 		certs.RemoveTail();
 		}
+	return S_OK;
+}
+
+STDMETHODIMP CSmartCardSigner::addEventListener(BSTR eventName,IDispatch *unk)
+{
+	CComQIPtr<IDispatch> disp(unk);
+	if (S_OK != disp.GetIDOfName(L"call",NULL) )
+		return errMsg(L"Second parameter is expected to be a function");
+	if (CComBSTR(eventName) == "OnCardInserted")
+		notifyCardInsert.AddTail(disp);
+	if (CComBSTR(eventName) == "OnCardRemoved")
+		notifyCardRemove.AddTail(disp);
+	if (CComBSTR(eventName) == "OnReadersChanged")
+		notifyReadersChanged.AddTail(disp);
+	return S_OK;
+}
+STDMETHODIMP CSmartCardSigner::removeEventListener(BSTR eventName,IDispatch *unk) {
+	return S_OK;
+	}
+
+
+void callAllFunctions(CInterfaceList<IDispatch> &list,WPARAM wParam) {
+	POSITION myPos = list.GetHeadPosition();
+	CComPtr<IDispatch> ptr;
+	while( myPos )  {
+		ptr = list.GetNext(myPos);
+		_variant_t par_this("nothing"),par_one(wParam);
+		ptr.Invoke2(L"call",&par_this,&par_one);
+		} 
+	}
+
+LRESULT CSmartCardSigner::OnCardInserted(UINT uMsg, WPARAM wParam,
+	LPARAM lParam, BOOL& bHandled) {
+	if (m_selectedReader == wParam) 
+		clearCaches();
+	callAllFunctions(notifyCardInsert, wParam);
+	Fire_CardWasInserted((int)wParam);
+	return 0;
+	}
+LRESULT CSmartCardSigner::OnCardRemoved(UINT uMsg, WPARAM wParam,
+	LPARAM lParam, BOOL& bHandled)
+{
+	if (m_selectedReader == wParam) 
+		clearCaches();
+	callAllFunctions(notifyCardRemove, wParam);
+	Fire_CardWasRemoved((int)wParam);
+	return 0;
+}
+LRESULT CSmartCardSigner::OnReadersChanged(UINT uMsg, WPARAM wParam,
+	LPARAM lParam, BOOL& bHandled)
+{
+	clearCaches();
+	callAllFunctions(notifyReadersChanged, wParam);
+	Fire_ReadersChanged((int)wParam);
+	return 0;
+}
+
+STDMETHODIMP CSmartCardSigner::getReaderName(USHORT readerNum,BSTR* retVal)
+{
+	_bstr_t returnVal("");
+	try {
+		returnVal = _bstr_t(m_mgr.getReaderName(readerNum).c_str());
+	} catch (std::runtime_error &err) {
+		return errMsg(err.what());
+		}
+	*retVal = returnVal.Detach();
+	return S_OK;
+}
+
+STDMETHODIMP CSmartCardSigner::getReaders(BSTR* retVal)
+{
+	_bstr_t returnList("");
+	try {
+		csLocker _lock(criticalSection);
+		uint rdrs = m_mgr.getReaderCount(true);
+		for(uint i = 0; i < rdrs; i++) {
+			returnList+= _bstr_t(m_mgr.getReaderName(i).c_str()) + _bstr_t(",");
+			}
+	} catch (std::runtime_error &err) {
+		return errMsg(err.what());
+		}
+	*retVal = returnList.Detach();
+	return S_OK;
+}
+
+
+STDMETHODIMP CSmartCardSigner::get_selectedReader(SHORT* pVal)
+{
+	*pVal = m_selectedReader;
+	return S_OK;
+}
+
+STDMETHODIMP CSmartCardSigner::put_selectedReader(SHORT newVal)
+{
+	if (m_selectedReader != newVal)
+		clearCaches();
+	m_selectedReader = newVal;
 	return S_OK;
 }
