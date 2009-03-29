@@ -55,7 +55,7 @@ LRESULT pinDialogPriv::on_command(WPARAM wParam, LPARAM lParam) {
 			}
 		case IDOK:
 		case IDCANCEL:
-			GetDlgItemTextA(m_hwnd,IDC_PININPUT,buffer,sizeof(buffer));
+			GetDlgItemTextA(m_hwnd,IDC_PININPUT,m_buffer,sizeof(m_buffer));
 			EndDialog (m_hwnd,wParam );
 			return TRUE;
 		}
@@ -80,12 +80,12 @@ LRESULT CALLBACK dialogProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPara
 		SetWindowLongPtr(hwnd, DWLP_USER, lParam);
 		dlg = (pinDialog *)lParam;
 		if (!dlg) return TRUE;
-		dlg->d->hwnd = hwnd;
+		dlg->d->m_hwnd = hwnd;
 		}
-	dlg = (InfoDlg *)GetWindowLongPtr(hwnd, DWLP_USER);
+	dlg = (pinDialog *)GetWindowLongPtr(hwnd, DWLP_USER);
 	if (!dlg)
 	    return FALSE;
-	return dlg->d->on_message(hwnd, uMsg, wParam, lParam);
+	return dlg->d->on_message(hwnd, message, wParam, lParam);
 	}
 
 bool pinDialog::doDialog() {
@@ -97,7 +97,7 @@ bool pinDialog::doDialog() {
 
 std::string pinDialog::getPin() {
 
-	return std::string(d->buffer,d->buffer+strlen(d->buffer));
+	return std::string(d->m_buffer,d->m_buffer+strlen(d->m_buffer));
 	}
 
 #endif
