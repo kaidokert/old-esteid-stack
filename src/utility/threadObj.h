@@ -34,8 +34,8 @@ class threadObj {
 public:
     threadObj(const char *name);
     virtual ~threadObj();
-    void start();
-    void stop();
+    virtual void start();
+    virtual void stop();
     virtual void execute() = 0;
     void wait(unsigned int milliseconds);
     };

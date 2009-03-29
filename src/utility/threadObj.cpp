@@ -1,5 +1,5 @@
 #include "threadObj.h"
-
+#include <iostream>
 #ifndef WIN32 //pthreads
 #include <pthread.h>
 struct mutexPriv {
@@ -21,16 +21,16 @@ struct threadPriv {
     pthread_t m_id;
     threadObj &m_threadObj;
     static void * thread_entry(void * const thisPtr) {
-        threadPriv * this_ = (threadPriv*) thisPtr;
+        threadPriv * const this_ = (threadPriv*) thisPtr;
         this_->m_threadObj.execute();
-        }
+         }
     threadPriv(threadObj &ref) : m_threadObj(ref) {
         }
     void start() {
         pthread_create(&m_id,NULL,thread_entry,this);
        }
     void stop() {
-        pthread_create(&m_id,NULL,thread_entry,this);
+        pthread_cancel(m_id);
         }
     ~threadPriv() {
         stop();
@@ -45,9 +45,41 @@ struct threadPriv {
 #else
 #include <windows.h>
 struct threadPriv {
-	void *cs;
+    DWORD m_id;
+    HANDLE m_handle;
+    DWORD WINAPI thread_entry( LPVOID thisPtr) {
+        threadPriv * const this_ = (threadPriv*) thisPtr;
+        this_->m_threadObj.execute();
+        }
+    threadPriv(threadObj &ref) : m_threadObj(ref) {
+        }
+    void start() {
+        m_handle = CreateThread(NULL,0,thread_entry,this,0,&m_id);
+        }
+    void stop() {
+        TerminateThread(m_handle,0);
+        }
+    ~threadPriv() {
+        stop();
+        }
+    void wait(unsigned int ms) {
+        Sleep(ms);
+        }
 };
 struct mutexPriv {
+    CRITICAL_SECTION cs;
+	mutexPriv() {
+	    InitializeCriticalSection(&cs);
+        }
+    ~mutexPriv() {
+        DeleteCriticalSection(&cs);
+        }
+    bool Lock() {
+        EnterCriticalSection(&cs);
+        return true;
+       }
+    bool Unlock() {
+        LeaveCriticalSection(&cs);
 };
 #endif
 

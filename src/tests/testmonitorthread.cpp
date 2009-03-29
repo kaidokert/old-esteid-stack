@@ -1,11 +1,17 @@
 #include "precompiled.h"
 #include <iostream>
-#include <fstream>
+#include <string>
 #include "utility/monitorThread.h"
 
 struct testFix : public monitorObserver {
     void onEvent(monitorEvent eType,int param) {
-        std::cout << "thread tick" << std::endl;
+        std::string event;
+        switch(eType) {
+            case CARD_INSERTED:event="cardInserted";break;
+            case CARD_REMOVED:event="cardRemoved";break;
+            case READERS_CHANGED:event="readersChanged";break;
+            }
+        std::cout << "thread event " << event << " param " << param << std::endl;
         }
     };
 
