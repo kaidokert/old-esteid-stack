@@ -4,7 +4,7 @@ project "cardlib"
   kind     "StaticLib"
   files  { "**.h", "**.cpp" }
 
-  includedirs { "/usr/include"}
+  includedirs { "/usr/include","/usr/include/PCSC" }
 
   if os.is("windows") then
    defines { "WIN32" }

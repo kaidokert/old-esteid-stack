@@ -9,9 +9,9 @@ function createSampleProject(name,cppfile)
 	end
 	files  { cppfile }
 	includedirs { "..","/usr/include/" }
-	links { "cardlib","utility" }
+	links { "cardlib","utility","cardlib" }
 	if os.is("linux") then
-		links "dl"
+		links {"dl","pthread"}
 	end
 	configuration { "Debug*" }
 		defines { "_DEBUG", "DEBUG" }
@@ -27,3 +27,4 @@ createSampleProject("testcardmanager",{"testcardmanager.cpp"})
 createSampleProject("testctapi",{"testctapi.cpp"})
 createSampleProject("testdownload",{"testdownload.cpp"})
 createSampleProject("testPinDialog",{"testpindialog.cpp","testpindialog.rc"})
+createSampleProject("testMonitorThread",{"testmonitorthread.cpp"})

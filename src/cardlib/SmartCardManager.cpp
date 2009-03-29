@@ -40,7 +40,7 @@ struct SmartCardConnectionPriv {
 };
 
 SmartCardConnection::SmartCardConnection(int manager,ManagerInterface &iface,unsigned int index,bool force
-										 ,ManagerInterface &orig) 
+										 ,ManagerInterface &orig)
 	:ConnectionBase(iface) {
 	d = new SmartCardConnectionPriv(manager,iface,index,force,orig);
 	}
@@ -63,7 +63,7 @@ struct SmartCardManagerPriv {
 		} catch(...) {}
 		}
 	ManagerInterface & getIndex(uint &i) {
-		if (i < pcscCount ) 
+		if (i < pcscCount )
 			return pcscMgr;
 		i-= pcscCount;
 		return ctMgr;
