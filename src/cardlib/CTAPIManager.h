@@ -75,6 +75,7 @@ class CTAPIManager :
 private: //disable object copying
 	CTAPIManager(const CTAPIManager &);
 	CTAPIManager& operator=(const CTAPIManager &);
+	void ensureReaders(uint idx);
 
 	std::vector<CTDriver *> mDrivers;
 	std::vector<cPort *> mPorts;
@@ -95,7 +96,7 @@ protected:
 public:
 	CTAPIManager(std::ostream *log = NULL);
 	~CTAPIManager(void);
-	uint getReaderCount();
+	uint getReaderCount(bool forceRefresh = false);
 	std::string getReaderName(uint index);
 	std::string getReaderState(uint index);
 	std::string getATRHex(uint index);

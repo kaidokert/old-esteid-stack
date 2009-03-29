@@ -124,8 +124,10 @@ void PCSCManager::ensureReaders(uint idx)
 		throw std::range_error("ensureReaders: Index out of bounds");
 }
 
-uint PCSCManager::getReaderCount()
+uint PCSCManager::getReaderCount(bool forceRefresh)
 {
+	if (forceRefresh) 
+		mReaders.clear();
 	try {
 		ensureReaders(0);
 	} catch(SCError &err) {

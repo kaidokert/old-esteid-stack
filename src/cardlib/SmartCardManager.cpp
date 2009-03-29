@@ -56,9 +56,11 @@ struct SmartCardManagerPriv {
 	ManagerInterface *connIf;
 	uint pcscCount;
 	uint ctCount;
-	SmartCardManagerPriv() : connIf(&pcscMgr) {
-		pcscCount = pcscMgr.getReaderCount();
-		ctCount = ctMgr.getReaderCount();
+	SmartCardManagerPriv() : connIf(&pcscMgr), pcscCount(0),ctCount(0) {
+		try { // avoid throws from constructor
+			pcscCount = pcscMgr.getReaderCount();
+			ctCount = ctMgr.getReaderCount();
+		} catch(...) {}
 		}
 	ManagerInterface & getIndex(uint &i) {
 		if (i < pcscCount ) 
@@ -109,8 +111,10 @@ bool SmartCardManager::isT1Protocol(ConnectionBase *c) {
 	return pc->mManager.isT1Protocol(pc->d->getConnection());
 	}
 
-uint SmartCardManager::getReaderCount() {
-	return d->ctMgr.getReaderCount() + d->pcscMgr.getReaderCount();
+uint SmartCardManager::getReaderCount(bool forceRefresh) {
+	d->pcscCount = d->pcscMgr.getReaderCount(forceRefresh);
+	d->ctCount = d->ctMgr.getReaderCount(forceRefresh);
+	return d->pcscCount + d->ctCount;
 	}
 
 std::string SmartCardManager::getReaderName(uint idx) {

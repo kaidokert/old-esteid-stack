@@ -101,7 +101,7 @@ public:
 	/// construct with application-supplied card context
 	PCSCManager(SCARDCONTEXT existingContext);
 	~PCSCManager(void);
-	uint getReaderCount();
+	uint getReaderCount(bool forceRefresh = false);
 	std::string getReaderName(uint idx);
 	std::string getReaderState(uint idx);
 	std::string getATRHex(uint idx);
