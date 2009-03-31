@@ -12,6 +12,10 @@ function createSampleProject(name,cppfile)
 	links { "cardlib","utility","cardlib" }
 	if os.is("linux") then
 		links {"dl","pthread"}
+		if name == "testPinDialog" then
+		  linkoptions  {"`pkg-config gtkmm-2.4 --libs`"}
+		  buildoptions {"`pkg-config gtkmm-2.4 --cflags`"}
+		end
 	end
 	configuration { "Debug*" }
 		defines { "_DEBUG", "DEBUG" }
@@ -26,5 +30,9 @@ createSampleProject("testreadcardid",{"testreadcardid.cpp"})
 createSampleProject("testcardmanager",{"testcardmanager.cpp"})
 createSampleProject("testctapi",{"testctapi.cpp"})
 createSampleProject("testdownload",{"testdownload.cpp"})
-createSampleProject("testPinDialog",{"testpindialog.cpp","testpindialog.rc"})
+if os.is("windows") then
+  createSampleProject("testPinDialog",{"testpindialog.cpp","testpindialog.rc"})
+else
+  createSampleProject("testPinDialog",{"testpindialog.cpp"})
+end
 createSampleProject("testMonitorThread",{"testmonitorthread.cpp"})

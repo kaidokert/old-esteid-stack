@@ -38,7 +38,7 @@ pinDialog::~pinDialog() {
 void pinDialogPriv::on_init_dlg() {
 	SetDlgItemTextA(m_hwnd,IDC_STATIC, m_prompt.c_str() );
 	SendDlgItemMessage( m_hwnd, IDC_PININPUT , EM_SETLIMITTEXT, 12, 0 );
-	SetFocus(GetDlgItem(m_hwnd, IDC_PININPUT)); 
+	SetFocus(GetDlgItem(m_hwnd, IDC_PININPUT));
 }
 
 LRESULT pinDialogPriv::on_command(WPARAM wParam, LPARAM lParam) {
@@ -91,15 +91,69 @@ LRESULT CALLBACK dialogProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPara
 	}
 
 bool pinDialog::doDialog() {
-	if (IDOK == DialogBoxParam(d->m_hInst,MAKEINTRESOURCE(d->m_resourceID) 
-		,GetForegroundWindow(), 
+	if (IDOK == DialogBoxParam(d->m_hInst,MAKEINTRESOURCE(d->m_resourceID)
+		,GetForegroundWindow(),
 		(DLGPROC)dialogProc, (LPARAM) this)) return true;
 	return false;
 	}
 
 std::string pinDialog::getPin() {
-
 	return std::string(d->m_buffer,d->m_buffer+strlen(d->m_buffer));
+	}
+
+#endif
+
+#ifdef linux
+#include <gtkmm/inputdialog.h>
+#include <gtkmm/entry.h>
+#include <gtkmm/stock.h>
+#include <string.h>
+
+struct pinDialogPriv : public Gtk::Dialog {
+    Gtk::Entry m_textInput;
+    Gtk::Label m_label;
+    pinDialogPriv(const void *opsysParam) :
+        Gtk::Dialog("inputDialog",true), m_label("pin entry")
+        {
+        m_textInput.set_activates_default(true);
+        get_vbox()->pack_start(m_label);
+        m_label.set_alignment(0.1,0.5);
+        get_vbox()->pack_start(m_textInput);
+        m_textInput.set_visibility(false);
+        set_has_separator(true);
+        add_button(Gtk::Stock::OK,Gtk::RESPONSE_OK);
+        add_button(Gtk::Stock::CANCEL ,Gtk::RESPONSE_CANCEL);
+        set_default_response(Gtk::RESPONSE_CANCEL);
+        show_all_children();
+        }
+    std::string getPin() {
+        return m_textInput.get_text().c_str();
+        }
+    std::string m_prompt;
+    char m_buffer[20];
+    bool doDialog();
+};
+
+
+bool pinDialogPriv::doDialog() {
+    if (run()==Gtk::RESPONSE_OK) return true;
+    return false;
+    }
+
+pinDialog::pinDialog(const void * opsysParam,std::string prompt) {
+	d = new pinDialogPriv(opsysParam);
+	d->m_prompt = prompt;
+	}
+
+bool pinDialog::doDialog() {
+    return d->doDialog();
+	}
+
+std::string pinDialog::getPin() {
+    return d->getPin();
+	}
+
+pinDialog::~pinDialog() {
 	}
 
 #endif
