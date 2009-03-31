@@ -1,3 +1,4 @@
+#include "precompiled.h"
 #include "threadObj.h"
 #include <iostream>
 #ifndef WIN32 //pthreads
@@ -47,9 +48,11 @@ struct threadPriv {
 struct threadPriv {
     DWORD m_id;
     HANDLE m_handle;
-    DWORD WINAPI thread_entry( LPVOID thisPtr) {
+    threadObj &m_threadObj;
+    static DWORD WINAPI thread_entry( LPVOID thisPtr) {
         threadPriv * const this_ = (threadPriv*) thisPtr;
         this_->m_threadObj.execute();
+		return 0;
         }
     threadPriv(threadObj &ref) : m_threadObj(ref) {
         }
@@ -80,6 +83,8 @@ struct mutexPriv {
        }
     bool Unlock() {
         LeaveCriticalSection(&cs);
+		return true;
+		}
 };
 #endif
 
