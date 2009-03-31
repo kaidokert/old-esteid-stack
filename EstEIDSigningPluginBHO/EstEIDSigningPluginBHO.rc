@@ -13,7 +13,8 @@
 #include "winres.h"
 #include "Setup.h"
 #include "version.rc"
-#include "utility/pinDialog.rc"
+#include "utility/pinDialog.rc"
+
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -104,7 +105,8 @@ IDR_SMARTCARDCERTIFICATE REGISTRY                "SmartCardCertificate.rgs"
 //
 // Generated from the TEXTINCLUDE 3 resource.
 //
-1 TYPELIB "EstEIDSigningPluginBHO.tlb"
+1 TYPELIB "EstEIDSigningPluginBHO.tlb"
+
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
 

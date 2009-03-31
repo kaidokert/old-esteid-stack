@@ -22,12 +22,17 @@
 
 #include <atlwin.h> //CWindowImpl
 #include <objsafe.h> //IObjectSafetyImpl
-#include "CardMonitorThread.h"
+#include <atlutil.h> //IWorkerThreadClient,CInterfaceList
 #include <cardlib/common.h>
 #include <cardlib/EstEidCard.h>
 #include <cardlib/SmartCardManager.h>
+#include <utility/monitorThread.h>
 #include "Win32\EstEIDSigningPluginBHO_i.h"
 #include "Win32\EstEIDSigningPluginBHO_i.h"
+
+#define WM_CARD_INSERTED   (WM_USER + 101)
+#define WM_CARD_REMOVED    (WM_USER + 102)
+#define WM_READERS_CHANGED (WM_USER + 103)
 
 // CSmartCardSigner
 
@@ -42,10 +47,12 @@ class ATL_NO_VTABLE CSmartCardSigner :
 	INTERFACESAFE_FOR_UNTRUSTED_DATA >,
 	public IProvideClassInfo2Impl<&CLSID_SmartCardSigner,&IID_ISmartCardSigner>,
 	public CWindowImpl<CSmartCardSigner>, //window to receive 2nd thread notifications
-	public IDispatchImpl<ISmartCardSigner, &IID_ISmartCardSigner, &LIBID_EstEIDSigningPluginBHOLib, /*wMajor =*/ 1, /*wMinor =*/ 0>
+	public IDispatchImpl<ISmartCardSigner, &IID_ISmartCardSigner, &LIBID_EstEIDSigningPluginBHOLib, /*wMajor =*/ 1, /*wMinor =*/ 0>,
+	public monitorObserver
 {
 public:
-	CSmartCardSigner() : m_monitorThread(NULL)
+	CSmartCardSigner() : 
+		criticalSection("monitorCS")
 	{
 		int test = 1;
 	}
@@ -86,6 +93,17 @@ public:
 		LPARAM lParam, BOOL& bHandled);
 	LRESULT OnCardRemoved(UINT uMsg, WPARAM wParam,
 		LPARAM lParam, BOOL& bHandled);
+	
+	void onEvent(monitorEvent eType,int param) {
+		if (!IsWindow()) return;
+		UINT msg=0;
+		switch(eType) {
+			case CARD_INSERTED: msg = WM_CARD_INSERTED ;break;
+			case CARD_REMOVED: msg = WM_CARD_REMOVED ;break;
+			case READERS_CHANGED: msg = WM_READERS_CHANGED ;break;
+			}
+		PostMessage(msg,param);
+		}
 
 	HRESULT FinalConstruct()
 	{
@@ -95,7 +113,8 @@ public:
 			return HRESULT_FROM_WIN32(GetLastError());
 		m_iWebBrowser2 = 0;
 		m_selectedReader = 0;
-		m_monitorThread = new CardMonitorThread(*this,criticalSection);
+		m_monitorThread = new monitorThread(*this,criticalSection);
+		m_monitorThread->start();
 		return S_OK;
 	}
 
@@ -103,7 +122,7 @@ public:
 	{
 		if (m_monitorThread) {
 			delete m_monitorThread;
-			m_monitorThread= NULL;
+			m_monitorThread = NULL;
 			}
 		if (m_hWnd != NULL) DestroyWindow();
 	}
@@ -115,7 +134,7 @@ private:
 	STDMETHOD(errMsg)(std::string err);
 	STDMETHOD(readField)(EstEidCard::RecordNames rec, BSTR *pVal);
 
-	CardMonitorThread *m_monitorThread;
+//	CardMonitorThread *m_monitorThread;
 	SmartCardManager m_mgr;
 	uint m_selectedReader;
 	std::vector<std::string> m_cardData;
@@ -126,7 +145,8 @@ private:
 	CInterfaceList<IDispatch> notifyCardInsert;
 	CInterfaceList<IDispatch> notifyCardRemove;
 	CInterfaceList<IDispatch> notifyReadersChanged;
-	CComAutoCriticalSection criticalSection; //avoid same-time access from both threads
+	mutexObj criticalSection; //avoid same-time access from both threads
+	monitorThread *m_monitorThread;
 public:
 	STDMETHOD(get_lastName)(BSTR* pVal);
 	STDMETHOD(get_firstName)(BSTR* pVal);

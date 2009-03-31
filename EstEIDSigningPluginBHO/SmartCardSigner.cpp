@@ -20,16 +20,6 @@
 
 // CSmartCardSigner
 
-struct csLocker {
-	CComCriticalSection &m_cs;
-	csLocker(CComCriticalSection &ref) : m_cs(ref) {
-		m_cs.Lock();
-		}
-	~csLocker() {
-		m_cs.Unlock();
-		}
-};
-
 STDMETHODIMP CSmartCardSigner::InterfaceSupportsErrorInfo(REFIID riid)
 {
 	static const IID* arr[] = 
@@ -52,17 +42,19 @@ STDMETHODIMP CSmartCardSigner::getVersion(BSTR *retVal) {
 
 STDMETHODIMP CSmartCardSigner::readField(EstEidCard::RecordNames rec ,BSTR* pVal ) {
 	if (!m_cardData.size()) {
-		csLocker _lock(criticalSection);
+		mutexObjLocker _lock(criticalSection);
 		int retries = 3;
 		while(retries--) {
 			try {
 				EstEidCard card(m_mgr,m_selectedReader);
 				card.readPersonalData(m_cardData,EstEidCard::SURNAME,EstEidCard::COMMENT4);
 				break;
+#if SCDEBUG
 			} catch (SCError &cErr)  {
 				if (retries && cErr.error == 0xff) //CTAPI sometimes fails
 					continue;
 				return errMsg("error");
+#endif
 			} catch (std::runtime_error &err) {
 				return errMsg(err.what());
 				}
@@ -152,7 +144,7 @@ STDMETHODIMP CSmartCardSigner::sign(BSTR hashToBeSigned,IDispatch * pCert)
 
 	std::string pin = dlg.getPin();
 	try {
-		csLocker _lock(criticalSection);
+		mutexObjLocker _lock(criticalSection);
 		EstEidCard card(m_mgr,m_selectedReader);
 		if(0 == keyContainer.compare(11,2,L":0"))
 			card.calcSignSHA1(ByteVec(0,0),EstEidCard::AUTH,pin);
@@ -177,7 +169,7 @@ void CSmartCardSigner::getEstEIDCerts(CInterfaceList<ISmartCardCertificate> &lis
 	cert1.CoCreateInstance(CLSID_SmartCardCertificate);
 	if (!m_authCert.size()) {
 		try {
-			csLocker _lock(criticalSection);
+			mutexObjLocker _lock(criticalSection);
 			EstEidCard card(m_mgr,m_selectedReader);
 			m_authCert = card.getAuthCert();
 			m_signCert = card.getSignCert();
@@ -305,7 +297,7 @@ STDMETHODIMP CSmartCardSigner::getReaders(BSTR* retVal)
 {
 	_bstr_t returnList("");
 	try {
-		csLocker _lock(criticalSection);
+		mutexObjLocker _lock(criticalSection);
 		uint rdrs = m_mgr.getReaderCount(true);
 		for(uint i = 0; i < rdrs; i++) {
 			returnList+= _bstr_t(m_mgr.getReaderName(i).c_str()) + _bstr_t(",");
