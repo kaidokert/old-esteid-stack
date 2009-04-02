@@ -9,7 +9,7 @@ function createSampleProject(name,cppfile)
 	end
 	files  { cppfile }
 	includedirs { "..","/usr/include/" }
-	links { "cardlib","utility","cardlib" }
+	links { "utility","cardlib" }
 	if os.is("linux") then
 		links {"dl","pthread"}
 		if name == "testPinDialog" then
