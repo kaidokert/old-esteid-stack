@@ -11,11 +11,13 @@
 
 #include "precompiled.h"
 #include "SmartCardCertificate.h"
+#include "utility/converters.h"
 #include <algorithm>
 
-//#pragma comment(lib,"crypt32")
-// CSmartCardCertificate
+#define WINCRYPT 1
+#pragma comment(lib,"crypt32")
 
+// CSmartCardCertificate
 STDMETHODIMP CSmartCardCertificate::InterfaceSupportsErrorInfo(REFIID riid)
 {
 	static const IID* arr[] = 
@@ -34,9 +36,9 @@ STDMETHODIMP CSmartCardCertificate::InterfaceSupportsErrorInfo(REFIID riid)
 STDMETHODIMP CSmartCardCertificate::get_CN(BSTR* pVal)
 {
 #if WINCRYPT
-	PCCERT_CONTEXT cert = CertCreateCertificateContext(X509_ASN_ENCODING,&m_certBlob[0],m_certBlob.size());
+	PCCERT_CONTEXT cert = CertCreateCertificateContext(X509_ASN_ENCODING,&m_certBlob[0],(DWORD)m_certBlob.size());
 	std::vector<WCHAR > chw(2000,0);
-	DWORD strSz = chw.size();
+	DWORD strSz = (DWORD) chw.size();
 	CertNameToStr(X509_ASN_ENCODING,&cert->pCertInfo->Subject,
 		CERT_X500_NAME_STR,&chw[0],strSz);
 	*pVal = _bstr_t(&chw[0]).Detach();
@@ -61,9 +63,9 @@ STDMETHODIMP CSmartCardCertificate::get_validTo(BSTR* pVal)
 STDMETHODIMP CSmartCardCertificate::get_issuerCN(BSTR* pVal)
 {
 #if WINCRYPT
-	PCCERT_CONTEXT cert = CertCreateCertificateContext(X509_ASN_ENCODING,&m_certBlob[0],m_certBlob.size());
+	PCCERT_CONTEXT cert = CertCreateCertificateContext(X509_ASN_ENCODING,&m_certBlob[0],(DWORD)m_certBlob.size());
 	std::vector<WCHAR > chw(2000,0);
-	DWORD strSz = chw.size();
+	DWORD strSz = (DWORD) chw.size();
 	CertNameToStr(X509_ASN_ENCODING,&cert->pCertInfo->Issuer ,
 		CERT_X500_NAME_STR,&chw[0],strSz);
 	*pVal = _bstr_t(&chw[0]).Detach();
@@ -100,18 +102,13 @@ bool isSpaceChar(WCHAR value) {
 STDMETHODIMP CSmartCardCertificate::get_thumbPrint(BSTR* pVal)
 {
 	std::vector<unsigned char> arrTmp(0x20,0);
-	DWORD sz = arrTmp.size();
+	DWORD sz = (DWORD) arrTmp.size(); 
 #if WINCRYPT
-	PCCERT_CONTEXT cert = CertCreateCertificateContext(X509_ASN_ENCODING,&m_certBlob[0],m_certBlob.size());
+	PCCERT_CONTEXT cert = CertCreateCertificateContext(X509_ASN_ENCODING,&m_certBlob[0],(DWORD)m_certBlob.size());
 	CertGetCertificateContextProperty(
 		cert,CERT_HASH_PROP_ID,&arrTmp[0],&sz);
 	arrTmp.resize(sz);
-	std::vector<WCHAR > chw(2000,0);
-	DWORD strSz = chw.size();
-	CryptBinaryToString(&arrTmp[0],arrTmp.size(),
-		CRYPT_STRING_HEX, &chw[0], &strSz);
-	std::remove_if(chw.begin(),chw.end(),isSpaceChar);
-	*pVal = _bstr_t(&chw[0]).Detach();
+	*pVal = _bstr_t(toHex(arrTmp).c_str()).Detach();
 #endif
 	return S_OK;
 }

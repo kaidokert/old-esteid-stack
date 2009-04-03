@@ -12,6 +12,7 @@
 #include "precompiled.h"
 #include "SmartCardSigner.h"
 #include "utility/pinDialog.h"
+#include "utility/converters.h"
 #include "cardlib/SCError.h"
 #include <algorithm>
 #include "Setup.h"
@@ -113,7 +114,7 @@ struct pinDialogPriv_l {
 	WORD m_resourceID;
 };
 
-STDMETHODIMP CSmartCardSigner::sign(BSTR hashToBeSigned,IDispatch * pCert)
+STDMETHODIMP CSmartCardSigner::sign(BSTR hashToBeSigned,IDispatch * pCert,BSTR* pVal)
 {
 	if (!pCert) 
 		return errMsg("Second parameter must be a certificate");
@@ -135,6 +136,24 @@ STDMETHODIMP CSmartCardSigner::sign(BSTR hashToBeSigned,IDispatch * pCert)
 	if(0 == keyContainer.compare(6,7,L"EstEID:"))
 		return errMsg(L"Unknown card specified");
 
+	CW2A pszConverted(hashToBeSigned);
+	ByteVec hash = fromHex(std::string(pszConverted));
+
+	//FIXME: hardcoded sha1
+	if (hash.size() != 0x14)
+		return errMsg(L"Not a valid SHA1 hash");
+
+	EstEidCard::KeyType key = (EstEidCard::KeyType) -1;
+	std::string prompt;
+	if(0 == keyContainer.compare(11,2,L":0")) {
+		key = EstEidCard::AUTH;
+		prompt = "Enter authentication PIN";
+	}
+	if(0 == keyContainer.compare(11,2,L":1")) {
+		key = EstEidCard::SIGN;
+		prompt = "Enter signature PIN";
+		}
+
 	pinDialogPriv_l params = { ATL::_AtlBaseModule.GetResourceInstance(),
 		IDD_PIN_DIALOG_ENG
 		};
@@ -142,17 +161,19 @@ STDMETHODIMP CSmartCardSigner::sign(BSTR hashToBeSigned,IDispatch * pCert)
 	if (!dlg.doDialog())
 		return errMsg(L"User cancelled");
 
+
 	std::string pin = dlg.getPin();
+	ByteVec result;
 	try {
 		mutexObjLocker _lock(criticalSection);
 		EstEidCard card(m_mgr,m_selectedReader);
-		if(0 == keyContainer.compare(11,2,L":0"))
-			card.calcSignSHA1(ByteVec(0,0),EstEidCard::AUTH,pin);
-		if(0 == keyContainer.compare(11,2,L":1"))
-			card.calcSignSHA1(ByteVec(0,0),EstEidCard::SIGN,pin);
+		result = card.calcSignSHA1(hash,key,pin);
 	} catch(std::runtime_error &e) {
 		return errMsg(e.what());
 		}
+
+	std::string strHex = toHex(result);
+	*pVal = _bstr_t(strHex.c_str()).Detach();
 
 	return S_OK;
 }

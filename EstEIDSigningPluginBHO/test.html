@@ -12,7 +12,7 @@ function setup() {
     setupListeners();
     }
 function setupListeners() {
-    dbgArea.value+= signer.getVersion();
+    dbgArea.value+= signer.getVersion() + "\r";
     signer.addEventListener("OnCardInserted",cardInserted);
     signer.addEventListener("OnCardRemoved",cardRemoved);
     signer.addEventListener("OnReadersChanged",readersChanged);
@@ -59,6 +59,13 @@ function getFirstCertId() {
     if (certArr.length > 1 ) 
         return certArr[1];
     }
+function getSecondCertId() {
+    var certList = signer.getCertificateList();
+    var certArr = certList.split(",");
+    alert(certArr.length);
+    if (certArr.length > 1 )
+        return certArr[2];
+    }
 
 function testCerts() {
     var certList = signer.getCertificateList();
@@ -70,7 +77,7 @@ function testCerts() {
         var cert= signer.getCertificateByThumbprint(certArr[1]);
         if (cert) {
             dbgArea.value+= cert.CN + "\r" + cert.issuerCN + "\r" ;
-            signer.sign("blobofdata",cert);
+            signer.sign( testhash.value ,cert);
             }
          }
     }
@@ -120,6 +127,9 @@ function evalAndExec() {
     <option selected="selected">empty</option>
     </select>
     <div>
+    <div>sample hash
+    <input id="testhash" type="text" value="6b555cd53b389a944167a36a8805d5d3014fe773" size="60" />
+    </div>
     <div>
 <select id="testCode" name="testCode" size="4" style="text-align: right">
     <option selected="true">alert(signer.getReaderName(0))</option>
@@ -127,6 +137,8 @@ function evalAndExec() {
     <option>signer.sign('meh',0)</option>
     <option>signer.sign('blobofdata',getFirstCertId())</option>
     <option>signer.sign('blobofdata',signer.getCertificateByThumbprint(getFirstCertId()))</option>
+    <option>dbgArea.value+=signer.sign(testhash.value,signer.getCertificateByThumbprint(getFirstCertId()))</option>
+    <option>dbgArea.value+=signer.sign(testhash.value,signer.getCertificateByThumbprint(getSecondCertId()))</option>
 </select></div>
 <input type="button" id="testcode" value="test code" onclick="evalAndExec();"/>
     </div>

@@ -43,7 +43,7 @@ interface ISmartCardSigner : IDispatch{
 	[propget, id(15), helpstring("property comment2")] HRESULT comment2([out, retval] BSTR* pVal);
 	[propget, id(16), helpstring("property comment3")] HRESULT comment3([out, retval] BSTR* pVal);
 	[propget, id(17), helpstring("property comment4")] HRESULT comment4([out, retval] BSTR* pVal);
-	[id(18), helpstring("method sign")] HRESULT sign([in] BSTR hashToBeSigned,[in] IDispatch * pCert);
+	[id(18), helpstring("method sign")] HRESULT sign([in] BSTR hashToBeSigned,[in] IDispatch * pCert,[out, retval] BSTR* pVal);
 	[id(19), helpstring("Lists thumbprints of all available certs, comma separated")] HRESULT getCertificateList([out,retval] BSTR* retVal);
 	[id(20), helpstring("Returns a SmartCardCertificate object by given thumbprint")] HRESULT getCertificateByThumbprint([in] BSTR thumbPrint, [out,retval] IDispatch** retVal);
 	[id(21), helpstring("method addEventListener")] HRESULT addEventListener([in] BSTR eventName,[in] IDispatch *function);
