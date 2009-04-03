@@ -1,0 +1,9 @@
+apttitude install libc6-dbg libnspr4-0d-dbg libnss3-1d-dbg
+
+apt-get build-dep libnspr4-0d-dbg libnss3-1d-dbg
+apt-get source -b libnspr4-0d-dbg
+apt-get source -b libnss3-1d-dbg
+dpkg -i *nss*deb *nspr*deb 
+
+cd /usr/bin
+LD_LIBRARY_PATH=/usr/lib/debug  firefox-3.0 -g -P debugprofile -no-remote
