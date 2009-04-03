@@ -11,9 +11,15 @@
 #ifdef WIN32
 #include <windows.h>
 
-struct pinDialogPriv{
+struct pinDialogPriv_a {
 	HINSTANCE m_hInst;
 	WORD m_resourceID;
+};
+
+struct pinDialogPriv {
+	pinDialogPriv_a params;
+/*	HINSTANCE m_hInst;
+	WORD m_resourceID;*/
 	HWND m_hwnd;
 	char m_buffer[20];
 	std::string m_prompt;
@@ -25,8 +31,9 @@ struct pinDialogPriv{
 
 pinDialog::pinDialog(const void * opsysParam,std::string prompt) {
 	d = new pinDialogPriv;
-	d->m_hInst = ((pinDialogPriv * )opsysParam)->m_hInst;
-	d->m_resourceID = ((pinDialogPriv * )opsysParam)->m_resourceID;
+	d->params = *((pinDialogPriv_a*) opsysParam);
+/*	d->m_hInst = ((pinDialogPriv * )opsysParam)->m_hInst;
+	d->m_resourceID = ((pinDialogPriv * )opsysParam)->m_resourceID;*/
 	d->m_prompt = prompt;
 	}
 
@@ -91,7 +98,7 @@ LRESULT CALLBACK dialogProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPara
 	}
 
 bool pinDialog::doDialog() {
-	if (IDOK == DialogBoxParam(d->m_hInst,MAKEINTRESOURCE(d->m_resourceID)
+	if (IDOK == DialogBoxParam(d->params.m_hInst,MAKEINTRESOURCE(d->params.m_resourceID)
 		,GetForegroundWindow(),
 		(DLGPROC)dialogProc, (LPARAM) this)) return true;
 	return false;
