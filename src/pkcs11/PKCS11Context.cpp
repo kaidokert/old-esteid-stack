@@ -5,6 +5,7 @@
 #include "cardlib/helperMacro.h"
 #include "utility/asnCertificate.h"
 #include "utility/logger.h"
+#include "utility/monitorThread.h"
 #include <string.h>
 
 #undef min
@@ -151,18 +152,34 @@ bool operator==(CK_ATTRIBUTE x,CK_ATTRIBUTE_TYPE a) {
 	return x.type == a;
 	}
 
-class PKCS11ContextPriv {
+class PKCS11ContextPriv : public monitorObserver {
+	mutexObj monitorMutex;
+	monitorThread *m_monitorThread;
 	friend class PKCS11Context;
 	PCSCManager mgr;
 	uint readerCount;
 	CK_SESSION_HANDLE nextSession;
 	std::vector<PKCS11Session > sessions;
 	typedef std::vector<PKCS11Session >::iterator sessIter;
-	PKCS11ContextPriv() : nextSession(303){
+	PKCS11ContextPriv() : 
+	  nextSession(303),
+	  monitorMutex("monitorMutex") {
 	  log << "PKCS11Context created" << std::endl;
+	  try {
+	      log << "creating thread.." << std::endl;
+//	      m_monitorThread = new monitorThread(*this,monitorMutex);
+	      log << "creating thread done" << std::endl;
+	  } catch(std::exception &err) {
+	    log << "error when creating monitor:" << err.what() << std::endl;
+	    }
 	  }
 	logger log;
+	void onEvent(monitorEvent eType,int param);
 };
+
+void PKCS11ContextPriv::onEvent(monitorEvent eType,int param) {
+	
+}
 
 PKCS11Context::PKCS11Context(void)
 {
