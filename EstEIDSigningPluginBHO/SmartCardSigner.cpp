@@ -117,11 +117,11 @@ struct pinDialogPriv_l {
 STDMETHODIMP CSmartCardSigner::sign(BSTR hashToBeSigned,IDispatch * pCert,BSTR* pVal)
 {
 	if (!pCert) 
-		return errMsg("Second parameter must be a certificate");
+		return errMsg(L"Second parameter must be a certificate");
 	CComDispatchDriver iDisp(pCert);
 	CComQIPtr<ISmartCardCertificate> iCert(iDisp);
 	if (!iCert) 
-		return errMsg("Second parameter must be a certificate");
+		return errMsg(L"Second parameter must be a certificate");
 
 	BSTR tmp;
 	iCert->get_privateKeyContainer(&tmp);
@@ -144,37 +144,43 @@ STDMETHODIMP CSmartCardSigner::sign(BSTR hashToBeSigned,IDispatch * pCert,BSTR* 
 		return errMsg(L"Not a valid SHA1 hash");
 
 	EstEidCard::KeyType key = (EstEidCard::KeyType) -1;
-	std::string prompt;
-	if(0 == keyContainer.compare(11,2,L":0")) {
+	if(0 == keyContainer.compare(11,2,L":0"))
 		key = EstEidCard::AUTH;
-		prompt = "Enter authentication PIN";
-	}
-	if(0 == keyContainer.compare(11,2,L":1")) {
+	if(0 == keyContainer.compare(11,2,L":1"))
 		key = EstEidCard::SIGN;
-		prompt = "Enter signature PIN";
-		}
 
 	pinDialogPriv_l params = { ATL::_AtlBaseModule.GetResourceInstance(),
 		IDD_PIN_DIALOG_ENG
 		};
-	pinDialog dlg(&params,"Enter signature PIN");
-	if (!dlg.doDialog())
-		return errMsg(L"User cancelled");
-
-
-	std::string pin = dlg.getPin();
+	byte retries = 0;
 	ByteVec result;
-	try {
-		mutexObjLocker _lock(criticalSection);
-		EstEidCard card(m_mgr,m_selectedReader);
-		result = card.calcSignSHA1(hash,key,pin);
-	} catch(std::runtime_error &e) {
-		return errMsg(e.what());
-		}
+	for(;;) {
+		pinDialog dlg(&params,key);
+		if (!dlg.doDialog())
+			return errMsg(L"User cancelled");
+		std::string pin = dlg.getPin();
+		try {
+			mutexObjLocker _lock(criticalSection);
+			EstEidCard card(m_mgr,m_selectedReader);
+			if (key == EstEidCard::AUTH) 
+				card.validateAuthPin(pin,retries);
+			else
+				card.validateSignPin(pin,retries);
+			result = card.calcSignSHA1(hash,key);
+			break;
+		} catch(AuthError &auth) {
+			if (auth.m_blocked) 
+				return errMsg(L"Card blocked");
+			std::wostringstream buf;
+			buf << L"Wrong pin entered, " << --retries << L" retries left";
+			MessageBoxW(buf.str().c_str());
+		} catch(std::exception &e) {
+			return errMsg(e.what());
+			}
+		} 
 
 	std::string strHex = toHex(result);
 	*pVal = _bstr_t(strHex.c_str()).Detach();
-
 	return S_OK;
 }
 
@@ -194,13 +200,13 @@ void CSmartCardSigner::getEstEIDCerts(CInterfaceList<ISmartCardCertificate> &lis
 			EstEidCard card(m_mgr,m_selectedReader);
 			m_authCert = card.getAuthCert();
 			m_signCert = card.getSignCert();
-		} catch (std::runtime_error &err) {
+		} catch (std::exception &err) {
 			std::string doh = err.what();
 			throw;
 			}
 		}
-	cert0->_loadArrayFrom(L"CARD:EstEID:0", m_authCert.size(), &m_authCert[0] );
-	cert1->_loadArrayFrom(L"CARD:EstEID:1", m_signCert.size(), &m_signCert[0] );
+	cert0->_loadArrayFrom(L"CARD:EstEID:0", (ULONG)m_authCert.size(), &m_authCert[0] );
+	cert1->_loadArrayFrom(L"CARD:EstEID:1", (ULONG)m_signCert.size(), &m_signCert[0] );
 	list.AddTail(cert0);
 	list.AddTail(cert1);
 	}
@@ -211,12 +217,12 @@ STDMETHODIMP CSmartCardSigner::getCertificateList(BSTR* retVal)
 	CInterfaceList<ISmartCardCertificate> certs;
 	try {
 		getEstEIDCerts(certs);
-	} catch (std::runtime_error &err) {
+	} catch (std::exception &err) {
 		return errMsg(err.what());
 		}
 	// optionally load certs from other sources
 	while( certs.GetCount() > 0 ) {
-		BSTR val;
+		CComBSTR val("");
 		certs.GetTail()->get_thumbPrint(&val);
 		returnList += val + _bstr_t(",");
 		SysFreeString(val);
@@ -233,7 +239,7 @@ STDMETHODIMP CSmartCardSigner::getCertificateByThumbprint(BSTR thumbPrint, IDisp
 	CInterfaceList<ISmartCardCertificate> certs;
 	try {
 		getEstEIDCerts(certs);
-	} catch(std::runtime_error &err) {
+	} catch(std::exception &err) {
 		return errMsg(err.what());
 		}
 	while( certs.GetCount() > 0 ) {

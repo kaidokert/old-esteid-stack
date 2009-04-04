@@ -7,8 +7,6 @@
 #define IDR_ESTEIDSIGNINGBHO            102
 #define IDR_SMARTCARDSIGNER             103
 #define IDR_SMARTCARDCERTIFICATE        104
-#define IDC_PININPUT                    105
-#define IDD_PIN_DIALOG_ENG              108
 
 // Next default values for new objects
 // 
