@@ -37,13 +37,13 @@ void checker::executeCheck() {
         observer.onEvent(READERS_CHANGED,0);
         }
     for (size_t i = 0; i < cardPresent.size() ; i++ ) {
-        if (readerHasCard(card,i) && !cardPresent[i]) {
+        if (readerHasCard(card,(int)i) && !cardPresent[i]) {
             cardPresent[i] = true;
-            observer.onEvent(CARD_INSERTED,i);
+            observer.onEvent(CARD_INSERTED,(int)i);
             }
-        if (!readerHasCard(card,i) && cardPresent[i]) {
+        if (!readerHasCard(card,(int)i) && cardPresent[i]) {
             cardPresent[i] = false;
-            observer.onEvent(CARD_REMOVED,i);
+            observer.onEvent(CARD_REMOVED,(int)i);
             }
         }
     }
