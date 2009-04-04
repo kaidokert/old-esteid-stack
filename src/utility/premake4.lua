@@ -11,3 +11,12 @@ project "utility"
   if os.is("linux") then
     buildoptions {"`pkg-config gtkmm-2.4 --cflags`"}
   end
+  configuration { "Debug*" }
+    defines { "_DEBUG", "DEBUG" }
+    flags   { "Symbols" }
+
+  configuration { "Release*" }
+    defines { "NDEBUG" }
+    flags   { "Optimize" }
+
+  

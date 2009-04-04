@@ -4,7 +4,6 @@
 
 #ifdef WIN32
 #include <windows.h>
-#include "testpindialog_resource.h"
 int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,
 				   LPSTR lpCmdLine,int nCmdShow ) {
 	struct {
@@ -21,4 +20,8 @@ int main(int argc,char **argv) {
 	pinDialog dlg(&params,"pls enter PIN");
 	dlg.doDialog();
 	std::cout << "pin:" << dlg.getPin() << std::endl;
+	pinDialog dlg1(&params, EstEidCard::AUTH );
+	dlg1.doDialog();
+	pinDialog dlg2(&params, EstEidCard::SIGN );
+	dlg2.doDialog();
 }

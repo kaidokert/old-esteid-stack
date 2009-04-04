@@ -1,2 +1,0 @@
-#define IDD_PIN_DIALOG_ENG	101
-#define IDC_PININPUT		102
