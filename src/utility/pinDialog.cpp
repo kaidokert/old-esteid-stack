@@ -46,6 +46,7 @@ void pinDialogPriv::on_init_dlg() {
 	SetDlgItemTextA(m_hwnd,IDC_STATIC, m_prompt.c_str() );
 	SendDlgItemMessage( m_hwnd, IDC_PININPUT , EM_SETLIMITTEXT, 12, 0 );
 	SetFocus(GetDlgItem(m_hwnd, IDC_PININPUT));
+	SetWindowPos(m_hwnd, HWND_TOPMOST, 0,0,0,0,SWP_NOMOVE|SWP_NOSIZE);
 }
 
 LRESULT pinDialogPriv::on_command(WPARAM wParam, LPARAM lParam) {
