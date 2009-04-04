@@ -62,9 +62,8 @@ function getFirstCertId() {
 function getSecondCertId() {
     var certList = signer.getCertificateList();
     var certArr = certList.split(",");
-    alert(certArr.length);
     if (certArr.length > 1 )
-        return certArr[2];
+        return certArr[0];
     }
 
 function testCerts() {
