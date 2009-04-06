@@ -26,6 +26,8 @@ public:
     std::basic_string<E, T, A> operator() (const std::string& str) const
     {
         typename std::basic_string<E, T, A>::size_type srcLen = str.length();
+		if (!srcLen) 
+			return std::basic_string<E , T, A>();
         const char* pSrcBeg = str.c_str();
         std::vector<E> tmp(srcLen);
 

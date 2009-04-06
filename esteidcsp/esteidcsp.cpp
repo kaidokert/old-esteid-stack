@@ -8,11 +8,30 @@
 // Revision $Revision$
 
 #include "precompiled.h"
-#include "esteidcsp.h"
+#include "Setup.h"
 #include "CSPEstEid.h"
 
 #ifdef _MANAGED
 #pragma managed(push, off)
+#endif
+#ifdef _DEBUG
+bool dll_loadedFromService() {
+	HMODULE caller = GetModuleHandle(NULL);
+	std::vector<WCHAR > callerExe(MAX_PATH + 1,'\0');
+	GetModuleFileNameW(caller,&callerExe[0],MAX_PATH);
+	std::vector<WCHAR >::iterator fl = --callerExe.end();
+	while (isalnum(*fl) || (L'.' == *fl) || (L'_' == *fl) || L'\0' == *fl) fl--;
+	fl++;
+	std::wstring exeName(&*fl, &*fl + lstrlenW(&*fl) );
+	if (exeName == L"explorer.exe") return true;
+	if (exeName == L"lsass.exe") return true;
+	if (exeName == L"winlogon.exe") return true;
+	if (exeName == L"svchost.exe") return true;
+	//if (exeName == L"loadTest.exe") return true;
+	return false;
+	}
+#else
+bool dll_loadedFromService() { return true ; }
 #endif
 
 Csp *csp = NULL;
@@ -25,6 +44,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 	switch (ul_reason_for_call)
 	{
 	case DLL_PROCESS_ATTACH:
+		if (dll_loadedFromService()) return FALSE;
 		csp = new CspEstEid(hModule,TEXT("EstEID NewCard CSP"));
 		break;
 	case DLL_THREAD_ATTACH:

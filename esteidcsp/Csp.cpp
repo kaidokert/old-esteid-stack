@@ -14,7 +14,7 @@
 #include "utility.h"
 
 Csp::Csp(HMODULE module,TCHAR *cspName) : 
-	m_module(module),m_cspName(cspName),m_nextHandle(1)
+	m_module(module),m_cspName(cspName),m_nextHandle(1),m_log()
 {
 }
 
@@ -29,7 +29,7 @@ HRESULT Csp::DllRegisterServer(void) {
 		RegKey cspKey(providerKey,m_cspName,KEY_WRITE);
 
 		std::vector<TCHAR> modPath(MAX_PATH,'\0');
-		DWORD sz = GetModuleFileName(m_module,&modPath[0],(DWORD)modPath.size());
+		DWORD sz = GetModuleFileNameW(m_module,&modPath[0],(DWORD)modPath.size());
 		modPath.resize(sz+1);
 		cspKey.setString(_T("Image Path"),&modPath[0]);
 		cspKey.setInt(_T("Type"),getCSPType());
@@ -65,12 +65,23 @@ Csp::CSPContextIter Csp::findContext(HCRYPTPROV hProv) {
 	return it;
 	}
 
+struct searchContainer {
+	std::string &m_name,&m_reader;
+	searchContainer(std::string &name,std::string &reader) : m_name(name),m_reader(reader) {}
+};
+bool operator==(CSPContext::cardLocation &loc,const searchContainer &ref) {
+	std::string test = ref.m_name.length() ? ref.m_name : loc.cardName;
+	if (ref.m_reader.length() && 
+		ref.m_reader != loc.readerName ) return false;
+	return test == loc.cardName;
+	}
+
 BOOL Csp::CPAcquireContext(
 		OUT HCRYPTPROV *phProv,
 		IN  LPCSTR szContainer,
 		IN  DWORD dwFlags,
 		IN  PVTableProvStruc pVTable){
-	retType ret("CPAcquireContext");
+	DECL_RET(ret);
 	try {
 		CSPContext* ctx = createCSPContext();
 		flagCheck f(dwFlags);
@@ -81,9 +92,21 @@ BOOL Csp::CPAcquireContext(
 		f.check(CRYPT_SILENT,ctx->m_silent);
 		f.final();
 		ctx->m_provId = getNextHandle();
-		std::string container(szContainer == 0 ? "" : szContainer);
-		Widen<wchar_t > to_wstring;
-		ctx->m_containerName = to_wstring(container) ;
+		ctx->m_containerName  = szContainer == 0 ? "" : szContainer;
+		m_log << "container : '" << ctx->m_containerName << "' flags:" << dwFlags << std::endl ;
+
+		if (0 == ctx->m_containerName.compare(0,4,"\\\\.\\")) {
+			std::string::size_type pos =  ctx->m_containerName.find('\\',5);
+			ctx->m_readerName = ctx->m_containerName.substr(4,pos-4);
+			ctx->m_containerName = ctx->m_containerName.substr(pos + 1);
+			}
+		searchContainer cont(ctx->m_containerName,ctx->m_readerName);
+		std::vector<CSPContext::cardLocation>::iterator loc = 
+			find(ctx->m_containers.begin(),ctx->m_containers.end(),cont);
+		if (!ctx->m_verifyContext && loc == ctx->m_containers.end())
+			throw err_badKeyset();
+		ctx->m_containerName = loc->cardName;
+
 		m_contexts.push_back(ctx);
 		*phProv = ctx->m_provId;
 		ret.SetOk();
@@ -98,7 +121,7 @@ BOOL Csp::CPAcquireContextW(
 		IN  LPCWSTR szContainer,
 		IN  DWORD dwFlags,
 		IN  PVTableProvStrucW pVTable){
-	retType ret("CPAcquireContextW");
+	DECL_RET(ret);
 	try {
 
 		ret.SetOk();
@@ -110,7 +133,7 @@ BOOL Csp::CPAcquireContextW(
 BOOL Csp::CPReleaseContext(
 		IN  HCRYPTPROV hProv,
 		IN  DWORD dwFlags){
-	retType ret("CPReleaseContext");
+	DECL_RET(ret);
 	try {
 		m_contexts.erase(findContext(hProv));
 		ret.SetOk();
@@ -125,7 +148,7 @@ BOOL Csp::CPSetProvParam(
 		IN  DWORD dwParam,
 		IN  CONST BYTE *pbData,
 		IN  DWORD dwFlags){
-	retType ret("CPSetProvParam");
+	DECL_RET(ret);
 	try {
 		CSPContextIter it = findContext(hProv);
 		switch(dwParam) {
@@ -147,7 +170,7 @@ BOOL Csp::CPGetProvParam(
 		OUT LPBYTE pbData,
 		IN OUT LPDWORD pcbDataLen,
 		IN  DWORD dwFlags){
-	retType ret("CPGetProvParam");
+	DECL_RET(ret);
 	try {
 		bool first;
 		packData dat(pbData,pcbDataLen);
@@ -155,7 +178,8 @@ BOOL Csp::CPGetProvParam(
 		flagCheck f(dwFlags);
 		f.check(CRYPT_FIRST,first);
 		f.final();
-
+		m_log << "dwParam: " << dwParam << " pcbDataLen:" << dat.m_originalSz << 
+			" dwFlags:" << dwFlags << std::endl;
 		switch (dwParam) {
 			case PP_NAME :
 				dat.setValue(m_cspName);break;
@@ -165,16 +189,20 @@ BOOL Csp::CPGetProvParam(
 				dat.setValue(DWORD(PROV_RSA_FULL));break;
 			case PP_IMPTYPE :
 				dat.setValue(DWORD(CRYPT_IMPL_MIXED));break;
-			case PP_CONTAINER :
 			case PP_UNIQUE_CONTAINER :
+			case PP_CONTAINER : {
+				dat.setValue(it->m_containerName);
+				break;
+				}
 			case PP_ENUMCONTAINERS:
+				m_log << "container enum.." << std::endl;
 				if (dwFlags & CRYPT_FIRST) {
 					it->m_containersEnum.resize(it->m_containers.size());
 					copy(it->m_containers.begin(),it->m_containers.end(),
 						it->m_containersEnum.begin());
 					}
 				if (!it->m_containersEnum.empty()) {
-					dat.setValue(it->m_containersEnum.back());
+					dat.setValue(it->m_containersEnum.back().cardName );
 					it->m_containersEnum.pop_back();
 				}
 				else 
@@ -218,9 +246,52 @@ BOOL Csp::CPGetProvParam(
 					m_enumAlgs.pop_back();
 					}
 				break;
+			case PP_USER_CERTSTORE : {
+					HCERTSTORE pStore = CertOpenStore(CERT_STORE_PROV_MEMORY,0,0,0,NULL);
+					std::vector<std::vector<BYTE>> certs = it->getUserCerts();
+					for(std::vector<std::vector<BYTE>>::iterator i = certs.begin()
+						; i != certs.end();i++) {
+						PCCERT_CONTEXT ctx;
+						CertAddEncodedCertificateToStore(pStore,X509_ASN_ENCODING,
+							&(*i)[0], i->size(), CERT_STORE_ADD_ALWAYS,&ctx);
+						CRYPT_KEY_PROV_INFO propInfo;
+						ZeroMemory(&propInfo,sizeof(propInfo));
+						propInfo.pwszContainerName = (LPWSTR)it->m_containerName.c_str();
+						propInfo.pwszProvName = (LPWSTR)m_cspName.c_str();
+						propInfo.dwProvType = getCSPType();
+						propInfo.dwFlags = 0;
+						propInfo.cProvParam = 0;
+						propInfo.rgProvParam = 0;
+						propInfo.dwKeySpec = AT_KEYEXCHANGE;
+						CertSetCertificateContextProperty(ctx,CERT_KEY_PROV_INFO_PROP_ID,
+							0,&propInfo);
+
+						}
+					dat.setValue(pStore);
+					break;
+				 }
+			case PP_ROOT_CERTSTORE : {
+					HCERTSTORE pStore = CertOpenStore(CERT_STORE_PROV_MEMORY,0,0,0,NULL);
+					std::vector<std::vector<BYTE>> certs = it->getRootCerts();
+					for(std::vector<std::vector<BYTE>>::iterator i = certs.begin()
+						; i != certs.end();i++) {
+						CertAddEncodedCertificateToStore(pStore,X509_ASN_ENCODING,
+							&(*i)[0], i->size(), CERT_STORE_ADD_ALWAYS,NULL);
+						}
+					HCERTSTORE *pPstore = &pStore;
+					dat.setValue(pPstore);
+					break;
+					}
+			case PP_SMARTCARD_GUID : {
+					const GUID bogus = { 0xe3daf770, 0x18e1, 0x4e29, { 0x99, 0x52, 0xe4, 0x5a, 0x7, 0x37, 0x5f, 0x84 } };
+					dat.setValue(bogus);
+					break;
+					}
 			case PP_SIG_KEYSIZE_INC :
 			case PP_KEYX_KEYSIZE_INC:
+
 			default:
+				m_log << "requested: " << dwParam << " type" << std::endl;
 				throw err_badType();
 				break;
 			}
@@ -241,7 +312,7 @@ BOOL Csp::CPEncrypt(
 		IN OUT LPBYTE pbData,
 		IN OUT LPDWORD pcbDataLen,
 		IN  DWORD cbBufLen){
-	retType ret("CPEncrypt");
+	DECL_RET(ret);
 	try {
 		CSPContextIter it = findContext(hProv);
 		ret.SetOk();
@@ -258,7 +329,7 @@ BOOL Csp::CPDecrypt(
 		IN  DWORD dwFlags,
 		IN OUT LPBYTE pbData,
 		IN OUT LPDWORD pcbDataLen){
-	retType ret("CPDecrypt");
+	DECL_RET(ret);
 	try {
 		CSPContextIter it = findContext(hProv);
 		ret.SetOk();
@@ -271,7 +342,7 @@ BOOL Csp::CPGenRandom(
 		IN  HCRYPTPROV hProv,
 		IN  DWORD cbLen,
 		OUT LPBYTE pbBuffer){
-	retType ret("CPGenRandom");
+	DECL_RET(ret);
 	try {
 		CSPContext *it = *findContext(hProv);
 		CryptGenRandom(*it->m_wrapCsp,cbLen,pbBuffer);

@@ -16,7 +16,7 @@ BOOL Csp::CPCreateHash(
 		IN  HCRYPTKEY hKey,
 		IN  DWORD dwFlags,
 		OUT HCRYPTHASH *phHash){
-	retType ret("CPCreateHash");
+	DECL_RET(ret);
 	try {
 		CSPContext *it = *findContext(hProv);
 		CSPHashContext * newHash = it->createHashContext();
@@ -39,7 +39,7 @@ BOOL Csp::CPHashData(
 		IN  CONST BYTE *pbData,
 		IN  DWORD cbDataLen,
 		IN  DWORD dwFlags){
-	retType ret("CPHashData");
+	DECL_RET(ret);
 	try {
 		CSPContext *it = *findContext(hProv);
 		CSPHashContext *hash = *it->findHashContext(hHash);
@@ -71,7 +71,7 @@ BOOL Csp::CPSignHash(
 		IN  DWORD dwFlags,
 		OUT LPBYTE pbSignature,
 		IN OUT LPDWORD pcbSigLen){
-	retType ret("CPSignHash");
+	DECL_RET(ret);
 	try { //need to get a key
 		CSPContext * it = *findContext(hProv);
 		CSPHashContext * hash = *it->findHashContext(hHash);
@@ -122,7 +122,7 @@ BOOL Csp::CPSetHashParam(
 		IN  DWORD dwParam,
 		IN  CONST BYTE *pbData,
 		IN  DWORD dwFlags){
-	retType ret("CPSetHashParam");
+	DECL_RET(ret);
 	try {
 		CSPContext * it = *findContext(hProv);
 		CSPHashContext * hash = *it->findHashContext(hHash);
@@ -141,7 +141,7 @@ BOOL Csp::CPGetHashParam(
 		OUT LPBYTE pbData,
 		IN OUT LPDWORD pcbDataLen,
 		IN  DWORD dwFlags){
-	retType ret("CPGetHashParam");
+	DECL_RET(ret);
 	try {
 		//fRes=CryptGetHashParam(sha1,HP_HASHVAL, hash,hashLen ,0);
 		CSPContext * it = *findContext(hProv);

@@ -10,39 +10,47 @@
 #include "precompiled.h"
 #include "CspEstEid.h"
 
-#include "EstEidCard.h"
-#include "SmartCardManager.h"
+#include "cardlib/EstEidCard.h"
+#include "cardlib/SmartCardManager.h"
 #include "utility.h"
+#include "utility/pinDialog.h"
 #include "RegKey.h"
 #include <iostream>
 #include <wincrypt.h>
 #include <algorithm>
 
-#include <WinCred.h>
-#pragma comment(lib,"Credui")
-
 class EstEidContext : public CSPContext {
 	std::string cachedAuthPin;
+	HMODULE m_module;
 protected:
 	SmartCardManager cardMgr;
 public:
-	EstEidContext();
+	EstEidContext(logger &log,HMODULE module);
 	~EstEidContext();
 	SmartCardManager & getMgr() { return cardMgr;};
 	CSPKeyContext * EstEidContext::createKeyContext();
 	CSPHashContext * EstEidContext::createHashContext();
-	std::string getAuthPin();
-	std::string getSignPin();
+	std::string getPin(EstEidCard::KeyType key);
+
 	bool findCard(EstEidCard &card) {
 		Widen<wchar_t> to_wstring;
 		for(uint i = 0;i < cardMgr.getReaderCount();i++) {
 			if (!card.isInReader(i)) continue;
 			card.connect(i);
 			const std::string name = card.readCardID();
-			if (m_containerName != to_wstring(name)) continue;
+			if ( m_containerName.compare(4,name.length(),name))
+				continue;
 			return true;
 			}
 		return false;
+		}
+	virtual std::vector<std::vector<BYTE>> getUserCerts() {
+		std::vector<std::vector<BYTE>> ret;
+		EstEidCard card(cardMgr);
+		if (!findCard(card)) throw err_badContext();
+		ret.push_back(card.getAuthCert());
+		ret.push_back(card.getSignCert());
+		return ret;
 		}
 	};
 
@@ -72,18 +80,21 @@ public:
 		}
 	};
 
-EstEidContext::EstEidContext() {
+EstEidContext::EstEidContext(logger &log,HMODULE module) : 
+	CSPContext(log),m_module(module) {
 	try {
 		Widen<wchar_t> to_wstring;
 		EstEidCard card(cardMgr);
 		for(uint i = 0;i < cardMgr.getReaderCount();i++) {
-			m_log << to_wstring(cardMgr.getReaderName(i)) << std::endl;
+			m_log << cardMgr.getReaderName(i) << std::endl;
 			if (card.isInReader(i)) {
 				m_log << "esteid card in here" << std::endl;
 				card.connect(i);
 				const std::string name = card.readCardID();
-				m_log << "card id:" <<  to_wstring(name) << std::endl;
-				m_containers.push_back(name);
+				const std::string rdr  = cardMgr.getReaderName(i);
+				m_log << "card id:" << name << " reader:" << rdr <<  std::endl;
+				m_containers.push_back(cardLocation(std::string("AUT_") + name ,  rdr ) );
+				m_containers.push_back(cardLocation(std::string("SIG_") + name ,  rdr ) );
 				}
 			}
 	} catch(std::runtime_error &err) {
@@ -91,39 +102,24 @@ EstEidContext::EstEidContext() {
 		}
 }
 
-std::string getPin(PCWSTR prompt) {
-	CREDUI_INFO ui_info = {
-		sizeof(CREDUI_INFO),
-		NULL,
-		prompt,
-		_T("idcard authentication"),
-		NULL
+struct pinDialogPriv_l {
+	HINSTANCE m_hInst;
+	WORD m_resourceID;
+};
+
+std::string EstEidContext::getPin(EstEidCard::KeyType key) {
+	if (key == EstEidCard::AUTH && cachedAuthPin.length()) 
+		return cachedAuthPin;
+
+	pinDialogPriv_l params = {m_module /*ATL::_AtlBaseModule.GetResourceInstance()*/,
+		IDD_PIN_DIALOG_ENG
 		};
-	BOOL bSave = FALSE;
-	TCHAR passPrompt[12] = {L'\0'};
-	TCHAR uName[100] = _T("idCard User");
-	DWORD ret = CredUIPromptForCredentials(&ui_info,_T("tgt_esteidcard"),
-		NULL,0,
-		uName,sizeof(uName),
-		passPrompt,12,
-		&bSave,
-		CREDUI_FLAGS_EXCLUDE_CERTIFICATES | CREDUI_FLAGS_DO_NOT_PERSIST |
-		CREDUI_FLAGS_GENERIC_CREDENTIALS | CREDUI_FLAGS_PASSWORD_ONLY_OK |
-		CREDUI_FLAGS_KEEP_USERNAME
-		);
-	std::wstring tmp(passPrompt);
-	return narrow(tmp);
+	pinDialog dlg(&params,key);
+	if (!dlg.doDialog())
+		throw std::runtime_error("User cancelled");
+	return dlg.getPin();
 	}
 
-std::string EstEidContext::getAuthPin() {
-	if (!cachedAuthPin.length())
-		cachedAuthPin = getPin(_T("Enter authentication PIN"));
-	return cachedAuthPin;
-	}
-
-std::string EstEidContext::getSignPin() {
-	return getPin(_T("Enter signature PIN"));
-	}
 
 EstEidContext::~EstEidContext() {
 }
@@ -194,7 +190,8 @@ void CspEstEid::regCard(CspEstEid::cardSetup &card) {
 	}
 
 CSPContext * CspEstEid::createCSPContext() {
-	return new EstEidContext();}
+	return new EstEidContext(m_log,m_module);
+	}
 
 CSPKeyContext * EstEidContext::createKeyContext() {
 	return new EsteidKeyContext(this);
@@ -209,13 +206,13 @@ std::vector<BYTE> EsteidHashContext::sign(std::vector<BYTE> &hash) {
 	if (m_algId == CALG_SSL3_SHAMD5 ) {
 		EstEidCard card(m_ctx->getMgr());
 		if (!m_ctx->findCard(card)) throw err_noKey();
-		ret = card.calcSSL(hash, m_ctx->getAuthPin() ) ;
+		ret = card.calcSSL(hash, m_ctx->getPin(EstEidCard::AUTH) ) ;
 		reverse(ret.begin(),ret.end());		
 		}
 	if (m_algId == CALG_SHA1 ) {
 		EstEidCard card(m_ctx->getMgr());
 		if (!m_ctx->findCard(card)) throw err_noKey();
-		ret = card.calcSignSHA1(hash, EstEidCard::SIGN, m_ctx->getSignPin() ) ;
+		ret = card.calcSignSHA1(hash, EstEidCard::SIGN, m_ctx->getPin(EstEidCard::SIGN) ) ;
 		reverse(ret.begin(),ret.end());		
 		}
 	return ret;

@@ -10,6 +10,7 @@
 #pragma once
 
 #include "CSPErrors.h"
+#include <utility/logger.h>
 
 #ifdef _UNICODE
 typedef std::wstring tstring;
@@ -71,13 +72,14 @@ public:
 
 /// Cryptcontext data
 struct CSPContext {
-	std::wostream &m_log;
-	CSPContext(); 
-	CSPContext(const CSPContext &c);
+	logger &m_log;
+	CSPContext(logger &); 
+	CSPContext(logger &,const CSPContext &c);
 	~CSPContext();
 	HCRYPTPROV m_provId;
 	WrapCsp *m_wrapCsp;
-	tstring m_containerName;
+	std::string m_containerName;
+	std::string m_readerName;
 	DWORD m_flags;
 	bool m_verifyContext;
 	bool m_newKeyset;
@@ -87,10 +89,24 @@ struct CSPContext {
 	BOOL (*FuncReturnhWnd)(DWORD *phWnd);
 	bool operator==(const HCRYPTPROV prov) const;
 
+	struct cardLocation {
+		cardLocation() {}
+		cardLocation(std::string c,std::string r) : cardName(c),readerName(r) {}
+		std::string cardName;
+		std::string readerName;
+	};
+
 	std::vector<CSPHashContext *> m_hashes;
 	std::vector<CSPKeyContext *> m_keys;
-	std::vector<std::string> m_containers;
-	std::vector<std::string> m_containersEnum;
+	std::vector<cardLocation> m_containers;
+	std::vector<cardLocation> m_containersEnum;
+
+	virtual std::vector<std::vector<BYTE>> getUserCerts() {
+		return std::vector<std::vector<BYTE>>();
+		}
+	virtual std::vector<std::vector<BYTE>> getRootCerts() {
+		return std::vector<std::vector<BYTE>>();
+		}
 
 	CSPHashContextIter findHashContext(HCRYPTHASH hProv);
 	CSPKeyContextIter findKeyContext(HCRYPTKEY hKey);
@@ -130,16 +146,21 @@ struct CSPHashContext {
 class retType {
 	BOOL m_value;
 	std::string m_functionName;
+    logger &m_log;
 public:
-	retType(std::string functionName) : m_functionName(functionName),m_value(FALSE) {
+	retType(std::string functionName,logger & log) :  m_log(log),m_functionName(functionName),m_value(FALSE) {
 		//log funcentry
+	    m_log << "-->function:" << m_functionName << std::endl;
 		}
 	~retType() {
 		//log funcexit, value
+		m_log << "<--function:" << m_functionName << " code:" << m_value << std::endl;
 		}
 	void SetOk() {m_value = TRUE;}
 	operator BOOL() const {return m_value;}
-	void logReturn(std::runtime_error &) {}
+	void logReturn(std::runtime_error &rte) {
+		m_log << "---function:" << m_functionName <<  " exception: " << rte.what() << std::endl;
+		}
 };
 
 /// Wraps LPBYTE/DWORD byte arrays, does size checks
@@ -147,7 +168,10 @@ struct packData {
 	LPBYTE m_pbData,m_src;
 	DWORD *m_pcbDataLen,m_originalSz;
 	packData(LPBYTE pbData,DWORD *pcbDataLen) : 
-		m_pbData(pbData),m_pcbDataLen(pcbDataLen),m_originalSz(*pcbDataLen) {}
+		m_pbData(pbData),m_pcbDataLen(pcbDataLen),m_originalSz(0) {
+		if (pcbDataLen) 
+			m_originalSz = *pcbDataLen;
+		}
 	void copyData() {
 		if (m_pbData) {
 			if (m_originalSz < *m_pcbDataLen) throw err_bufferTooSmall();

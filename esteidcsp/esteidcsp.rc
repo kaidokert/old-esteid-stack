@@ -7,10 +7,12 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-//#include "afxres.h"
-#include "winnt.h"
-#include "winver.h"
-#include "esteidcsp.h"
+#include "afxres.h"
+#include "Setup.h"
+#include "version.rc"
+#include "utility/pinDialog_res.h"
+#include "utility/pinDialog.rc"
+
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -37,12 +39,15 @@ END
 2 TEXTINCLUDE 
 BEGIN
     "#include ""afxres.h""\r\n"
-    "#include ""esteidcsp.h\0"
+    "#include ""Setup.h""\r\n"
+    "#include ""version.rc""\r\n"
+    "#include ""utility/pinDialog_res.h""\r\n"
+    "#include ""utility/pinDialog.rc""\r\n\0"
 END
 
 3 TEXTINCLUDE 
 BEGIN
-    "\r\0"
+    "\0"
 END
 
 #endif    // APSTUDIO_INVOKED
@@ -62,58 +67,13 @@ LANGUAGE LANG_ESTONIAN, SUBLANG_DEFAULT
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Version
+// RCDATA
 //
 
-VS_VERSION_INFO VERSIONINFO
- FILEVERSION FILEVER
- PRODUCTVERSION PRODUCTVER
- FILEFLAGSMASK 0x17L
-#ifdef _DEBUG
- FILEFLAGS 0x1L
-#else
- FILEFLAGS 0x0L
-#endif
- FILEOS 0x4L
- FILETYPE 0x2L
- FILESUBTYPE 0x0L
-BEGIN
-    BLOCK "StringFileInfo"
-    BEGIN
-        BLOCK "042504b0"
-        BEGIN
-			VALUE "FileDescription", "esteidcsp Dynamic Link Library " 
-#if defined(_M_X64)
-#ifdef _DEBUG
-			"( x64, debug )"
-#else
-			"( x64, retail )"
-#endif
-#else
-#ifdef _DEBUG
-            "( x86, debug )"
-#else
-            "( x86, retail )"
-#endif
-#endif
-			VALUE "FileVersion", STRFILEVER
-            VALUE "InternalName", "esteidcsp"
-            VALUE "LegalCopyright", "Copyright (C) 2008"
-            VALUE "OriginalFilename", "esteidcsp.dll"
-            VALUE "ProductName", "esteidcsp Dynamic Link Library"
-            VALUE "ProductVersion", STRPRODUCTVER
-        END
-    END
-    BLOCK "VarFileInfo"
-    BEGIN
-        VALUE "Translation", 0x425, 1200
-    END
-END
-
+CRYPT_SIG_RESOURCE_NUMBER RCDATA                  "sigbinary.bin"
 #endif    // Estonian resources
 /////////////////////////////////////////////////////////////////////////////
 
-CRYPT_SIG_RESOURCE_NUMBER RCDATA  DISCARDABLE     "sigbinary.bin"
 
 
 #ifndef APSTUDIO_INVOKED

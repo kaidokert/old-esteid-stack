@@ -12,11 +12,11 @@
 #include "CSPErrors.h"
 #include <algorithm>
 
-CSPContext::CSPContext(): m_log(std::wclog) {
+CSPContext::CSPContext(logger &log): m_log(log) {
 	m_wrapCsp =  new WrapCsp(MS_ENHANCED_PROV,PROV_RSA_FULL);
 	}
 
-CSPContext::CSPContext(const CSPContext &c) : m_log(std::wclog) {
+CSPContext::CSPContext(logger &log,const CSPContext &c) : m_log(log) {
 	m_provId=c.m_provId;
 	m_provId=c.m_provId;
 	m_flags=c.m_flags;
@@ -67,32 +67,3 @@ bool CSPHashContext::operator==(const HCRYPTHASH hashId) const {
 	return m_hashId == hashId;
 }
 
-#if 0
-void packData::copyData() {
-		if (m_pbData) {
-			if (m_originalSz < *m_pcbDataLen) throw err_bufferTooSmall();
-			memcpy(m_pbData,m_src,*m_pcbDataLen);
-			}
-		}
-template<class T>
-void packData::setValue(T a) {
-	*m_pcbDataLen = sizeof(a);
-	m_src = (LPBYTE)&a;
-	copyData();
-	}
-void packData::setValue(tstring a) {
-	*m_pcbDataLen = (DWORD) (a.length() * sizeof(TCHAR)) + 1;
-	m_src = (LPBYTE)a.c_str();
-	copyData();
-	}
-void packData::setValue(std::string a) {
-	*m_pcbDataLen = (DWORD) a.length() + 1;
-	m_src = (LPBYTE)a.c_str();
-	copyData();
-	}
-void packData::setValue(std::vector<BYTE> &a) {
-	*m_pbcData = a.size();
-	if (a.size()) m_src = &a[0];
-	copyData();
-	}
-#endif

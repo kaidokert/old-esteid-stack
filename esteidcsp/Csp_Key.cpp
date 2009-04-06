@@ -15,7 +15,7 @@ BOOL Csp::CPGetUserKey(
 		IN  HCRYPTPROV hProv,
 		IN  DWORD dwKeySpec,
 		OUT HCRYPTKEY *phUserKey){
-	retType ret("CPGetUserKey");
+	DECL_RET(ret);
 	try {
 		CSPContext * it = *findContext(hProv);
 		CSPKeyContext * key = it->createKeyContext();
@@ -62,7 +62,7 @@ BOOL Csp::CPDeriveKey(
 BOOL Csp::CPDestroyKey(
 		IN  HCRYPTPROV hProv,
 		IN  HCRYPTKEY hKey){
-	retType ret("CPDestroyKey");
+	DECL_RET(ret);
 	try {
 		CSPContext * it = *findContext(hProv);
 		it->m_keys.erase(it->findKeyContext(hKey));
@@ -94,7 +94,7 @@ BOOL Csp::CPGetKeyParam(
 		OUT LPBYTE pbData,
 		IN OUT LPDWORD pcbDataLen,
 		IN  DWORD dwFlags){
-	retType ret("CPGetKeyParam");
+	DECL_RET(ret);
 	try {
 		CSPContext * it = *findContext(hProv);
 		CSPKeyContext * key =  *it->findKeyContext(hKey);
@@ -128,7 +128,7 @@ BOOL Csp::CPExportKey(
 		IN  DWORD dwFlags,
 		OUT LPBYTE pbData,
 		IN OUT LPDWORD pcbDataLen){
-	retType ret("CPExportKey");
+	DECL_RET(ret);
 	try {
 		CSPContext * it = *findContext(hProv);
 		CSPKeyContext * key =  *it->findKeyContext(hKey);

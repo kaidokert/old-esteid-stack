@@ -8,6 +8,7 @@
 // Revision $Revision$
 
 #pragma once
+#include <utility/logger.h>
 #include "CSPTypes.h"
 #include "CSPErrors.h"
 
@@ -38,9 +39,9 @@ typedef struct _VTableProvStrucW {
     LPWSTR               pszProvName;
 } VTableProvStrucW,     *PVTableProvStrucW;
 
+
 class Csp
 {
-	HMODULE m_module;
 	std::vector<CSPContext *> m_contexts;
 	typedef std::vector<CSPContext *>::iterator CSPContextIter;
 	DWORD m_nextHandle;
@@ -48,12 +49,14 @@ class Csp
 	std::vector<PROV_ENUMALGS> m_enumAlgs;
 	std::vector<PROV_ENUMALGS_EX> m_enumAlgsEx;
 protected:
+	logger m_log;
 	tstring m_cspName;
+	HMODULE m_module;
 public:
 	Csp(HMODULE module,TCHAR *);
 	virtual ~Csp(void);
 
-	virtual CSPContext * createCSPContext() { return new CSPContext();}
+	virtual CSPContext * createCSPContext() { return new CSPContext(m_log);}
 	///CSP type in registry
 	virtual DWORD getCSPType() {return PROV_RSA_FULL;}
 
@@ -239,3 +242,5 @@ public:
 		IN  DWORD dwFlags,
 		OUT HCRYPTKEY *phKey);
 };
+
+#define DECL_RET(var) retType var(__FUNCTION__,m_log)
