@@ -33,6 +33,8 @@ DynamicLibrary::DynamicLibrary(const char *dllName,const char *pathHint,
 
 void DynamicLibrary::construct(int ) {
 	mLibhandle = LoadLibraryA(name.c_str());
+	if (!mLibhandle)
+		mLibhandle = LoadLibraryA( std::string(std::string(m_pathHint) + "\\" + name).c_str());
 	if (!mLibhandle) {
 		std::ostringstream buf;
 		buf << "Dynamic library '" << name << "' not found in system";
