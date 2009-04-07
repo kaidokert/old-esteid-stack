@@ -11,11 +11,14 @@ project "cardlib"
   end
 
   configuration { "Debug*" }
+	targetdir "Debug"
     defines { "_DEBUG", "DEBUG" }
     flags   { "Symbols" }
 
   configuration { "Release*" }
+	targetdir "Release"
     defines { "NDEBUG" }
-    flags   { "Optimize" }
+	flags   { "Optimize","NoEditAndContinue","NoManifest","StaticRuntime" }
+
 
   

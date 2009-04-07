@@ -21,7 +21,7 @@ int main(int argc,char **argv) {
     monitorThread mthread(oneOb,mutex);
     mthread.start();
     while(1) {
-        sleep(1);
+		threadObj::wait(1000);
         std::cout << "main prog tick" << std::endl;
         }
 }

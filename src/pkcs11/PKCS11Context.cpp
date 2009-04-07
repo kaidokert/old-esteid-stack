@@ -10,6 +10,12 @@
 
 #undef min
 
+#ifdef _MSC_VER
+#define FUNC_LOG() ScopedLog __l(__FUNCTION__,d->log)
+#else
+#define FUNC_LOG() ScopedLog __l(__func__,d->log)
+#endif
+
 enum ObjID {
 	OBJ_INVALID = -1,
 	OBJ_NONE,

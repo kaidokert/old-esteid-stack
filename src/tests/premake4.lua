@@ -16,11 +16,19 @@ function createSampleProject(name,cppfile)
 		  linkoptions  {"`pkg-config gtkmm-2.4 --libs`"}
 		  buildoptions {"`pkg-config gtkmm-2.4 --cflags`"}
 		end
+	else
+		if name == "testPinDialog" then
+			flags "WinMain"
+		end
 	end
 	configuration { "Debug*" }
 		defines { "_DEBUG", "DEBUG" }
 		flags   { "Symbols" }
 		if name == "testPinDialog" then flags { "WinMain" } end
+		targetdir "Debug"
+	configuration { "Release" }
+		targetdir "Release"
+		flags { "Optimize","NoEditAndContinue","NoManifest","StaticRuntime" }
 
 	premake.buildconfigs()
 	return premake.CurrentContainer
