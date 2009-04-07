@@ -36,7 +36,7 @@ struct threadPriv {
     ~threadPriv() {
         stop();
         }
-    void wait(unsigned int ms) {
+    static void wait(unsigned int ms) {
         timespec timesp;
         timesp.tv_sec =(time_t) (ms/ 1000);
         timesp.tv_nsec=(time_t) ((ms% 1000) * 1000 * 1000);
@@ -65,7 +65,7 @@ struct threadPriv {
     ~threadPriv() {
         stop();
         }
-    void wait(unsigned int ms) {
+    static void wait(unsigned int ms) {
         Sleep(ms);
         }
 };
@@ -95,7 +95,7 @@ bool mutexObj::Unlock() {return d->Unlock();}
 
 threadObj::threadObj(const char *name) : m_name(name), d(new threadPriv(*this)) {}
 threadObj::~threadObj() {delete d;}
-void threadObj::wait(unsigned int ms) {d->wait(ms);}
+void threadObj::wait(unsigned int ms) {threadPriv::wait(ms);}
 void threadObj::start() {d->start();}
 void threadObj::stop() {d->stop();}
 

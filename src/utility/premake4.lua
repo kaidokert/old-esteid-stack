@@ -12,11 +12,13 @@ project "utility"
     buildoptions {"`pkg-config gtkmm-2.4 --cflags`"}
   end
   configuration { "Debug*" }
+	targetdir "Debug"
     defines { "_DEBUG", "DEBUG" }
     flags   { "Symbols" }
 
   configuration { "Release*" }
+	targetdir "Release"
     defines { "NDEBUG" }
-    flags   { "Optimize" }
+	flags   { "Optimize","NoEditAndContinue","NoManifest","StaticRuntime" }
 
   

@@ -2,8 +2,8 @@
 	\file		monitorThread.cpp
 	\copyright	(c) Kaido Kert ( kaidokert@gmail.com )
 	\licence	BSD
-	\author		$Author: kaidokert $
-	\date		$Date: 2009-03-29 17:48:54 +0300 (Sun, 29 Mar 2009) $
+	\author		$Author$
+	\date		$Date$
 */
 #include "precompiled.h"
 #include "monitorThread.h"
