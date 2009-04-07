@@ -828,6 +828,42 @@
 		<File
 			RelativePath=".\test.html"
 			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="copy &quot;$(InputPath)&quot; &quot;$(TargetDir)&quot;"
+					Outputs="&quot;$(TargetDir)/$(InputFileName)&quot;"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug|x64"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="copy &quot;$(InputPath)&quot; &quot;$(TargetDir)&quot;"
+					Outputs="&quot;$(TargetDir)/$(InputFileName)&quot;"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="copy &quot;$(InputPath)&quot; &quot;$(TargetDir)&quot;"
+					Outputs="&quot;$(TargetDir)/$(InputFileName)&quot;"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|x64"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="copy &quot;$(InputPath)&quot; &quot;$(TargetDir)&quot;"
+					Outputs="&quot;$(TargetDir)/$(InputFileName)&quot;"
+				/>
+			</FileConfiguration>
 		</File>
 	</Files>
 	<Globals>
