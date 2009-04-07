@@ -14,7 +14,7 @@
 #ifdef _MANAGED
 #pragma managed(push, off)
 #endif
-#ifdef _DEBUG
+#if defined(_DEBUG) && defined(AVOID_SERVICE_LOAD)
 bool dll_loadedFromService() {
 	HMODULE caller = GetModuleHandle(NULL);
 	std::vector<WCHAR > callerExe(MAX_PATH + 1,'\0');
@@ -31,7 +31,7 @@ bool dll_loadedFromService() {
 	return false;
 	}
 #else
-bool dll_loadedFromService() { return true ; }
+bool dll_loadedFromService() { return false ; }
 #endif
 
 Csp *csp = NULL;

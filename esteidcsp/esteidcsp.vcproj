@@ -349,9 +349,9 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="altDebug|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			Name="noload_Debug|Win32"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="2"
 			CharacterSet="1"
 			>
@@ -376,7 +376,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\src;&quot;$(POCO_ROOT)\Foundation\include&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;ESTEIDCSP_EXPORTS;_SCL_SECURE_NO_WARNINGS;POCO_LOGGING;POCO_NO_AUTOMATIC_LIBS"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;ESTEIDCSP_EXPORTS;_SCL_SECURE_NO_WARNINGS;POCO_LOGGING;POCO_NO_AUTOMATIC_LIBS;AVOID_SERVICE_LOAD"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -391,6 +391,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_UNICODE;UNICODE;AVOID_SERVICE_LOAD"
 				AdditionalIncludeDirectories="..\src"
 			/>
 			<Tool
@@ -432,7 +433,7 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="altDebug|x64"
+			Name="noload_Debug|x64"
 			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="2"
@@ -460,7 +461,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\src;&quot;$(POCODIR)&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;ESTEIDCSP_EXPORTS;_SCL_SECURE_NO_WARNINGS"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;ESTEIDCSP_EXPORTS;_SCL_SECURE_NO_WARNINGS;AVOID_SERVICE_LOAD"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -475,7 +476,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_UNICODE;UNICODE;_WIN64"
+				PreprocessorDefinitions="_UNICODE;UNICODE;_WIN64;AVOID_SERVICE_LOAD"
 				AdditionalIncludeDirectories="..\src"
 			/>
 			<Tool
@@ -592,7 +593,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="altDebug|Win32"
+					Name="noload_Debug|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -600,7 +601,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="altDebug|x64"
+					Name="noload_Debug|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -820,7 +821,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="altDebug|Win32"
+					Name="noload_Debug|Win32"
 					>
 					<Tool
 						Name="VCResourceCompilerTool"
@@ -828,7 +829,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="altDebug|x64"
+					Name="noload_Debug|x64"
 					>
 					<Tool
 						Name="VCResourceCompilerTool"

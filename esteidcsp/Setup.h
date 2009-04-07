@@ -4,7 +4,11 @@
 #define PKG_BIT ""
 #endif
 #ifdef _DEBUG
+#ifdef AVOID_SERVICE_LOAD
+#define PKG_BUILD " ( debug - doesnt load in services)"
+#else
 #define PKG_BUILD " ( debug )"
+#endif
 #else
 #define PKG_BUILD ""
 #endif
@@ -13,10 +17,10 @@
 #define PACKAGE_NAME "EstEID CSP" PKG_BIT PKG_BUILD
 
 /* rc version */
-#define RC_VERSION 2,2,0,0
+#define RC_VERSION 2,2,1
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "2.2.0.0"
+#define PACKAGE_VERSION "2.2.1"
 
 /* Name of package */
 #define PACKAGE "esteidcsp.dll"
