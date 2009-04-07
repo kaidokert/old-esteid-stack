@@ -7,6 +7,7 @@
 #include "utility/logger.h"
 #include "utility/monitorThread.h"
 #include <string.h>
+#include "Setup.h"
 
 #undef min
 
@@ -231,8 +232,8 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetInfo(CK_INFO_PTR   pInfo  )) {
 	pInfo->flags = 0;
 	padString(pInfo->libraryDescription,sizeof(pInfo->libraryDescription)
 		,"EstEID PKCS#11 Library");
-	pInfo->libraryVersion.major = 0;
-	pInfo->libraryVersion.minor = 1;
+	pInfo->libraryVersion.major = PACKAGE_VER_MAJOR;
+	pInfo->libraryVersion.minor = PACKAGE_VER_MINOR;
 	return CKR_OK;
 	}
 
