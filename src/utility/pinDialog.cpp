@@ -7,6 +7,7 @@
 */
 #include "precompiled.h"
 #include "pinDialog.h"
+#include "threadObj.h"
 
 #ifdef WIN32
 #include <windows.h>
@@ -52,6 +53,7 @@ struct pinDialogPriv {
 	virtual void on_init_dlg();
 	static LRESULT CALLBACK dialogProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 	bool doDialog();
+	bool showPrompt(std::string,bool allowRetry=false);
 	std::string getPin();
 };
 
@@ -130,6 +132,12 @@ bool pinDialogPriv::doDialog() {
 	return false;
 	}
 
+bool pinDialogPriv::showPrompt(std::string prompt,bool allowRetry) {
+	int code = MessageBoxA(GetForegroundWindow(),prompt.c_str(),
+		"PIN message", (allowRetry ? MB_RETRYCANCEL : MB_OK ) | MB_ICONHAND );
+	return (IDRETRY == code  || IDOK == code);
+	}
+
 std::string pinDialogPriv::getPin() {
 	return std::string(m_buffer,m_buffer+strlen(m_buffer));
 	}
@@ -165,6 +173,8 @@ struct pinDialogPriv : public Gtk::Dialog {
     std::string m_prompt;
     char m_buffer[20];
     bool doDialog();
+	bool showPrompt(std::string prompt,bool allowRetry=false) {
+		}
 };
 
 bool pinDialogPriv::doDialog() {
@@ -179,6 +189,7 @@ pinDialog::pinDialog(const void * opsysParam,std::string prompt) : m_minLen(4),
 	d = new pinDialogPriv(*this,opsysParam);
 	m_prompt = prompt;
 	}
+
 pinDialog::pinDialog(const void * opsysParam,EstEidCard::KeyType key) : m_key(key) {
 	d = new pinDialogPriv(*this,opsysParam);
 	if (m_key == EstEidCard::AUTH) {
@@ -199,6 +210,37 @@ pinDialog::~pinDialog() {
 
 bool pinDialog::doDialog() {
 	return d->doDialog();
+	}
+
+bool pinDialog::showPrompt(std::string prompt,bool allowRetry) {
+	return d->showPrompt(prompt,allowRetry);
+	}
+
+bool pinDialog::doDialogInloop(pinOpInterface &operation) {
+	while(1) {
+		byte retries = 0;
+		try {
+				if (!doDialog()) 
+					throw std::runtime_error("User cancelled");
+				std::string pin = getPin();
+				mutexObjLocker lock(operation.m_mutex);
+				if (m_key == EstEidCard::AUTH) 
+					operation.m_card.validateAuthPin(pin,retries);
+				else
+					operation.m_card.validateSignPin(pin,retries);
+				operation.call(operation.m_card,pin,m_key);
+				return true;
+		} catch(AuthError &auth) {
+			if (auth.m_blocked) {
+				showPrompt("Wrong pin entered, PIN is blocked");
+				throw std::runtime_error("PIN is blocked");
+				}
+			std::stringstream buf;
+			buf << "Wrong pin entered, " << (int)retries << " retries left";
+			if (!showPrompt(buf.str(),true)) 
+				throw std::runtime_error("User cancelled");
+			}
+		}
 	}
 
 std::string pinDialog::getPin() {
