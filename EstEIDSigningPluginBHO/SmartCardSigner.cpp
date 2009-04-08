@@ -114,6 +114,16 @@ struct pinDialogPriv_l {
 	WORD m_resourceID;
 };
 
+struct sign_op : public pinOpInterface {
+	ByteVec & hash,& result;
+	sign_op(ByteVec &_hash,ByteVec &_result,
+		EstEidCard &card,mutexObj &mutex) : 
+		pinOpInterface(card,mutex),hash(_hash),result(_result) {}
+	void call(EstEidCard &card,const std::string &pin,EstEidCard::KeyType key) {
+		result = card.calcSignSHA1(hash,key,pin);
+		}
+};
+
 STDMETHODIMP CSmartCardSigner::sign(BSTR hashToBeSigned,IDispatch * pCert,BSTR* pVal)
 {
 	if (!pCert) 
@@ -152,32 +162,16 @@ STDMETHODIMP CSmartCardSigner::sign(BSTR hashToBeSigned,IDispatch * pCert,BSTR* 
 	pinDialogPriv_l params = { ATL::_AtlBaseModule.GetResourceInstance(),
 		IDD_PIN_DIALOG_ENG
 		};
-	byte retries = 0;
+
+	pinDialog dlg(&params,key);
 	ByteVec result;
-	for(;;) {
-		pinDialog dlg(&params,key);
-		if (!dlg.doDialog())
-			return errMsg(L"User cancelled");
-		std::string pin = dlg.getPin();
-		try {
-			mutexObjLocker _lock(criticalSection);
-			EstEidCard card(m_mgr,m_selectedReader);
-			if (key == EstEidCard::AUTH) 
-				card.validateAuthPin(pin,retries);
-			else
-				card.validateSignPin(pin,retries);
-			result = card.calcSignSHA1(hash,key);
-			break;
-		} catch(AuthError &auth) {
-			if (auth.m_blocked) 
-				return errMsg(L"Card blocked");
-			std::wostringstream buf;
-			buf << L"Wrong pin entered, " << --retries << L" retries left";
-			MessageBoxW(buf.str().c_str());
-		} catch(std::exception &e) {
-			return errMsg(e.what());
-			}
-		} 
+	try {
+		EstEidCard card(m_mgr,m_selectedReader);
+		sign_op operation(hash,result,card,criticalSection);
+		dlg.doDialogInloop(operation);
+	} catch(std::exception &e) {
+		return errMsg(e.what());
+		}
 
 	std::string strHex = toHex(result);
 	*pVal = _bstr_t(strHex.c_str()).Detach();
