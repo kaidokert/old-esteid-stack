@@ -45,7 +45,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\src;&quot;$(POCODIR)&quot;"
+				AdditionalIncludeDirectories="..\src;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;ESTEIDCSP_EXPORTS;_SCL_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -127,7 +127,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\src;&quot;$(POCODIR)&quot;"
+				AdditionalIncludeDirectories="..\src;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;ESTEIDCSP_EXPORTS;_SCL_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -210,7 +210,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\src;&quot;$(POCODIR)&quot;"
+				AdditionalIncludeDirectories="..\src;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;ESTEIDCSP_EXPORTS;_SCL_SECURE_NO_WARNINGS"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="2"
@@ -292,7 +292,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\src;&quot;$(POCODIR)&quot;"
+				AdditionalIncludeDirectories="..\src;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;ESTEIDCSP_EXPORTS;_SCL_SECURE_NO_WARNINGS"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="2"

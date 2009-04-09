@@ -13,6 +13,12 @@
 #include "CSPTypes.h"
 #include "utility.h"
 
+#ifndef PP_USER_CERTSTORE //no Vista platformSDK
+#define PP_USER_CERTSTORE 42
+#define PP_ROOT_CERTSTORE 46
+#define PP_SMARTCARD_GUID 45
+#endif
+
 Csp::Csp(HMODULE module,TCHAR *cspName) : 
 	m_module(module),m_cspName(cspName),m_nextHandle(1),m_log()
 {
