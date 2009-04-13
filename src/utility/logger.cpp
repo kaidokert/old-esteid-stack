@@ -7,8 +7,7 @@
 */
 // Revision $Revision$
 
-#include <sstream>
-#include <vector>
+#include "precompiled.h"
 #include <fstream>
 #include <iostream>
 #include "logger.h"
@@ -56,13 +55,21 @@ public:
 };
 #else
 
+#include <windows.h>
 class system_log_target : public log_target {
+	HANDLE evtSource;
 public:
   system_log_target(const std::string &name) : log_target(name) {
+	evtSource = RegisterEventSourceA(NULL,"EventSystem");
     }
   ~system_log_target() {
+	DeregisterEventSource(evtSource);
     }
+  //http://www.netikus.net/products_downloads.html, nttoolkit helps find messages
   void writeLine(const std::string &line,logPrio prio) {
+	const CHAR * str0 = line.c_str();
+	DWORD evtid = 512;
+	ReportEventA(evtSource,EVENTLOG_INFORMATION_TYPE,0,evtid,NULL,1,0,&str0,NULL);
     }
 };
 
@@ -90,6 +97,7 @@ int log_streambuffer::overflow(int p) {
     }
   else
     m_inputbuffer.push_back(p);
+  return ~_Tr::eof();
   }
 
 void logger::addTarget(logTarget target) {

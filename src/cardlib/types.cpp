@@ -14,4 +14,5 @@ std::ostream& operator<<(std::ostream &out,const ByteVec &vec) {
   for(ByteVec::const_iterator i = vec.begin();i!=vec.end();i++) 
     out << std::hex << std::setfill('0') << std::setw(2) << (int)*i << " ";
   out << "]";
+  return out;
   }

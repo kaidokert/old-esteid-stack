@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="esteidcsp"
 	ProjectGUID="{08AB5E6D-8113-4B0F-80AC-39519C5FC7C2}"
 	RootNamespace="esteidcsp"
@@ -375,8 +375,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\src;&quot;$(POCO_ROOT)\Foundation\include&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;ESTEIDCSP_EXPORTS;_SCL_SECURE_NO_WARNINGS;POCO_LOGGING;POCO_NO_AUTOMATIC_LIBS;AVOID_SERVICE_LOAD"
+				AdditionalIncludeDirectories="..\src;"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;ESTEIDCSP_EXPORTS;_SCL_SECURE_NO_WARNINGS;AVOID_SERVICE_LOAD"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -399,7 +399,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="PocoFoundationmtd.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(POCO_ROOT)\lib&quot;"
 				ModuleDefinitionFile="csp.def"
@@ -460,7 +459,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\src;&quot;$(POCODIR)&quot;"
+				AdditionalIncludeDirectories="..\src;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;ESTEIDCSP_EXPORTS;_SCL_SECURE_NO_WARNINGS;AVOID_SERVICE_LOAD"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -664,6 +663,10 @@
 			<Filter
 				Name="utility"
 				>
+				<File
+					RelativePath="..\src\utility\logger.cpp"
+					>
+				</File>
 				<File
 					RelativePath="..\src\utility\monitorThread.cpp"
 					>
