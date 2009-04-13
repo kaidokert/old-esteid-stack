@@ -21,14 +21,11 @@ function createSampleProject(name,cppfile)
 			flags "WinMain"
 		end
 	end
-	configuration { "Debug*" }
-		defines { "_DEBUG", "DEBUG" }
-		flags   { "Symbols" }
-		if name == "testPinDialog" then flags { "WinMain" } end
-		targetdir "Debug"
-	configuration { "Release" }
-		targetdir "Release"
-		flags { "Optimize","NoEditAndContinue","NoManifest","StaticRuntime" }
+	if name == "testPinDialog" then 
+	  createConfigs({ "WinMain" })
+	else
+	  createConfigs()
+	end
 
 	premake.buildconfigs()
 	return premake.CurrentContainer
@@ -44,3 +41,4 @@ else
   createSampleProject("testPinDialog",{"testpindialog.cpp"})
 end
 createSampleProject("testMonitorThread",{"testmonitorthread.cpp"})
+createSampleProject("testlogger",{"testlogger.cpp"})

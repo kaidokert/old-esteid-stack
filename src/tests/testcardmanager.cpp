@@ -5,7 +5,7 @@
 #include "utility/logger.h"
 
 int main(int argc,char **argv) {
-	logger log(logTarget::log_to_CONSOLE,"");
+	logger log("",log_to_CONSOLE);
 #if defined(WIN32) && defined(DEBUG)
 	_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF |_CRTDBG_CHECK_ALWAYS_DF |
 			_CRTDBG_CHECK_CRT_DF |_CRTDBG_DELAY_FREE_MEM_DF );
@@ -28,7 +28,6 @@ int main(int argc,char **argv) {
 	}
 	} catch(std::runtime_error &err) {
 		std::cout << "exception: " << err.what() << std::endl;
-		std::cout << "log:" << log.str() << std::endl;
 		}
 
 	return 0;
