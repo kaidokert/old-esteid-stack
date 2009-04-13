@@ -168,7 +168,7 @@ class PKCS11ContextPriv : public monitorObserver {
 	CK_SESSION_HANDLE nextSession;
 	std::vector<PKCS11Session > sessions;
 	typedef std::vector<PKCS11Session >::iterator sessIter;
-	PKCS11ContextPriv() : 
+	PKCS11ContextPriv() : log("esteid-pkcs11"),
 	  nextSession(303),
 	  monitorMutex("monitorMutex") {
 	  log << "PKCS11Context created" << std::endl;
@@ -249,7 +249,7 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetSlotList(
 	*pulCount = 0;
 	refreshReaders();
 	*pulCount = d->readerCount;
-	d->log << "readerCount:" << d->readerCount;
+	d->log << "readerCount:" << d->readerCount << std::endl;
 
 	if (pSlotList == NULL )
 		return CKR_OK;
