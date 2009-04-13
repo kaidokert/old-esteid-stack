@@ -8,17 +8,11 @@
 // Revision $Revision$
 #pragma once
 
-typedef unsigned int uint;
-typedef unsigned char byte;
-typedef unsigned short word;
-typedef unsigned long dword;
-typedef unsigned short ushort;
-/// shorthand for std::vector<unsigned char>, used everywhere
-typedef	std::vector<byte> ByteVec;
+#include "types.h"
 
 struct ConnectionBase;
 
-/// Abstraction of system smarcard managers
+/// Abstraction of system smartcard managers
 /** ManagerInterface is abstraction of system smartcard managers.
  Concrete managers are PCSCManager and CTAPIManager. Example additional 
  derivations might be direct communications driver or even serial/USB port */
