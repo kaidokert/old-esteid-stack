@@ -5,6 +5,8 @@
 	\author		$Author$
 	\date		$Date$
 */
+// Revision $Revision$
+
 #include "precompiled.h"
 #include "monitorThread.h"
 #include "cardlib/SmartCardManager.h"

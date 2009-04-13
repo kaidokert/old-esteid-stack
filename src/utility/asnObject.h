@@ -1,11 +1,12 @@
 /*!
-	\file		AsnObject.h
+	\file		asnObject.h
 	\copyright	(c) Kaido Kert ( kaidokert@gmail.com )    
 	\licence	BSD
 	\author		$Author$
 	\date		$Date$
 */
 // Revision $Revision$
+
 #include <vector>
 #include <string>
 #include <stdexcept>

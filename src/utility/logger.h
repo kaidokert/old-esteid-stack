@@ -1,48 +1,52 @@
+/*!
+	\file		logger.h
+	\copyright	(c) Kaido Kert ( kaidokert@gmail.com )
+	\licence	BSD
+	\author		$Author$
+	\date		$Date$
+*/
+// Revision $Revision$
+
 #ifndef __LOGGER_H__
 #define __LOGGER_H__
 
 enum logTarget {
 	log_to_CONSOLE,
 	log_to_FILE,
-	log_to_EVENTLOG,
+	log_to_SYSTEMLOG,
+	log_to_WINDOW,
+};
+enum logPrio {
+      log_DEBUG,
+      log_WARNING,
+      log_CRITICAL
 };
 
-#ifdef POCO_LOGGING
-#include <Poco/Message.h>
-#include <Poco/Logger.h>
-#include <Poco/LogStream.h>
-#include <Poco/ConsoleChannel.h>
-#include <Poco/FileChannel.h>
-#include <Poco/EventLogChannel.h>
-#include "Poco/AutoPtr.h"
+class log_target {
+public:
+  log_target(const std::string &) {}
+  virtual void writeLine(const std::string &line,logPrio prio = log_DEBUG) = 0;
+};
 
-class logger : public Poco::LogStream {
-	Poco::AutoPtr<Poco::ConsoleChannel> pCChannel;
-	Poco::AutoPtr<Poco::EventLogChannel> pEChannel;
+class  log_streambuffer : public std::basic_streambuf<char, std::char_traits<char> > {
+    std::vector<char> m_inputbuffer;
+    typedef std::char_traits<char> _Tr;
+protected:
+     virtual int overflow(int = _Tr::eof());
 public:
-	logger() : Poco::LogStream(Poco::Logger::root()) {
-	  pCChannel = new Poco::ConsoleChannel();
-	  Poco::Logger::root().setChannel(pCChannel);
-	  }
-	logger(logTarget target,std::string name) :
-	  Poco::LogStream(Poco::Logger::root()) {
-		if (target == log_to_CONSOLE) {
-		  pCChannel = new Poco::ConsoleChannel();
-		  Poco::Logger::root().setChannel(pCChannel);
-		  }
-		if (target == log_to_EVENTLOG) {
-		  pEChannel = new Poco::EventLogChannel(name);
-		  Poco::Logger::root().setChannel(pEChannel);
-		  }
-		}
-  };
-#else
-class logger : public std::ostringstream {
+    std::vector<log_target *> targets;
+    log_streambuffer();
+    ~log_streambuffer();
+};
+
+class logger : public std::ostream {
+	const std::string m_name;
+	log_streambuffer m_streambuffer;
 public:
-	logger() {}
-	logger(logTarget target,std::string name) {}
+	logger(const std::string name = "cardlib_utility");
+	void addTarget(logTarget target);
+	logger(const std::string name,logTarget target);
   };
-#endif
 
 class ScopedLog {
     logger &m_log;

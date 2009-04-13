@@ -5,6 +5,8 @@
 	\author		$Author$
 	\date		$Date$
 */
+// Revision $Revision$
+
 #include <cardlib/DynamicLibrary.h>
 
 class pkcs11module : protected DynamicLibrary {

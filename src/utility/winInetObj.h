@@ -6,6 +6,7 @@
 	\date		$Date$
 */
 // Revision $Revision$
+
 #pragma once
 #ifdef WIN32
 #include "cardlib/DynamicLibrary.h" //bad ..

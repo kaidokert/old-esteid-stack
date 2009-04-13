@@ -6,6 +6,7 @@
 	\date		$Date$
 */
 // Revision $Revision$
+
 #include "precompiled.h"
 #include "netObj.h"
 #include "winInetObj.h"

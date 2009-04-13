@@ -5,6 +5,8 @@
 	\author		$Author$
 	\date		$Date$
 */
+// Revision $Revision$
+
 #pragma once
 #include "cardlib/DynamicLibrary.h" //bad ..
 #include "Setup.h"

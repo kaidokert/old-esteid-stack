@@ -1,3 +1,12 @@
+/*!
+	\file		converters.cpp
+	\copyright	(c) Kaido Kert ( kaidokert@gmail.com )
+	\licence	BSD
+	\author		$Author$
+	\date		$Date$
+*/
+// Revision $Revision$
+
 #include "precompiled.h"
 #include <algorithm>
 

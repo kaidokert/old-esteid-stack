@@ -1,10 +1,11 @@
 /*!
-	\file		winInetObj.h
+	\file		netObj.h
 	\copyright	(c) Kaido Kert ( kaidokert@gmail.com )    
 	\licence	BSD
 	\author		$Author$
 	\date		$Date$
 */
+// Revision $Revision$
 
 enum connType {
 	HTTP,

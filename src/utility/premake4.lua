@@ -1,3 +1,6 @@
+package.path = package.path .. ';../?.lua;../../?.lua'
+require "common"
+
 project "utility"
   location ("../../build/" .. _ACTION)
   language "C++"
@@ -11,14 +14,4 @@ project "utility"
   if os.is("linux") then
     buildoptions {"`pkg-config gtkmm-2.4 --cflags`"}
   end
-  configuration { "Debug*" }
-	targetdir "Debug"
-    defines { "_DEBUG", "DEBUG" }
-    flags   { "Symbols" }
-
-  configuration { "Release*" }
-	targetdir "Release"
-    defines { "NDEBUG" }
-	flags   { "Optimize","NoEditAndContinue","NoManifest","StaticRuntime" }
-
-  
+  createConfigs()

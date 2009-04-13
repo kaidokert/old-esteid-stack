@@ -1,10 +1,11 @@
-﻿/*!
+/*!
 	\file		pinDialog.h
 	\copyright	(c) Kaido Kert ( kaidokert@gmail.com )
 	\licence	BSD
 	\author		$Author$
 	\date		$Date$
 */
+// Revision $Revision$
 
 ///forward-declared opsys-specific components
 struct pinDialogPriv;
