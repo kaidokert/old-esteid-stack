@@ -1,5 +1,8 @@
+require "common"
+
 solution "esteid"
   location ("build/" .. _ACTION)
+  platforms { "x32" , "x64" }
   configurations { "Debug", "Release" }
 
   if os.is("macosx") then
@@ -14,3 +17,5 @@ include "src/utility"
 include "src/pkcs11"
 include "src/tests"
 
+premake.buildconfigs()
+fixSolutionPaths(solution())
