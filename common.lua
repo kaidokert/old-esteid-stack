@@ -16,6 +16,7 @@ function doReleaseConfig(cfname)
   targetdir(ppath("Release"))
   defines { "NDEBUG" }
   flags   { "Optimize","NoEditAndContinue","NoManifest","StaticRuntime" }
+  flags   { "ExtraWarnings" }
 end
 function doDebugConfig(cfname)
   configuration { "Debug*" }
