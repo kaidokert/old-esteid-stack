@@ -88,5 +88,7 @@ struct inetConnect {
 	bool getFtpFile(std::string file,std::vector<byte> &buffer);
 	static bool getAnyFile(std::string url,std::vector<byte> &buffer);
 	bool readFile(std::string name,inetGenericRequest &req,std::vector<byte> &buffer);
+private:
+	const inetConnect &operator=(const inetConnect &o);
 	};
 #endif

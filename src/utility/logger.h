@@ -49,6 +49,7 @@ public:
   };
 
 class ScopedLog {
+	const ScopedLog &operator=(const ScopedLog &);
     logger &m_log;
     const char *fn;
 public:

@@ -33,7 +33,7 @@ bool checker::readerHasCard(EstEidCard &card,int i) {
     }
 
 void checker::executeCheck() {
-    int readers = mgr.getReaderCount(true);
+    unsigned int readers = mgr.getReaderCount(true);
     if (readers != cardPresent.size()) {
         cardPresent.resize(readers);
         observer.onEvent(READERS_CHANGED,0);
@@ -53,7 +53,7 @@ void checker::executeCheck() {
 void monitorThread::execute() {
     std::cout << "monitorThread::execute"<<std::endl;
     checker check(observer);
-    while(1) {
+    for(;;) {
 		try {
 			mutexObjLocker lock_(lock);
 			threadObj::wait(500);

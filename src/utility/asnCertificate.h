@@ -10,6 +10,7 @@
 #include "asnObject.h"
 
 class asnCertificate : public asnObject {
+	const asnCertificate &operator=(const asnCertificate &);
 	asnObject * signatureValue;
 	asnObject * signatureAlgorithm;
 

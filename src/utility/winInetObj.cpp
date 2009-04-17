@@ -151,6 +151,8 @@ struct inetHttpRequest : public inetGenericRequest {
 		mConnect.mNet.pInternetCloseHandle(file);
 		}
 	operator HINTERNET() const {return file;}
+private:
+	const inetHttpRequest &operator=(const inetHttpRequest &o);
 	};
 
 #define DIALOGOPT FLAGS_ERROR_UI_FILTER_FOR_ERRORS | \
@@ -230,6 +232,8 @@ struct inetFtpFileRequest : public inetGenericRequest{
 		mConnect.mNet.pInternetCloseHandle(file);
 		}
 	operator HINTERNET() const {return file;}
+private:
+	const inetFtpFileRequest &operator=(const inetFtpFileRequest &o);
 	};
 
 bool inetConnect::getFtpFile(std::string file,std::vector<byte> &buffer) {

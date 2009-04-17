@@ -20,6 +20,7 @@ struct monitorObserver {
     };
 
 class monitorThread : public threadObj {
+	const monitorThread &operator=(const monitorThread &);
     monitorObserver &observer;
     mutexObj &lock;
 public:

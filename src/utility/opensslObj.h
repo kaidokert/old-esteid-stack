@@ -95,8 +95,7 @@ struct opensslConnect {
 #else
 class opensslObj : public DynamicLibrary {
 public:
-    opensslObj(void *app) :DynamicLibrary("ssl") { 
-	throw std::runtime_error("compiled without openSSL, function not available");};
+    opensslObj(void *app);
     void init(int readerNum) {}
 };
 

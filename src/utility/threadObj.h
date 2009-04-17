@@ -21,6 +21,7 @@ public:
     };
 
 class mutexObjLocker {
+	const mutexObjLocker &operator=(const mutexObjLocker &o);
     mutexObj &mutex;
 public:
     mutexObjLocker(mutexObj &ref) : mutex(ref)

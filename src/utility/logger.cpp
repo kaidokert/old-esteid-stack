@@ -76,7 +76,7 @@ public:
 class window_log_target : public log_target {
 public:
   window_log_target(const std::string &name)  : log_target(name) {}
-  void writeLine(const std::string &line,logPrio prio) {
+  void writeLine(const std::string &,logPrio ) {
     }
 };
 #endif
@@ -96,7 +96,7 @@ int log_streambuffer::overflow(int p) {
     m_inputbuffer.clear();
     }
   else
-    m_inputbuffer.push_back(p);
+    m_inputbuffer.push_back((char)p);
   return ~_Tr::eof();
   }
 

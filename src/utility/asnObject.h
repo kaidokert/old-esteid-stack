@@ -35,6 +35,7 @@ public:
 
 class asnObject: public byteVec
 {
+	const asnObject &operator=(const asnObject &);
 public:
 	enum primitiveTag {
 		BOOLEAN			 = 0x01,

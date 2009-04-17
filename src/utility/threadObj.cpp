@@ -77,6 +77,8 @@ struct threadPriv {
     static void wait(unsigned int ms) {
         Sleep(ms);
         }
+private:
+	const threadPriv &operator=(const threadPriv &o);
 };
 struct mutexPriv {
     CRITICAL_SECTION cs;
@@ -94,6 +96,8 @@ struct mutexPriv {
         LeaveCriticalSection(&cs);
 		return true;
 		}
+private:
+	const mutexPriv &operator=(const mutexPriv &o);
 };
 #endif
 
@@ -102,7 +106,9 @@ mutexObj::~mutexObj() {delete d;}
 bool mutexObj::Lock() {return d->Lock();}
 bool mutexObj::Unlock() {return d->Unlock();}
 
-threadObj::threadObj(const char *name) : m_name(name), d(new threadPriv(*this)) {}
+threadObj::threadObj(const char *name) : m_name(name) {
+	d = new threadPriv(*this);
+	}
 threadObj::~threadObj() {delete d;}
 void threadObj::wait(unsigned int ms) {threadPriv::wait(ms);}
 void threadObj::start() {d->start();}

@@ -286,4 +286,7 @@ bool opensslConnect::getHttpsFile(std::string url,std::vector<unsigned char> &bu
 	return true;
     }
 
+#else
+opensslObj::opensslObj(void *app) :DynamicLibrary("ssl") { 
+	throw std::runtime_error("compiled without openSSL, function not available");};
 #endif
