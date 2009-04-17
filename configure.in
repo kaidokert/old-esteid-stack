@@ -1,11 +1,14 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ(2.59)
-AC_INIT([esteidutil], [0.9.19], [kaidokert@gmail.com])
+AC_PREREQ(2.61)
+AC_INIT([esteidutil],[0.9.19],[kaidokert@gmail.com])
 AC_CONFIG_SRCDIR([src/PersonalDataDialog.h])
 
-AM_CONFIG_HEADER(src/Setup.h)
+#AM_CONFIG_HEADER(src/Setup.h)
+AC_CONFIG_HEADERS(src/Setup.h)
+
+AM_INIT_AUTOMAKE 
 
 AC_CANONICAL_BUILD
 AC_CANONICAL_HOST
@@ -16,8 +19,6 @@ AC_PROG_CXX
 AC_PROG_CC
 AC_PROG_INSTALL
 AC_PROG_MAKE_SET
-
-AM_INIT_AUTOMAKE([esteidutil], [0.9.19])
 
 dnl check for host
 case "$host" in
@@ -64,20 +65,16 @@ else
    ac_save_CXXFLAGS=$CXXFLAGS
    LIBS=$WX_LIBS
    CXXFLAGS=$WX_CXXFLAGS
-   AC_LANG_SAVE
-   AC_LANG_CPLUSPLUS
+   AC_LANG_PUSH([C++])
    AC_MSG_CHECKING([if we can compile a wxWidgets program])
-   AC_TRY_LINK([#include <wx/wx.h>],
-               [wxString test=wxT("")],
-               [AC_MSG_RESULT([yes])],
-               [echo ""
+   AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <wx/wx.h>]], [[wxString test=wxT("")]])],[AC_MSG_RESULT([yes])],[echo ""
                 echo ""
                 echo "*** The test program failed to compile or link. See the file config.log for the"
                 echo "*** exact error that occured. This usually means that wxWidgets library was"
                 echo "*** incorrectly installed."
                 echo ""
                 AC_MSG_ERROR([Failed to compile a test program])])
-   AC_LANG_RESTORE
+   AC_LANG_POP([])
    LIBS=$ac_save_LIBS
    CXXFLAGS=$ac_save_CXXFLAGS
    CPPFLAGS=$WX_CXXFLAGS
@@ -131,10 +128,11 @@ AC_ARG_WITH(openssl,
 # Checks for typedefs, structures, and compiler characteristics.
 
 # Checks for library functions.
-
-AC_CONFIG_FILES([  po/Makefile.in
+#m4/Makefile
+AC_CONFIG_FILES([  po/Makefile.in 
         Makefile
         src/Makefile
 ])
 
-AC_OUTPUT(esteidutil.spec)
+AC_CONFIG_FILES([esteidutil.spec])
+AC_OUTPUT

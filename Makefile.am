@@ -1,5 +1,5 @@
 SUBDIRS = src po
-
+#m4 
 EXTRA_DIST = config.rpath  m4/ChangeLog \
 		bootstrap esteidutil.spec.in esteidutil.spec esteidutil.desktop	\
 		esteidutil.xpm EsteidUtil.sln COPYING \
