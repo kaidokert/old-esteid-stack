@@ -22,6 +22,6 @@ void EstEidCardMaintainer::performGenerateNewKeys() {
 	card.setSecEnv(3);
 	card.selectDF(EstEidCard::FILEID_APP);
 	card.setSecEnv(3);
-	CardBase::FCI fileInfo = card.selectEF(0x0013);
+	/*CardBase::FCI fileInfo = */card.selectEF(0x0013);
 	card.readEF(1);
 }

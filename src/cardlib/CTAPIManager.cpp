@@ -373,6 +373,7 @@ void CTAPIManager::execPinEntryCommand(ConnectionBase *c,std::vector<byte> &cmd)
 
 void CTAPIManager::execPinChangeCommand(ConnectionBase *c,std::vector<byte> &cmd
 			,size_t oldPinLen,size_t newPinLen) {
+	UNUSED_ARG(newPinLen);
 	CTAPIConnection *conn = (CTAPIConnection *) c;
 
 	byte cmdChange[] = {0x20,INS_MODIFY,0x01,0x00}; //change pin on ICC1

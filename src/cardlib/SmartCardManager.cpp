@@ -25,6 +25,7 @@ struct SmartCardConnectionPriv {
 		ManagerInterface &origMgr) :
 		m_manager(manager),pcscConn(NULL),ctConn(NULL)
 			,m_managerOriginal(origMgr) {
+		UNUSED_ARG(iface);
 		if (m_manager == MANAGER_PCSC) pcscConn = new PCSCConnection(m_managerOriginal,index,force);
 		if (m_manager == MANAGER_CTAPI) ctConn = new CTAPIConnection(m_managerOriginal,index,force);
 		}
@@ -37,6 +38,8 @@ struct SmartCardConnectionPriv {
 		if (m_manager == MANAGER_CTAPI) return ctConn;
 		throw std::runtime_error("Invalid smartcardconnection");
 		}
+private:
+	const SmartCardConnectionPriv& operator=(const SmartCardConnectionPriv &);
 };
 
 SmartCardConnection::SmartCardConnection(int manager,ManagerInterface &iface,unsigned int index,bool force
@@ -95,6 +98,7 @@ void SmartCardManager::beginTransaction(ConnectionBase *c) {
 	}
 
 void SmartCardManager::endTransaction(ConnectionBase *c,bool forceReset) {
+	UNUSED_ARG(forceReset);
 	SmartCardConnection *pc = (SmartCardConnection *)c;
 	pc->mManager.endTransaction(pc->d->getConnection());
 	}
@@ -136,7 +140,7 @@ SmartCardConnection * SmartCardManager::connect(uint idx,bool forceT0) {
 	uint t_idx = idx;
 	ManagerInterface &mgr = d->getIndex(t_idx);
 	d->connIf = &mgr; //hack, passing down to makeConnection
-	SmartCardConnection *retConn;
+	SmartCardConnection *retConn = NULL;
 	if (&mgr == &d->pcscMgr)
 		retConn = new SmartCardConnection(MANAGER_PCSC,mgr,t_idx,forceT0,*this);
 	if (&mgr == &d->ctMgr)
@@ -145,6 +149,7 @@ SmartCardConnection * SmartCardManager::connect(uint idx,bool forceT0) {
 	}
 
 SmartCardConnection * SmartCardManager::reconnect(ConnectionBase *c,bool forceT0) {
+	UNUSED_ARG(c);UNUSED_ARG(forceT0);
 	throw std::runtime_error("err, unimplemented");
 	return 0;
 	}

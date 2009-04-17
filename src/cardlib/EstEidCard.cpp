@@ -22,7 +22,7 @@ bool EstEidCard::isInReader(unsigned int idx) {
 void EstEidCard::enterPin(PinType pinType,string pin,bool forceUnsecure) {
 	byte cmdEntPin[] = {0x00,0x20,0x00}; // VERIFY
 	ByteVec cmd(MAKEVECTOR(cmdEntPin));
-	cmd.push_back(pinType);
+	cmd.push_back((byte)pinType);
 	if (pin.length() < 4) {
 		if (pin.length()!= 0 ||!mConnection->isSecure() ) 
 			throw std::runtime_error("bad pin length");
@@ -156,6 +156,7 @@ void EstEidCard::readPersonalData_internal(vector<string>& data,int recStart,int
 	}
 
 bool EstEidCard::validatePin_internal(PinType pinType,string pin, byte &retriesLeft,bool forceUnsecure) { 
+	UNUSED_ARG(forceUnsecure);
 	checkProtocol();
 	selectMF(true);
 	if (retriesLeft != 0xFA ) { //sorry, thats a bad hack around sloppy interface definition
@@ -197,7 +198,7 @@ bool EstEidCard::changePin_internal(
 	copy(newPin.begin(), newPin.end(), catPins.begin() + oldPin.length());
 
 	ByteVec cmd(MAKEVECTOR(cmdChangeCmd));
-	cmd.push_back(pinType);
+	cmd.push_back((byte)pinType);
 	cmd.push_back(LOBYTE(catPins.size()));
 	cmd.insert(cmd.end(),catPins.begin(),catPins.end());
 	try {

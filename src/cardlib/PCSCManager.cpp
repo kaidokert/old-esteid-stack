@@ -199,6 +199,7 @@ PCSCConnection * PCSCManager::connect(SCARDHANDLE existingHandle) {
 }
 
 PCSCConnection * PCSCManager::reconnect(ConnectionBase *c,bool forceT0) {
+	UNUSED_ARG(forceT0); //??
 	PCSCConnection *pc = (PCSCConnection *)c;
 	SCError::check((*pSCardReconnect)(pc->hScard, 
 		SCARD_SHARE_SHARED, (pc->mForceT0 ? 0 : SCARD_PROTOCOL_T1 ) | SCARD_PROTOCOL_T0,

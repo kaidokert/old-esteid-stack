@@ -14,7 +14,10 @@
 #include <PCSC/pcsclite.h>
 #include <PCSC/winscard.h>
 #else
+#pragma warning(push)
+#pragma warning(disable:4201)
 #include <winscard.h>
+#pragma warning(pop)
 #endif
 
 #ifdef WIN32

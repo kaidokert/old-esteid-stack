@@ -88,7 +88,7 @@ public:
 	/// connects the card instance to the reader at index idx
 	void connect(unsigned int idx,bool forceT0=false);
 	/// virtual to be overridden by concrete cards, that can check for ATR or other card specific data
-	virtual bool isInReader(unsigned int idx) {return false;}
+	virtual bool isInReader(unsigned int idx) {UNUSED_ARG(idx);return false;}
 	/// set logging stream. set to NULL for no logging ( default )
 	void setLogging(std::ostream *logStream);
 	/// sigh .. just a hack to reset card in some instances
