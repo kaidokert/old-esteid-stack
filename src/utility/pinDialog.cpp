@@ -52,26 +52,32 @@ struct pinDialogPriv {
 		}
 	virtual LRESULT on_message(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 	virtual LRESULT on_command(WPARAM wParam, LPARAM lParam);
-	virtual void on_init_dlg();
+	virtual LRESULT on_init_dlg(WPARAM wParam);
 	static LRESULT CALLBACK dialogProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 	bool doDialog();
 	bool showPrompt(std::string,bool allowRetry=false);
 	std::string getPin();
+private:
+	const pinDialogPriv &operator=(const pinDialogPriv &o);
 };
 
 pinDialogPriv::_icontag pinDialogPriv::iconSet[2] = {{"cryptui.dll", 4998},{"cryptui.dll" ,3425}}; 
 
-void pinDialogPriv::on_init_dlg() {
+LRESULT pinDialogPriv::on_init_dlg(WPARAM wParam) {
 	SetWindowPos(m_hwnd, HWND_TOPMOST, 0,0,0,0,SWP_NOMOVE|SWP_NOSIZE);
 	SetDlgItemTextA(m_hwnd,IDC_STATIC, m_dlg.m_prompt.c_str() );
 	SendDlgItemMessage( m_hwnd, IDC_PININPUT , EM_SETLIMITTEXT, 12, 0 );
-	SetFocus(GetDlgItem(m_hwnd, IDC_PININPUT));
 
 	dlgIcon = new iconHandle(iconSet[m_dlg.m_key].module,iconSet[m_dlg.m_key].id);
 	appIcon = new iconHandle("shell32",48);
 	SendDlgItemMessage(m_hwnd,IDI_DLGICON,STM_SETIMAGE,IMAGE_ICON,(LPARAM)*dlgIcon);
 	SendMessage(m_hwnd,WM_SETICON,(WPARAM) ICON_SMALL,(LPARAM) *appIcon);
 	SendMessage(m_hwnd,WM_SETICON,(WPARAM) ICON_BIG,(LPARAM) *appIcon);
+	if (GetDlgCtrlID((HWND) wParam) != IDC_PININPUT) { 
+		SetFocus(GetDlgItem(m_hwnd, IDC_PININPUT)); 
+		return FALSE; 
+		} 
+	return TRUE;
 }
 
 LRESULT pinDialogPriv::on_command(WPARAM wParam, LPARAM lParam) {
@@ -102,8 +108,7 @@ LRESULT pinDialogPriv::on_command(WPARAM wParam, LPARAM lParam) {
 LRESULT pinDialogPriv::on_message(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
   switch (msg) {
 	case WM_INITDIALOG:
-		on_init_dlg();
-		return TRUE;
+		return on_init_dlg(wParam);
 	case WM_COMMAND:
 		return on_command(wParam,lParam);
 	case WM_SYSCOMMAND:
@@ -218,21 +223,27 @@ bool pinDialog::showPrompt(std::string prompt,bool allowRetry) {
 	return d->showPrompt(prompt,allowRetry);
 	}
 
-bool pinDialog::doDialogInloop(pinOpInterface &operation) {
+bool pinDialog::doDialogInloop(pinOpInterface &operation,std::string &authPinCache) {
 	while(1) {
 		byte retries = 0;
 		try {
-				if (!doDialog()) 
-					throw std::runtime_error("User cancelled");
-				std::string pin = getPin();
+				std::string pin;
+				if (authPinCache.empty()) {
+					if (!doDialog()) 
+						throw std::runtime_error("User cancelled");
+					std::string pin = getPin();
+				} else
+					pin = authPinCache;
 				mutexObjLocker lock(operation.m_mutex);
 				if (m_key == EstEidCard::AUTH) 
 					operation.m_card.validateAuthPin(pin,retries);
 				else
 					operation.m_card.validateSignPin(pin,retries);
 				operation.call(operation.m_card,pin,m_key);
+				authPinCache = pin;
 				return true;
 		} catch(AuthError &auth) {
+			authPinCache.clear();
 			if (auth.m_blocked) {
 				showPrompt("Wrong pin entered, PIN is blocked");
 				throw std::runtime_error("PIN is blocked");

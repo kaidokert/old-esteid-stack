@@ -16,6 +16,7 @@ class mutexObj;
 
 class pinOpInterface
 {
+	const pinOpInterface &operator=(const pinOpInterface &o);
 protected:
 	friend class pinDialog;
 	EstEidCard &m_card;
@@ -38,7 +39,7 @@ public:
 	~pinDialog();
 	bool doDialog();
 	bool showPrompt(std::string,bool allowRetry = false);
-	bool doDialogInloop(pinOpInterface &operation);
+	bool doDialogInloop(pinOpInterface &operation,std::string &authPinCache);
 	std::string getPin();
 };
 
