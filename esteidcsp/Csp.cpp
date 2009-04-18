@@ -20,7 +20,7 @@
 #endif
 
 Csp::Csp(HMODULE module,TCHAR *cspName) : 
-	m_module(module),m_cspName(cspName),m_nextHandle(1),m_log()
+	m_module(module),m_cspName(cspName),m_nextHandle(1),m_log("esteidcsp")
 {
 }
 
@@ -76,10 +76,10 @@ struct searchContainer {
 	searchContainer(std::string &name,std::string &reader) : m_name(name),m_reader(reader) {}
 };
 bool operator==(CSPContext::cardLocation &loc,const searchContainer &ref) {
-	std::string test = ref.m_name.length() ? ref.m_name : loc.cardName;
+	std::string test = ref.m_name.length() ? ref.m_name : loc.containerName;
 	if (ref.m_reader.length() && 
 		ref.m_reader != loc.readerName ) return false;
-	return test == loc.cardName;
+	return test == loc.containerName;
 	}
 
 BOOL Csp::CPAcquireContext(
@@ -111,7 +111,7 @@ BOOL Csp::CPAcquireContext(
 			find(ctx->m_containers.begin(),ctx->m_containers.end(),cont);
 		if (!ctx->m_verifyContext && loc == ctx->m_containers.end())
 			throw err_badKeyset();
-		ctx->m_containerName = loc->cardName;
+		ctx->m_containerName = loc->containerName;
 
 		m_contexts.push_back(ctx);
 		*phProv = ctx->m_provId;
@@ -201,16 +201,17 @@ BOOL Csp::CPGetProvParam(
 				break;
 				}
 			case PP_ENUMCONTAINERS:
-				m_log << "container enum.." << std::endl;
 				if (dwFlags & CRYPT_FIRST) {
 					it->m_containersEnum.resize(it->m_containers.size());
 					copy(it->m_containers.begin(),it->m_containers.end(),
 						it->m_containersEnum.begin());
 					}
 				if (!it->m_containersEnum.empty()) {
-					dat.setValue(it->m_containersEnum.back().cardName );
+					if (dwFlags & CRYPT_FIRST) m_log << "(CRYPT_FIRST) ";
+					m_log << "container enum, return '" << it->m_containersEnum.back().containerName << "'" << std::endl;
+					dat.setValue(it->m_containersEnum.back().containerName );
 					it->m_containersEnum.pop_back();
-				}
+					}
 				else 
 					throw err_noMoreItems();
 				break;
@@ -254,21 +255,24 @@ BOOL Csp::CPGetProvParam(
 				break;
 			case PP_USER_CERTSTORE : {
 					HCERTSTORE pStore = CertOpenStore(CERT_STORE_PROV_MEMORY,0,0,0,NULL);
-					std::vector<std::vector<BYTE>> certs = it->getUserCerts();
-					for(std::vector<std::vector<BYTE>>::iterator i = certs.begin()
-						; i != certs.end();i++) {
+					it->loadUserCerts();
+					for(std::vector<CSPContext::cardLocation>::iterator i = it->m_containers.begin()
+						; i != it->m_containers.end();i++) {
+						if (!i->cert.size()) continue;
 						PCCERT_CONTEXT ctx;
 						CertAddEncodedCertificateToStore(pStore,X509_ASN_ENCODING,
-							&(*i)[0], i->size(), CERT_STORE_ADD_ALWAYS,&ctx);
+							&(i->cert)[0], (DWORD)i->cert.size(), CERT_STORE_ADD_ALWAYS,&ctx);
 						CRYPT_KEY_PROV_INFO propInfo;
 						ZeroMemory(&propInfo,sizeof(propInfo));
-						propInfo.pwszContainerName = (LPWSTR)it->m_containerName.c_str();
+						Widen<wchar_t> to_wstring;
+						std::wstring wCont = to_wstring(i->containerName);
+						propInfo.pwszContainerName = const_cast<LPWSTR>(wCont.c_str());
 						propInfo.pwszProvName = (LPWSTR)m_cspName.c_str();
 						propInfo.dwProvType = getCSPType();
 						propInfo.dwFlags = 0;
 						propInfo.cProvParam = 0;
 						propInfo.rgProvParam = 0;
-						propInfo.dwKeySpec = AT_KEYEXCHANGE;
+						propInfo.dwKeySpec = i->keySpec;
 						CertSetCertificateContextProperty(ctx,CERT_KEY_PROV_INFO_PROP_ID,
 							0,&propInfo);
 
@@ -282,7 +286,7 @@ BOOL Csp::CPGetProvParam(
 					for(std::vector<std::vector<BYTE>>::iterator i = certs.begin()
 						; i != certs.end();i++) {
 						CertAddEncodedCertificateToStore(pStore,X509_ASN_ENCODING,
-							&(*i)[0], i->size(), CERT_STORE_ADD_ALWAYS,NULL);
+							&(*i)[0], (DWORD)i->size(), CERT_STORE_ADD_ALWAYS,NULL);
 						}
 					HCERTSTORE *pPstore = &pStore;
 					dat.setValue(pPstore);

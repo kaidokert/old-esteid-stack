@@ -18,6 +18,7 @@ BOOL Csp::CPGetUserKey(
 	DECL_RET(ret);
 	try {
 		CSPContext * it = *findContext(hProv);
+		m_log << "GetUserKey, " << it->m_containerName << " dwKeySpec:" << dwKeySpec << std::endl;
 		CSPKeyContext * key = it->createKeyContext();
 		key->setPubkeySpec(dwKeySpec);
 		key->m_keyId = getNextHandle();
@@ -102,9 +103,11 @@ BOOL Csp::CPGetKeyParam(
 		flagCheck f(dwFlags,true);
 		switch (dwParam) { //TODO: rest of the params
 			case KP_ALGID:
+				m_log << "KP_ALGID " << key->m_algId << std::endl;
 				dat.setValue(key->m_algId);
 				break;
 			case KP_CERTIFICATE:
+				m_log << "KP_CERTIFICATE " << key->m_algId << std::endl;
 				if (GET_ALG_TYPE(key->m_algId) != ALG_TYPE_RSA) 
 					throw err_badType();
 				dat.setValue(key->m_certificateBlob);

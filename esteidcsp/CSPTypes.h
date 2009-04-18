@@ -91,9 +91,12 @@ struct CSPContext {
 
 	struct cardLocation {
 		cardLocation() {}
-		cardLocation(std::string c,std::string r) : cardName(c),readerName(r) {}
-		std::string cardName;
+		cardLocation(std::string c,std::string r,DWORD k) : 
+			containerName(c),readerName(r),keySpec(k) {}
+		std::string containerName;
 		std::string readerName;
+		DWORD keySpec;
+		std::vector<BYTE> cert;
 	};
 
 	std::vector<CSPHashContext *> m_hashes;
@@ -101,8 +104,8 @@ struct CSPContext {
 	std::vector<cardLocation> m_containers;
 	std::vector<cardLocation> m_containersEnum;
 
-	virtual std::vector<std::vector<BYTE>> getUserCerts() {
-		return std::vector<std::vector<BYTE>>();
+	virtual void loadUserCerts() {
+		return;
 		}
 	virtual std::vector<std::vector<BYTE>> getRootCerts() {
 		return std::vector<std::vector<BYTE>>();

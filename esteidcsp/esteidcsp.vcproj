@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="8,00"
 	Name="esteidcsp"
 	ProjectGUID="{08AB5E6D-8113-4B0F-80AC-39519C5FC7C2}"
 	RootNamespace="esteidcsp"
@@ -652,10 +652,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\src\cardlib\SIMCard.cpp"
-					>
-				</File>
-				<File
 					RelativePath="..\src\cardlib\SmartCardManager.cpp"
 					>
 				</File>
@@ -759,10 +755,6 @@
 				</File>
 				<File
 					RelativePath="..\..\cardlib\SCError.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\cardlib\SIMCard.h"
 					>
 				</File>
 				<File
