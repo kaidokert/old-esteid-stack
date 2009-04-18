@@ -168,7 +168,8 @@ STDMETHODIMP CSmartCardSigner::sign(BSTR hashToBeSigned,IDispatch * pCert,BSTR* 
 	try {
 		EstEidCard card(m_mgr,m_selectedReader);
 		sign_op operation(hash,result,card,criticalSection);
-		dlg.doDialogInloop(operation);
+		std::string dummyCache;
+		dlg.doDialogInloop(operation,dummyCache);
 	} catch(std::exception &e) {
 		return errMsg(e.what());
 		}
