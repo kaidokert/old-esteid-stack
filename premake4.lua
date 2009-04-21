@@ -12,6 +12,7 @@ solution "esteid"
 		defines "WIN32"
   end
 
+include "src"
 include "src/cardlib"
 include "src/utility"
 include "src/pkcs11"
