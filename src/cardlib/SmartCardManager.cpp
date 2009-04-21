@@ -149,7 +149,12 @@ SmartCardConnection * SmartCardManager::connect(uint idx,bool forceT0) {
 	}
 
 SmartCardConnection * SmartCardManager::reconnect(ConnectionBase *c,bool forceT0) {
-	UNUSED_ARG(c);UNUSED_ARG(forceT0);
-	throw std::runtime_error("err, unimplemented");
+	SmartCardConnection *pc = (SmartCardConnection *)c;
+	if (&pc->mManager == &d->pcscMgr) {
+		ConnectionBase *ptr = pc->mManager.reconnect(pc->d->getConnection(),forceT0);
+		return pc;
+		}
+	else
+		throw std::runtime_error("err, unimplemented");
 	return 0;
 	}

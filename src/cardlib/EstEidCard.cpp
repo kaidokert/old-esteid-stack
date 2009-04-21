@@ -9,6 +9,7 @@
 #include "precompiled.h"
 #include "EstEidCard.h"
 #include "helperMacro.h"
+#include "SCError.h"
 #include <algorithm>
 
 using std::string;
@@ -236,7 +237,10 @@ void EstEidCard::checkProtocol() {
 	try {
 		selectMF(true);
 	} catch(CardError &ce) {
-		if (ce.SW1 != 0x6A || ce.SW2 != 0x87 ) throw ce;
+		if (ce.SW1 != 0x6A || ce.SW2 != 0x87 ) throw;
+		reconnectWithT0();
+	} catch(SCError &sce) {
+		if (sce.error != 0x1) throw;//incorrect function, some drivers do that
 		reconnectWithT0();
 		}
 }
