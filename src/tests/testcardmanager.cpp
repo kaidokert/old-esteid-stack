@@ -15,7 +15,7 @@ int main(int argc,char **argv) {
 	cardMgr.setLogging(&log);
 
 	for(uint i = 0;i < cardMgr.getReaderCount();i++) {
-		std::cout << cardMgr.getReaderName(i) << std::endl;
+		std::cout << cardMgr.getReaderName(i) << " <" << cardMgr.getReaderState(i) << ">" << std::endl;
 
 		EstEidCard card(cardMgr);
 
