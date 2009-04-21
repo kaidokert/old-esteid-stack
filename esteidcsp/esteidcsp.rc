@@ -7,7 +7,9 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+//#include "afxres.h"
+#include "WinNT.h"
+#include "WinUser.h"
 #include "Setup.h"
 #include "version.rc"
 #include "utility/pinDialog_res.h"

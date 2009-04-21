@@ -1,3 +1,4 @@
 #include "utility/pinDialog_res.h"
-#include "winres.h"
+#include "WinNT.h"
+#include "WinUser.h"
 #include "utility/pinDialog.rc"

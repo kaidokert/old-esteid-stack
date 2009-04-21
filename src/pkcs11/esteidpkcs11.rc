@@ -1,3 +1,4 @@
-#include "afxres.h"
+#include "WinNT.h"
+#include "WinUser.h"
 #include "Setup.h"
 #include "version.rc"
