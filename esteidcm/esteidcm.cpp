@@ -25,6 +25,10 @@ std::ofstream logStream;
 
 #pragma comment(lib,"crypt32.lib")
 
+typedef struct _BCRYPT_PKCS1_PADDING_INFO_adhoc {
+  LPCWSTR pszAlgId;
+} BCRYPT_PKCS1_PADDING_INFO_adhoc;
+
 #define KEYLEN 1024
 #define _ENC_ (X509_ASN_ENCODING | PKCS_7_ASN_ENCODING)
 
@@ -1378,7 +1382,7 @@ CardSignData(
 			dbgPrintf("unsupported paddingtype");
 			return ret(E_UNSUPPORTED);
 			}
-		BCRYPT_PKCS1_PADDING_INFO *pinf = (BCRYPT_PKCS1_PADDING_INFO *)pInfo->pPaddingInfo;
+		BCRYPT_PKCS1_PADDING_INFO_adhoc *pinf = (BCRYPT_PKCS1_PADDING_INFO_adhoc *)pInfo->pPaddingInfo;
 		if (!pinf->pszAlgId) 
 			hashAlg = CALG_SSL3_SHAMD5;
 		else {
