@@ -33,20 +33,25 @@ function doDebugConfig(cfname)
   flags   { "Symbols" }
 end
 
+function strEnv(env)
+   local val = os.getenv(env)
+   if (val == nil) then return "$(" .. env .. ")" else return val end
+end
+
 function wxConfig(suffix)
   includedirs { 
-    path.getabsolute(os.getenv("WXWIN") .. "/lib/vc_lib/msw"..suffix) ,
-	path.getabsolute(os.getenv("WXWIN") .. "/include" )
+    path.getabsolute(strEnv("WXWIN") .. "/lib/vc_lib/msw"..suffix) ,
+	path.getabsolute(strEnv("WXWIN") .. "/include" )
     }
   libdirs {
-    os.getenv("WXWIN") .. "/lib/vc_lib"
+        strEnv("WXWIN") .. "/lib/vc_lib"
 	}
   links {
-	"wxbase" .. os.getenv("WXLIBVER") ..suffix ,
-	"wxmsw"  .. os.getenv("WXLIBVER") ..suffix.."_core" ,
-	"wxmsw"  .. os.getenv("WXLIBVER") ..suffix.."_adv" ,
-	"wxbase" .. os.getenv("WXLIBVER") ..suffix.."_xml" ,
-	"wxbase" .. os.getenv("WXLIBVER") ..suffix.."_net" ,
+	"wxbase" .. strEnv("WXLIBVER") ..suffix ,
+	"wxmsw"  .. strEnv("WXLIBVER") ..suffix.."_core" ,
+	"wxmsw"  .. strEnv("WXLIBVER") ..suffix.."_adv" ,
+	"wxbase" .. strEnv("WXLIBVER") ..suffix.."_xml" ,
+	"wxbase" .. strEnv("WXLIBVER") ..suffix.."_net" ,
 	"wxjpeg"..suffix ,"wxexpat"..suffix}
 
 end
