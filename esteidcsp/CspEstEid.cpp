@@ -97,8 +97,8 @@ EstEidContext::EstEidContext(logger &log,HMODULE module) :
 				const std::string name = card.readCardID();
 				const std::string rdr  = cardMgr.getReaderName(i);
 				m_log << "card id:" << name << " reader:" << rdr <<  std::endl;
-				m_containers.push_back(cardLocation(std::string("AUT_") + name ,  rdr , AT_KEYEXCHANGE) );
 				m_containers.push_back(cardLocation(std::string("SIG_") + name ,  rdr , AT_SIGNATURE ) );
+				m_containers.push_back(cardLocation(std::string("AUT_") + name ,  rdr , AT_KEYEXCHANGE) );
 				}
 			}
 	} catch(std::runtime_error &err) {
