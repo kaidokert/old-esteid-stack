@@ -231,7 +231,7 @@ bool pinDialog::doDialogInloop(pinOpInterface &operation,std::string &authPinCac
 				if (authPinCache.empty()) {
 					if (!doDialog()) 
 						throw std::runtime_error("User cancelled");
-					std::string pin = getPin();
+					pin = getPin();
 				} else
 					pin = authPinCache;
 				mutexObjLocker lock(operation.m_mutex);
