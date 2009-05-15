@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual C++ Express 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "id-updater", "id-updater.vcproj", "{A95F789B-B084-EB44-BD27-814A8E680738}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_msi_sig", "updatecode\test_msi_sig\test_msi_sig\test_msi_sig.vcproj", "{CF551180-839E-4143-B078-762DC40EFB20}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A95F789B-B084-EB44-BD27-814A8E680738}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A95F789B-B084-EB44-BD27-814A8E680738}.Debug|Win32.Build.0 = Debug|Win32
+		{A95F789B-B084-EB44-BD27-814A8E680738}.Release|Win32.ActiveCfg = Release|Win32
+		{A95F789B-B084-EB44-BD27-814A8E680738}.Release|Win32.Build.0 = Release|Win32
+		{CF551180-839E-4143-B078-762DC40EFB20}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CF551180-839E-4143-B078-762DC40EFB20}.Debug|Win32.Build.0 = Debug|Win32
+		{CF551180-839E-4143-B078-762DC40EFB20}.Release|Win32.ActiveCfg = Release|Win32
+		{CF551180-839E-4143-B078-762DC40EFB20}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
