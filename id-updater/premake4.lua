@@ -1,7 +1,7 @@
 package.path = "?.lua;../?.lua"
 
 project("id-updater")
---	location ("../build/" .. _ACTION)
+	location ("../build/" .. _ACTION)
 	language "C++"
 	kind     "WindowedApp"
 	files  { "*.cpp" , "*.h" , "premake4.lua" , "wx/*" }

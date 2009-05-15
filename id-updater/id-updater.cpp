@@ -21,3 +21,5 @@ bool mApp::OnInit()
 	return true;
 }
 
+void wxLogAdvMsg(const wxChar *szFormat, ... ) {}
+void wxLogUsrMsg(const wxChar *szFormat, ... ) {}
