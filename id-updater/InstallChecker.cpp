@@ -54,3 +54,38 @@ void InstallChecker::startChecking() {
 		}
 	}
 
+struct msiPack {
+	MSIHANDLE hProduct;
+	CHAR prodCode[1024]; 
+	wxString m_msiFile;
+	msiPack(wxString file) : hProduct(NULL),m_msiFile(file) {
+		MsiOpenPackage(m_msiFile,&hProduct);
+		DWORD sz = sizeof(prodCode);
+		MsiGetProductProperty(hProduct,"ProductCode",prodCode,&sz);
+		MsiCloseHandle(hProduct);
+		hProduct = NULL;
+		}
+	~msiPack() {
+		if (hProduct) 
+			MsiCloseHandle(hProduct);
+		}
+	bool install() {
+		UINT retCode = MsiReinstallProduct(prodCode, 
+				REINSTALLMODE_FILEREPLACE |
+				REINSTALLMODE_MACHINEDATA|
+				REINSTALLMODE_USERDATA |
+				REINSTALLMODE_SHORTCUT |
+				REINSTALLMODE_PACKAGE); 
+		if (retCode == ERROR_UNKNOWN_PRODUCT) {
+			LPCSTR pack = m_msiFile;
+			retCode = MsiInstallProduct(pack,"ACTION=INSTALL");
+			int test = 1;
+			}
+		return true;
+		}
+	};
+
+void InstallChecker::installMsi(wxString filePath) {
+	msiPack pack(filePath);
+	pack.install();
+	}

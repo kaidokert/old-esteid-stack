@@ -1,8 +1,8 @@
 #include "precompiled.h"
 #include "id_updaterMainFrame.h"
-#include "InstallChecker.h"
 #include <wx/stdpaths.h>
 #include <wx/filename.h>
+#include <wx/socket.h>
 
 #define PRODUCTS "products.xml"
 
@@ -29,9 +29,8 @@ void id_updaterMainFrame::addProductPanel(wxXmlNode *node) {
 	wxBoxSizer* bSizerUp;
 	bSizerUp = new wxBoxSizer( wxHORIZONTAL );
 	
-	InstallChecker check;
 	wxString installedVersion,productVersion;
-	check.getInstalledVersion(node->GetPropVal(wxT("UpgradeCode"),wxT("")),installedVersion);
+	installer.getInstalledVersion(node->GetPropVal(wxT("UpgradeCode"),wxT("")),installedVersion);
 	productVersion = node->GetPropVal(wxT("ProductVersion"),wxT("none"));
 
 	m_installedText = new wxStaticText( m_productPanel, wxID_ANY, installedVersion, wxDefaultPosition, wxDefaultSize, 0 );
@@ -88,10 +87,10 @@ void id_updaterMainFrame::addProductPanel(wxXmlNode *node) {
 	this->Fit();
 }
 
-id_updaterMainFrame::id_updaterMainFrame( wxWindow* parent )
+id_updaterMainFrame::id_updaterMainFrame( wxWindow* parent, wxString baseUrl  )
 :
 MainFrame( parent ),
-m_baseURI("http://kaidokert.com/work/updater/"),
+m_baseURI(baseUrl),
 m_downloadingXml(false),m_downloadIndex(-1),
 m_curGauge(m_xmlGauge),m_curDownloadText(NULL)
 {
@@ -179,13 +178,37 @@ void id_updaterMainFrame::OnClick( wxCommandEvent& event ) {
 //	check.startChecking();
 }
 
+void id_updaterMainFrame::startNextInstall() {
+	int i = 0;
+	wxXmlNode *child = NULL;
+	for(child = m_xmlDoc.GetRoot()->GetChildren(); 
+		i < m_installIndex && child;	
+		child = child->GetNext(),i++) {}
+	if (!child) return;
+
+	wxWindowList& mList = FindWindowById(wxID_productsPanel)->GetChildren();
+	wxWindow *panel = mList.Item(m_installIndex)->GetData();
+	wxComboBox * box  = (wxComboBox *)panel->FindWindow(wxID_prodCombo);
+	if (box->GetValue() == "Install") {
+		wxString fileName = child->GetPropVal(wxT("filename"),wxT(""));
+		wxString downloadedFile = m_basePath + "\\" + fileName;
+		installer.installMsi(downloadedFile);
+		}
+	m_installIndex++;
+	startNextInstall();
+	}
+
 void id_updaterMainFrame::startNextDownload() {
 	int i = 0;
 	wxXmlNode *child = NULL;
 	for(child = m_xmlDoc.GetRoot()->GetChildren(); 
 		i < m_downloadIndex && child;	
 		child = child->GetNext(),i++) {}
-	if (!child) return;
+	if (!child) {
+		m_installIndex = 0;
+		startNextInstall();
+		return;
+		}
 	wxString fileName = child->GetPropVal(wxT("filename"),wxT(""));
 
 	wxWindowList& mList = FindWindowById(wxID_productsPanel)->GetChildren();
