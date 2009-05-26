@@ -17,9 +17,12 @@ private slots:
 	void startUninstall();
 	void checkUpdates();
 	void netReplyFinished(QNetworkReply*);
+	void netDownloadFinished(QNetworkReply*);
+	void downloadProgress(qint64 recvd,qint64 total);
 
 private:
 	QString m_baseUrl;
 	void fail(QString);
 	QNetworkAccessManager *manager;
+	QNetworkAccessManager *downloadManager;
 };
