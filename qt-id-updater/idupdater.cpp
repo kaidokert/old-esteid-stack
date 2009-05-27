@@ -96,7 +96,7 @@ void idupdater::downloadProgress(qint64 recvd,qint64 total) {
 	static qint64 lastRecvd = 0;
 	QTime current = QTime::currentTime();
 	int timediff = lastupdate.msecsTo(current);
-	if (timediff > 100) {
+	if (timediff > 500) {
 		int bytesPerMs = (recvd - lastRecvd) / timediff;
 		m_downloadStatus->setText(QString::number( bytesPerMs ) + " KB/s");
 		lastupdate = current;
