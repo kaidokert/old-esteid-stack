@@ -3,6 +3,8 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QDomDocument>
+#include <QDir>
+#include "InstallChecker.h"
 
 idupdater::idupdater(QString baseUrl) : QMainWindow(),m_baseUrl(baseUrl) {
 	
@@ -33,6 +35,13 @@ void idupdater::netReplyFinished(QNetworkReply* reply) {
 
 void idupdater::netDownloadFinished(QNetworkReply* reply) {
 	m_updateStatus->setText("Download finished, starting installation...");
+	QFile tmp(QDir::tempPath() + "/download.msi") ;
+	if (tmp.open(QFile::ReadWrite)) {
+		tmp.write(reply->readAll());
+		QString tgt = QDir::toNativeSeparators(tmp.fileName());
+		m_updateStatus->setText(tgt);
+		InstallChecker::installPackage(tgt.toStdWString());
+		}
 	}
 
 void idupdater::checkUpdates() {
