@@ -90,5 +90,11 @@ void InstallChecker::installPackage(std::wstring filePath) {
 	msiPack pack(filePath);
 	pack.install();
 	}
+#else
+void InstallChecker::getInstalledVersion(std::wstring upgradeCode,std::wstring &version) {
+	version = L"1.20";
+	}
 
+void InstallChecker::installPackage(std::wstring filePath) {
+	}
 #endif
