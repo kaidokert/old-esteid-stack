@@ -86,15 +86,24 @@ struct msiPack {
 		}
 	};
 
-void InstallChecker::installPackage(std::wstring filePath) {
+bool InstallChecker::installPackage(std::wstring filePath) {
 	msiPack pack(filePath);
-	pack.install();
+	return pack.install();
+	}
+
+bool InstallChecker::verifyPackage(std::wstring filePath) {
+	return true;
 	}
 #else
 void InstallChecker::getInstalledVersion(std::wstring upgradeCode,std::wstring &version) {
 	version = L"1.20";
 	}
 
-void InstallChecker::installPackage(std::wstring filePath) {
+bool InstallChecker::installPackage(std::wstring filePath) {
+	return true;
+	}
+
+bool InstallChecker::verifyPackage(std::wstring filePath) {
+	return true;
 	}
 #endif

@@ -16,65 +16,24 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QGroupBox" name="groupBox">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="title">
-       <string/>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_4">
-       <item>
-        <widget class="QPushButton" name="m_checkUpdatesButton">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>&amp;check for updates</string>
-         </property>
-         <property name="shortcut">
-          <string>Alt+C</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QProgressBar" name="progressBar">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>1</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="value">
-          <number>24</number>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item>
-     <widget class="QGroupBox" name="groupBox_2">
+     <widget class="QGroupBox" name="groupBoxStatus">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
         <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
+        <verstretch>1</verstretch>
        </sizepolicy>
       </property>
-      <property name="title">
-       <string/>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
         <widget class="QLabel" name="m_updateStatus">
          <property name="text">
-          <string>Update status</string>
+          <string>Ready</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
          </property>
          <property name="wordWrap">
           <bool>false</bool>
@@ -98,15 +57,12 @@
      </widget>
     </item>
     <item>
-     <widget class="QGroupBox" name="groupBox_3">
+     <widget class="QGroupBox" name="groupBoxProduct">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
         <horstretch>0</horstretch>
-        <verstretch>1</verstretch>
+        <verstretch>10</verstretch>
        </sizepolicy>
-      </property>
-      <property name="title">
-       <string/>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
@@ -129,9 +85,6 @@
            <horstretch>1</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
-         </property>
-         <property name="title">
-          <string/>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
@@ -161,10 +114,14 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <property name="title">
-             <string/>
-            </property>
             <layout class="QHBoxLayout" name="horizontalLayout_5">
+             <item>
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>Installed:</string>
+               </property>
+              </widget>
+             </item>
              <item>
               <widget class="QLabel" name="m_installedVer">
                <property name="text">
@@ -176,19 +133,16 @@
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="m_availableVer">
+              <widget class="QLabel" name="label_2">
                <property name="text">
-                <string>availableVer</string>
-               </property>
-               <property name="wordWrap">
-                <bool>false</bool>
+                <string>Available:</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="m_downloadStatus">
+              <widget class="QLabel" name="m_availableVer">
                <property name="text">
-                <string>downloadStatus</string>
+                <string>availableVer</string>
                </property>
                <property name="wordWrap">
                 <bool>false</bool>
@@ -211,15 +165,18 @@
                </property>
               </spacer>
              </item>
+             <item>
+              <widget class="QLabel" name="m_downloadStatus">
+               <property name="wordWrap">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
             </layout>
            </widget>
           </item>
           <item>
-           <widget class="QProgressBar" name="progressBar_2">
-            <property name="value">
-             <number>24</number>
-            </property>
-           </widget>
+           <widget class="QProgressBar" name="m_downloadProgress"/>
           </item>
          </layout>
         </widget>
@@ -228,11 +185,24 @@
      </widget>
     </item>
     <item>
-     <widget class="QGroupBox" name="groupBox_4">
-      <property name="title">
-       <string/>
-      </property>
+     <widget class="QGroupBox" name="groupBoxButtons">
       <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QPushButton" name="m_checkUpdatesButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>&amp;check for updates</string>
+         </property>
+         <property name="shortcut">
+          <string>Alt+C</string>
+         </property>
+        </widget>
+       </item>
        <item>
         <widget class="QPushButton" name="m_installButton">
          <property name="text">
@@ -278,8 +248,8 @@
    <slot>checkUpdates()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>85</x>
-     <y>25</y>
+     <x>98</x>
+     <y>286</y>
     </hint>
     <hint type="destinationlabel">
      <x>328</x>
@@ -294,8 +264,8 @@
    <slot>startInstall()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>181</x>
-     <y>299</y>
+     <x>301</x>
+     <y>286</y>
     </hint>
     <hint type="destinationlabel">
      <x>338</x>
@@ -310,8 +280,8 @@
    <slot>startUninstall()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>319</x>
-     <y>291</y>
+     <x>443</x>
+     <y>286</y>
     </hint>
     <hint type="destinationlabel">
      <x>324</x>
@@ -326,8 +296,8 @@
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>523</x>
-     <y>305</y>
+     <x>586</x>
+     <y>286</y>
     </hint>
     <hint type="destinationlabel">
      <x>499</x>

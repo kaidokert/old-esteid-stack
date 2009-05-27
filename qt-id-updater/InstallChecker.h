@@ -6,7 +6,7 @@ class InstallChecker
 public:
 	InstallChecker(void);
 	~InstallChecker(void);
-	void startChecking();
-	void getInstalledVersion(std::wstring upgradeCode,std::wstring &version);
-	static void installPackage(std::wstring filePath);
+	static void getInstalledVersion(std::wstring upgradeCode,std::wstring &version);
+	static bool verifyPackage(std::wstring filePath);
+	static bool installPackage(std::wstring filePath);
 };
