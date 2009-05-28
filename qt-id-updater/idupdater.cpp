@@ -8,7 +8,7 @@
 #include "InstallChecker.h"
 
 idupdater::idupdater(QString baseUrl,bool autocheck,bool autoupdate) : QMainWindow(),
-	m_autoupdate(autoupdate),m_baseUrl(baseUrl) {
+	m_autocheck(autocheck),m_autoupdate(autoupdate),m_baseUrl(baseUrl) {
 	
 	setupUi(this);
 	manager = new QNetworkAccessManager(this);
@@ -19,7 +19,7 @@ idupdater::idupdater(QString baseUrl,bool autocheck,bool autoupdate) : QMainWind
 		this, SLOT(netDownloadFinished(QNetworkReply*)));
 	groupBoxProduct->setVisible(false);
 	enableInstall(false);
-	if (autocheck) 
+	if (m_autocheck) 
 		m_checkUpdatesButton->click();
 }
 
@@ -62,6 +62,8 @@ void idupdater::netReplyFinished(QNetworkReply* reply) {
 	m_availableVer->setText(product.attribute("ProductVersion","0"));
 	
 	enableInstall( version != availableVersion);
+	if (version == availableVersion && m_autocheck) 
+		close();
 	}
 
 void idupdater::netDownloadFinished(QNetworkReply* reply) {

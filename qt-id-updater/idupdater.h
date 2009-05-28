@@ -22,7 +22,7 @@ private slots:
 	void downloadProgress(qint64 recvd,qint64 total);
 
 private:
-	bool m_autoupdate;
+	bool m_autocheck,m_autoupdate;
 	void enableInstall(bool enable,bool enableCheck = true);
 	QString m_baseUrl;
 	QDomElement product;

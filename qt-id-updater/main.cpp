@@ -19,16 +19,19 @@ int main(int argc, char *argv[])
 	QStringList args = app.arguments();
 	if (args.contains("-help") || args.contains("-?") || args.contains("/?"))
 		return printhelp();
-	QString exec = args[0];
 	ProcessStarter proc(argv[0],"-autocheck");
-	if (proc.Run()) 
-		return 1; // quit if we launched from service
+	bool quitNow = proc.Run();
 	QString url = "http://kaidokert.com/work/updater/";
 	int urlAt = args.indexOf("-url");
 	if (urlAt > 0 && urlAt < args.size()-1 ) 
 		url = args[urlAt+1];
 	idupdater form(url,
 		args.contains("-autocheck"),args.contains("-autoupdate"));
-	form.show();
+	if (!quitNow)
+		form.show();
+	else {
+		app.exit(0);
+		return 0;
+	}
 	return app.exec();
 }

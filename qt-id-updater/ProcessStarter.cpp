@@ -76,7 +76,7 @@ bool ProcessStarter::Run()
     if (primaryToken == 0)
     {
 		log << "primtok = 0" << std::endl;
-        return FALSE;
+        return false;
     }
 
     STARTUPINFOA StartupInfo;
@@ -110,7 +110,11 @@ bool ProcessStarter::Run()
 
 	log << "CreateProcessAsUserA " << result << " err 0x" 
 		<< std::hex << std::setfill('0') << std::setw(8) << GetLastError() << std::endl;
+	if (result != FALSE)
+		log << "launched" << std::endl;
+	else
+		log << "didnt launch" << std::endl;
     CloseHandle(primaryToken);
-    return (result == 0);
+    return (result != FALSE);
 }
 #endif
