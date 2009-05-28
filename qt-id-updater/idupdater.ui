@@ -14,7 +14,7 @@
   </property>
   <property name="windowIcon" >
    <iconset>
-    <normaloff>icon1.ico</normaloff>icon1.ico</iconset>
+    <normaloff>appicon.ico</normaloff>appicon.ico</iconset>
   </property>
   <widget class="QWidget" name="centralwidget" >
    <layout class="QVBoxLayout" name="verticalLayout" >

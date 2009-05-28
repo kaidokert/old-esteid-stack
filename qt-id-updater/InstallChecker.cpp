@@ -4,11 +4,14 @@
 
 #include <Windows.h>
 #include <Msi.h>
+#include <wintrust.h>
+#include <Softpub.h>
 #include <tchar.h>
 #include <vector>
 #include <iostream>
 
 #pragma comment(lib,"msi")
+#pragma comment (lib, "wintrust")
 
 InstallChecker::InstallChecker(void)
 {
@@ -91,8 +94,35 @@ bool InstallChecker::installPackage(std::wstring filePath) {
 	return pack.install();
 	}
 
-bool InstallChecker::verifyPackage(std::wstring filePath) {
-	return true;
+bool InstallChecker::verifyPackage(std::wstring filePath,bool withUI) {
+    WINTRUST_FILE_INFO FileData;
+    memset(&FileData, 0, sizeof(FileData));
+    FileData.cbStruct = sizeof(WINTRUST_FILE_INFO);
+    FileData.pcwszFilePath = filePath.c_str();
+	GUID WVTPolicyGUID = WINTRUST_ACTION_GENERIC_VERIFY_V2;
+
+	WINTRUST_DATA WinTrustData;
+	memset(&WinTrustData, 0, sizeof(WinTrustData));
+	WinTrustData.cbStruct = sizeof(WinTrustData);
+	WinTrustData.dwUIChoice = withUI ? WTD_UI_ALL : WTD_UI_NONE;
+    WinTrustData.fdwRevocationChecks = WTD_REVOKE_NONE; 
+
+    WinTrustData.dwUnionChoice = WTD_CHOICE_FILE;
+    WinTrustData.dwProvFlags = WTD_SAFER_FLAG;
+    WinTrustData.pFile = &FileData;
+
+	DWORD dwLastError;
+	LONG lStatus = WinVerifyTrust(0,&WVTPolicyGUID,&WinTrustData);
+	switch (lStatus) {
+        case ERROR_SUCCESS: return true;
+        case TRUST_E_NOSIGNATURE:
+            dwLastError = GetLastError();
+            if (TRUST_E_NOSIGNATURE == dwLastError ||
+                    TRUST_E_SUBJECT_FORM_UNKNOWN == dwLastError ||
+                    TRUST_E_PROVIDER_UNKNOWN == dwLastError) 
+					return true;
+		}
+	return false;
 	}
 #else
 void InstallChecker::getInstalledVersion(std::wstring upgradeCode,std::wstring &version) {
