@@ -23,7 +23,7 @@ private slots:
 
 private:
 	bool m_autoupdate;
-	void enableInstall(bool enable);
+	void enableInstall(bool enable,bool enableCheck = true);
 	QString m_baseUrl;
 	QDomElement product;
 	void status(QString msg);

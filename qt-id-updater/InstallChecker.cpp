@@ -31,7 +31,7 @@ void InstallChecker::getInstalledVersion(std::wstring upgradeCode,std::wstring &
 	version = version_prop;
 	}
 
-
+/*
 void InstallChecker::startChecking() {
 	UINT code = ERROR_SUCCESS;
 	TCHAR prodCode[40];
@@ -54,7 +54,7 @@ void InstallChecker::startChecking() {
 		std::wcout << "product: " << name << std::endl;
 		}
 	}
-
+*/
 struct msiPack {
 	MSIHANDLE hProduct;
 	WCHAR prodCode[1024]; 
@@ -71,6 +71,7 @@ struct msiPack {
 			MsiCloseHandle(hProduct);
 		}
 	bool install() {
+		MsiSetInternalUI(INSTALLUILEVEL_FULL,0);
 		UINT retCode = MsiReinstallProduct(prodCode, 
 				REINSTALLMODE_FILEREPLACE |
 				REINSTALLMODE_MACHINEDATA|
@@ -80,9 +81,8 @@ struct msiPack {
 		if (retCode == ERROR_UNKNOWN_PRODUCT) {
 			const wchar_t *pack = m_msiFile.c_str();
 			retCode = MsiInstallProduct(pack,L"ACTION=INSTALL");
-			int test = 1;
 			}
-		return true;
+		return retCode == ERROR_SUCCESS;
 		}
 	};
 

@@ -27,9 +27,10 @@ idupdater::~idupdater() {
 	delete manager;
 	}
 
-void idupdater::enableInstall(bool enable) {
+void idupdater::enableInstall(bool enable,bool enableCheck) {
 	m_installButton->setEnabled(enable);
 	m_uninstallButton->setEnabled(enable);
+	m_checkUpdatesButton->setEnabled(enableCheck);
 	if (enable && m_autoupdate)
 		m_installButton->click();
 	}
@@ -38,7 +39,8 @@ void idupdater::status(QString msg) {
 	m_updateStatus->setText(msg);
 	}
 void idupdater::fail(QString msg) {
-	m_updateStatus->setText("fail: " + msg);
+	m_updateStatus->setText("Failed: " + msg);
+	enableInstall(true);
 	}
 
 void idupdater::netReplyFinished(QNetworkReply* reply) {
@@ -47,7 +49,7 @@ void idupdater::netReplyFinished(QNetworkReply* reply) {
 	QDomDocument doc;
 	doc.setContent(reply);
 	QDomNodeList nodes = doc.elementsByTagName("product");
-	//if (nodes.length() != 1 ) fail("expected one product");
+	if (nodes.length() != 1 ) return fail("expected one product");
 	product = nodes.item(0).toElement();
 	QString code = product.attribute("UpgradeCode");
 	std::wstring version,availableVersion;
@@ -66,24 +68,29 @@ void idupdater::netDownloadFinished(QNetworkReply* reply) {
 	status("Download finished, starting installation...");
 	QFile tmp(QDir::tempPath() + "/" + product.attribute("filename")) ;
 	if (tmp.open(QFile::ReadWrite)) {
-		tmp.write(reply->readAll());
+		if (reply) tmp.write(reply->readAll());
+		tmp.close();
 		QString tgt = QDir::toNativeSeparators(tmp.fileName());
 		if (!InstallChecker::verifyPackage(tgt.toStdWString()))
-			fail("Downloaded package integrity check failed");
-		InstallChecker::installPackage(tgt.toStdWString());
-		status("Package installed");
+			return fail("Downloaded package integrity check failed");
+		if (InstallChecker::installPackage(tgt.toStdWString())) 
+			status("Package installed");
+		else 
+			return fail("Package installation failed");
 		}
+	enableInstall(true);
 	}
 
 void idupdater::checkUpdates() {
 	enableInstall(false);
 	status("Checking for update..");	
 	QUrl url(m_baseUrl + "products.xml");
-	if (url.scheme() != "http") fail("only http download supported");
+	if (url.scheme() != "http") return fail("only http download supported");
 	manager->get(QNetworkRequest(url));
 	}
 
 void idupdater::startInstall() {
+	enableInstall(false,false);
 	QUrl url(m_baseUrl + product.attribute("filename"));
 	QNetworkReply * reply = downloadManager->get(QNetworkRequest(url));
 	connect(reply, SIGNAL(downloadProgress(qint64,qint64)),
@@ -108,4 +115,6 @@ void idupdater::downloadProgress(qint64 recvd,qint64 total) {
 	}
 
 void idupdater::startUninstall() {
+	netDownloadFinished(NULL); //debugging
+	enableInstall(false,false);
 	}

@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ui version="4.0">
+<ui version="4.0" >
  <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
-  <property name="geometry">
+ <widget class="QMainWindow" name="MainWindow" >
+  <property name="geometry" >
    <rect>
     <x>0</x>
     <y>0</y>
@@ -10,42 +9,46 @@
     <height>300</height>
    </rect>
   </property>
-  <property name="windowTitle">
+  <property name="windowTitle" >
    <string>Id-updater</string>
   </property>
-  <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
+  <property name="windowIcon" >
+   <iconset>
+    <normaloff>icon1.ico</normaloff>icon1.ico</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget" >
+   <layout class="QVBoxLayout" name="verticalLayout" >
     <item>
-     <widget class="QGroupBox" name="groupBoxStatus">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+     <widget class="QGroupBox" name="groupBoxStatus" >
+      <property name="sizePolicy" >
+       <sizepolicy vsizetype="Minimum" hsizetype="Preferred" >
         <horstretch>0</horstretch>
         <verstretch>1</verstretch>
        </sizepolicy>
       </property>
-      <property name="alignment">
+      <property name="alignment" >
        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <layout class="QHBoxLayout" name="horizontalLayout_3" >
        <item>
-        <widget class="QLabel" name="m_updateStatus">
-         <property name="text">
+        <widget class="QLabel" name="m_updateStatus" >
+         <property name="text" >
           <string>Ready</string>
          </property>
-         <property name="alignment">
+         <property name="alignment" >
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
          </property>
-         <property name="wordWrap">
+         <property name="wordWrap" >
           <bool>false</bool>
          </property>
         </widget>
        </item>
        <item>
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
+        <spacer name="horizontalSpacer" >
+         <property name="orientation" >
           <enum>Qt::Horizontal</enum>
          </property>
-         <property name="sizeHint" stdset="0">
+         <property name="sizeHint" stdset="0" >
           <size>
            <width>535</width>
            <height>20</height>
@@ -57,107 +60,107 @@
      </widget>
     </item>
     <item>
-     <widget class="QGroupBox" name="groupBoxProduct">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+     <widget class="QGroupBox" name="groupBoxProduct" >
+      <property name="sizePolicy" >
+       <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
         <horstretch>0</horstretch>
         <verstretch>10</verstretch>
        </sizepolicy>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <layout class="QHBoxLayout" name="horizontalLayout_2" >
        <item>
-        <widget class="QLabel" name="m_productName">
-         <property name="text">
+        <widget class="QLabel" name="m_productName" >
+         <property name="text" >
           <string>productName</string>
          </property>
-         <property name="alignment">
+         <property name="alignment" >
           <set>Qt::AlignTop</set>
          </property>
-         <property name="wordWrap">
+         <property name="wordWrap" >
           <bool>false</bool>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox_5">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <widget class="QGroupBox" name="groupBox_5" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
            <horstretch>1</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_2">
+         <layout class="QVBoxLayout" name="verticalLayout_2" >
           <item>
-           <widget class="QLabel" name="m_productDescription">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <widget class="QLabel" name="m_productDescription" >
+            <property name="sizePolicy" >
+             <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
               <horstretch>0</horstretch>
               <verstretch>1</verstretch>
              </sizepolicy>
             </property>
-            <property name="text">
+            <property name="text" >
              <string>productDescription</string>
             </property>
-            <property name="alignment">
+            <property name="alignment" >
              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
             </property>
-            <property name="wordWrap">
+            <property name="wordWrap" >
              <bool>false</bool>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QGroupBox" name="groupBox_6">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <widget class="QGroupBox" name="groupBox_6" >
+            <property name="sizePolicy" >
+             <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <layout class="QHBoxLayout" name="horizontalLayout_5" >
              <item>
-              <widget class="QLabel" name="label">
-               <property name="text">
+              <widget class="QLabel" name="label" >
+               <property name="text" >
                 <string>Installed:</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="m_installedVer">
-               <property name="text">
+              <widget class="QLabel" name="m_installedVer" >
+               <property name="text" >
                 <string>installedVer</string>
                </property>
-               <property name="wordWrap">
+               <property name="wordWrap" >
                 <bool>false</bool>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="label_2">
-               <property name="text">
+              <widget class="QLabel" name="label_2" >
+               <property name="text" >
                 <string>Available:</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="m_availableVer">
-               <property name="text">
+              <widget class="QLabel" name="m_availableVer" >
+               <property name="text" >
                 <string>availableVer</string>
                </property>
-               <property name="wordWrap">
+               <property name="wordWrap" >
                 <bool>false</bool>
                </property>
               </widget>
              </item>
              <item>
-              <spacer name="spacer2">
-               <property name="orientation">
+              <spacer name="spacer2" >
+               <property name="orientation" >
                 <enum>Qt::Horizontal</enum>
                </property>
-               <property name="sizeType">
+               <property name="sizeType" >
                 <enum>QSizePolicy::Expanding</enum>
                </property>
-               <property name="sizeHint" stdset="0">
+               <property name="sizeHint" stdset="0" >
                 <size>
                  <width>243</width>
                  <height>20</height>
@@ -166,8 +169,8 @@
               </spacer>
              </item>
              <item>
-              <widget class="QLabel" name="m_downloadStatus">
-               <property name="wordWrap">
+              <widget class="QLabel" name="m_downloadStatus" >
+               <property name="wordWrap" >
                 <bool>false</bool>
                </property>
               </widget>
@@ -176,7 +179,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QProgressBar" name="m_downloadProgress"/>
+           <widget class="QProgressBar" name="m_downloadProgress" />
           </item>
          </layout>
         </widget>
@@ -185,50 +188,50 @@
      </widget>
     </item>
     <item>
-     <widget class="QGroupBox" name="groupBoxButtons">
-      <layout class="QHBoxLayout" name="horizontalLayout">
+     <widget class="QGroupBox" name="groupBoxButtons" >
+      <layout class="QHBoxLayout" name="horizontalLayout" >
        <item>
-        <widget class="QPushButton" name="m_checkUpdatesButton">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <widget class="QPushButton" name="m_checkUpdatesButton" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="text">
+         <property name="text" >
           <string>&amp;check for updates</string>
          </property>
-         <property name="shortcut">
+         <property name="shortcut" >
           <string>Alt+C</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="m_installButton">
-         <property name="text">
+        <widget class="QPushButton" name="m_installButton" >
+         <property name="text" >
           <string>Install/&amp;Update</string>
          </property>
-         <property name="shortcut">
+         <property name="shortcut" >
           <string>Alt+U</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="m_uninstallButton">
-         <property name="text">
+        <widget class="QPushButton" name="m_uninstallButton" >
+         <property name="text" >
           <string>Uninst&amp;all</string>
          </property>
-         <property name="shortcut">
+         <property name="shortcut" >
           <string>Alt+A</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="m_cancelButton">
-         <property name="text">
+        <widget class="QPushButton" name="m_cancelButton" >
+         <property name="text" >
           <string>Ca&amp;ncel</string>
          </property>
-         <property name="shortcut">
+         <property name="shortcut" >
           <string>Alt+N</string>
          </property>
         </widget>
@@ -247,11 +250,11 @@
    <receiver>MainWindow</receiver>
    <slot>checkUpdates()</slot>
    <hints>
-    <hint type="sourcelabel">
+    <hint type="sourcelabel" >
      <x>98</x>
      <y>286</y>
     </hint>
-    <hint type="destinationlabel">
+    <hint type="destinationlabel" >
      <x>328</x>
      <y>163</y>
     </hint>
@@ -263,11 +266,11 @@
    <receiver>MainWindow</receiver>
    <slot>startInstall()</slot>
    <hints>
-    <hint type="sourcelabel">
+    <hint type="sourcelabel" >
      <x>301</x>
      <y>286</y>
     </hint>
-    <hint type="destinationlabel">
+    <hint type="destinationlabel" >
      <x>338</x>
      <y>334</y>
     </hint>
@@ -279,11 +282,11 @@
    <receiver>MainWindow</receiver>
    <slot>startUninstall()</slot>
    <hints>
-    <hint type="sourcelabel">
+    <hint type="sourcelabel" >
      <x>443</x>
      <y>286</y>
     </hint>
-    <hint type="destinationlabel">
+    <hint type="destinationlabel" >
      <x>324</x>
      <y>325</y>
     </hint>
@@ -295,11 +298,11 @@
    <receiver>MainWindow</receiver>
    <slot>close()</slot>
    <hints>
-    <hint type="sourcelabel">
+    <hint type="sourcelabel" >
      <x>586</x>
      <y>286</y>
     </hint>
-    <hint type="destinationlabel">
+    <hint type="destinationlabel" >
      <x>499</x>
      <y>328</y>
     </hint>
