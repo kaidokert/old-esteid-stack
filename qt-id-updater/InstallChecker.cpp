@@ -1,6 +1,8 @@
+//#define NOMSI
+
 #include "InstallChecker.h"
 
-#if defined(WIN32)
+#if defined(WIN32) && !defined(NOMSI)
 
 #include <Windows.h>
 #include <Msi.h>
@@ -133,7 +135,7 @@ bool InstallChecker::installPackage(std::wstring filePath) {
 	return true;
 	}
 
-bool InstallChecker::verifyPackage(std::wstring filePath) {
+bool InstallChecker::verifyPackage(std::wstring filePath,bool withUI) {
 	return true;
 	}
 #endif
