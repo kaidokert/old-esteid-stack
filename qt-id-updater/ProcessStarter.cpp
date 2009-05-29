@@ -12,11 +12,13 @@
 
 ProcessStarter::ProcessStarter(const std::string& processPath, const std::string& arguments)
 : processPath_(processPath), arguments_(arguments) 
-#ifndef NOLOG
-,log("c:\\windows\\temp\\start.log")
-#endif
 {
-
+#ifndef NOLOG
+	char tpath[MAX_PATH];
+	GetTempPathA(sizeof(tpath),tpath);
+	strcat(tpath,"id-updater.log");
+	log.open(tpath);
+#endif
 }
 #if !defined(WIN32) || defined(NO_PROCESS)
 bool ProcessStarter::Run() {return false;}
@@ -69,6 +71,12 @@ PHANDLE GetCurrentUserToken()
 
 bool ProcessStarter::Run()
 {
+	OSVERSIONINFO version = {sizeof(OSVERSIONINFO)};
+
+	GetVersionEx(&version);
+	if (version.dwMajorVersion <= 5) //dont need this on XP/Win2K
+		return false;
+
 	char winDir[260];
 	GetSystemDirectoryA(winDir,sizeof(winDir));
 

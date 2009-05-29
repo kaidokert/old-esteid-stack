@@ -3,7 +3,9 @@
 #ifndef _PROCESS_STARTER_H_
 #define _PROCESS_STARTER_H_
 
+#ifndef _DEBUG
 #define NOLOG
+#endif
 
 #include <string>
 #include <sstream>
