@@ -4,13 +4,16 @@
 #include <atlbase.h>
 #include <comutil.h>
 #include <Mstask.h>
+#include <string>
+
 class ScheduledUpdateTask
 {
 	CComPtr<ITaskScheduler> pITS;
-	CComPtr<ITask> pITask;
-	CComPtr<IPersistFile> pIPersistFile;
+	CComQIPtr<ITask> pITask;
+	CComQIPtr<IPersistFile> pIPersistFile;
 public:
-	ScheduledUpdateTask(void);
+	ScheduledUpdateTask(std::wstring name);
+	void configure();
 };
 #else
 class ScheduledUpdateTask

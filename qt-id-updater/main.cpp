@@ -16,11 +16,12 @@ int printhelp() {
 
 int main(int argc, char *argv[])
 {	
-/*	CoInitialize(NULL);
+	CoInitialize(NULL);
 	{
-	ScheduledUpdateTask task;
+	ScheduledUpdateTask task(L"id updater task");
+	task.configure();
 	}
-	CoUninitialize();*/
+	CoUninitialize();
 //	std::ofstream run("c:\\windows\\temp\\run.log",std::ios_base::app);
 	QApplication app(argc, argv);
 	QStringList args = app.arguments();
