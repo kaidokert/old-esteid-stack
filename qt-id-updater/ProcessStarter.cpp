@@ -7,6 +7,7 @@
 #include "userenv.h"
 #include "wtsapi32.h"
 #include "winnt.h"
+#include "DynamicLibrary.h"
 
 #include <iomanip>
 
@@ -24,7 +25,7 @@ ProcessStarter::ProcessStarter(const std::string& processPath, const std::string
 bool ProcessStarter::Run() {return false;}
 #else
 
-#pragma comment(lib,"WtsApi32")
+//#pragma comment(lib,"WtsApi32")
 #pragma comment(lib,"Userenv")
 
 HANDLE curTok;
@@ -32,15 +33,23 @@ HANDLE primTok;
 
 PHANDLE GetCurrentUserToken()
 {
+	DynamicLibrary wts("Wtsapi32");
+	BOOL (__stdcall * pWTSQueryUserToken)(ULONG SessionId,PHANDLE phToken) =
+		(BOOL(__stdcall *)(ULONG,PHANDLE)) wts.getProc("WTSQueryUserToken");
+	BOOL (__stdcall * pWTSEnumerateSessionsW)(HANDLE hServer,DWORD Reserved,DWORD Version,
+			PWTS_SESSION_INFOW * ppSessionInfo,DWORD * pCount) = 
+		(BOOL(__stdcall *)(HANDLE, DWORD,DWORD,PWTS_SESSION_INFOW *, DWORD *))
+			wts.getProc("WTSEnumerateSessionsW");
+
     PHANDLE currentToken = &curTok;
     PHANDLE primaryToken = &primTok;
 
     int dwSessionId = 0;
 
-    PWTS_SESSION_INFO pSessionInfo = 0;
+    PWTS_SESSION_INFOW pSessionInfo = 0;
     DWORD dwCount = 0;
 
-    WTSEnumerateSessions(WTS_CURRENT_SERVER_HANDLE, 0, 1, &pSessionInfo, &dwCount);
+    pWTSEnumerateSessionsW(WTS_CURRENT_SERVER_HANDLE, 0, 1, &pSessionInfo, &dwCount);
 
     for (DWORD i = 0; i < dwCount; ++i)
     {
@@ -52,7 +61,7 @@ PHANDLE GetCurrentUserToken()
         }
     }
 
-    BOOL bRet = WTSQueryUserToken(dwSessionId, currentToken);
+    BOOL bRet = pWTSQueryUserToken(dwSessionId, currentToken);
     int errorcode = GetLastError();
     if (bRet == false)
     {
@@ -80,7 +89,10 @@ bool ProcessStarter::Run()
 	char winDir[260];
 	GetSystemDirectoryA(winDir,sizeof(winDir));
 
-    PHANDLE primaryToken = GetCurrentUserToken();
+	PHANDLE primaryToken = 0;
+	try {
+		primaryToken = GetCurrentUserToken();
+	} catch(...) {}
     if (primaryToken == 0)
     {
 		log << "primtok = 0" << std::endl;
