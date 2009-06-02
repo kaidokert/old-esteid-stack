@@ -99,8 +99,9 @@ bool AppSetting::getAutoRemove() {
 	wxRegKey key( IESETTINGS _T("\\") CERTRMVGUID );
 	long val = 0;
 
-	if (key.Exists() && key.Open(wxRegKey::Read))
-		key.QueryValue(_T("Flags"),&val);
+	if (key.Exists())
+		if (key.Open(wxRegKey::Read))
+			key.QueryValue(_T("Flags"),&val);
 	return !(val == 1);
 	}
 
