@@ -1,6 +1,6 @@
 /*!
 	\file		asnCertificate.cpp
-	\copyright	(c) Kaido Kert ( kaidokert@gmail.com )    
+	\copyright	(c) Kaido Kert ( kaidokert@gmail.com )
 	\licence	BSD
 	\author		$Author$
 	\date		$Date$
@@ -23,7 +23,7 @@ asnCertificate::asnCertificate(byteVec &in,std::ostream &pout):
 		}
 
 void asnCertificate::init() {
-	if (contents.size() != 3) 
+	if (contents.size() != 3)
 		throw asn_error("Certificate must consist of three elements");
 	asnObject * tbsCertificate = contents[0];
 	signatureAlgorithm  = contents[1];
@@ -36,7 +36,7 @@ void asnCertificate::init() {
 	signatureAlg = tbsCertificate->contents[2];
 	issuerName = tbsCertificate->contents[3];
 	validityPeriod = tbsCertificate->contents[4];
-	if (validityPeriod->contents.size() != 2) 
+	if (validityPeriod->contents.size() != 2)
 		throw asn_error("validityPeriod should have 2 members");
 	subjectName = tbsCertificate->contents[5];
 	publicKeyInfo = tbsCertificate->contents[6];
@@ -50,7 +50,7 @@ std::string getAlgid(asnObject *obj) {
 		throw asn_error("expected objectidentifier");
 	if (obj->size < 3) throw asn_error("invalid OBJID");
 	byteVec body = byteVec(obj->body_start,obj->stop);
-	unsigned char m1 = (body[0] & 0x28 ) ? 0x28 : 
+	unsigned char m1 = (body[0] & 0x28 ) ? 0x28 :
 		(body[0] & 0x50 ? 0x50 : 0);
 	if (!m1) throw asn_error("invalid OBJID byte0");
 	unsigned char val1 = (m1 >> 5);
@@ -59,7 +59,7 @@ std::string getAlgid(asnObject *obj) {
 	buf << (int)val1 << "." << (int)val2 ;
 	for(size_t i=1;i<body.size();i++) {
 		int val = body[i];
-		while(body[i] & 0x80 && i < body.size() ) 
+		while(body[i] & 0x80 && i < body.size() )
 			val= ((val & 0x7F) << 7) & (body[i++] & 0x7F);
 		buf << "." << (int)val;
 		}
@@ -68,10 +68,10 @@ std::string getAlgid(asnObject *obj) {
 	}
 
 asnObject *asnCertificate::findExtension(std::string ext) {
-	if (!extensions) 
+	if (!extensions)
 		return 0;
-	if (!extensions->expl_tag 
-		|| extensions->tag != 3 
+	if (!extensions->expl_tag
+		|| extensions->tag != 3
 		|| extensions->contents.size() != 1 )
 		throw "invalid extlist";
 
@@ -83,9 +83,9 @@ asnObject *asnCertificate::findExtension(std::string ext) {
 		asnObject *p0 = pExt->contents[0];
 		string extId = getAlgid(p0);
 		asnObject *value = pExt->contents[1];
-		if (pExt->contents.size() == 3 ) 
+		if (pExt->contents.size() == 3 )
 			value = pExt->contents[2];
-		if (extId == ext) 
+		if (extId == ext)
 			return value;
 		}
 	return 0;
@@ -93,8 +93,10 @@ asnObject *asnCertificate::findExtension(std::string ext) {
 
 string asnCertificate::getSubjectAltName() {
 	asnObject * ext = findExtension(idSubjectAltName);
+	if (!ext)
+        return "";
 	asnObject decode(ext->body_start,ext->stop,0,bout);
-	if (decode.tag!=SEQUENCE) 
+	if (decode.tag!=SEQUENCE)
 		throw asn_error("invalid altName");
 	std::string ret;
 	for(size_t i=0; i < decode.contents.size(); i++) {
@@ -113,7 +115,7 @@ bool asnCertificate::checkKeyUsage(string id) {
 	asnObject * ext = findExtension(idExtKeyUsage);
 	if (!ext) return false;
 	asnObject decode(ext->body_start,ext->stop,0,bout);
-	if (decode.tag!=SEQUENCE) 
+	if (decode.tag!=SEQUENCE)
 		throw asn_error("invalid ExtKeyUsage");
 	for(size_t i=0; i < decode.contents.size(); i++) {
 		string comp = getAlgid(decode.contents[i]);
@@ -148,7 +150,7 @@ string asnCertificate::getSubject() {
 		if (extId!= "CN" && extId != "SN") { //avoid UTF16 for now
 			string val(nv->contents[1]->size ,'0');
 			copy( nv->contents[1]->body_start,nv->contents[1]->stop,val.begin());
-			retVal += " ," + extId + " = " + val; 
+			retVal += " ," + extId + " = " + val;
 			}
 		}
 	if (retVal.length() > 2) //remove leading ,
