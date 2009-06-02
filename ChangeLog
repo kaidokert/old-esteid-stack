@@ -1,6 +1,7 @@
 Changes for version 0.9.20
 -------------------------
 	* Crash fix for SmartCardManager
+	* Crash fix in asnCertificate::getSubjectAltName, with missing altname
 	* T0 workaround some win built-in PCSC drivers
 	* CTAPI crash fixes for reader removal
 	* further cardlib code cleanup
