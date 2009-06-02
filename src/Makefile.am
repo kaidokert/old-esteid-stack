@@ -35,6 +35,7 @@ esteidutil_SOURCES = \
 	cardlib/CardBase.cpp 		cardlib/CardBase.h	\
 	cardlib/DynamicLibrary.cpp	cardlib/DynamicLibrary.h \
 	cardlib/SCError.cpp		cardlib/SCError.h \
+	cardlib/types.h
 	$(BUILTSTUFF)
 
 EXTRA_DIST = resources/esteidbmp.gif resources/digistampbmp.gif resources/cert.gif resources/cert_invalid.gif \
@@ -43,9 +44,9 @@ EXTRA_DIST = resources/esteidbmp.gif resources/digistampbmp.gif resources/cert.g
 	resources/auth_icon.gif resources/logo_grey.ico \
 	MainDialog_Windows.cpp \
 	EsteidUtil.rc EsteidUtil.vcproj EsteidUtil.cbp Setup.h \
-	tests/Makefile  tests/precompiled.h  tests/testctapi.cpp  \
+	tests/precompiled.h  tests/testctapi.cpp  \
 	tests/testdownload.cpp  tests/testreadcardid.cpp \
-	premake.lua cardlib/premake.lua utility/premake.lua tests/premake.lua
+	premake4.lua cardlib/premake4.lua utility/premake4.lua tests/premake4.lua
 
 nodist_esteidutil_SOURCES =
 #nodist_esteidutil_SOURCES = \
@@ -55,7 +56,7 @@ nodist_esteidutil_SOURCES =
 $(PACKAGE)-MainDialog.$(OBJEXT): $(BUILTSTUFF)
 MainDialog.$(OBJEXT): $(BUILTSTUFF)
 
-CLEANFILES = $(nodist_esteidutil_SOURCES)
+CLEANFILES = $(nodist_esteidutil_SOURCES) resources/*.cdata
 
 esteidutil_LDFLAGS =
 esteidutil_LDADD = $(WX_LIBS)

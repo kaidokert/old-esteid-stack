@@ -8,7 +8,7 @@ EXTRA_DIST = config.rpath  m4/ChangeLog \
 		mac/EsteidUtil.app/Contents/Resources/wxmac.icns \
 		mac/EsteidUtil.app/Contents/Info.plist \
 		mac/EsteidUtil.app/Contents/PkgInfo \
-		premake.lua
+		premake4.lua
 
 docdir = ${datadir}/esteidutil
 doc_DATA = README
