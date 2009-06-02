@@ -42,3 +42,4 @@ else
 end
 createSampleProject("testMonitorThread",{"testmonitorthread.cpp"})
 createSampleProject("testlogger",{"testlogger.cpp"})
+createSampleProject("testcert",{"testcert.cpp"})
