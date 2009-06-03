@@ -16,6 +16,7 @@ int printhelp() {
 
 int main(int argc, char *argv[])
 {	
+	if (args.contains("-daily")) {}
 	CoInitialize(NULL);
 	{
 	ScheduledUpdateTask task(L"id updater task");

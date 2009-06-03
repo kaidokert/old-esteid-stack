@@ -87,7 +87,10 @@ void idupdater::checkUpdates() {
 	enableInstall(false);
 	status("Checking for update..");	
 	QUrl url(m_baseUrl + "products.xml");
-	if (url.scheme() != "http") return fail("only http download supported");
+	if (url.scheme() != "http" &&
+		url.scheme() != "ftp" &&
+		url.scheme() != "https" 
+		) return fail("Unsupported protocol in url");
 	manager->get(QNetworkRequest(url));
 	}
 
