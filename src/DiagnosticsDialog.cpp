@@ -202,6 +202,10 @@ void DiagnosticsDialog::PKCS11Tests() {
         pkcs11module mod("opensc-pkcs11");
         mod.test(strm);
         addLine(Asc(strm.str()));
+		strm.str() = "";
+		pkcs11module mod2("esteidpkcs11");
+		mod2.test(strm);
+        addLine(Asc(strm.str()));
 	} catch (std::runtime_error& err) {
 		addLine(wxString(_T("\tfailed, exception : ")) +
 			Asc(err.what()));
@@ -288,7 +292,7 @@ struct cUserKey {
 
 void testCSP(DiagnosticsDialog *d,TCHAR *cspName) {
 	try {
-		d->addLine(_T("Doing CSP diagnosis .."));
+		d->addLine(wxString(_T("Doing CSP diagnosis for : '")) + cspName + _("'"));
 		cContext ctx(cspName,0);
 		d->addLine(_T("Initialized .."));
 		ByteVec buff(80);
@@ -361,6 +365,7 @@ void DiagnosticsDialog::systemSpecificTests() {
 	testCSP(this,_T("EstEID Card CSP"));
 	if (m_haveCardmodule)
 		testCSP(this,_T("Microsoft Base Smart Card Crypto Provider"));
+	testCSP(this,_T("EstEID NewCard CSP"));
 	}
 #else
 
