@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="esteidpkcs11" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="../../src/pkcs11/$(PlatformName)/Debug/esteidpkcs11.dll" prefix_auto="0" extension_auto="0" />
+				<Option object_output="obj/Debug/esteidpkcs11" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="0" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-DWIN32" />
+					<Add option="-D_DEBUG" />
+					<Add option="-DDEBUG" />
+				</Compiler>
+				<Linker>
+					<Add option="-shared" />
+					<Add option="-Wl,--out-implib=&quot;../../src/pkcs11/$(PlatformName)/Debug/libesteidpkcs11.a&quot;" />
+					<Add directory="../../src/cardlib/$(PlatformName)/Debug" />
+					<Add directory="../../src/utility/$(PlatformName)/Debug" />
+					<Add library="cardlib" />
+					<Add library="utility" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="../../src/pkcs11/$(PlatformName)/Release/esteidpkcs11.dll" prefix_auto="0" extension_auto="0" />
+				<Option object_output="obj/Release/esteidpkcs11" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="0" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-Wall" />
+					<Add option="-DWIN32" />
+					<Add option="-DNDEBUG" />
+				</Compiler>
+				<Linker>
+					<Add option="-shared" />
+					<Add option="-Wl,--out-implib=&quot;../../src/pkcs11/$(PlatformName)/Release/libesteidpkcs11.a&quot;" />
+					<Add option="-s" />
+					<Add directory="../../src/cardlib/$(PlatformName)/Release" />
+					<Add directory="../../src/utility/$(PlatformName)/Release" />
+					<Add library="cardlib" />
+					<Add library="utility" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="../../src/pkcs11/PKCS11Context.h">
+		</Unit>
+		<Unit filename="../../src/pkcs11/precompiled.h">
+		</Unit>
+		<Unit filename="../../src/pkcs11/Setup.h">
+		</Unit>
+		<Unit filename="../../src/pkcs11/esteidpkcs11.cpp">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Unit filename="../../src/pkcs11/PKCS11Context.cpp">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Unit filename="../../src/pkcs11/precompiled.cpp">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Extensions />
+	</Project>
+</CodeBlocks_project_file>

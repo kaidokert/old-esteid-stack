@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="testlogger" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="../../src/tests/$(PlatformName)/Debug/testlogger.exe" prefix_auto="0" extension_auto="0" />
+				<Option object_output="obj/Debug/testlogger" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-DWIN32" />
+					<Add option="-D_DEBUG" />
+					<Add option="-DDEBUG" />
+					<Add directory="../../src" />
+					<Add directory="/" />
+				</Compiler>
+				<Linker>
+					<Add directory="../../src/utility/$(PlatformName)/Debug" />
+					<Add directory="../../src/cardlib/$(PlatformName)/Debug" />
+					<Add library="utility" />
+					<Add library="cardlib" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="../../src/tests/$(PlatformName)/Release/testlogger.exe" prefix_auto="0" extension_auto="0" />
+				<Option object_output="obj/Release/testlogger" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-Wall" />
+					<Add option="-DWIN32" />
+					<Add option="-DNDEBUG" />
+					<Add directory="../../src" />
+					<Add directory="/" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add directory="../../src/utility/$(PlatformName)/Release" />
+					<Add directory="../../src/cardlib/$(PlatformName)/Release" />
+					<Add library="utility" />
+					<Add library="cardlib" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="../../src/tests/testlogger.cpp">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Extensions />
+	</Project>
+</CodeBlocks_project_file>

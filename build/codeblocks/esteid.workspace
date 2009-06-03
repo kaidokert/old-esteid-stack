@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="esteid">
+		<Project filename="EsteidUtil.cbp" active="1">
+			<Depends filename="cardlib.cbp" />
+			<Depends filename="utility.cbp" />
+		</Project>
+		<Project filename="cardlib.cbp">
+		</Project>
+		<Project filename="utility.cbp">
+		</Project>
+		<Project filename="esteidpkcs11.cbp">
+			<Depends filename="cardlib.cbp" />
+			<Depends filename="utility.cbp" />
+		</Project>
+		<Project filename="testreadcardid.cbp">
+			<Depends filename="utility.cbp" />
+			<Depends filename="cardlib.cbp" />
+		</Project>
+		<Project filename="testcardmanager.cbp">
+			<Depends filename="utility.cbp" />
+			<Depends filename="cardlib.cbp" />
+		</Project>
+		<Project filename="testctapi.cbp">
+			<Depends filename="utility.cbp" />
+			<Depends filename="cardlib.cbp" />
+		</Project>
+		<Project filename="testdownload.cbp">
+			<Depends filename="utility.cbp" />
+			<Depends filename="cardlib.cbp" />
+		</Project>
+		<Project filename="testPinDialog.cbp">
+			<Depends filename="utility.cbp" />
+			<Depends filename="cardlib.cbp" />
+		</Project>
+		<Project filename="testMonitorThread.cbp">
+			<Depends filename="utility.cbp" />
+			<Depends filename="cardlib.cbp" />
+		</Project>
+		<Project filename="testlogger.cbp">
+			<Depends filename="utility.cbp" />
+			<Depends filename="cardlib.cbp" />
+		</Project>
+		<Project filename="testcert.cbp">
+			<Depends filename="utility.cbp" />
+			<Depends filename="cardlib.cbp" />
+		</Project>
+		<Project filename="esteidcsp.cbp">
+			<Depends filename="cardlib.cbp" />
+			<Depends filename="utility.cbp" />
+		</Project>
+	</Workspace>
+</CodeBlocks_workspace_file>

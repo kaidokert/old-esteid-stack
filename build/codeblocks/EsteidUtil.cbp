@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="EsteidUtil" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="../../src/$(PlatformName)/Debug/EsteidUtil.exe" prefix_auto="0" extension_auto="0" />
+				<Option object_output="obj/Debug/EsteidUtil" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-DWIN32" />
+					<Add option="-DWIN32" />
+					<Add option="-D_DEBUG" />
+					<Add option="-DDEBUG" />
+					<Add option="-Winvalid-pch" />
+					<Add option="-include &quot;precompiled.h&quot;" />
+					<Add directory="../../../../../../../../../../wxWidgets-2.8.4/include" />
+					<Add directory="../../src" />
+					<Add directory="../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswd" />
+					<Add directory="../../../../../../../../../../wxWidgets-2.8.4/include" />
+				</Compiler>
+				<Linker>
+					<Add option="-mwindows" />
+					<Add directory="../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib" />
+					<Add directory="../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib" />
+					<Add directory="../../src/cardlib/$(PlatformName)/Debug" />
+					<Add directory="../../src/utility/$(PlatformName)/Debug" />
+					<Add library="cardlib" />
+					<Add library="utility" />
+					<Add library="crypt32" />
+					<Add library="comctl32" />
+					<Add library="Rpcrt4" />
+					<Add library="wxbase28d" />
+					<Add library="wxmsw28d_core" />
+					<Add library="wxmsw28d_adv" />
+					<Add library="wxbase28d_xml" />
+					<Add library="wxbase28d_net" />
+					<Add library="wxjpegd" />
+					<Add library="wxexpatd" />
+				</Linker>
+				<ResourceCompiler>
+					<Add directory="../../../../../../../../../../wxWidgets-2.8.4/include" />
+					<Add directory="../../src" />
+					<Add directory="../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswd" />
+					<Add directory="../../../../../../../../../../wxWidgets-2.8.4/include" />
+				</ResourceCompiler>
+			</Target>
+			<Target title="Release">
+				<Option output="../../src/$(PlatformName)/Release/EsteidUtil.exe" prefix_auto="0" extension_auto="0" />
+				<Option object_output="obj/Release/EsteidUtil" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-Wall" />
+					<Add option="-DWIN32" />
+					<Add option="-DWIN32" />
+					<Add option="-DNDEBUG" />
+					<Add option="-Winvalid-pch" />
+					<Add option="-include &quot;precompiled.h&quot;" />
+					<Add directory="../../../../../../../../../../wxWidgets-2.8.4/include" />
+					<Add directory="../../src" />
+					<Add directory="../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswm" />
+					<Add directory="../../../../../../../../../../wxWidgets-2.8.4/include" />
+				</Compiler>
+				<Linker>
+					<Add option="-mwindows" />
+					<Add option="-s" />
+					<Add directory="../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib" />
+					<Add directory="../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib" />
+					<Add directory="../../src/cardlib/$(PlatformName)/Release" />
+					<Add directory="../../src/utility/$(PlatformName)/Release" />
+					<Add library="cardlib" />
+					<Add library="utility" />
+					<Add library="crypt32" />
+					<Add library="comctl32" />
+					<Add library="Rpcrt4" />
+					<Add library="wxbase28m" />
+					<Add library="wxmsw28m_core" />
+					<Add library="wxmsw28m_adv" />
+					<Add library="wxbase28m_xml" />
+					<Add library="wxbase28m_net" />
+					<Add library="wxjpegm" />
+					<Add library="wxexpatm" />
+				</Linker>
+				<ResourceCompiler>
+					<Add directory="../../../../../../../../../../wxWidgets-2.8.4/include" />
+					<Add directory="../../src" />
+					<Add directory="../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswm" />
+					<Add directory="../../../../../../../../../../wxWidgets-2.8.4/include" />
+				</ResourceCompiler>
+			</Target>
+		</Build>
+		<Unit filename="../../src/AppSetting.cpp">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Unit filename="../../src/CertificateDialog.cpp">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Unit filename="../../src/DiagnosticsDialog.cpp">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Unit filename="../../src/EsteidUtil.cpp">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Unit filename="../../src/MainDialog.cpp">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Unit filename="../../src/MainDialog_2.cpp">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Unit filename="../../src/MainDialog_Image.cpp">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Unit filename="../../src/MainDialog_Pin.cpp">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Unit filename="../../src/MainDialog_Windows.cpp">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Unit filename="../../src/PersonalDataDialog.cpp">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Unit filename="../../src/PinChangeDialog.cpp">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Unit filename="../../src/PinChangeSecureDialog.cpp">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Unit filename="../../src/PinDialog.cpp">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Unit filename="../../src/wxprec.cpp">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Unit filename="../../src/AppSetting.h">
+		</Unit>
+		<Unit filename="../../src/CertificateDialog.h">
+		</Unit>
+		<Unit filename="../../src/DiagnosticsDialog.h">
+		</Unit>
+		<Unit filename="../../src/MainDialog.h">
+		</Unit>
+		<Unit filename="../../src/PersonalDataDialog.h">
+		</Unit>
+		<Unit filename="../../src/PinChangeDialog.h">
+		</Unit>
+		<Unit filename="../../src/PinChangeSecureDialog.h">
+		</Unit>
+		<Unit filename="../../src/PinDialog.h">
+		</Unit>
+		<Unit filename="../../src/precompiled.h">
+		</Unit>
+		<Unit filename="../../src/resource.h">
+		</Unit>
+		<Unit filename="../../src/Setup.h">
+		</Unit>
+		<Unit filename="../../src/premake4.lua">
+		</Unit>
+		<Unit filename="../../src/EsteidUtil.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
+		<Extensions />
+	</Project>
+</CodeBlocks_project_file>
