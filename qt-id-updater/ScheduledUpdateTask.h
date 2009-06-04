@@ -8,19 +8,19 @@
 
 class ScheduledUpdateTask
 {
-	enum {
-		DAILY,
-		WEEKLY,
-		MONTHLY,
-		NEVER,
-		NONE
-	} Interval;
 	CComPtr<ITaskScheduler> pITS;
 	CComQIPtr<ITask> pITask;
 	CComQIPtr<IPersistFile> pIPersistFile;
+	std::wstring m_command;
 public:
-	ScheduledUpdateTask(std::wstring name);
-	void configure(Interval interval);
+	enum Interval {
+		DAILY,
+		WEEKLY,
+		MONTHLY,
+		NEVER
+	} ;
+	ScheduledUpdateTask(std::wstring command,std::wstring name);
+	bool configure(Interval interval);
 };
 #else
 class ScheduledUpdateTask
