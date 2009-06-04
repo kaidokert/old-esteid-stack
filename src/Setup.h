@@ -30,7 +30,7 @@
 #define HAVE_MEMORY_H 1
 
 /* define if you have OpenSSL */
-#define HAVE_OPENSSL 0
+#define HAVE_OPENSSL 1
 
 /* Define to 1 if you have the <stdint.h> header file. */
 #define HAVE_STDINT_H 1

@@ -9,13 +9,7 @@ project("EsteidUtil")
 	pchheader "precompiled.h"
 	pchsource "wxprec.cpp"
 	flags { "WinMain" }
-	includedirs { 
-		path.getabsolute(os.getenv("WXWIN") .. "/include" )
-		, "."
-		}
-	libdirs {
-		  os.getenv("WXWIN") .. "/lib/vc_lib"
-		}
+	includedirs { "." }
 	links {
 		"cardlib","utility"
 		}
@@ -26,11 +20,11 @@ project("EsteidUtil")
 	end
 	if os.is("linux") then
 		links "dl"
+		prebuildcommands = { "echo bla bla bla" }
 	end
 	doDebugConfig()
 	wxConfig("d") --debug suffix
 	doReleaseConfig()
 	wxConfig("m") --minimal suffix
 	premake.buildconfigs()
-	
 		

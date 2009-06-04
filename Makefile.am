@@ -1,4 +1,5 @@
-SUBDIRS = src po
+SUBDIRS = src po build esteidcm esteidcsp EstEIDSigningPluginBHO src/pkcs11 
+
 #m4 
 EXTRA_DIST = config.rpath  m4/ChangeLog \
 		bootstrap esteidutil.spec.in esteidutil.spec esteidutil.desktop	\
@@ -9,7 +10,6 @@ EXTRA_DIST = config.rpath  m4/ChangeLog \
 		mac/EsteidUtil.app/Contents/Info.plist \
 		mac/EsteidUtil.app/Contents/PkgInfo \
 		premake4.lua \
-		build/vs2005/ build/vs2008/ build/codeblocks/ \
 		esteidcsp EstEIDSigningPluginBHO qt-id-updater 
 
 docdir = ${datadir}/esteidutil

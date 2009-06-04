@@ -16,11 +16,12 @@ function createWxConfigs()
 end
 
 function ppath(strPath)
-  if os.is("windows") then return "$(PlatformName)\\"  .. strPath else return strPath end
+  if os.is("windows") then return "$(PlatformName)\\"  .. strPath else return path.getrelative(".", "./" ..strPath) end
 end
 
 function doReleaseConfig(cfname)
   configuration { "Release*" }
+		prebuildcommands = { "echo Release bla bla bla" }
   targetdir(ppath("Release"))
   defines { "NDEBUG" }
   flags   { "Optimize","NoEditAndContinue","NoManifest","StaticRuntime" }
@@ -28,6 +29,7 @@ function doReleaseConfig(cfname)
 end
 function doDebugConfig(cfname)
   configuration { "Debug*" }
+		prebuildcommands = { "echo Debug bla bla bla" }
   targetdir(ppath("Debug"))
   defines { "_DEBUG", "DEBUG" }
   flags   { "Symbols" }
@@ -39,21 +41,25 @@ function strEnv(env)
 end
 
 function wxConfig(suffix)
-  includedirs { 
-    path.getabsolute(strEnv("WXWIN") .. "/lib/vc_lib/msw"..suffix) ,
-	path.getabsolute(strEnv("WXWIN") .. "/include" )
-    }
-  libdirs {
-        strEnv("WXWIN") .. "/lib/vc_lib"
-	}
-  links {
-	"wxbase" .. strEnv("WXLIBVER") ..suffix ,
-	"wxmsw"  .. strEnv("WXLIBVER") ..suffix.."_core" ,
-	"wxmsw"  .. strEnv("WXLIBVER") ..suffix.."_adv" ,
-	"wxbase" .. strEnv("WXLIBVER") ..suffix.."_xml" ,
-	"wxbase" .. strEnv("WXLIBVER") ..suffix.."_net" ,
-	"wxjpeg"..suffix ,"wxexpat"..suffix}
-
+  if os.is("windows") then
+    includedirs { 
+      path.getabsolute(strEnv("WXWIN") .. "/lib/vc_lib/msw"..suffix) ,
+	  path.getabsolute(strEnv("WXWIN") .. "/include" )
+      }
+    libdirs {
+	  strEnv("WXWIN") .. "/lib/vc_lib"
+	  }
+    links {
+	  "wxbase" .. strEnv("WXLIBVER") ..suffix ,
+	  "wxmsw"  .. strEnv("WXLIBVER") ..suffix.."_core" ,
+	  "wxmsw"  .. strEnv("WXLIBVER") ..suffix.."_adv" ,
+	  "wxbase" .. strEnv("WXLIBVER") ..suffix.."_xml" ,
+	  "wxbase" .. strEnv("WXLIBVER") ..suffix.."_net" ,
+	  "wxjpeg"..suffix ,"wxexpat"..suffix}
+  else
+    buildoptions { "`wx-config --cxxflags`" }
+    package.linkoptions = { "`wx-config --libs` " }
+  end
 end
 		
 function fixSolutionPaths(sln)

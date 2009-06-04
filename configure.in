@@ -132,6 +132,10 @@ AC_ARG_WITH(openssl,
 AC_CONFIG_FILES([  po/Makefile.in 
         Makefile
         src/Makefile
+	build/Makefile
+	esteidcm/Makefile esteidcsp/Makefile
+	EstEIDSigningPluginBHO/Makefile
+	src/pkcs11/Makefile
 ])
 
 AC_CONFIG_FILES([esteidutil.spec])
