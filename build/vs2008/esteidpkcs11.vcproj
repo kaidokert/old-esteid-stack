@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="esteidpkcs11"
-	ProjectGUID="{C2FB958E-1771-9C48-BDF0-9CE82D9D8A19}"
+	ProjectGUID="{AD102339-1537-5F45-A19B-918DF2785A14}"
 	RootNamespace="esteidpkcs11"
 	Keyword="Win32Proj"
 	>
@@ -43,6 +43,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="../../src/pkcs11/pkcs11"
 				PreprocessorDefinitions="WIN32;_DEBUG;DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -59,6 +60,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="WIN32;_DEBUG;DEBUG"
+				AdditionalIncludeDirectories="../../src/pkcs11/pkcs11"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -124,6 +126,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
+				AdditionalIncludeDirectories="../../src/pkcs11/pkcs11"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -139,6 +142,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="WIN32;NDEBUG"
+				AdditionalIncludeDirectories="../../src/pkcs11/pkcs11"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -206,6 +210,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="../../src/pkcs11/pkcs11"
 				PreprocessorDefinitions="WIN32;_DEBUG;DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -222,6 +227,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="WIN32;_DEBUG;DEBUG"
+				AdditionalIncludeDirectories="../../src/pkcs11/pkcs11"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -287,6 +293,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
+				AdditionalIncludeDirectories="../../src/pkcs11/pkcs11"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -302,6 +309,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="WIN32;NDEBUG"
+				AdditionalIncludeDirectories="../../src/pkcs11/pkcs11"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -378,6 +386,10 @@
 				</File>
 				<File
 					RelativePath="..\..\src\pkcs11\precompiled.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\pkcs11\esteidpkcs11.rc"
 					>
 				</File>
 			</Filter>

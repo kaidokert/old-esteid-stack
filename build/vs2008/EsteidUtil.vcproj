@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="EsteidUtil"
-	ProjectGUID="{365B3609-246A-A746-8D48-8717FB3AC255}"
+	ProjectGUID="{44232120-CC59-744C-9B22-AB6C0E6B75A3}"
 	RootNamespace="EsteidUtil"
 	Keyword="Win32Proj"
 	>

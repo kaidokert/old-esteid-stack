@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="testcardmanager"
-	ProjectGUID="{63FC3888-F149-8D49-A610-E708D3D7F6C5}"
+	ProjectGUID="{328985C1-E147-6548-8F0A-58A4D71BE61F}"
 	RootNamespace="testcardmanager"
 	Keyword="Win32Proj"
 	>

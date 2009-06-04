@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="testctapi"
-	ProjectGUID="{96028020-6DC6-8A46-9B6A-F7CC99577625}"
+	ProjectGUID="{0B965702-CE50-0142-99EC-1EF04A8A0747}"
 	RootNamespace="testctapi"
 	Keyword="Win32Proj"
 	>

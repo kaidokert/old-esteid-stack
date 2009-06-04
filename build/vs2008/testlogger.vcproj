@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="testlogger"
-	ProjectGUID="{72B1D30D-E66D-FE43-B46D-C226C6789E44}"
+	ProjectGUID="{A61E7196-6B89-8F44-9DFF-F1EFC5AE6E8B}"
 	RootNamespace="testlogger"
 	Keyword="Win32Proj"
 	>

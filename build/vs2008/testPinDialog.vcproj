@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="testPinDialog"
-	ProjectGUID="{08378433-B41D-9A4C-ACD6-8F28D802B427}"
+	ProjectGUID="{C64BEDFC-9570-4B40-BCFE-D69813F0253A}"
 	RootNamespace="testPinDialog"
 	Keyword="Win32Proj"
 	>

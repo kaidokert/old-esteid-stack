@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="testdownload"
-	ProjectGUID="{9964710D-2C83-C84E-A1AC-115F064F973C}"
+	ProjectGUID="{42A20BA8-4E2B-3F4F-BCBB-F1F0092F0610}"
 	RootNamespace="testdownload"
 	Keyword="Win32Proj"
 	>

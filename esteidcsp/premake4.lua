@@ -1,4 +1,5 @@
 project "esteidcsp"
+  uuid "DBCD4071-608C-4443-A440-45E15FE05BC3"
   location ("../build/" .. _ACTION)
   language "C++"
   kind     "SharedLib"

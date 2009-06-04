@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="testcert"
-	ProjectGUID="{A662D43E-BDBE-754D-8829-D436D66720E9}"
+	ProjectGUID="{F83249DF-A06F-284E-B4CA-0623900D4541}"
 	RootNamespace="testcert"
 	Keyword="Win32Proj"
 	>

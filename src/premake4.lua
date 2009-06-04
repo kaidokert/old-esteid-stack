@@ -1,6 +1,7 @@
 package.path = "?.lua;../?.lua"
 
 project("EsteidUtil")
+	uuid "44232120-CC59-744C-9B22-AB6C0E6B75A3"
 	location ("../build/" .. _ACTION)
 	language "C++"
 	kind     "WindowedApp"

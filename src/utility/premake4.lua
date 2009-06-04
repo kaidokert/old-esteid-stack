@@ -2,6 +2,7 @@ package.path = package.path .. ';../?.lua;../../?.lua'
 require "common"
 
 project "utility"
+  uuid "9416835E-B059-1847-9B6F-6BC57776EFC9"
   location ("../../build/" .. _ACTION)
   language "C++"
   kind     "StaticLib"

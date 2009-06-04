@@ -1,5 +1,6 @@
-function createSampleProject(name,cppfile)
+function createSampleProject(name,cppfile,guid)
 	project(name)
+	uuid(guid)
 	location ("../../build/" .. _ACTION)
 	language "C++"
 	if name == "testPinDialog" then
@@ -31,15 +32,15 @@ function createSampleProject(name,cppfile)
 	return premake.CurrentContainer
 end
 
-createSampleProject("testreadcardid",{"testreadcardid.cpp"})
-createSampleProject("testcardmanager",{"testcardmanager.cpp"})
-createSampleProject("testctapi",{"testctapi.cpp"})
-createSampleProject("testdownload",{"testdownload.cpp"})
+createSampleProject("testreadcardid",{"testreadcardid.cpp"},"094C61ED-A334-6E48-A572-1CD9817BBBA8")
+createSampleProject("testcardmanager",{"testcardmanager.cpp"},"328985C1-E147-6548-8F0A-58A4D71BE61F")
+createSampleProject("testctapi",{"testctapi.cpp"},"0B965702-CE50-0142-99EC-1EF04A8A0747")
+createSampleProject("testdownload",{"testdownload.cpp"},"42A20BA8-4E2B-3F4F-BCBB-F1F0092F0610")
 if os.is("windows") then
-  createSampleProject("testPinDialog",{"testpindialog.cpp","testpindialog.rc"})
+  createSampleProject("testPinDialog",{"testpindialog.cpp","testpindialog.rc"},"C64BEDFC-9570-4B40-BCFE-D69813F0253A")
 else
-  createSampleProject("testPinDialog",{"testpindialog.cpp"})
+  createSampleProject("testPinDialog",{"testpindialog.cpp"},"C64BEDFC-9570-4B40-BCFE-D69813F0253A")
 end
-createSampleProject("testMonitorThread",{"testmonitorthread.cpp"})
-createSampleProject("testlogger",{"testlogger.cpp"})
-createSampleProject("testcert",{"testcert.cpp"})
+createSampleProject("testMonitorThread",{"testmonitorthread.cpp"},"BE67BF46-173F-A54E-BE66-7FD11922695B")
+createSampleProject("testlogger",{"testlogger.cpp"},"A61E7196-6B89-8F44-9DFF-F1EFC5AE6E8B")
+createSampleProject("testcert",{"testcert.cpp"},"F83249DF-A06F-284E-B4CA-0623900D4541")

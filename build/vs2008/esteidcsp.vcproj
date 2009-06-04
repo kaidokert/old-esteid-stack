@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="esteidcsp"
-	ProjectGUID="{52F884E2-B3FE-7943-8F4C-052C3BC30F1C}"
+	ProjectGUID="{DBCD4071-608C-4443-A440-45E15FE05BC3}"
 	RootNamespace="esteidcsp"
 	Keyword="Win32Proj"
 	>

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="testreadcardid"
-	ProjectGUID="{5CF76331-DE20-C04D-ADEB-A5596BC5000C}"
+	ProjectGUID="{094C61ED-A334-6E48-A572-1CD9817BBBA8}"
 	RootNamespace="testreadcardid"
 	Keyword="Win32Proj"
 	>

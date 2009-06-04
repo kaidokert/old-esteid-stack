@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="cardlib"
-	ProjectGUID="{086B0B01-3AE9-4548-BBFD-F4FEC3BC3FD2}"
+	ProjectGUID="{D3E24F38-3540-5D47-9E80-C10FD6AF7A6D}"
 	RootNamespace="cardlib"
 	Keyword="Win32Proj"
 	>

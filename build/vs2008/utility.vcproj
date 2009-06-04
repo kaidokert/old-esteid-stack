@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="utility"
-	ProjectGUID="{A936F17F-BA8C-394E-AA71-4F627E4FB3EF}"
+	ProjectGUID="{9416835E-B059-1847-9B6F-6BC57776EFC9}"
 	RootNamespace="utility"
 	Keyword="Win32Proj"
 	>
