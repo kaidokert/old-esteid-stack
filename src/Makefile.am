@@ -43,7 +43,7 @@ EXTRA_DIST = resources/esteidbmp.gif resources/digistampbmp.gif resources/cert.g
 	resources/esteid.xpm resources/logo_sk.xpm resources/auth_icon.xpm \
 	resources/auth_icon.gif resources/logo_grey.ico \
 	MainDialog_Windows.cpp \
-	EsteidUtil.rc EsteidUtil.vcproj EsteidUtil.cbp Setup.h \
+	EsteidUtil.rc Setup.h \
 	tests/precompiled.h  tests/testctapi.cpp  \
 	tests/testdownload.cpp  tests/testreadcardid.cpp \
 	premake4.lua cardlib/premake4.lua utility/premake4.lua tests/premake4.lua
