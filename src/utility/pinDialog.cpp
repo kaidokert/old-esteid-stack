@@ -224,7 +224,7 @@ bool pinDialog::showPrompt(std::string prompt,bool allowRetry) {
 	}
 
 bool pinDialog::doDialogInloop(pinOpInterface &operation,std::string &authPinCache) {
-	while(1) {
+	for(;;) {
 		byte retries = 0;
 		try {
 				std::string pin;

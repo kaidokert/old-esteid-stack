@@ -96,7 +96,7 @@ struct opensslConnect {
 class opensslObj : public DynamicLibrary {
 public:
     opensslObj(void *app);
-    void init(int readerNum) {}
+    void init(int ) {}
 };
 
 struct opensslConnect {
