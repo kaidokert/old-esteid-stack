@@ -43,7 +43,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../src/pkcs11/pkcs11"
+				AdditionalIncludeDirectories="../../src;../../src/pkcs11/pkcs11"
 				PreprocessorDefinitions="WIN32;_DEBUG;DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -61,7 +61,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="WIN32;_DEBUG;DEBUG"
-				AdditionalIncludeDirectories="../../src/pkcs11/pkcs11"
+				AdditionalIncludeDirectories="../../src;../../src/pkcs11/pkcs11"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -127,7 +127,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				AdditionalIncludeDirectories="../../src/pkcs11/pkcs11"
+				AdditionalIncludeDirectories="../../src;../../src/pkcs11/pkcs11"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -144,7 +144,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="WIN32;NDEBUG"
-				AdditionalIncludeDirectories="../../src/pkcs11/pkcs11"
+				AdditionalIncludeDirectories="../../src;../../src/pkcs11/pkcs11"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -212,7 +212,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../src/pkcs11/pkcs11"
+				AdditionalIncludeDirectories="../../src;../../src/pkcs11/pkcs11"
 				PreprocessorDefinitions="WIN32;_DEBUG;DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -230,7 +230,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="WIN32;_DEBUG;DEBUG"
-				AdditionalIncludeDirectories="../../src/pkcs11/pkcs11"
+				AdditionalIncludeDirectories="../../src;../../src/pkcs11/pkcs11"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -296,7 +296,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				AdditionalIncludeDirectories="../../src/pkcs11/pkcs11"
+				AdditionalIncludeDirectories="../../src;../../src/pkcs11/pkcs11"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -313,7 +313,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="WIN32;NDEBUG"
-				AdditionalIncludeDirectories="../../src/pkcs11/pkcs11"
+				AdditionalIncludeDirectories="../../src;../../src/pkcs11/pkcs11"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"

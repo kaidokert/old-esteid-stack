@@ -18,6 +18,7 @@
 					<Add option="-DWIN32" />
 					<Add option="-D_DEBUG" />
 					<Add option="-DDEBUG" />
+					<Add directory="../../src" />
 					<Add directory="../../src/pkcs11/pkcs11" />
 				</Compiler>
 				<Linker>
@@ -29,6 +30,7 @@
 					<Add library="utility" />
 				</Linker>
 				<ResourceCompiler>
+					<Add directory="../../src" />
 					<Add directory="../../src/pkcs11/pkcs11" />
 				</ResourceCompiler>
 			</Target>
@@ -44,6 +46,7 @@
 					<Add option="-Wall" />
 					<Add option="-DWIN32" />
 					<Add option="-DNDEBUG" />
+					<Add directory="../../src" />
 					<Add directory="../../src/pkcs11/pkcs11" />
 				</Compiler>
 				<Linker>
@@ -56,6 +59,7 @@
 					<Add library="utility" />
 				</Linker>
 				<ResourceCompiler>
+					<Add directory="../../src" />
 					<Add directory="../../src/pkcs11/pkcs11" />
 				</ResourceCompiler>
 			</Target>
