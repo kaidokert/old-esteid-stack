@@ -19,14 +19,12 @@
 					<Add option="-DDEBUG" />
 					<Add option="-Winvalid-pch" />
 					<Add option="-include &quot;precompiled.h&quot;" />
-					<Add directory="../../../../../../../../../../wxWidgets-2.8.4/include" />
 					<Add directory="../../src" />
 					<Add directory="../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswd" />
 					<Add directory="../../../../../../../../../../wxWidgets-2.8.4/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-mwindows" />
-					<Add directory="../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib" />
 					<Add directory="../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib" />
 					<Add directory="../../src/cardlib/$(PlatformName)/Debug" />
 					<Add directory="../../src/utility/$(PlatformName)/Debug" />
@@ -44,7 +42,6 @@
 					<Add library="wxexpatd" />
 				</Linker>
 				<ResourceCompiler>
-					<Add directory="../../../../../../../../../../wxWidgets-2.8.4/include" />
 					<Add directory="../../src" />
 					<Add directory="../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswd" />
 					<Add directory="../../../../../../../../../../wxWidgets-2.8.4/include" />
@@ -63,7 +60,6 @@
 					<Add option="-DNDEBUG" />
 					<Add option="-Winvalid-pch" />
 					<Add option="-include &quot;precompiled.h&quot;" />
-					<Add directory="../../../../../../../../../../wxWidgets-2.8.4/include" />
 					<Add directory="../../src" />
 					<Add directory="../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswm" />
 					<Add directory="../../../../../../../../../../wxWidgets-2.8.4/include" />
@@ -71,7 +67,6 @@
 				<Linker>
 					<Add option="-mwindows" />
 					<Add option="-s" />
-					<Add directory="../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib" />
 					<Add directory="../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib" />
 					<Add directory="../../src/cardlib/$(PlatformName)/Release" />
 					<Add directory="../../src/utility/$(PlatformName)/Release" />
@@ -89,7 +84,6 @@
 					<Add library="wxexpatm" />
 				</Linker>
 				<ResourceCompiler>
-					<Add directory="../../../../../../../../../../wxWidgets-2.8.4/include" />
 					<Add directory="../../src" />
 					<Add directory="../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswm" />
 					<Add directory="../../../../../../../../../../wxWidgets-2.8.4/include" />

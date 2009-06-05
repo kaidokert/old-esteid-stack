@@ -43,7 +43,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../../../../../../../../../wxWidgets-2.8.4/include;../../src;../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswd;../../../../../../../../../../wxWidgets-2.8.4/include"
+				AdditionalIncludeDirectories="../../src;../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswd;../../../../../../../../../../wxWidgets-2.8.4/include"
 				PreprocessorDefinitions="WIN32;WIN32;_DEBUG;DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -61,7 +61,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="WIN32;WIN32;_DEBUG;DEBUG"
-				AdditionalIncludeDirectories="../../../../../../../../../../wxWidgets-2.8.4/include;../../src;../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswd;../../../../../../../../../../wxWidgets-2.8.4/include"
+				AdditionalIncludeDirectories="../../src;../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswd;../../../../../../../../../../wxWidgets-2.8.4/include"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -71,7 +71,7 @@
 				AdditionalDependencies="..\..\src\cardlib\$(PlatformName)\Debug\cardlib.lib ..\..\src\utility\$(PlatformName)\Debug\utility.lib crypt32.lib comctl32.lib Rpcrt4.lib wxbase28d.lib wxmsw28d_core.lib wxmsw28d_adv.lib wxbase28d_xml.lib wxbase28d_net.lib wxjpegd.lib wxexpatd.lib"
 				OutputFile="$(OutDir)\EsteidUtil.exe"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\..\..\..\..\..\..\..\..\..\wxWidgets-2.8.4\lib\vc_lib;..\..\..\..\..\..\..\..\..\..\wxWidgets-2.8.4\lib\vc_lib"
+				AdditionalLibraryDirectories="..\..\..\..\..\..\..\..\..\..\wxWidgets-2.8.4\lib\vc_lib"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)\$(ProjectName).pdb"
 				SubSystem="2"
@@ -126,7 +126,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				AdditionalIncludeDirectories="../../../../../../../../../../wxWidgets-2.8.4/include;../../src;../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswm;../../../../../../../../../../wxWidgets-2.8.4/include"
+				AdditionalIncludeDirectories="../../src;../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswm;../../../../../../../../../../wxWidgets-2.8.4/include"
 				PreprocessorDefinitions="WIN32;WIN32;NDEBUG"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -143,7 +143,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="WIN32;WIN32;NDEBUG"
-				AdditionalIncludeDirectories="../../../../../../../../../../wxWidgets-2.8.4/include;../../src;../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswm;../../../../../../../../../../wxWidgets-2.8.4/include"
+				AdditionalIncludeDirectories="../../src;../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswm;../../../../../../../../../../wxWidgets-2.8.4/include"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -153,7 +153,7 @@
 				AdditionalDependencies="..\..\src\cardlib\$(PlatformName)\Release\cardlib.lib ..\..\src\utility\$(PlatformName)\Release\utility.lib crypt32.lib comctl32.lib Rpcrt4.lib wxbase28m.lib wxmsw28m_core.lib wxmsw28m_adv.lib wxbase28m_xml.lib wxbase28m_net.lib wxjpegm.lib wxexpatm.lib"
 				OutputFile="$(OutDir)\EsteidUtil.exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\..\..\..\..\..\..\..\..\..\wxWidgets-2.8.4\lib\vc_lib;..\..\..\..\..\..\..\..\..\..\wxWidgets-2.8.4\lib\vc_lib"
+				AdditionalLibraryDirectories="..\..\..\..\..\..\..\..\..\..\wxWidgets-2.8.4\lib\vc_lib"
 				GenerateManifest="false"
 				GenerateDebugInformation="false"
 				SubSystem="2"
@@ -210,7 +210,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../../../../../../../../../wxWidgets-2.8.4/include;../../src;../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswd;../../../../../../../../../../wxWidgets-2.8.4/include"
+				AdditionalIncludeDirectories="../../src;../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswd;../../../../../../../../../../wxWidgets-2.8.4/include"
 				PreprocessorDefinitions="WIN32;WIN32;_DEBUG;DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -228,7 +228,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="WIN32;WIN32;_DEBUG;DEBUG"
-				AdditionalIncludeDirectories="../../../../../../../../../../wxWidgets-2.8.4/include;../../src;../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswd;../../../../../../../../../../wxWidgets-2.8.4/include"
+				AdditionalIncludeDirectories="../../src;../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswd;../../../../../../../../../../wxWidgets-2.8.4/include"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -238,7 +238,7 @@
 				AdditionalDependencies="..\..\src\cardlib\$(PlatformName)\Debug\cardlib.lib ..\..\src\utility\$(PlatformName)\Debug\utility.lib crypt32.lib comctl32.lib Rpcrt4.lib wxbase28d.lib wxmsw28d_core.lib wxmsw28d_adv.lib wxbase28d_xml.lib wxbase28d_net.lib wxjpegd.lib wxexpatd.lib"
 				OutputFile="$(OutDir)\EsteidUtil.exe"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\..\..\..\..\..\..\..\..\..\wxWidgets-2.8.4\lib\vc_lib;..\..\..\..\..\..\..\..\..\..\wxWidgets-2.8.4\lib\vc_lib"
+				AdditionalLibraryDirectories="..\..\..\..\..\..\..\..\..\..\wxWidgets-2.8.4\lib\vc_lib"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)\$(ProjectName).pdb"
 				SubSystem="2"
@@ -293,7 +293,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				AdditionalIncludeDirectories="../../../../../../../../../../wxWidgets-2.8.4/include;../../src;../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswm;../../../../../../../../../../wxWidgets-2.8.4/include"
+				AdditionalIncludeDirectories="../../src;../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswm;../../../../../../../../../../wxWidgets-2.8.4/include"
 				PreprocessorDefinitions="WIN32;WIN32;NDEBUG"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -310,7 +310,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="WIN32;WIN32;NDEBUG"
-				AdditionalIncludeDirectories="../../../../../../../../../../wxWidgets-2.8.4/include;../../src;../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswm;../../../../../../../../../../wxWidgets-2.8.4/include"
+				AdditionalIncludeDirectories="../../src;../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswm;../../../../../../../../../../wxWidgets-2.8.4/include"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -320,7 +320,7 @@
 				AdditionalDependencies="..\..\src\cardlib\$(PlatformName)\Release\cardlib.lib ..\..\src\utility\$(PlatformName)\Release\utility.lib crypt32.lib comctl32.lib Rpcrt4.lib wxbase28m.lib wxmsw28m_core.lib wxmsw28m_adv.lib wxbase28m_xml.lib wxbase28m_net.lib wxjpegm.lib wxexpatm.lib"
 				OutputFile="$(OutDir)\EsteidUtil.exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\..\..\..\..\..\..\..\..\..\wxWidgets-2.8.4\lib\vc_lib;..\..\..\..\..\..\..\..\..\..\wxWidgets-2.8.4\lib\vc_lib"
+				AdditionalLibraryDirectories="..\..\..\..\..\..\..\..\..\..\wxWidgets-2.8.4\lib\vc_lib"
 				GenerateManifest="false"
 				GenerateDebugInformation="false"
 				SubSystem="2"

@@ -17,6 +17,7 @@
 					<Add option="-DWIN32" />
 					<Add option="-D_DEBUG" />
 					<Add option="-DDEBUG" />
+					<Add directory="../../src/utility" />
 					<Add directory="../../src" />
 				</Compiler>
 				<Linker>
@@ -33,6 +34,7 @@
 					<Add option="-DWIN32" />
 					<Add option="-DWIN32" />
 					<Add option="-DNDEBUG" />
+					<Add directory="../../src/utility" />
 					<Add directory="../../src" />
 				</Compiler>
 				<Linker>
