@@ -26,6 +26,11 @@ esteidutil_SOURCES = \
 	utility/asnObject.cpp	utility/asnObject.h	\
 	utility/asnCertificate.cpp utility/asnCertificate.h	\
 	utility/pkcs11module.cpp utility/pkcs11module.h	\
+	utility/converters.cpp   utility/converters.h \
+	utility/logger.cpp	utility/logger.h \
+	utility/monitorThread.cpp utility/monitorThread.h \
+	utility/threadObj.cpp	utility/threadObj.h\
+	utility/pinDialog.cpp	utility/pinDialog.h \
 					cardlib/common.h	\
 					cardlib/helperMacro.h	\
 					cardlib/ManagerInterface.h \
