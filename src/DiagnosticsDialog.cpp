@@ -292,7 +292,7 @@ struct cUserKey {
 
 void testCSP(DiagnosticsDialog *d,TCHAR *cspName) {
 	try {
-		d->addLine(wxString(_T("Doing CSP diagnosis for : '")) + cspName + _("'"));
+		d->addLine(wxString(_T("Doing CSP diagnosis for : '")) + cspName + _T("'"));
 		cContext ctx(cspName,0);
 		d->addLine(_T("Initialized .."));
 		ByteVec buff(80);

@@ -271,7 +271,7 @@ void MainDialog::SwitchCardManager(bool useCTAPI) {
 		else
 			mCardManager = new PCSCManager();
 		if (verboseLog) {
-			wxString file = wxFileName::CreateTempFileName(_(""));
+			wxString file = wxFileName::CreateTempFileName(_T(""));
 			::wxRemoveFile(file);
 			std::string tmp = std::string(file.ToAscii()) + ".esteidutil.log";
 			logFile.open(tmp.c_str());
