@@ -3,14 +3,13 @@ SUBDIRS = src po build esteidcm esteidcsp EstEIDSigningPluginBHO src/pkcs11
 #m4 
 EXTRA_DIST = config.rpath  m4/ChangeLog \
 		bootstrap esteidutil.spec.in esteidutil.spec esteidutil.desktop	\
-		esteidutil.xpm EsteidUtil.sln COPYING \
+		esteidutil.xpm COPYING \
 		esteidutil.desktop \
 		mac/EsteidUtil.app/Contents/MacOS/EsteidUtil \
 		mac/EsteidUtil.app/Contents/Resources/wxmac.icns \
 		mac/EsteidUtil.app/Contents/Info.plist \
 		mac/EsteidUtil.app/Contents/PkgInfo \
-		premake4.lua \
-		esteidcsp EstEIDSigningPluginBHO qt-id-updater 
+		premake4.lua
 
 docdir = ${datadir}/esteidutil
 doc_DATA = README
