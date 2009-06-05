@@ -129,7 +129,7 @@ AC_ARG_WITH(openssl,
 
 # Checks for library functions.
 #m4/Makefile
-AC_CONFIG_FILES([  po/Makefile.in 
+AC_CONFIG_FILES([  po/Makefile.in
         Makefile
         src/Makefile
 	build/Makefile
