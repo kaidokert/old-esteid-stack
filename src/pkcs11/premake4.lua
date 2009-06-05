@@ -5,6 +5,7 @@ project "esteidpkcs11"
   kind     "SharedLib"
 
   files  { "*.h","*.cpp" }
+  includedirs ".."
   if os.is("windows") then
 	includedirs "pkcs11"
 	files { "esteidpkcs11.rc" }

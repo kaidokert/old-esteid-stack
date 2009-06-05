@@ -56,6 +56,9 @@ EXTRA_DIST = resources/esteidbmp.gif resources/digistampbmp.gif resources/cert.g
 	EsteidUtil.rc Setup.h \
 	tests/precompiled.h  tests/testctapi.cpp  \
 	tests/testdownload.cpp  tests/testreadcardid.cpp \
+	tests/precompiled.cpp tests/testcardmanager.cpp \
+	tests/testcert.cpp tests/testlogger.cpp tests/testmonitorthread.cpp \
+	tests/testpindialog.cpp \
 	cardlib/Doxyfile \
 	premake4.lua cardlib/premake4.lua utility/premake4.lua tests/premake4.lua
 
