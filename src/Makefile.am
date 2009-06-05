@@ -19,6 +19,7 @@ esteidutil_SOURCES = \
 	PinDialog.cpp		PinDialog.h	\
 	PinChangeDialog.cpp	PinChangeDialog.h	\
 	PinChangeSecureDialog.cpp	PinChangeSecureDialog.h	\
+				utility/precompiled.h	\
 				utility/netObj.h	\
 	utility/opensslObj.cpp	utility/opensslObj.h	\
 	utility/winInetObj.cpp	utility/winInetObj.h	\
@@ -35,7 +36,10 @@ esteidutil_SOURCES = \
 	cardlib/CardBase.cpp 		cardlib/CardBase.h	\
 	cardlib/DynamicLibrary.cpp	cardlib/DynamicLibrary.h \
 	cardlib/SCError.cpp		cardlib/SCError.h \
-	cardlib/types.h
+	cardlib/SIMCard.cpp		cardlib/SIMCard.h \
+	cardlib/SmartCardManager.cpp	cardlib/SmartCardManager.h \
+	cardlib/types.h			cardlib/types.cpp \
+	cardlib/precompiled.h
 	$(BUILTSTUFF)
 
 EXTRA_DIST = resources/esteidbmp.gif resources/digistampbmp.gif resources/cert.gif resources/cert_invalid.gif \
@@ -46,6 +50,7 @@ EXTRA_DIST = resources/esteidbmp.gif resources/digistampbmp.gif resources/cert.g
 	EsteidUtil.rc Setup.h \
 	tests/precompiled.h  tests/testctapi.cpp  \
 	tests/testdownload.cpp  tests/testreadcardid.cpp \
+	cardlib/Doxyfile \
 	premake4.lua cardlib/premake4.lua utility/premake4.lua tests/premake4.lua
 
 nodist_esteidutil_SOURCES =
