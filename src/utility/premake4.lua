@@ -7,7 +7,7 @@ project "utility"
   language "C++"
   kind     "StaticLib"
   files  { "**.h", "**.cpp" }
-  includedirs { ".."}
+  includedirs { ".",".."}
 
   if os.is("windows") then
    defines { "WIN32" }
