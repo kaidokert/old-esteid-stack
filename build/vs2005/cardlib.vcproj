@@ -43,7 +43,6 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../src/cardlib"
 				PreprocessorDefinitions="WIN32;WIN32;_DEBUG;DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -61,7 +60,6 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="WIN32;WIN32;_DEBUG;DEBUG"
-				AdditionalIncludeDirectories="../../src/cardlib"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -121,7 +119,6 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				AdditionalIncludeDirectories="../../src/cardlib"
 				PreprocessorDefinitions="WIN32;WIN32;NDEBUG"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -138,7 +135,6 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="WIN32;WIN32;NDEBUG"
-				AdditionalIncludeDirectories="../../src/cardlib"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -198,7 +194,6 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../src/cardlib"
 				PreprocessorDefinitions="WIN32;WIN32;_DEBUG;DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -216,7 +211,6 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="WIN32;WIN32;_DEBUG;DEBUG"
-				AdditionalIncludeDirectories="../../src/cardlib"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -276,7 +270,6 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				AdditionalIncludeDirectories="../../src/cardlib"
 				PreprocessorDefinitions="WIN32;WIN32;NDEBUG"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -293,7 +286,6 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="WIN32;WIN32;NDEBUG"
-				AdditionalIncludeDirectories="../../src/cardlib"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"

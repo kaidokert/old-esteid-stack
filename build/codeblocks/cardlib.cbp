@@ -17,7 +17,6 @@
 					<Add option="-DWIN32" />
 					<Add option="-D_DEBUG" />
 					<Add option="-DDEBUG" />
-					<Add directory="../../src/cardlib" />
 				</Compiler>
 				<Linker>
 				</Linker>
@@ -33,7 +32,6 @@
 					<Add option="-DWIN32" />
 					<Add option="-DWIN32" />
 					<Add option="-DNDEBUG" />
-					<Add directory="../../src/cardlib" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
