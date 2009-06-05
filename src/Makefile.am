@@ -31,7 +31,7 @@ esteidutil_SOURCES = \
 	utility/monitorThread.cpp utility/monitorThread.h \
 	utility/threadObj.cpp	utility/threadObj.h\
 	utility/pinDialog.cpp	utility/pinDialog.h \
-				utility/pinDialog_res.h \
+	utility/pinDialog.rc	utility/pinDialog_res.h \
 					cardlib/common.h	\
 					cardlib/helperMacro.h	\
 					cardlib/ManagerInterface.h \
@@ -58,7 +58,7 @@ EXTRA_DIST = resources/esteidbmp.gif resources/digistampbmp.gif resources/cert.g
 	tests/testdownload.cpp  tests/testreadcardid.cpp \
 	tests/precompiled.cpp tests/testcardmanager.cpp \
 	tests/testcert.cpp tests/testlogger.cpp tests/testmonitorthread.cpp \
-	tests/testpindialog.cpp tests/testpindialog.rc\
+	tests/testpindialog.cpp tests/testpindialog.rc \
 	cardlib/Doxyfile \
 	premake4.lua cardlib/premake4.lua utility/premake4.lua tests/premake4.lua
 
