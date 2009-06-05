@@ -7,6 +7,7 @@ Changes for version 0.9.20
 	* CTAPI crash fixes for reader removal
 	* further cardlib code cleanup
 	* packaging generated build files in source tar
+	* packaging the entire source tree with CSP, PKCS, Cardmodule and Plugin projects
 
 Changes for version 0.9.19
 -------------------------
