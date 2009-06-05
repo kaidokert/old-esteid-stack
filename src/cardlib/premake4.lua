@@ -4,11 +4,12 @@ project "cardlib"
   language "C++"
   kind     "StaticLib"
   files  { "**.h", "**.cpp" }
-
-  includedirs { "/usr/include","/usr/include/PCSC" }
-
+  
+  includedirs "."
   if os.is("windows") then
    defines { "WIN32" }
+  else
+   includedirs { "/usr/include","/usr/include/PCSC" }
   end
 
   createConfigs()
