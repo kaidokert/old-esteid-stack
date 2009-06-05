@@ -31,6 +31,7 @@ esteidutil_SOURCES = \
 	utility/monitorThread.cpp utility/monitorThread.h \
 	utility/threadObj.cpp	utility/threadObj.h\
 	utility/pinDialog.cpp	utility/pinDialog.h \
+				utility/pinDialog_res.h \
 					cardlib/common.h	\
 					cardlib/helperMacro.h	\
 					cardlib/ManagerInterface.h \
