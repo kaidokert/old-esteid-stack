@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SmartCardRemoval", "SmartCardRemoval.vcproj", "{630C14A5-9F7D-4EE2-9E0C-3763418952D2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SmartCardRemovalPS", "SmartCardRemovalPS.vcproj", "{AFF43701-7C52-49F6-8535-E154C9220805}"
+	ProjectSection(ProjectDependencies) = postProject
+		{630C14A5-9F7D-4EE2-9E0C-3763418952D2} = {630C14A5-9F7D-4EE2-9E0C-3763418952D2}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{630C14A5-9F7D-4EE2-9E0C-3763418952D2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{630C14A5-9F7D-4EE2-9E0C-3763418952D2}.Debug|Win32.Build.0 = Debug|Win32
+		{630C14A5-9F7D-4EE2-9E0C-3763418952D2}.Release|Win32.ActiveCfg = Release|Win32
+		{630C14A5-9F7D-4EE2-9E0C-3763418952D2}.Release|Win32.Build.0 = Release|Win32
+		{AFF43701-7C52-49F6-8535-E154C9220805}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AFF43701-7C52-49F6-8535-E154C9220805}.Release|Win32.ActiveCfg = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
