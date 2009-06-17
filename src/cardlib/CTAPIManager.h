@@ -10,7 +10,7 @@
 #include "ManagerInterface.h"
 #include "DynamicLibrary.h"
 
-#ifdef WIN32
+#ifdef _WIN32
 #define CTAPI __stdcall
 #else
 #define CTAPI

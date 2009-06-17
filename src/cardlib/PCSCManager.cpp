@@ -10,7 +10,7 @@
 #include "PCSCManager.h"
 #include "SCError.h"
 
-#ifdef WIN32
+#ifdef _WIN32
 #define LIBNAME "winscard"
 #define SUFFIX "A"
 #else
@@ -42,7 +42,7 @@ PCSCManager::PCSCManager(SCARDCONTEXT existingContext): mLibrary(LIBNAME),mOwnCo
 
 void PCSCManager::construct()
 {
-#ifdef WIN32
+#ifdef _WIN32
 	pSCardAccessStartedEvent = ( HANDLE(SCAPI *)() )
 		mLibrary.getProc("SCardAccessStartedEvent");
 	pSCardReleaseStartedEvent = (void(SCAPI *)(HANDLE))mLibrary.getProc("SCardReleaseStartedEvent");
@@ -71,7 +71,7 @@ void PCSCManager::construct()
 		mLibrary.getProc("SCardBeginTransaction");
 	pSCardEndTransaction=(LONG(SCAPI *)(SCARDHANDLE ,DWORD ))
 		mLibrary.getProc("SCardEndTransaction");
-#ifdef WIN32
+#ifdef _WIN32
 	pSCardStatus = (LONG(SCAPI *)(SCARDHANDLE ,STRTYPE ,LPDWORD ,
 		LPDWORD ,LPDWORD ,LPBYTE ,LPDWORD ))
 		mLibrary.getProc("SCardStatus" SUFFIX);
@@ -90,7 +90,7 @@ PCSCManager::~PCSCManager(void)
 {
 	if (mOwnContext)
 		(*pSCardReleaseContext)(mSCardContext);
-#ifdef WIN32
+#ifdef _WIN32
 // this crashes with "ESP not being preserved", wrong calling convention apparently
 //	(*pSCardReleaseStartedEvent)(mSCStartedEvent);
 #endif
@@ -189,7 +189,7 @@ PCSCConnection * PCSCManager::connect(uint idx,bool forceT0)
 
 PCSCConnection * PCSCManager::connect(SCARDHANDLE existingHandle) {
 	DWORD proto = SCARD_PROTOCOL_T0;
-#ifdef WIN32 //quick hack, pcsclite headers dont have that
+#ifdef _WIN32 //quick hack, pcsclite headers dont have that
 	DWORD tmpProto,sz=sizeof(DWORD);
 	if (!(*pSCardGetAttrib)(existingHandle,SCARD_ATTR_CURRENT_PROTOCOL_TYPE,
 		(LPBYTE)&tmpProto,&sz)) 

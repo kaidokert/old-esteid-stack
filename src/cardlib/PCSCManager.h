@@ -9,7 +9,7 @@
 #pragma once
 #include "ManagerInterface.h"
 #include "DynamicLibrary.h"
-#ifndef WIN32
+#ifndef _WIN32
 #include <PCSC/wintypes.h>
 #include <PCSC/pcsclite.h>
 #include <PCSC/winscard.h>
@@ -20,7 +20,7 @@
 #pragma warning(pop)
 #endif
 
-#ifdef WIN32
+#ifdef _WIN32
 #define SCAPI __stdcall
 #define CSTRTYPE const CHAR *
 #define STRTYPE CHAR *
@@ -58,14 +58,14 @@ struct PCSCConnection : public ConnectionBase {
 class PCSCManager : public ManagerInterface {
 	DynamicLibrary mLibrary;
 	bool mOwnContext;
-#ifdef WIN32
+#ifdef _WIN32
 	HANDLE mSCStartedEvent;
 #endif
 	SCARDCONTEXT mSCardContext;
 	std::vector<char > mReaders;
 	std::vector<SCARD_READERSTATE> mReaderStates;
 
-#ifdef WIN32
+#ifdef _WIN32
 	HANDLE (SCAPI *pSCardAccessStartedEvent)();
 	void (SCAPI *pSCardReleaseStartedEvent)(HANDLE hStartedEventHandle);
 #endif

@@ -27,7 +27,7 @@ DynamicLibrary::DynamicLibrary(const char *dllName,const char *pathHint,
 	construct(version);
 	}
 
-#ifdef WIN32
+#ifdef _WIN32
 #include <windows.h>
 #pragma comment(lib,"version")
 
@@ -72,7 +72,7 @@ std::string DynamicLibrary::getVersionStr() {
 	return strb.str();
 	}
 
-#endif //WIN32
+#endif //_WIN32
 
 #if defined(linux) || defined(__APPLE__)
 #include <dlfcn.h>
