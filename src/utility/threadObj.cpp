@@ -10,7 +10,7 @@
 #include "precompiled.h"
 #include "threadObj.h"
 #include <iostream>
-#ifndef WIN32 //pthreads
+#ifndef _WIN32 //pthreads
 #include <pthread.h>
 struct mutexPriv {
 	pthread_mutex_t m_mutex;

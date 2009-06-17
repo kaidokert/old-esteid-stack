@@ -32,7 +32,7 @@ public:
     }
 };
 
-#ifndef WIN32
+#ifndef _WIN32
 #include <syslog.h>
 class system_log_target : public log_target {
 public:

@@ -11,7 +11,7 @@
 #include "pinDialog.h"
 #include "threadObj.h"
 
-#ifdef WIN32
+#ifdef _WIN32
 #include <windows.h>
 #include <crtdbg.h>
 

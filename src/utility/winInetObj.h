@@ -8,7 +8,7 @@
 // Revision $Revision$
 
 #pragma once
-#ifdef WIN32
+#ifdef _WIN32
 #include "cardlib/DynamicLibrary.h" //bad ..
 #include <windows.h>
 #include <wininet.h>

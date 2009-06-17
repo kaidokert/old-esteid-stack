@@ -13,7 +13,7 @@ enum connType {
 	FTP
 };
 
-#ifdef WIN32 
+#ifdef _WIN32 
 #include "utility/winInetObj.h"
 typedef winInetObj netObj;
 typedef inetConnect netConnect;

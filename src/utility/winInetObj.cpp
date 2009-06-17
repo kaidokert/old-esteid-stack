@@ -11,7 +11,7 @@
 #include "netObj.h"
 #include "winInetObj.h"
 
-#ifdef WIN32
+#ifdef _WIN32
 
 using std::string;
 using std::vector;
@@ -276,4 +276,4 @@ bool inetConnect::getAnyFile(std::string url,std::vector<byte> &buffer) {
 	return true;
 	}
 
-#endif //WIN32
+#endif //_WIN32

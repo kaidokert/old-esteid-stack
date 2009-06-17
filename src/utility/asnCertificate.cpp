@@ -243,14 +243,14 @@ bool asnCertificate::isTimeValid(int numDaysFromNow) {
 	time_t ti;
 	struct tm mTime;
 	time(&ti);
-#ifdef WIN32
+#ifdef _WIN32
 	localtime_s(&mTime,&ti);
 #else
 	localtime_r(&ti,&mTime);
 #endif
 	mTime.tm_mday +=numDaysFromNow;
 	time_t ttmp = mktime(&mTime);
-#ifdef WIN32
+#ifdef _WIN32
 	localtime_s(&mTime,&ttmp);
 #else
 	localtime_r(&ttmp,&mTime);
