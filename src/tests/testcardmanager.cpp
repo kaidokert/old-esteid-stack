@@ -6,7 +6,7 @@
 
 int main(int argc,char **argv) {
 	logger log("",log_to_CONSOLE);
-#if defined(WIN32) && defined(DEBUG)
+#if defined(_WIN32) && defined(DEBUG)
 	_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF |_CRTDBG_CHECK_ALWAYS_DF |
 			_CRTDBG_CHECK_CRT_DF |_CRTDBG_DELAY_FREE_MEM_DF );
 #endif
