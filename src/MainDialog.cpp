@@ -506,7 +506,7 @@ void MainDialog::OnAbout(wxCommandEvent&  event) {
 	in.SetIcon(wxICON(logo_sk));
 	in.SetWebSite(_T("http://www.sk.ee"));
 	in.SetDescription(_("ID-card utility"));
-	in.SetCopyright(_T("(C) 2007 AS Sertifitseerimiskeskus"));
+	in.SetCopyright(_T("(C) 2009 AS Sertifitseerimiskeskus"));
 	in.SetVersion(_T(VERSION));
 	wxAboutBox(in);
 #endif

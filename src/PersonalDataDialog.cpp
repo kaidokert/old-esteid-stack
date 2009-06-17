@@ -10,7 +10,7 @@
 #include "PersonalDataDialog.h"
 #include <fstream>
 
-#ifndef WIN32 //this is ugly, but because XPM is static...
+#ifndef _WIN32 //this is ugly, but because XPM is static...
 #include "resources/esteid.xpm"  //it cant be declared in header
 #endif
 
