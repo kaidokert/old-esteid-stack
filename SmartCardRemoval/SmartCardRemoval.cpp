@@ -5,9 +5,12 @@
 #include "resource.h"
 #include "SmartCardRemoval.h"
 
-#include <stdio.h>
 #include <fstream>
+#include <iostream>
+#include <exception>
 #include <utility/monitorThread.h>
+#include "ProcessStarter.h"
+#include "Tlhelp32.h"
 
 #pragma comment(lib,"crypt32")
 
@@ -27,14 +30,36 @@ public :
 		log.open(path);
 		}
 
+	bool ParseCommandLine(LPCTSTR lpCmdLine,HRESULT* pnRetCode ) throw( ) {
+		if (!CAtlServiceModuleT<CSmartCardRemovalModule, IDS_SERVICENAME>::ParseCommandLine(lpCmdLine,pnRetCode))
+			return false;
+
+		TCHAR szTokens[] = _T("-/");
+
+		LPCTSTR lpszToken = FindOneOf(lpCmdLine, szTokens);
+		while (lpszToken != NULL) {
+			if (WordCmpI(lpszToken, _T("RemoveCerts"))==0) {
+				log << "<<--launched with /RemoveCerts" << endl;
+				removeCerts();
+				return false;
+				}
+			lpszToken = FindOneOf(lpszToken, szTokens);
+		}
+		return true;
+		}
+
 	virtual void onEvent(monitorEvent eType,int param) {
 		switch(eType) {
 			case READERS_CHANGED:
 				log << "readers changed" << std::endl;break;
 			case NO_CARDS_LEFT:
 				log << "no esteid cards" << std::endl;
-				log << "launch cleanup" << std::endl;
-				removeCerts();
+
+				log << "launching cleanup" << std::endl;
+				CHAR szFilePath[MAX_PATH];
+				::GetModuleFileNameA(NULL, szFilePath, MAX_PATH);
+				ProcessStarter proc(szFilePath,"/RemoveCerts");
+				proc.Run(true);
 				break;
 			}
 		}
@@ -43,12 +68,6 @@ public :
 	DECLARE_REGISTRY_APPID_RESOURCEID(IDR_SMARTCARDREMOVAL, "{DEAE87CA-A84D-4F75-BC47-721D7F0F7848}")
 	HRESULT InitializeSecurity() throw()
 	{
-		// TODO : Call CoInitializeSecurity and provide the appropriate security settings for 
-		// your service
-		// Suggested - PKT Level Authentication, 
-		// Impersonation Level of RPC_C_IMP_LEVEL_IDENTIFY 
-		// and an appropiate Non NULL Security Descriptor.
-
 		return S_OK;
 	}
 	void RunMessageLoop()
@@ -62,7 +81,9 @@ public :
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
+		log << "stopped." << std::endl;
 	}
+
 	struct certStore { //wrap store handle
 		HCERTSTORE hStore;
 	public:
@@ -98,7 +119,10 @@ public :
 			certStore my(_T("MY"));
 			PCCERT_CONTEXT ctx = NULL;
 			while (ctx = CertEnumCertificatesInStore(my,ctx) ) {
-				log << "checking if Esteid cert" << endl;
+				CHAR nameBuf[MAX_PATH];
+				CertGetNameStringA(ctx,CERT_NAME_FRIENDLY_DISPLAY_TYPE,
+					0,NULL,nameBuf,sizeof(nameBuf));
+				log << "checking if Esteid cert [" << nameBuf << "]" << endl;
 				if (!CertFromCSP(ctx)) continue;
 
 				PCCERT_CONTEXT dup = CertDuplicateCertificateContext(ctx);
@@ -109,7 +133,8 @@ public :
 					log << "we got an error on CertDeleteCertificateFromStore, " << gle << endl;
 					}
 				}
-		} catch(...) {return;}
+		} catch(...) {}
+		log << "..done enum" << endl;
 		}
 };
 

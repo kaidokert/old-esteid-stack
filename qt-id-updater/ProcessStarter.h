@@ -13,10 +13,16 @@
 
 class ProcessStarter
 {
+	typedef void *_handle;
+	typedef _handle *_phandle;
 public:
     ProcessStarter(const std::string& processPath, const std::string& arguments = "");
-    bool Run();
+    bool Run(bool forceRun = false);
     
+	_phandle GetCurrentUserToken();
+	_phandle GetCurrentUserTokenOld();
+	unsigned long getShellProcessPID();
+
 private:
     std::string processPath_;
     std::string arguments_;

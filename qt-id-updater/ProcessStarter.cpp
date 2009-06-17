@@ -1,5 +1,6 @@
 // http://www.codeproject.com/KB/vista-security/interaction-in-vista.aspx
 //#define NO_PROCESS
+#include "precompiled.h"
 #include "ProcessStarter.h"
 
 #include <windows.h>
@@ -7,7 +8,8 @@
 #include "userenv.h"
 #include "wtsapi32.h"
 #include "winnt.h"
-#include "DynamicLibrary.h"
+#include <Tlhelp32.h>
+#include "cardlib/DynamicLibrary.h"
 
 #include <iomanip>
 
@@ -17,7 +19,7 @@ ProcessStarter::ProcessStarter(const std::string& processPath, const std::string
 #ifndef NOLOG
 	char tpath[MAX_PATH];
 	GetTempPathA(sizeof(tpath),tpath);
-	strcat(tpath,"id-updater.log");
+	strcat(tpath,"process-starter.log");
 	log.open(tpath);
 #endif
 }
@@ -28,10 +30,10 @@ bool ProcessStarter::Run() {return false;}
 //#pragma comment(lib,"WtsApi32")
 #pragma comment(lib,"Userenv")
 
-HANDLE curTok;
-HANDLE primTok;
+HANDLE curTok = INVALID_HANDLE_VALUE;
+HANDLE primTok = INVALID_HANDLE_VALUE;
 
-PHANDLE GetCurrentUserToken()
+ProcessStarter::_phandle ProcessStarter::GetCurrentUserToken()
 {
 	DynamicLibrary wts("Wtsapi32");
 	BOOL (__stdcall * pWTSQueryUserToken)(ULONG SessionId,PHANDLE phToken) =
@@ -78,12 +80,69 @@ PHANDLE GetCurrentUserToken()
     return primaryToken;
 }
 
-bool ProcessStarter::Run()
+unsigned long ProcessStarter::getShellProcessPID() {
+	HANDLE hProcessSnap;
+	hProcessSnap = CreateToolhelp32Snapshot( TH32CS_SNAPPROCESS, 0 );
+	if( hProcessSnap == INVALID_HANDLE_VALUE ) 
+		throw std::runtime_error("CreateToolhelp32Snapshot");
+	PROCESSENTRY32 pe32;
+	pe32.dwSize = sizeof( PROCESSENTRY32 );
+	if( !Process32First( hProcessSnap, &pe32 ) )
+		throw std::runtime_error( "Process32First" );  // Show cause of failure
+	do  {
+		if (std::wstring(pe32.szExeFile) == L"explorer.exe") {
+			CloseHandle( hProcessSnap );
+			return pe32.th32ProcessID;
+			}
+	  } while( Process32Next( hProcessSnap, &pe32 ) );
+	CloseHandle( hProcessSnap );
+	throw std::runtime_error("explorer process not found");
+	}
+
+HRESULT GetProcessToken(DWORD dwProcessID, LPHANDLE token, DWORD nUserNameMax, LPWSTR szwUserName, DWORD nUserDomainMax, LPWSTR szwUserDomain) {
+	HANDLE hProcess=OpenProcess(PROCESS_DUP_HANDLE|PROCESS_QUERY_INFORMATION,TRUE,dwProcessID); 
+	if (!hProcess) throw std::runtime_error("OpenProcess failed");
+	HRESULT retval = S_OK;
+	HANDLE hToken = INVALID_HANDLE_VALUE;
+	if (!OpenProcessToken(hProcess, TOKEN_DUPLICATE | TOKEN_QUERY, &hToken)) retval = HRESULT_FROM_WIN32(GetLastError());
+	else {
+		BYTE buf[MAX_PATH]; DWORD dwRead = 0;
+		if (!GetTokenInformation(hToken, TokenUser, buf, MAX_PATH, &dwRead)) retval = HRESULT_FROM_WIN32(GetLastError());
+		else {
+			TOKEN_USER *puser = reinterpret_cast<TOKEN_USER*>(buf);
+			SID_NAME_USE eUse;
+			if (!LookupAccountSid(NULL, puser->User.Sid, szwUserName, &nUserNameMax, szwUserDomain, &nUserDomainMax, &eUse))
+				retval = HRESULT_FROM_WIN32(GetLastError());
+			}
+		if (FAILED(retval)) return retval;
+		if (!DuplicateTokenEx(hToken, 
+			TOKEN_IMPERSONATE | TOKEN_QUERY | TOKEN_ASSIGN_PRIMARY | TOKEN_DUPLICATE, 
+			NULL, SecurityImpersonation, TokenPrimary,token))
+			retval = HRESULT_FROM_WIN32(GetLastError());
+		else  retval = S_OK;
+		CloseHandle(hToken);
+		}
+	return retval;
+}
+
+ProcessStarter::_phandle ProcessStarter::GetCurrentUserTokenOld()
+{
+	DWORD pid = getShellProcessPID();
+	log << "ProcessStarter::shellprocessPID is " << pid << std::endl;
+	TCHAR username[MAX_PATH] = { L'\0' };
+	TCHAR domain[MAX_PATH]= { L'\0' }; 
+	DWORD szUsername = MAX_PATH, szDomain = MAX_PATH;
+	GetProcessToken(pid,&primTok,szUsername,username,szDomain,domain);
+	log << "ProcessStarter::szUserName is " << username << std::endl;
+    return &primTok;
+}
+
+bool ProcessStarter::Run(bool forceRun)
 {
 	OSVERSIONINFO version = {sizeof(OSVERSIONINFO)};
 
 	GetVersionEx(&version);
-	if (version.dwMajorVersion <= 5) //dont need this on XP/Win2K
+	if (version.dwMajorVersion <= 5 && !forceRun) //dont need this on XP/Win2K
 		return false;
 
 	char winDir[260];
@@ -91,8 +150,13 @@ bool ProcessStarter::Run()
 
 	PHANDLE primaryToken = 0;
 	try {
-		primaryToken = GetCurrentUserToken();
-	} catch(...) {}
+		if (version.dwMajorVersion <= 5) //win2K/XP
+			primaryToken = GetCurrentUserTokenOld();
+		else
+			primaryToken = GetCurrentUserToken();
+	} catch(std::exception &ex) {
+		log << "exception :" << ex.what() << std::endl;
+		}
     if (primaryToken == 0)
     {
 		log << "primtok = 0" << std::endl;
@@ -116,16 +180,18 @@ bool ProcessStarter::Run()
 	log << "command:" << command << std::endl;
 
     void* lpEnvironment = NULL;
-    BOOL resultEnv = CreateEnvironmentBlock(&lpEnvironment, primaryToken, FALSE);
-    if (resultEnv == 0)
-    {                                
-        long nError = GetLastError();                                
-    }
-	log << "CreateEnvironmentBlock ok" << std::endl;
+	if (!forceRun) {
+		BOOL resultEnv = CreateEnvironmentBlock(&lpEnvironment, primaryToken, FALSE);
+		if (resultEnv == 0)
+		{                                
+			long nError = GetLastError();                                
+		}
+		log << "CreateEnvironmentBlock ok" << std::endl;
+		}
 
     BOOL result = CreateProcessAsUserA(*primaryToken, 0, (LPSTR)(command.c_str()), 
 		NULL,NULL,
-		FALSE, CREATE_NO_WINDOW | NORMAL_PRIORITY_CLASS | CREATE_UNICODE_ENVIRONMENT, 
+		FALSE, CREATE_NO_WINDOW | CREATE_UNICODE_ENVIRONMENT, 
 		lpEnvironment, 0, &StartupInfo, &processInfo);
 
 	log << "CreateProcessAsUserA " << result << " err 0x" 
