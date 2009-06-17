@@ -10,9 +10,10 @@
 #include "threadObj.h"
 
 enum monitorEvent {
-    CARD_INSERTED,
-    CARD_REMOVED,
-    READERS_CHANGED
+    CARD_INSERTED,  //esteid card was inserted
+    CARD_REMOVED,	//esteid card was removed
+    READERS_CHANGED, //reader config/count changed
+	NO_CARDS_LEFT	//no esteid cards anymore, last one removed
     };
 
 struct monitorObserver {

@@ -38,16 +38,23 @@ void checker::executeCheck() {
         cardPresent.resize(readers);
         observer.onEvent(READERS_CHANGED,0);
         }
+	bool removeFired = false;
+	int cardsFound = 0;
     for (size_t i = 0; i < cardPresent.size() ; i++ ) {
-        if (readerHasCard(card,(int)i) && !cardPresent[i]) {
+		bool haveCard = readerHasCard(card,(int)i);
+		if (haveCard) cardsFound++;
+        if (haveCard && !cardPresent[i]) {
             cardPresent[i] = true;
             observer.onEvent(CARD_INSERTED,(int)i);
             }
-        if (!readerHasCard(card,(int)i) && cardPresent[i]) {
+        if (!haveCard && cardPresent[i]) {
             cardPresent[i] = false;
             observer.onEvent(CARD_REMOVED,(int)i);
+			removeFired = true;
             }
         }
+	if (removeFired && cardsFound == 0) 
+		observer.onEvent(NO_CARDS_LEFT,0);
     }
 
 void monitorThread::execute() {
