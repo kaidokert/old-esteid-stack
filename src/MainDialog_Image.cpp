@@ -97,6 +97,13 @@ try {
 	userBitmap = wxBitmap(bmp);
 	SetStatusText(_("Image loaded"));
 	Refresh();
+#ifdef __WXMSW__
+} catch(inetError &inetEr) {
+	if (!inetEr.isInvalidAuth()) {
+		mEnableErrorPopup = true;
+		doShowError(inetEr);
+		}
+#endif
 } catch(runtime_error &err) {
 	mEnableErrorPopup = true;
 	doShowError(err);

@@ -91,4 +91,16 @@ struct inetConnect {
 private:
 	const inetConnect &operator=(const inetConnect &o);
 	};
+
+class inetError:public std::runtime_error {
+public:
+	DWORD error;
+	std::string desc;
+	inetError(std::string op);
+	virtual const char * what() const throw() {	return desc.c_str();} 
+	void static check(std::string op,HINTERNET handle);
+	void static check(std::string op,BOOL result);
+    bool isInvalidAuth();
+};
+
 #endif

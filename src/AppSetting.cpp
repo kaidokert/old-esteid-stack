@@ -101,7 +101,8 @@ bool AppSetting::getAutoRemove() {
 
 	if (key.Exists())
 		if (key.Open(wxRegKey::Read))
-			key.QueryValue(_T("Flags"),&val);
+			if ( key.HasValue(_T("Flags")) )
+				key.QueryValue(_T("Flags"),&val);
 	return !(val == 1);
 	}
 

@@ -227,7 +227,7 @@ void MainDialog::ReloadCardData(int lastRecord,bool withCert) {
 			mPersonalData.Add(wxString(tmp[i].c_str(),mIdConv));
 
 		m_cardId = mPersonalData[EstEidCard::ID];
-		havePersonalCard = !m_cardId.StartsWith(_T("90000000"));
+		havePersonalCard = !m_cardId.StartsWith(_T("90000"));
 		doUpdateMenus();
 		if (!withCert) {
 			SetStatusText(_T(""));

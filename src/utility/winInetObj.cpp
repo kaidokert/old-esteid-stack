@@ -20,28 +20,25 @@ struct inetGenericRequest {
 	virtual operator HINTERNET() const = 0;
 	};
 
-class inetError:public std::runtime_error {
-public:
-	DWORD error;
-	std::string desc;
-	inetError(string op) : 
-		error(GetLastError()), std::runtime_error("WinInet error") {
-		std::ostringstream buf;
-		buf << "WinInet exception:'" << op << 
-			"' code:'0x" <<std::hex << std::setfill('0') <<
-			std::setw(8) << error << "'";
-		desc = buf.str();
-		}
-	virtual const char * what() const throw() {	return desc.c_str();} 
-	void static check(string op,HINTERNET handle) {
-		if (handle == NULL) 
-			throw inetError(op);
-		}
-	void static check(string op,BOOL result) {
-		if (result == FALSE) 
-			throw inetError(op);
-		}
-};
+inetError::inetError(string op) : 
+	error(GetLastError()), std::runtime_error("WinInet error") {
+	std::ostringstream buf;
+	buf << "WinInet exception:'" << op << 
+		"' code:'0x" <<std::hex << std::setfill('0') <<
+		std::setw(8) << error << "'";
+	desc = buf.str();
+	}
+void inetError::check(string op,HINTERNET handle) {
+	if (handle == NULL) 
+		throw inetError(op);
+	}
+void inetError::check(string op,BOOL result) {
+	if (result == FALSE) 
+		throw inetError(op);
+	}
+bool inetError::isInvalidAuth() {
+	return error == ERROR_INTERNET_SECURITY_CHANNEL_ERROR;
+	}
 
 winInetObj::winInetObj(void *) : DynamicLibrary("wininet") {
 	pInternetOpenA = (HINTERNET (STD *)(

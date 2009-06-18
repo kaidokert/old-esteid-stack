@@ -1,3 +1,9 @@
+Changes for version 0.9.21
+-------------------------
+	* Common wininet auth errors handled
+	* utility modified to better recognize non-personal cards
+	* one more registry read error fix
+	
 Changes for version 0.9.20
 -------------------------
 	* Crash fix for SmartCardManager
