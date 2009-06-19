@@ -111,6 +111,7 @@ public :
 			log << "found EstEID NewCard CSP cert" << endl;
 			return true;
 			}
+		return false;
 		}
 
 	void removeCerts() {
