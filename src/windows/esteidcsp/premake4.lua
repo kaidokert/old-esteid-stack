@@ -17,6 +17,6 @@ project "esteidcsp"
   links { "smartcard++" ,"utility"}
   createConfigs()
   configuration "debug"
-		       cmds = "..\\..\\cspdk\\cspsign.exe c \"$(TargetPath)\"\r\n"
-		cmds = cmds.. "..\\..\\cspdk\\cspsign.exe s \"$(TargetPath)\" \"$(TargetDir)$(TargetName).sig\""
+		       cmds = "..\\..\\..\\cspdk\\cspsign.exe c \"$(TargetPath)\"\r\n"
+		cmds = cmds.. "..\\..\\..\\cspdk\\cspsign.exe s \"$(TargetPath)\" \"$(TargetDir)$(TargetName).sig\""
 		postbuildcommands(cmds)
