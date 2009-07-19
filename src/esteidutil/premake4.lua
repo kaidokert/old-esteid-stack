@@ -6,7 +6,7 @@ project("EsteidUtil")
 	language "C++"
 	kind     "WindowedApp"
 	files  { "*.cpp" , "*.h" , "premake4.lua" }
-	pchheader "precompiled.h"
+	pchheader "smartcard++/precompiled.h"
 	pchsource "wxprec.cpp"
 	flags { "WinMain" }
 	includedirs { "." }

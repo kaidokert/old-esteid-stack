@@ -41,9 +41,10 @@ struct pinDialogPriv {
 	} params;
 	pinDialog &m_dlg;
 	HWND m_hwnd;
-	char m_buffer[20];
+	std::vector<char,locked_allocator < char > > m_buffer;
 	iconHandle *dlgIcon,*appIcon;
-	pinDialogPriv(pinDialog &ref,const void * opsysParam) : m_dlg(ref),dlgIcon(NULL),appIcon(NULL) {
+	pinDialogPriv(pinDialog &ref,const void * opsysParam) : 
+		m_buffer(20,'0'),m_dlg(ref),dlgIcon(NULL),appIcon(NULL) {
 		params = *((pinDialogPriv_a*) opsysParam);
 		}
 	~pinDialogPriv() {
@@ -84,8 +85,8 @@ LRESULT pinDialogPriv::on_command(WPARAM wParam, LPARAM lParam) {
 	switch (LOWORD(wParam)) {
 		case IDC_PININPUT: {
 			if (HIWORD(wParam) == EN_CHANGE) {
-				GetDlgItemTextA(m_hwnd,IDC_PININPUT,m_buffer,sizeof(m_buffer));
-				if (lstrlenA(m_buffer) >= (LONG ) m_dlg.m_minLen) {
+				GetDlgItemTextA(m_hwnd,IDC_PININPUT,&m_buffer[0],m_buffer.size());
+				if (lstrlenA(&m_buffer[0]) >= (LONG ) m_dlg.m_minLen) {
 					EnableWindow(GetDlgItem(m_hwnd,IDOK),TRUE);
 					SendMessage(m_hwnd,DM_SETDEFID,IDOK,0);
 					}
@@ -98,7 +99,7 @@ LRESULT pinDialogPriv::on_command(WPARAM wParam, LPARAM lParam) {
 			}
 		case IDOK:
 		case IDCANCEL:
-			GetDlgItemTextA(m_hwnd,IDC_PININPUT,m_buffer,sizeof(m_buffer));
+			GetDlgItemTextA(m_hwnd,IDC_PININPUT,&m_buffer[0],m_buffer.size());
 			EndDialog (m_hwnd,wParam );
 			return TRUE;
 		}
@@ -146,7 +147,7 @@ bool pinDialogPriv::showPrompt(std::string prompt,bool allowRetry) {
 	}
 
 PinString pinDialogPriv::getPin() {
-	return PinString(m_buffer,m_buffer+strlen(m_buffer));
+	return PinString(&m_buffer[0],&m_buffer[0]+strlen(&m_buffer[0]));
 	}
 
 #endif
