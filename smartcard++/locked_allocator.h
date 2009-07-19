@@ -17,6 +17,11 @@ public:
   };
 };
 
+void * doAlloc(size_t num, void * hint);
+void doFree(void * ptr,size_t num);
+
+/// Allocator template that locks pages and cleans up free()'s
+/// see http://www.ddj.com/cpp/184401646 for more complete version
 template<class T>
 class locked_allocator
 {
@@ -54,13 +59,14 @@ public:
 	~locked_allocator()
 	{
 	}
-
 	pointer	allocate(size_type n, void* hint= NULL)
 	{
-		return ((T *)::operator new(n * sizeof (T)));
+		void * pmem = doAlloc(n * sizeof (T),hint);
+		return static_cast<pointer>(pmem);
 	}
 	void deallocate(void *p, size_type n)
 	{
+		doFree(p,n);
 		return;
 	}
 
