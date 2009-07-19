@@ -1,7 +1,7 @@
 // testac.cpp : Defines the entry point for the console application.
 //
 
-#include "stdafx.h"
+#include "precompiled.h"
 #include <windows.h>
 #include <wincrypt.h>
 #ifdef ATL

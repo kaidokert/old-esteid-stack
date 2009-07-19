@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8,00"
-	Name="testac"
+	Name="csp_tool"
 	ProjectGUID="{5D3EC775-7DD3-4ADB-B43E-C87414E0E699}"
-	RootNamespace="testac"
+	RootNamespace="csp_tool"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -40,12 +40,13 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\pkicommon&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)pkicommon&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_DEPRECATE;NTDDI_VERSION=NTDDI_LONGHORN"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="precompiled.h"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="4"
@@ -116,10 +117,11 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\pkicommon&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)pkicommon&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;_CRT_SECURE_NO_DEPRECATE"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="precompiled.h"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
@@ -177,15 +179,19 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\pkicommon\cryptContext.cpp"
+				RelativePath="pkicommon\cryptContext.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\pkicommon\helpers.cpp"
+				RelativePath=".\csp_tool.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\stdafx.cpp"
+				RelativePath="pkicommon\helpers.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\precompiled.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -204,10 +210,6 @@
 					/>
 				</FileConfiguration>
 			</File>
-			<File
-				RelativePath=".\testac.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -215,11 +217,15 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\pkicommon\cryptContext.h"
+				RelativePath=".\pkicommon\cryptContext.h"
 				>
 			</File>
 			<File
-				RelativePath=".\stdafx.h"
+				RelativePath=".\pkicommon\helpers.h"
+				>
+			</File>
+			<File
+				RelativePath=".\precompiled.h"
 				>
 			</File>
 		</Filter>
