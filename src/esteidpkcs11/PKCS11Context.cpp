@@ -122,7 +122,7 @@ class PKCS11Session {
 	ByteVec iss;
 	ByteVec ser;
 	ByteVec sub;
-	std::string pin;
+	PinString pin;
 	CK_ULONG state;
 	CK_MECHANISM   sigMechanism;
 	CK_OBJECT_HANDLE  sigKey;
@@ -130,8 +130,8 @@ public:
 	struct changeState {
 		CK_ULONG mState;
 		CK_SLOT_ID mSlot;
-		std::string mPin;
-		changeState(CK_SLOT_ID slot, CK_ULONG state,std::string pin)
+		PinString mPin;
+		changeState(CK_SLOT_ID slot, CK_ULONG state,PinString pin)
 			: mSlot(slot), mState(state), mPin(pin) {}
 		void operator() (PKCS11Session &obj) {
 			if (obj.slotID == mSlot) {
@@ -511,7 +511,7 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_Login(
 	PKCS11ContextPriv::sessIter sess = find(d->sessions.begin(),d->sessions.end(),hSession);
 	if (d->sessions.end() == sess)
 		return CKR_SESSION_HANDLE_INVALID;
-	sess->pin = std::string((const char *) pPin,(size_t)ulPinLen);
+	sess->pin = PinString((const char *) pPin,(size_t)ulPinLen);
 	for_each(d->sessions.begin(),d->sessions.end(),
 		PKCS11Session::changeState(sess->slotID,CKS_RO_USER_FUNCTIONS,sess->pin));
 	return CKR_OK;

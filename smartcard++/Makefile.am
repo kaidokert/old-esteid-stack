@@ -11,6 +11,7 @@ h_sources = smartcard++.h \
 	    precompiled.h \
 	    SCError.h \
 	    SmartCardManager.h \
+	    locked_allocator.h \
 	    types.h 
 
 cpp_sources = CardBase.cpp \
@@ -19,6 +20,7 @@ cpp_sources = CardBase.cpp \
 	    PCSCManager.cpp \
 	    SCError.cpp \
 	    SmartCardManager.cpp \
+	    locked_allocator.cpp \
 	    types.cpp
 
 library_includedir=$(includedir)/$(SMARTCARD_LIBRARY_NAME)-$(SMARTCARD_RELEASE)/$(SMARTCARD_LIBRARY_NAME)

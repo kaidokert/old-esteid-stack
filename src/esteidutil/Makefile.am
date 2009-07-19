@@ -1,6 +1,6 @@
 bin_PROGRAMS = esteidutil
 
-AM_CXXFLAGS=-Wall -Werror -Wno-long-long $(WX_CXXFLAGS) #-pedantic 
+AM_CXXFLAGS=-Wall -Wno-long-long $(WX_CXXFLAGS) #-Werror -pedantic 
 
 INCLUDES = -I${oldincludedir}/PCSC -I$(top_srcdir) -I$(top_srcdir)/src 
 
@@ -50,7 +50,7 @@ ru/EsteidUtil.mo: ../po/ru.gmo
 #resources/%.cdata: resources/%.gif
 .gif.cdata:
 	mkdir -p resources
-	echo "static unsigned char "$*"_cdata[] = {" > $@
+	echo "static unsigned char "$*"_cdata[] = {" | sed 's/resources\///' > $@
 	od -v -t x1 < $< | sed -e 's/.......//' -e 's/ \(..\)/0x\1,/g' >> $@
 	echo "};" >> $@
 

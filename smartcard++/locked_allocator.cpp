@@ -1,6 +1,9 @@
 #include "precompiled.h"
 #ifdef _WIN32
 #include <windows.h>
+#else
+#include <sys/mman.h>
+#include <string.h>
 #endif
 
 void * doAlloc(size_t n, void* hint) {

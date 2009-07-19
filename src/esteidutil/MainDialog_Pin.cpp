@@ -36,22 +36,22 @@ void MainDialog::doPinChange(int type ) {
 	if (!mCardManager) return;
 	EstEidCard card(*mCardManager);
 	if (!FindCard(card)) return;
-	std::string oldVal,newVal;
+	PinString oldVal,newVal;
 
 	if (!AppSetting().getUseCTAPI()) {
 		PinChangeDialog *dlg = new PinChangeDialog(this,getAppName(),type);
 		if (wxID_OK != dlg->ShowModal()) return;
-		oldVal = dlg->mInput1.ToAscii();
-		newVal = dlg->mInput2.ToAscii();
+		oldVal = (const char *)dlg->mInput1.ToAscii();
+		newVal = (const char *)dlg->mInput2.ToAscii();
 		}
 	else {
 		PinChangeSecureDialog *dlg = new PinChangeSecureDialog(this,getAppName(),type);
 		if (wxID_OK != dlg->ShowModal()) return;
 		wxString tmp;
 		tmp = wxString(_T("00")) + dlg->mChoiceOld->GetStringSelection();
-		oldVal = tmp.Right(2).ToAscii(); //pad to 2 length
+		oldVal = (const char *)tmp.Right(2).ToAscii(); //pad to 2 length
 		tmp = wxString(_T("00")) + dlg->mChoiceNew->GetStringSelection();
-		newVal = tmp.Right(2).ToAscii();
+		newVal = (const char *)tmp.Right(2).ToAscii();
 		}
 
 	wxString prompt;
