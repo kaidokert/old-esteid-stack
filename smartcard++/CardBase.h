@@ -7,7 +7,7 @@
 */
 // Revision $Revision$
 #pragma once
-#include "ManagerInterface.h"
+#include <smartcard++/ManagerInterface.h>
 
 using std::vector;
 
@@ -56,6 +56,9 @@ protected:
 	ConnectionBase	*mConnection;
 	std::ostream	*mLogger;
 
+	/// provide CLA for card APDUs
+	virtual byte CLAByte() { return 0x00; }
+
 	/// helper to parse returned TLVs from card
 	ByteVec getTag(int identTag,int len,ByteVec &arr);
 	/// Parses a File Control Infromation block from select file commands
@@ -93,4 +96,6 @@ public:
 	void setLogging(std::ostream *logStream);
 	/// sigh .. just a hack to reset card in some instances
 	void endTransaction();
+	/// check if the manager that we are connected to, supports secure PIN entry
+	bool hasSecurePinEntry();
 };

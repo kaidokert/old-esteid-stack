@@ -1,21 +1,13 @@
 #include "precompiled.h"
 #include "PKCS11Context.h"
-#include "cardlib/PCSCManager.h"
-#include "cardlib/EstEidCard.h"
-#include "cardlib/helperMacro.h"
+#include <smartcard++/PCSCManager.h>
+#include <smartcard++/helperMacro.h>
+#include <smartcard++/esteid/EstEidCard.h>
 #include "utility/asnCertificate.h"
-#include "utility/logger.h"
-#include "utility/monitorThread.h"
+
 #include <string.h>
-#include "Setup.h"
 
 #undef min
-
-#ifdef _MSC_VER
-#define FUNC_LOG() ScopedLog __l(__FUNCTION__,d->log)
-#else
-#define FUNC_LOG() ScopedLog __l(__func__,d->log)
-#endif
 
 enum ObjID {
 	OBJ_INVALID = -1,
@@ -39,7 +31,7 @@ public:
 	ObjHandle(const CK_OBJECT_HANDLE &handle) : h(handle) {}
 	ObjHandle() : h(OBJ_INVALID) {}
 	bool operator==(const ObjID& other) {
-		return h == (CK_OBJECT_HANDLE)other;
+		return h == other;
 		}
 	bool operator==(const ObjHandle &other) {return h == other.h ; }
 	};
@@ -51,7 +43,7 @@ protected:
 	friend class ObjHandle;
 	friend class searchTerm;
 public:
-	PKCS11Object(ObjID id,CK_ATTRIBUTE *att,size_t count) :
+	PKCS11Object(ObjID id,CK_ATTRIBUTE *att,size_t count) : 
 		handle(id),attrib(att,att + count) {}
 	bool operator==(const ObjHandle &objHandle) {
 		return handle == objHandle;
@@ -140,7 +132,7 @@ public:
 		CK_SLOT_ID mSlot;
 		std::string mPin;
 		changeState(CK_SLOT_ID slot, CK_ULONG state,std::string pin)
-			: mState(state), mSlot(slot),  mPin(pin) {}
+			: mSlot(slot), mState(state), mPin(pin) {}
 		void operator() (PKCS11Session &obj) {
 			if (obj.slotID == mSlot) {
 				obj.state = mState;
@@ -159,34 +151,16 @@ bool operator==(CK_ATTRIBUTE x,CK_ATTRIBUTE_TYPE a) {
 	return x.type == a;
 	}
 
-class PKCS11ContextPriv : public monitorObserver {
-	mutexObj monitorMutex;
-	monitorThread *m_monitorThread;
+class PKCS11ContextPriv {
 	friend class PKCS11Context;
 	PCSCManager mgr;
 	uint readerCount;
 	CK_SESSION_HANDLE nextSession;
 	std::vector<PKCS11Session > sessions;
 	typedef std::vector<PKCS11Session >::iterator sessIter;
-	PKCS11ContextPriv() : log("esteid-pkcs11"),
-	  nextSession(303),
-	  monitorMutex("monitorMutex") {
-	  log << "PKCS11Context created" << std::endl;
-	  try {
-	      log << "creating thread.." << std::endl;
-//	      m_monitorThread = new monitorThread(*this,monitorMutex);
-	      log << "creating thread done" << std::endl;
-	  } catch(std::exception &err) {
-	    log << "error when creating monitor:" << err.what() << std::endl;
-	    }
-	  }
-	logger log;
-	void onEvent(monitorEvent eType,int param);
+	PKCS11ContextPriv() : nextSession(303){}
 };
 
-void PKCS11ContextPriv::onEvent(monitorEvent eType,int param) {
-	
-}
 
 PKCS11Context::PKCS11Context(void)
 {
@@ -198,19 +172,19 @@ PKCS11Context::~PKCS11Context(void)
 	delete d;
 }
 
-PKCS11Session::	PKCS11Session(CK_SESSION_HANDLE sh,CK_SLOT_ID s,
+PKCS11Session::	PKCS11Session(CK_SESSION_HANDLE sh,CK_SLOT_ID s, 
 	  CK_FLAGS f,CK_VOID_PTR app,CK_NOTIFY n) :
 	session(sh),slotID(s),flags(f),pApplication(app),notify(n),
 	state(CKS_RO_PUBLIC_SESSION)
 {
 }
 
-PKCS11Session::~PKCS11Session(void)
+PKCS11Session::~PKCS11Session(void) 
 {
 }
 
 void PKCS11Context::refreshReaders() {
-	d->readerCount = d->mgr.getReaderCount(true);
+	d->readerCount = d->mgr.getReaderCount();
 	}
 
 CK_SESSION_HANDLE PKCS11Context::getNextSessionHandle() {
@@ -223,8 +197,6 @@ void padString(CK_UTF8CHAR *s,int len,std::string rstr) {
 	}
 
 CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetInfo(CK_INFO_PTR   pInfo  )) {
-	FUNC_LOG();
-
 	pInfo->cryptokiVersion.major = 2;
 	pInfo->cryptokiVersion.minor = 11;
 	padString(pInfo->manufacturerID, sizeof(pInfo->manufacturerID)
@@ -232,8 +204,8 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetInfo(CK_INFO_PTR   pInfo  )) {
 	pInfo->flags = 0;
 	padString(pInfo->libraryDescription,sizeof(pInfo->libraryDescription)
 		,"EstEID PKCS#11 Library");
-	pInfo->libraryVersion.major = PACKAGE_VER_MAJOR;
-	pInfo->libraryVersion.minor = PACKAGE_VER_MINOR;
+	pInfo->libraryVersion.major = 0;
+	pInfo->libraryVersion.minor = 1;
 	return CKR_OK;
 	}
 
@@ -242,18 +214,15 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetSlotList(
 		CK_SLOT_ID_PTR pSlotList,     /* receives array of slot IDs */
 		CK_ULONG_PTR   pulCount       /* receives number of slots */
 		)) {
-	FUNC_LOG();
-
 	try {
 	uint inBuffer = *pulCount;
 	*pulCount = 0;
 	refreshReaders();
 	*pulCount = d->readerCount;
-	d->log << "readerCount:" << d->readerCount << std::endl;
 
 	if (pSlotList == NULL )
 		return CKR_OK;
-	if (d->readerCount > inBuffer)
+	if (d->readerCount > inBuffer) 
 		return CKR_BUFFER_TOO_SMALL;
 
 	CK_SLOT_ID_PTR pSlot = pSlotList;
@@ -264,8 +233,7 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetSlotList(
 		}
 
 	return CKR_OK;
-	}catch(std::runtime_error &err) {
-		d->log << "exception:" << err.what() << std::endl;
+	}catch(std::runtime_error &) {
 		return CKR_GENERAL_ERROR;
 		}
 }
@@ -274,8 +242,6 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetTokenInfo(
 	CK_SLOT_ID        slotID,  /* ID of the token's slot */
 	CK_TOKEN_INFO_PTR pInfo    /* receives the token information */
 	)) {
-	FUNC_LOG();
-
 	try {
 		refreshReaders();
 		if (slotID > d->readerCount ) return CKR_SLOT_ID_INVALID;
@@ -308,8 +274,7 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetTokenInfo(
 		pInfo->hardwareVersion = nulVer;
 		pInfo->firmwareVersion = nulVer;
 		return CKR_OK;
-	}catch(std::runtime_error &err) {
-		d->log << "exception:" << err.what() << std::endl;
+	}catch(std::runtime_error &) {
 		return CKR_GENERAL_ERROR;
 		}
 }
@@ -318,17 +283,15 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetSlotInfo(
 	CK_SLOT_ID        slotID,  /* ID of the token's slot */
 	CK_SLOT_INFO_PTR pInfo    /* receives the slot information */
 	)) {
-	FUNC_LOG();
-
 	try {
 		refreshReaders();
 		if (slotID > d->readerCount ) return CKR_SLOT_ID_INVALID;
 		EstEidCard card(d->mgr);
-
+		
 		memset(pInfo, 0, sizeof(*pInfo));
 		std::ostringstream buf;
 		buf << "EstSlot " << slotID;
-		padString(pInfo->slotDescription,sizeof(pInfo->slotDescription), buf.str()) ;
+		padString(pInfo->slotDescription,sizeof(pInfo->slotDescription), buf.str()) ;  
 		padString(pInfo->manufacturerID,sizeof(pInfo->manufacturerID),"EstEID");
 		pInfo->flags = CKF_REMOVABLE_DEVICE | CKF_HW_SLOT;
 		if (card.isInReader(slotID)) pInfo->flags |= CKF_TOKEN_PRESENT;
@@ -337,8 +300,7 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetSlotInfo(
 		pInfo->hardwareVersion = nulVer;
 		pInfo->firmwareVersion = nulVer;
 		return CKR_OK;
-	}catch(std::runtime_error &err) {
-		d->log << "exception:" << err.what() << std::endl;
+	}catch(std::runtime_error &) {
 		return CKR_GENERAL_ERROR;
 		}
 }
@@ -348,15 +310,13 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetMechanismList(
 	CK_MECHANISM_TYPE_PTR pMechanismList,  /* gets mech. array */
 	CK_ULONG_PTR          pulCount         /* gets # of mechs. */
 	)) {
-	FUNC_LOG();
-
 	CK_ULONG count = *pulCount;
 	refreshReaders();
 	if (slotID > d->readerCount ) return CKR_SLOT_ID_INVALID;
 	*pulCount = 1;
 	if (pMechanismList == NULL )
 		return CKR_OK;
-	if (count < 1 )
+	if (count < 1 ) 
 		return CKR_BUFFER_TOO_SMALL;
 	pMechanismList[0] = CKM_RSA_PKCS;
 	/*pMechanismList[1] = CKM_MD5_RSA_PKCS;
@@ -374,8 +334,6 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetMechanismInfo(
 		CK_MECHANISM_TYPE     type,    /* type of mechanism */
 		CK_MECHANISM_INFO_PTR pInfo    /* receives mechanism info */
 		)) {
-	FUNC_LOG();
-
 	pInfo->ulMinKeySize = 1024;
 	pInfo->ulMaxKeySize = 1024;
 	pInfo->flags = CKF_HW | CKF_SIGN /*| CKF_VERIFY*/;
@@ -388,8 +346,6 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_InitToken(
 		CK_ULONG        ulPinLen,  /* length in bytes of the PIN */
 		CK_UTF8CHAR_PTR pLabel     /* 32-byte token label (blank padded) */
 		)) {
-	FUNC_LOG();
-
 	return CKR_OK;
 	}
 
@@ -400,13 +356,11 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_OpenSession(
 	CK_NOTIFY             Notify,        /* callback function */
 	CK_SESSION_HANDLE_PTR phSession      /* gets session handle */
 	)) {
-	FUNC_LOG();
-
 	try {
 		refreshReaders();
 		if (slotID > d->readerCount ) return CKR_SLOT_ID_INVALID;
 		if (!(flags & CKF_SERIAL_SESSION)) return CKR_SESSION_PARALLEL_NOT_SUPPORTED;
-
+		
 		*phSession = getNextSessionHandle();
 		d->sessions.push_back(PKCS11Session(*phSession,slotID,
 			flags,pApplication,Notify
@@ -421,7 +375,7 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_OpenSession(
 			}
 		{
 			EstEidCard card(d->mgr);
-			if (!card.isInReader(sess->slotID))
+			if (!card.isInReader(sess->slotID)) 
 				return CKR_TOKEN_NOT_PRESENT;
 			card.connect(sess->slotID);
 			sess->authCert = card.getAuthCert();
@@ -448,18 +402,15 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_OpenSession(
 			sess->objects.push_back(PKCS11Object(OBJ_PRIVKEY,privateKeyTemplate,LENOF(privateKeyTemplate)));
 		}
 		return CKR_OK;
-	}catch(std::runtime_error &err) {
-		d->log << "exception:" << err.what() << std::endl;
+	}catch(std::runtime_error &) {
 		return CKR_GENERAL_ERROR;
 		}
 }
 
 CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetSessionInfo(
-		CK_SESSION_HANDLE   hSession,
+		CK_SESSION_HANDLE   hSession, 
 		CK_SESSION_INFO_PTR pInfo
 		)) {
-	FUNC_LOG();
-
 	PKCS11ContextPriv::sessIter sess = find(d->sessions.begin(),d->sessions.end(),hSession);
 	if (d->sessions.end() == sess)
 		return CKR_SESSION_HANDLE_INVALID;
@@ -476,7 +427,7 @@ class searchTerm {
 	CK_ULONG mState; //public/private
 	friend class PKCS11Object;
 public:
-	searchTerm(std::vector<CK_ATTRIBUTE > searchParam,CK_ULONG state) :
+	searchTerm(std::vector<CK_ATTRIBUTE > searchParam,CK_ULONG state) : 
 	  param(searchParam),mState(state) {}
 	bool operator() (const PKCS11Object& value) {
 		std::vector<CK_ATTRIBUTE >::const_iterator objAtt;
@@ -489,7 +440,7 @@ public:
 			objAtt = find(value.attrib.begin(),value.attrib.end(),att->type);
 			if (value.attrib.end() == objAtt) //object does not have required attribute
 				return true;
-			if (memcmp(objAtt->pValue,att->pValue,std::min(objAtt->ulValueLen,att->ulValueLen )))
+			if (memcmp(objAtt->pValue,att->pValue,std::min(objAtt->ulValueLen,att->ulValueLen ))) 
 				return true; //has attribute but does not match
 			}
 		return false;
@@ -504,8 +455,6 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_FindObjectsInit(
 	CK_ATTRIBUTE_PTR  pTemplate,  /* attribute values to match */
 	CK_ULONG          ulCount     /* attrs in search template */
 	)) {
-	FUNC_LOG();
-
 	PKCS11ContextPriv::sessIter sess = find(d->sessions.begin(),d->sessions.end(),hSession);
 	if (d->sessions.end() == sess)
 		return CKR_SESSION_HANDLE_INVALID;
@@ -516,7 +465,7 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_FindObjectsInit(
 
 	sess->searchHandles.clear();
 	sess->searchHandles.resize(sess->objects.size());
-	std::vector<ObjHandle >::iterator copy =
+	std::vector<ObjHandle >::iterator copy = 
 		remove_copy_if(sess->objects.begin(),sess->objects.end(),
 		sess->searchHandles.begin(),searchTerm(sess->searchParam,sess->state));
 	sess->searchHandles.resize(copy - sess->searchHandles.begin());
@@ -530,12 +479,10 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_FindObjects(
 	CK_ULONG             ulMaxObjectCount,  /* max handles to get */
 	CK_ULONG_PTR         pulObjectCount     /* actual # returned */
 	)) {
-	FUNC_LOG();
-
 	PKCS11ContextPriv::sessIter sess = find(d->sessions.begin(),d->sessions.end(),hSession);
 	if (d->sessions.end() == sess)
 		return CKR_SESSION_HANDLE_INVALID;
-
+	
 	CK_ULONG returnCount = std::min(ulMaxObjectCount, (CK_ULONG)sess->searchHandles.size());
 	if (returnCount)
 		memcpy(phObject,&sess->searchHandles[0],returnCount * sizeof(*phObject));
@@ -547,8 +494,6 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_FindObjects(
 CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_FindObjectsFinal(
 	CK_SESSION_HANDLE hSession  /* the session's handle */
 	)) {
-	FUNC_LOG();
-
 	PKCS11ContextPriv::sessIter sess = find(d->sessions.begin(),d->sessions.end(),hSession);
 	if (d->sessions.end() == sess)
 		return CKR_SESSION_HANDLE_INVALID;
@@ -563,43 +508,17 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_Login(
 	CK_UTF8CHAR_PTR   pPin,      /* the user's PIN */
 	CK_ULONG          ulPinLen   /* the length of the PIN */
 	)) {
-	FUNC_LOG();
-
 	PKCS11ContextPriv::sessIter sess = find(d->sessions.begin(),d->sessions.end(),hSession);
 	if (d->sessions.end() == sess)
 		return CKR_SESSION_HANDLE_INVALID;
-
-    std::string pinIn((const char *) pPin,(size_t)ulPinLen);
-
-    byte retriesLeft;
-	try {
-        EstEidCard card(d->mgr);
-	if (!card.isInReader(sess->slotID))
-		return CKR_DEVICE_REMOVED;
-	card.connect(sess->slotID);
-        card.validateAuthPin(pinIn,retriesLeft);
-	}catch(AuthError &ae) {
-		std::ostringstream buf;
-		buf << ae.what();
-		if (retriesLeft)
-            return CKR_PIN_INVALID;
-        else
-            return CKR_PIN_LOCKED;
-	}catch(std::runtime_error &err) {
-		d->log << "exception:" << err.what() << std::endl;
-		return CKR_GENERAL_ERROR;
-		}
-
-	sess->pin = pinIn;
+	sess->pin = std::string((const char *) pPin,(size_t)ulPinLen);
 	for_each(d->sessions.begin(),d->sessions.end(),
 		PKCS11Session::changeState(sess->slotID,CKS_RO_USER_FUNCTIONS,sess->pin));
 	return CKR_OK;
 	}
 
-CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_Logout(
+CK_DEFINE_FUNCTION(CK_RV,PKCS11Context::C_Logout(
 	   CK_SESSION_HANDLE hSession  /* the session's handle */ )) {
-	FUNC_LOG();
-
 	PKCS11ContextPriv::sessIter sess = find(d->sessions.begin(),d->sessions.end(),hSession);
 	if (d->sessions.end() == sess)
 		return CKR_SESSION_HANDLE_INVALID;
@@ -615,20 +534,18 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetAttributeValue(
 		CK_ATTRIBUTE_PTR  pTemplate,  /* specifies attrs; gets vals */
 		CK_ULONG          ulCount     /* attributes in template */
 		)) {
-	FUNC_LOG();
-
 	PKCS11ContextPriv::sessIter sess = find(d->sessions.begin(),d->sessions.end(),hSession);
 	if (d->sessions.end() == sess)
 		return CKR_SESSION_HANDLE_INVALID;
 	objectIter obj = find(sess->objects.begin(),sess->objects.end(),
 		ObjHandle(hObject));
-	if (obj == sess->objects.end())
+	if (obj == sess->objects.end()) 
 		return CKR_OBJECT_HANDLE_INVALID;
 	for(uint i = 0; i < ulCount ; i++) {
 		CK_ATTRIBUTE_PTR attrib = pTemplate + i;
 		attrIter objAttrib = obj->findAttrib(attrib);
 		attrib->ulValueLen = -1;
-		if (obj->noAttrib(objAttrib))
+		if (obj->noAttrib(objAttrib)) 
 			continue;
 		if (attrib->pValue == NULL) {
 			attrib->ulValueLen = objAttrib->ulValueLen;
@@ -647,12 +564,11 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_SignInit(
 	CK_SESSION_HANDLE hSession,    /* the session's handle */
 	CK_MECHANISM_PTR  pMechanism,  /* the signature mechanism */
 	CK_OBJECT_HANDLE  hKey )) {    /* handle of signature key */
-	FUNC_LOG();
 
 	PKCS11ContextPriv::sessIter sess = find(d->sessions.begin(),d->sessions.end(),hSession);
 	if (d->sessions.end() == sess)
 		return CKR_SESSION_HANDLE_INVALID;
-	if (sess->state != CKS_RO_USER_FUNCTIONS)
+	if (sess->state != CKS_RO_USER_FUNCTIONS) 
 		return CKR_USER_NOT_LOGGED_IN;
 
 	sess->sigMechanism = *pMechanism;
@@ -672,37 +588,33 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_Sign(
 	CK_ULONG          ulDataLen,       /* count of bytes to sign */
 	CK_BYTE_PTR       pSignature,      /* gets the signature */
 	CK_ULONG_PTR      pulSignatureLen )) {/* gets signature length */
-	FUNC_LOG();
-
 	PKCS11ContextPriv::sessIter sess = find(d->sessions.begin(),d->sessions.end(),hSession);
 	if (d->sessions.end() == sess)
 		return CKR_SESSION_HANDLE_INVALID;
-	if (sess->state != CKS_RO_USER_FUNCTIONS)
+	if (sess->state != CKS_RO_USER_FUNCTIONS) 
 		return CKR_USER_NOT_LOGGED_IN;
 	try {
 		CK_ULONG len = *pulSignatureLen;
 		refreshReaders();
 		EstEidCard card(d->mgr);
-		if (!card.isInReader(sess->slotID))
+		if (!card.isInReader(sess->slotID)) 
 			return CKR_DEVICE_REMOVED;
 		card.connect(sess->slotID);
 
 		ByteVec result = card.calcSSL(ByteVec(pData,pData + ulDataLen),sess->pin);
 		*pulSignatureLen = (CK_ULONG)result.size();
-		if (len < result.size() )
+		if (len < result.size() ) 
 			return CKR_BUFFER_TOO_SMALL;
 		if (pSignature == NULL)
 			return CKR_OK;
 		memcpy(pSignature,&result[0],result.size());
 		return CKR_OK;
-	}catch(AuthError &ae) {
-		d->log << "exception:" << ae.what() << std::endl;
-	    return CKR_PIN_INCORRECT;
 	}catch(CardError &ce) {
-		d->log << "exception:" << ce.what() << std::endl;
-		return CKR_GENERAL_ERROR;
+		std::ostringstream buf;
+		buf << ce.what();
 	}catch(std::runtime_error &err) {
-		d->log << "exception:" << err.what() << std::endl;
+		std::ostringstream buf;
+		buf << err.what();
 		return CKR_GENERAL_ERROR;
 		}
 	return CKR_OK;
@@ -712,12 +624,10 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_SignUpdate(
 		CK_SESSION_HANDLE hSession,  /* the session's handle */
 		CK_BYTE_PTR       pPart,     /* the data to sign */
 		CK_ULONG          ulPartLen )) {/* count of bytes to sign */
-	FUNC_LOG();
-
 	PKCS11ContextPriv::sessIter sess = find(d->sessions.begin(),d->sessions.end(),hSession);
 	if (d->sessions.end() == sess)
 		return CKR_SESSION_HANDLE_INVALID;
-	if (sess->state != CKS_RO_USER_FUNCTIONS)
+	if (sess->state != CKS_RO_USER_FUNCTIONS) 
 		return CKR_USER_NOT_LOGGED_IN;
 
 	return CKR_FUNCTION_NOT_SUPPORTED;
@@ -726,12 +636,10 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_SignFinal(
 		CK_SESSION_HANDLE hSession,        /* the session's handle */
 		CK_BYTE_PTR       pSignature,      /* gets the signature */
 		CK_ULONG_PTR      pulSignatureLen )) { /* gets signature length */
-	FUNC_LOG();
-
 	PKCS11ContextPriv::sessIter sess = find(d->sessions.begin(),d->sessions.end(),hSession);
 	if (d->sessions.end() == sess)
 		return CKR_SESSION_HANDLE_INVALID;
-	if (sess->state != CKS_RO_USER_FUNCTIONS)
+	if (sess->state != CKS_RO_USER_FUNCTIONS) 
 		return CKR_USER_NOT_LOGGED_IN;
 
 	return CKR_FUNCTION_NOT_SUPPORTED;

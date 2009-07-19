@@ -17,10 +17,10 @@
 #define PACKAGE_NAME "EstEID CSP" PKG_BIT PKG_BUILD
 
 /* rc version */
-#define RC_VERSION 2,2,7
+#define RC_VERSION 2,2,9
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "2.2.7"
+#define PACKAGE_VERSION "2.2.9"
 
 /* Name of package */
 #define PACKAGE "esteidcsp.dll"

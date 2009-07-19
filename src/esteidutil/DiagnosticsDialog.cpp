@@ -9,10 +9,9 @@
 #include "precompiled.h"
 #include "DiagnosticsDialog.h"
 #include "MainDialog.h"
-#include "cardlib/DynamicLibrary.h"
-#include "cardlib/PCSCManager.h"
-#include "cardlib/CTAPIManager.h"
-#include "cardlib/EstEidCard.h"
+#include <smartcard++/PCSCManager.h>
+#include <smartcard++/CTAPIManager.h>
+#include <smartcard++/esteid/EstEidCard.h>
 #include "utility/pkcs11module.h"
 #include <wx/utils.h>
 #include <fstream>

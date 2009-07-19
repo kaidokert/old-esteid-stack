@@ -7,7 +7,7 @@
 */
 // Revision $Revision$
 #pragma once
-#include "cardlib/ManagerInterface.h"
+#include <smartcard++/ManagerInterface.h>
 
 class DiagnosticsDialog :
 	public wxDialog

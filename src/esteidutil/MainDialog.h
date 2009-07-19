@@ -9,8 +9,8 @@
 #pragma once
 #include "wx/frame.h"
 #include "wx/intl.h"
-#include "cardlib/ManagerInterface.h"
-#include "cardlib/CardBase.h"
+#include <smartcard++/ManagerInterface.h>
+#include <smartcard++/CardBase.h>
 #include <fstream>
 
 class MainDialog :

@@ -9,8 +9,8 @@
 #include "precompiled.h"
 #include "MainDialog.h"
 #include "AppSetting.h"
-#include "cardlib/PCSCManager.h"
-#include "cardlib/EstEidCard.h"
+#include <smartcard++/PCSCManager.h>
+#include <smartcard++/esteid/EstEidCard.h>
 #include <wx/filename.h>
 #include "wx/mstream.h"
 #include <fstream>

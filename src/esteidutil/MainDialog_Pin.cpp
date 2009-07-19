@@ -12,7 +12,7 @@
 #include "PinChangeDialog.h"
 #include "PinChangeSecureDialog.h"
 
-#include "cardlib/EstEidCard.h"
+#include <smartcard++/esteid/EstEidCard.h>
 
 
 void MainDialog::OnPinCounter(wxCommandEvent&  event) 

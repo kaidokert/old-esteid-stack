@@ -8,8 +8,8 @@
 // Revision $Revision$
 #include "precompiled.h"
 #include "MainDialog.h"
-#include "cardlib/PCSCManager.h"
-#include "cardlib/EstEidCard.h"
+#include <smartcard++/PCSCManager.h>
+#include <smartcard++/esteid/EstEidCard.h>
 #include "utility/asnObject.h"
 #include "utility/asnCertificate.h"
 #include "PersonalDataDialog.h"

@@ -34,7 +34,7 @@ struct pinDialogPriv {
 	struct _icontag {
 		const char *module;
 		int id;
-	} static iconSet[2]; 
+	} static iconSet[2];
 	struct pinDialogPriv_a {
 		HINSTANCE m_hInst;
 		WORD m_resourceID;
@@ -56,12 +56,12 @@ struct pinDialogPriv {
 	static LRESULT CALLBACK dialogProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 	bool doDialog();
 	bool showPrompt(std::string,bool allowRetry=false);
-	std::string getPin();
+	PinString getPin();
 private:
 	const pinDialogPriv &operator=(const pinDialogPriv &o);
 };
 
-pinDialogPriv::_icontag pinDialogPriv::iconSet[2] = {{"cryptui.dll", 4998},{"cryptui.dll" ,3425}}; 
+pinDialogPriv::_icontag pinDialogPriv::iconSet[2] = {{"cryptui.dll", 4998},{"cryptui.dll" ,3425}};
 
 LRESULT pinDialogPriv::on_init_dlg(WPARAM wParam) {
 	SetWindowPos(m_hwnd, HWND_TOPMOST, 0,0,0,0,SWP_NOMOVE|SWP_NOSIZE);
@@ -73,10 +73,10 @@ LRESULT pinDialogPriv::on_init_dlg(WPARAM wParam) {
 	SendDlgItemMessage(m_hwnd,IDI_DLGICON,STM_SETIMAGE,IMAGE_ICON,(LPARAM)*dlgIcon);
 	SendMessage(m_hwnd,WM_SETICON,(WPARAM) ICON_SMALL,(LPARAM) *appIcon);
 	SendMessage(m_hwnd,WM_SETICON,(WPARAM) ICON_BIG,(LPARAM) *appIcon);
-	if (GetDlgCtrlID((HWND) wParam) != IDC_PININPUT) { 
-		SetFocus(GetDlgItem(m_hwnd, IDC_PININPUT)); 
-		return FALSE; 
-		} 
+	if (GetDlgCtrlID((HWND) wParam) != IDC_PININPUT) {
+		SetFocus(GetDlgItem(m_hwnd, IDC_PININPUT));
+		return FALSE;
+		}
 	return TRUE;
 }
 
@@ -145,8 +145,8 @@ bool pinDialogPriv::showPrompt(std::string prompt,bool allowRetry) {
 	return (IDRETRY == code  || IDOK == code);
 	}
 
-std::string pinDialogPriv::getPin() {
-	return std::string(m_buffer,m_buffer+strlen(m_buffer));
+PinString pinDialogPriv::getPin() {
+	return PinString(m_buffer,m_buffer+strlen(m_buffer));
 	}
 
 #endif
@@ -174,7 +174,7 @@ struct pinDialogPriv : public Gtk::Dialog {
         set_default_response(Gtk::RESPONSE_CANCEL);
         show_all_children();
         }
-    std::string getPin() {
+    PinString getPin() {
         return m_textInput.get_text().c_str();
         }
     std::string m_prompt;
@@ -191,7 +191,7 @@ bool pinDialogPriv::doDialog() {
 
 #endif
 
-pinDialog::pinDialog(const void * opsysParam,std::string prompt) : m_minLen(4), 
+pinDialog::pinDialog(const void * opsysParam,std::string prompt) : m_minLen(4),
 	m_key((EstEidCard::KeyType)0) {
 	d = new pinDialogPriv(*this,opsysParam);
 	m_prompt = prompt;
@@ -223,19 +223,19 @@ bool pinDialog::showPrompt(std::string prompt,bool allowRetry) {
 	return d->showPrompt(prompt,allowRetry);
 	}
 
-bool pinDialog::doDialogInloop(pinOpInterface &operation,std::string &authPinCache) {
+bool pinDialog::doDialogInloop(pinOpInterface &operation,PinString &authPinCache) {
 	for(;;) {
 		byte retries = 0;
 		try {
-				std::string pin;
+				PinString pin;
 				if (authPinCache.empty()) {
-					if (!doDialog()) 
+					if (!doDialog())
 						throw std::runtime_error("User cancelled");
 					pin = getPin();
 				} else
 					pin = authPinCache;
 				mutexObjLocker lock(operation.m_mutex);
-				if (m_key == EstEidCard::AUTH) 
+				if (m_key == EstEidCard::AUTH)
 					operation.m_card.validateAuthPin(pin,retries);
 				else
 					operation.m_card.validateSignPin(pin,retries);
@@ -250,12 +250,12 @@ bool pinDialog::doDialogInloop(pinOpInterface &operation,std::string &authPinCac
 				}
 			std::stringstream buf;
 			buf << "Wrong pin entered, " << (int)retries << " retries left";
-			if (!showPrompt(buf.str(),true)) 
+			if (!showPrompt(buf.str(),true))
 				throw std::runtime_error("User cancelled");
 			}
 		}
 	}
 
-std::string pinDialog::getPin() {
+PinString pinDialog::getPin() {
 	return d->getPin();
 	}

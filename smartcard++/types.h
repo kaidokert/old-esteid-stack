@@ -1,5 +1,5 @@
-#ifndef _cardlib_types_h
-#define _cardlib_types_h
+#ifndef _smartcard_pp_types_h
+#define _smartcard_pp_types_h
 
 #ifndef UNUSED_ARG
 #define UNUSED_ARG(x) (void)x
@@ -14,5 +14,6 @@ typedef unsigned short ushort;
 typedef	std::vector<byte> ByteVec;
 /// ostream printer
 std::ostream& operator<<(std::ostream &out,const ByteVec &vec);
+
 
 #endif

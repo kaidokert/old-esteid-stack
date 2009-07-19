@@ -7,10 +7,10 @@
 */
 // Revision $Revision$
 #include "precompiled.h"
-#include "CTAPIManager.h"
-#include "helperMacro.h"
-#include "SCError.h" //for exceptions
-#include "CardBase.h" //for exceptions
+#include <smartcard++/CTAPIManager.h>
+#include <smartcard++/helperMacro.h>
+#include <smartcard++/SCError.h> //for exceptions
+#include <smartcard++/CardBase.h> //for exceptions
 using std::string;
 using std::runtime_error;
 
@@ -111,8 +111,11 @@ void CTDriver::CTPort::resetCT(byte unit,std::ostream *mLogger) {
 bool CTDriver::CTPort::init(bool nothrow) {
 	mCtn = dri->nextCtn++;
 	byte res = dri->pCTInit(mCtn, portNum);
-	if (res!=CTERR_OK && !nothrow)
-		throw CTAPIError("init",res,0,0,0);
+	if (res!=CTERR_OK) 
+		if (nothrow)
+			return false;
+		else
+			throw CTAPIError("init",res,0,0,0);
 	isConnected = true;
 	return true;
 	}
@@ -125,7 +128,9 @@ void CTDriver::CTPort::close() {
 	}
 
 CTDriver::CTDriver(const char *libName,int version,std::vector<ushort> probePorts,std::ostream *log) :
-		lib(libName,"",version),nextCtn(100),mLogger(log)  {
+		lib(libName,"",version,true),nextCtn(100),mLogger(log)  {
+/*	if (!DynamicLibrary::exists()) 
+	  return;*/
 	pCTInit = (char (CTAPI *)(ushort ctn,ushort pn)) lib.getProc("CT_init");
 	pCTClose= (char (CTAPI *)(ushort ctn)) lib.getProc("CT_close");
 	pCTData = (char (CTAPI *)(ushort ctn,byte * dad,byte * sad,ushort lenc,
@@ -140,7 +145,8 @@ CTDriver::CTDriver(const char *libName,int version,std::vector<ushort> probePort
 				byte cmd[] = {0x20,INS_GETSTATUS,0x00,0x46,0x00}; //get reader 
 				ByteVec resp;
 				CTPort port(this,*it);
-				port.init(true);
+				if (!port.init(true))
+					continue;
 				port.performCmd(CTDAD_CT,MAKEVECTOR(cmd),resp,NULL);
 				port.close();
 				pCTClose(nextCtn);

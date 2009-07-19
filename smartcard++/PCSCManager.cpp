@@ -7,8 +7,8 @@
 */
 // Revision $Revision$
 #include "precompiled.h"
-#include "PCSCManager.h"
-#include "SCError.h"
+#include <smartcard++/PCSCManager.h>
+#include <smartcard++/SCError.h>
 
 #ifdef _WIN32
 #define LIBNAME "winscard"

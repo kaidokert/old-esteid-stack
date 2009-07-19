@@ -1,7 +1,7 @@
 #include "precompiled.h"
 #include <iostream>
-#include "cardlib/SmartCardManager.h"
-#include "cardlib/EstEidCard.h"
+#include <smartcard++/SmartCardManager.h>
+#include <smartcard++/esteid/EstEidCard.h>
 #include "utility/logger.h"
 
 int main(int argc,char **argv) {

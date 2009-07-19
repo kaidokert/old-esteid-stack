@@ -8,7 +8,7 @@
 // Revision $Revision$
 #pragma once
 
-#include "types.h"
+#include <smartcard++/types.h>
 
 struct ConnectionBase;
 

@@ -9,7 +9,7 @@
 
 ///forward-declared opsys-specific components
 struct pinDialogPriv;
-#include <cardlib/EstEidCard.h>
+#include <smartcard++/esteid/EstEidCard.h>
 #include "pinDialog_res.h"
 
 class mutexObj;
@@ -23,7 +23,7 @@ protected:
 	mutexObj &m_mutex;
 public:
 	pinOpInterface(EstEidCard &card,mutexObj &mutex): m_card(card),m_mutex(mutex) {}
-	virtual void call(EstEidCard &,const std::string &pin,EstEidCard::KeyType)=0;
+	virtual void call(EstEidCard &,const PinString &pin,EstEidCard::KeyType)=0;
 };
 
 class pinDialog {
@@ -34,12 +34,13 @@ protected:
 	int m_minLen;
 	friend struct pinDialogPriv;
 public:
+	EstEidCard::KeyType keyType() { return m_key; }
 	pinDialog(const void * opsysParam,std::string prompt);
 	pinDialog(const void * opsysParam,EstEidCard::KeyType key);
 	~pinDialog();
 	bool doDialog();
 	bool showPrompt(std::string,bool allowRetry = false);
-	bool doDialogInloop(pinOpInterface &operation,std::string &authPinCache);
-	std::string getPin();
+	bool doDialogInloop(pinOpInterface &operation,PinString &authPinCache);
+	PinString getPin();
 };
 

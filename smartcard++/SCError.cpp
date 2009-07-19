@@ -7,7 +7,7 @@
 */
 // Revision $Revision$
 #include "precompiled.h"
-#include "SCError.h"
+#include <smartcard++/SCError.h>
 
 SCError::SCError(long err) : runtime_error("smart card API error"),error(err)
 {

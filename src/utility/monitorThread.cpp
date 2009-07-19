@@ -9,8 +9,8 @@
 
 #include "precompiled.h"
 #include "monitorThread.h"
-#include "cardlib/SmartCardManager.h"
-#include "cardlib/EstEidCard.h"
+#include <smartcard++/SmartCardManager.h>
+#include <smartcard++/esteid/EstEidCard.h>
 
 #include <iostream>
 

@@ -7,9 +7,9 @@
 */
 // Revision $Revision$
 #include "precompiled.h"
-#include "SmartCardManager.h"
-#include "PCSCManager.h"
-#include "CTAPIManager.h"
+#include <smartcard++/SmartCardManager.h>
+#include <smartcard++/PCSCManager.h>
+#include <smartcard++/CTAPIManager.h>
 
 enum mgrType {
 	MANAGER_PCSC,
@@ -38,6 +38,10 @@ struct SmartCardConnectionPriv {
 		if (m_manager == MANAGER_CTAPI) return ctConn;
 		throw std::runtime_error("Invalid smartcardconnection");
 		}
+	bool isSecure() {
+		if (m_manager == MANAGER_PCSC) return pcscConn->isSecure();
+		if (m_manager == MANAGER_CTAPI) return ctConn->isSecure();
+		}
 private:
 	const SmartCardConnectionPriv& operator=(const SmartCardConnectionPriv &);
 };
@@ -52,6 +56,11 @@ SmartCardConnection::~SmartCardConnection() {
 	d->m_managerOriginal.deleteConnection(this);
 	delete d;
 	}
+
+bool SmartCardConnection::isSecure() {
+	return d->isSecure();
+	}
+
 
 struct SmartCardManagerPriv {
 	PCSCManager pcscMgr;
@@ -113,6 +122,12 @@ void SmartCardManager::execCommand(ConnectionBase *c,std::vector<BYTE> &cmd,std:
 bool SmartCardManager::isT1Protocol(ConnectionBase *c) {
 	SmartCardConnection *pc = (SmartCardConnection *)c;
 	return pc->mManager.isT1Protocol(pc->d->getConnection());
+	}
+
+void SmartCardManager::execPinEntryCommand(ConnectionBase *c,std::vector<byte> &cmd) {
+	SmartCardConnection *pc = (SmartCardConnection *)c;
+	return pc->mManager.execPinEntryCommand(pc->d->getConnection(),
+		cmd);
 	}
 
 uint SmartCardManager::getReaderCount(bool forceRefresh) {

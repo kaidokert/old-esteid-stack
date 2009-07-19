@@ -10,18 +10,18 @@
 #include "precompiled.h"
 #include "CspEstEid.h"
 
-#include "cardlib/EstEidCard.h"
-#include "cardlib/SmartCardManager.h"
+#include <smartcard++/esteid/EstEidCard.h>
+#include <smartcard++/SmartCardManager.h>
+#include <utility/pinDialog.h>
+#include <utility/threadObj.h>
 #include "utility.h"
-#include "utility/pinDialog.h"
-#include "utility/threadObj.h"
 #include "RegKey.h"
 #include <iostream>
 #include <wincrypt.h>
 #include <algorithm>
 
 class EstEidContext : public CSPContext {
-	std::string cachedAuthPin;
+	PinString cachedAuthPin;
 protected:
 	HMODULE m_module;
 	SmartCardManager cardMgr;
@@ -34,10 +34,11 @@ public:
 	std::vector<BYTE> doSigning(ALG_ID m_algId,std::vector<BYTE> &hash);
 
 	bool findCard(EstEidCard &card) {
-		for(uint i = 0;i < cardMgr.getReaderCount();i++) {
-			if (!m_readerName.empty() && m_readerName != cardMgr.getReaderName(i)) continue;
-			if (!card.isInReader(i)) continue;
-			card.connect(i);
+		for(uint i = cardMgr.getReaderCount();i > 0;i--) { //reverse order prefers CTAPI
+			std::string currentRdr =cardMgr.getReaderName(i-1);
+			if (!m_readerName.empty() && m_readerName != currentRdr) continue;
+			if (!card.isInReader(i-1)) continue;
+			card.connect(i-1);
 			const std::string name = card.readCardID();
 			if ( m_containerName.compare(4,name.length(),name))
 				continue;
@@ -198,11 +199,11 @@ struct sign_op : public pinOpInterface {
 	sign_op(ByteVec &_hash,ByteVec &_result,
 		EstEidCard &card,mutexObj &mutex,ALG_ID algid) : 
 		pinOpInterface(card,mutex),hash(_hash),result(_result),m_algId(algid) {}
-	void call(EstEidCard &card,const std::string &pin,EstEidCard::KeyType key) {
+	void call(EstEidCard &card,const PinString &pin,EstEidCard::KeyType key) {
 		if (m_algId == CALG_SSL3_SHAMD5 )
-			result = card.calcSSL(hash ) ;
+			result = card.calcSSL(hash,pin ) ;
 		if (m_algId == CALG_SHA1 ) 
-			result = card.calcSignSHA1(hash, EstEidCard::SIGN ) ;
+			result = card.calcSignSHA1(hash, EstEidCard::SIGN,pin ) ;
 		}
 };
 
@@ -216,7 +217,12 @@ std::vector<BYTE> EstEidContext::doSigning(ALG_ID m_algId,std::vector<BYTE> &has
 	EstEidCard card(getMgr());
 	if (!findCard(card)) throw err_noKey();
 	sign_op operation(hash,ret,card,dummy,m_algId);
-	dlg.doDialogInloop(operation,cachedAuthPin);
+	if (!card.hasSecurePinEntry())
+		dlg.doDialogInloop(operation,cachedAuthPin);
+	else { 
+		byte retries;
+		operation.call(card,"",dlg.keyType());
+		}
 
 	reverse(ret.begin(),ret.end());		
 

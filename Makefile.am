@@ -1,26 +1,14 @@
-SUBDIRS = src po build esteidcm esteidcsp EstEIDSigningPluginBHO src/pkcs11 
-
-#m4 
-EXTRA_DIST = config.rpath  m4/ChangeLog \
-		bootstrap esteidutil.spec.in esteidutil.spec esteidutil.desktop	\
-		esteidutil.xpm COPYING \
-		esteidutil.desktop \
-		mac/EsteidUtil.app/Contents/MacOS/EsteidUtil \
-		mac/EsteidUtil.app/Contents/Resources/wxmac.icns \
-		mac/EsteidUtil.app/Contents/Info.plist \
-		mac/EsteidUtil.app/Contents/PkgInfo \
-		premake4.lua
-
-docdir = ${datadir}/esteidutil
-doc_DATA = README
-
-pixmapdir = $(datadir)/pixmaps
-pixmap_DATA = esteidutil.xpm
-
-#humm .. this im not so sure about
-xdg_appsdir = ${datadir}/applications
-xdg_apps_DATA = esteidutil.desktop
-
-esteidutil.app: all
+## top directory
 
 ACLOCAL_AMFLAGS = -I m4
+
+#Build in these directories:
+SUBDIRS= $(SMARTCARD_LIBRARY_NAME) src
+
+#Distribute these directories:
+#DIST_SUBDIRS = $(SUBDIRS)
+
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = smartcard++-1.0.pc
+
+EXTRA_DIST=autogen.sh

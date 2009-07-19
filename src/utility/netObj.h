@@ -14,11 +14,11 @@ enum connType {
 };
 
 #ifdef _WIN32 
-#include "utility/winInetObj.h"
+#include "winInetObj.h"
 typedef winInetObj netObj;
 typedef inetConnect netConnect;
 #else
-#include "utility/opensslObj.h"
+#include "opensslObj.h"
 typedef opensslObj netObj;
 typedef opensslConnect netConnect;
 #endif

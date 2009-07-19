@@ -9,7 +9,7 @@
 
 #pragma once
 #ifdef _WIN32
-#include "cardlib/DynamicLibrary.h" //bad ..
+#include <smartcard++/DynamicLibrary.h> //bad ..
 #include <windows.h>
 #include <wininet.h>
 

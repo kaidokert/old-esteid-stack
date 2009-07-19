@@ -8,8 +8,8 @@
 // Revision $Revision$
 
 #pragma once
-#include "cardlib/DynamicLibrary.h" //bad ..
-#include "Setup.h"
+#include <smartcard++/DynamicLibrary.h>
+#include "config.h"
 
 #if HAVE_OPENSSL
 #include <openssl/ssl.h>

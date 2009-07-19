@@ -5,15 +5,15 @@
 #include <stdexcept>
 #include <sstream>
 #include <iomanip>
-#include "types.h"
+#include <smartcard++/types.h>
 
 #ifdef _WIN32
 #include <tchar.h>
 #endif
-/*! \mainpage Cardlib documentation
+/*! \mainpage Smartcard++ documentation
 *
 * \section intro_sec Introduction
 *
-* Cardlib reference documentation. Cardlib is a set of c++ classes to manage 
+* Smartcard++ reference documentation. Smartcard++ is a set of c++ classes to manage
 * smartcard communications and implement basic command primitives.
 */

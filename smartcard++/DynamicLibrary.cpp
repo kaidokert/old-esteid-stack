@@ -7,39 +7,43 @@
 */
 // Revision $Revision$
 #include "precompiled.h"
-#include "DynamicLibrary.h"
+#include <smartcard++/DynamicLibrary.h>
 
 #include <string.h>
 
 DynamicLibrary::DynamicLibrary(const char *dllName) :
 	name(dllName),m_pathHint("") {
-	construct();
+	m_construct = construct();
 	}
 
 DynamicLibrary::DynamicLibrary(const char *dllName,int version) :
 	name(dllName),m_pathHint("") {
-	construct(version);
+	m_construct = construct(version);
 	}
 
 DynamicLibrary::DynamicLibrary(const char *dllName,const char *pathHint,
-	int version) : name(dllName) {
+	int version,bool do_throw) : name(dllName) {
 	m_pathHint = pathHint;
-	construct(version);
+	m_construct = construct(version);
 	}
 
 #ifdef _WIN32
 #include <windows.h>
 #pragma comment(lib,"version")
 
-void DynamicLibrary::construct(int ) {
+bool DynamicLibrary::construct(int , bool do_throw) {
 	mLibhandle = LoadLibraryA(name.c_str());
 	if (!mLibhandle)
 		mLibhandle = LoadLibraryA( std::string(std::string(m_pathHint) + "\\" + name).c_str());
 	if (!mLibhandle) {
 		std::ostringstream buf;
 		buf << "Dynamic library '" << name << "' not found in system";
-		throw std::runtime_error(buf.str());
+		if (do_throw)
+		  throw std::runtime_error(buf.str());
+		else 
+		  return false;
 		}
+	return true;
 	}
 
 DynamicLibrary::~DynamicLibrary() {
@@ -82,7 +86,7 @@ std::string DynamicLibrary::arrPaths[] = { "","/lib/","/usr/local/lib/","/usr/li
 
 #include <iostream>
 
-void DynamicLibrary::construct(int version) {
+bool DynamicLibrary::construct(int version,bool do_throw) {
 	size_t i,j;
 	std::ostringstream buf;
 	buf << version;
@@ -112,9 +116,13 @@ void DynamicLibrary::construct(int version) {
 	if (!mLibhandle) {
 		buf.str("");
 		buf << "Dynamic library '" << name << "' not found in system";
-		throw std::runtime_error(buf.str());
+		if (do_throw) 
+		  throw std::runtime_error(buf.str());
+		else
+		  return false;
 		}
 	name = arrStr[i];
+	return true;
 	}
 
 DynamicLibrary::~DynamicLibrary() {

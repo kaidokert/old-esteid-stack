@@ -17,8 +17,8 @@
 #include "wx/help.h"
 #include <wx/filename.h>
 #include <wx/image.h>
-#include "cardlib/PCSCManager.h"
-#include "cardlib/CTAPIManager.h"
+#include <smartcard++/PCSCManager.h>
+#include <smartcard++/CTAPIManager.h>
 #include "Setup.h"
 
 

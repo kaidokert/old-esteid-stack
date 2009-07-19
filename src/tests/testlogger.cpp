@@ -1,6 +1,6 @@
-#include "cardlib/common.h"
-#include "cardlib/helperMacro.h"
-#include "cardlib/ManagerInterface.h"
+#include <smartcard++/common.h>
+#include <smartcard++/helperMacro.h>
+#include <smartcard++/ManagerInterface.h>
 #include "utility/logger.h"
 
 using std::endl;

@@ -2,4 +2,4 @@
 #define NOMINMAX
 #include <windows.h>
 #endif
-#include "cardlib/common.h"
+#include <smartcard++/common.h>

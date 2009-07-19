@@ -7,7 +7,7 @@
 */
 // Revision $Revision$
 
-#include <cardlib/DynamicLibrary.h>
+#include <smartcard++/DynamicLibrary.h>
 
 class pkcs11module : protected DynamicLibrary {
 protected:

@@ -7,7 +7,7 @@
 */
 // Revision $Revision$
 #pragma once
-#include "ManagerInterface.h"
+#include <smartcard++/ManagerInterface.h>
 
 struct SmartCardManagerPriv;
 struct SmartCardConnectionPriv;
@@ -17,6 +17,7 @@ struct SmartCardConnection : public ConnectionBase {
 	SmartCardConnection(int manager,ManagerInterface &iface,unsigned int index,
 		bool force,ManagerInterface &orig);
 	~SmartCardConnection();
+	virtual bool isSecure();
 };
 
 /// Unified class for smarcard managers
@@ -33,6 +34,7 @@ class SmartCardManager : public ManagerInterface {
 	void execCommand(ConnectionBase *c,std::vector<byte> &cmd,std::vector<byte> &recv,
 		unsigned int &recvLen);
 	bool isT1Protocol(ConnectionBase *c);
+	virtual void execPinEntryCommand(ConnectionBase *c,std::vector<byte> &cmd);
 
 public:
 	SmartCardManager(void);

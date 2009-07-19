@@ -1,10 +1,15 @@
+function isWindows()
+	if (_ACTION == vs2005) or (_ACTION == vs2008) then return true end
+	if os.is("windows") then return true end
+	return false
+end
 
 function createConfigs(extra_flags)
   doDebugConfig()
   if (extra_flags) then flags { extra_flags } end
   doReleaseConfig()
   if (extra_flags) then flags { extra_flags } end
-  premake.buildconfigs()
+  --premake.buildconfigs()
 end
 
 function createWxConfigs()
@@ -16,21 +21,25 @@ function createWxConfigs()
 end
 
 function ppath(strPath)
-  if os.is("windows") then return "$(PlatformName)\\"  .. strPath else return path.getrelative(".", "./" ..strPath) end
+  if isWindows() then 
+      return "$(PlatformName)\\"  .. strPath 
+  else 
+    return strPath
+  end
 end
 
 function doReleaseConfig(cfname)
-  configuration { "Release*" }
+  configuration { "Release" }
 		prebuildcommands = { "echo Release bla bla bla" }
-  targetdir(ppath("Release"))
+  targetdir (ppath("Release"))
   defines { "NDEBUG" }
   flags   { "Optimize","NoEditAndContinue","NoManifest","StaticRuntime" }
   flags   { "ExtraWarnings" }
 end
 function doDebugConfig(cfname)
-  configuration { "Debug*" }
+  configuration { "Debug" }
 		prebuildcommands = { "echo Debug bla bla bla" }
-  targetdir(ppath("Debug"))
+  targetdir (ppath("Debug"))
   defines { "_DEBUG", "DEBUG" }
   flags   { "Symbols" }
 end
@@ -59,14 +68,5 @@ function wxConfig(suffix)
   else
     buildoptions { "`wx-config --cxxflags`" }
     package.linkoptions = { "`wx-config --libs` " }
-  end
-end
-		
-function fixSolutionPaths(sln)
-  for prj in premake.eachproject(sln) do
-    --print(prj.name)
-    for cfg in premake.eachconfig(prj) do								
-    --  print("----" .. cfg.name)
-    end
   end
 end

@@ -7,8 +7,8 @@
 */
 // Revision $Revision$
 #pragma once
-#include "ManagerInterface.h"
-#include "DynamicLibrary.h"
+#include <smartcard++/ManagerInterface.h>
+#include <smartcard++/DynamicLibrary.h>
 #ifndef _WIN32
 #include <PCSC/wintypes.h>
 #include <PCSC/pcsclite.h>
