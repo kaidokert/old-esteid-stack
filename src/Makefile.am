@@ -1,1 +1,1 @@
-SUBDIRS = utility esteidpkcs11 esteidutil tests
+SUBDIRS = utility esteidpkcs11 esteidutil tests windows qt-id-updater
