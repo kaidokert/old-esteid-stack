@@ -12,19 +12,23 @@
 #include <string.h>
 
 DynamicLibrary::DynamicLibrary(const char *dllName) :
-	name(dllName),m_pathHint("") {
+	name(dllName),m_pathHint(""),mLibhandle(NULL) {
 	m_construct = construct();
 	}
 
 DynamicLibrary::DynamicLibrary(const char *dllName,int version) :
-	name(dllName),m_pathHint("") {
+	name(dllName),m_pathHint(""),mLibhandle(NULL) {
 	m_construct = construct(version);
 	}
 
 DynamicLibrary::DynamicLibrary(const char *dllName,const char *pathHint,
-	int version,bool do_throw) : name(dllName) {
+	int version,bool do_throw) : name(dllName),mLibhandle(NULL) {
 	m_pathHint = pathHint;
-	m_construct = construct(version);
+	m_construct = construct(version , do_throw);
+	}
+
+bool DynamicLibrary::exists() {
+	return mLibhandle != NULL;
 	}
 
 #ifdef _WIN32

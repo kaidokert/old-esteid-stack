@@ -128,9 +128,9 @@ void CTDriver::CTPort::close() {
 	}
 
 CTDriver::CTDriver(const char *libName,int version,std::vector<ushort> probePorts,std::ostream *log) :
-		lib(libName,"",version,true),nextCtn(100),mLogger(log)  {
-/*	if (!DynamicLibrary::exists()) 
-	  return;*/
+		lib(libName,"",version,false),nextCtn(100),mLogger(log)  {
+	if (! lib.exists()) 
+	  return;
 	pCTInit = (char (CTAPI *)(ushort ctn,ushort pn)) lib.getProc("CT_init");
 	pCTClose= (char (CTAPI *)(ushort ctn)) lib.getProc("CT_close");
 	pCTData = (char (CTAPI *)(ushort ctn,byte * dad,byte * sad,ushort lenc,
@@ -166,6 +166,8 @@ CTAPIManager::CTAPIManager(std::ostream *log)
 			if (mLogger) *mLogger << "CTAPIManager : trying " << libNames[i] << " version:" << libVer[i] << std::endl;
 			CTDriver *dri = new CTDriver(libNames[i],libVer[i],
 				std::vector<ushort>(ports[i],ports[i] + MAXPORTS),mLogger);
+			if (dri->mPorts.empty()) 
+				continue;
 			mDrivers.push_back(dri);
 			for(size_t j=0;j < dri->mPorts.size(); j++) {
 				std::vector<cPort>::iterator port = dri->mPorts.begin() + j;
