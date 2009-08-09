@@ -43,8 +43,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../src;/"
-				PreprocessorDefinitions="WIN32;_DEBUG;DEBUG"
+				AdditionalIncludeDirectories="../..;../../src;/"
+				PreprocessorDefinitions="_DEBUG;DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -59,15 +59,15 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="WIN32;_DEBUG;DEBUG"
-				AdditionalIncludeDirectories="../../src;/"
+				PreprocessorDefinitions="_DEBUG;DEBUG"
+				AdditionalIncludeDirectories="../..;../../src;/"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\..\src\utility\$(PlatformName)\Debug\utility.lib ..\..\src\cardlib\$(PlatformName)\Debug\cardlib.lib"
+				AdditionalDependencies="..\..\src\utility\$(PlatformName)\Debug\utility.lib ..\..\smartcard++\$(PlatformName)\Debug\smartcard++.lib"
 				OutputFile="$(OutDir)\testPinDialog.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
@@ -125,8 +125,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				AdditionalIncludeDirectories="../../src;/"
-				PreprocessorDefinitions="WIN32;NDEBUG"
+				AdditionalIncludeDirectories="../..;../../src;/"
+				PreprocessorDefinitions="NDEBUG"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -140,15 +140,15 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="WIN32;NDEBUG"
-				AdditionalIncludeDirectories="../../src;/"
+				PreprocessorDefinitions="NDEBUG"
+				AdditionalIncludeDirectories="../..;../../src;/"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\..\src\utility\$(PlatformName)\Release\utility.lib ..\..\src\cardlib\$(PlatformName)\Release\cardlib.lib"
+				AdditionalDependencies="..\..\src\utility\$(PlatformName)\Release\utility.lib ..\..\smartcard++\$(PlatformName)\Release\smartcard++.lib"
 				OutputFile="$(OutDir)\testPinDialog.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
@@ -208,8 +208,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../src;/"
-				PreprocessorDefinitions="WIN32;_DEBUG;DEBUG"
+				AdditionalIncludeDirectories="../..;../../src;/"
+				PreprocessorDefinitions="_DEBUG;DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -224,15 +224,15 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="WIN32;_DEBUG;DEBUG"
-				AdditionalIncludeDirectories="../../src;/"
+				PreprocessorDefinitions="_DEBUG;DEBUG"
+				AdditionalIncludeDirectories="../..;../../src;/"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\..\src\utility\$(PlatformName)\Debug\utility.lib ..\..\src\cardlib\$(PlatformName)\Debug\cardlib.lib"
+				AdditionalDependencies="..\..\src\utility\$(PlatformName)\Debug\utility.lib ..\..\smartcard++\$(PlatformName)\Debug\smartcard++.lib"
 				OutputFile="$(OutDir)\testPinDialog.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
@@ -290,8 +290,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				AdditionalIncludeDirectories="../../src;/"
-				PreprocessorDefinitions="WIN32;NDEBUG"
+				AdditionalIncludeDirectories="../..;../../src;/"
+				PreprocessorDefinitions="NDEBUG"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -305,15 +305,15 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="WIN32;NDEBUG"
-				AdditionalIncludeDirectories="../../src;/"
+				PreprocessorDefinitions="NDEBUG"
+				AdditionalIncludeDirectories="../..;../../src;/"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\..\src\utility\$(PlatformName)\Release\utility.lib ..\..\src\cardlib\$(PlatformName)\Release\cardlib.lib"
+				AdditionalDependencies="..\..\src\utility\$(PlatformName)\Release\utility.lib ..\..\smartcard++\$(PlatformName)\Release\smartcard++.lib"
 				OutputFile="$(OutDir)\testPinDialog.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""

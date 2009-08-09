@@ -5,16 +5,16 @@ project "esteidpkcs11"
   kind     "SharedLib"
 
   files  { "*.h","*.cpp" }
-  includedirs ".."
-  if os.is("windows") then
+  includedirs { "../.." , ".." }
+  if isWindows() then
 	includedirs "pkcs11"
 	files { "esteidpkcs11.rc" }
   else
-        includedirs { "..","/usr/include/PCSC" }
+    includedirs { "/usr/include/PCSC" }
   end
   if os.is("macosx") then
-        includedirs "mac_pkcs11_headers"
+    includedirs "mac_pkcs11_headers"
   end
     
-  links { "cardlib" ,"utility"}
+  links { "smartcard++" ,"utility"}
   createConfigs()

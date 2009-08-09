@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
-	Name="cardlib"
-	ProjectGUID="{D3E24F38-3540-5D47-9E80-C10FD6AF7A6D}"
-	RootNamespace="cardlib"
+	Version="9.00"
+	Name="testsign"
+	ProjectGUID="{C30767FF-8179-4185-9959-871E189ED8AF}"
+	RootNamespace="testsign"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -20,9 +20,9 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\src\cardlib\$(PlatformName)\Debug"
-			IntermediateDirectory="obj\x32\Debug\cardlib"
-			ConfigurationType="4"
+			OutputDirectory="..\..\src\tests\$(PlatformName)\Debug"
+			IntermediateDirectory="obj\x32\Debug\testsign"
+			ConfigurationType="1"
 			CharacterSet="2"
 			>
 			<Tool
@@ -43,14 +43,14 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				PreprocessorDefinitions="WIN32;WIN32;_DEBUG;DEBUG"
+				AdditionalIncludeDirectories="../..;../../src;/"
+				PreprocessorDefinitions="_DEBUG;DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
 				ProgramDataBaseFileName="$(OutDir)\$(ProjectName).pdb"
 				DebugInformationFormat="4"
 			/>
@@ -59,15 +59,22 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="WIN32;WIN32;_DEBUG;DEBUG"
+				PreprocessorDefinitions="_DEBUG;DEBUG"
+				AdditionalIncludeDirectories="../..;../../src;/"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)\cardlib.lib"
+				Name="VCLinkerTool"
+				AdditionalDependencies="..\..\src\utility\$(PlatformName)\Debug\utility.lib ..\..\smartcard++\$(PlatformName)\Debug\smartcard++.lib"
+				OutputFile="$(OutDir)\testsign.exe"
+				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile="$(OutDir)\$(ProjectName).pdb"
+				SubSystem="1"
+				EntryPointSymbol="mainCRTStartup"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -96,9 +103,9 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\src\cardlib\$(PlatformName)\Release"
-			IntermediateDirectory="obj\x32\Release\cardlib"
-			ConfigurationType="4"
+			OutputDirectory="..\..\src\tests\$(PlatformName)\Release"
+			IntermediateDirectory="obj\x32\Release\testsign"
+			ConfigurationType="1"
 			CharacterSet="2"
 			>
 			<Tool
@@ -119,13 +126,13 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				PreprocessorDefinitions="WIN32;WIN32;NDEBUG"
+				AdditionalIncludeDirectories="../..;../../src;/"
+				PreprocessorDefinitions="NDEBUG"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="4"
-				Detect64BitPortabilityProblems="true"
 				ProgramDataBaseFileName="$(OutDir)\$(ProjectName).pdb"
 				DebugInformationFormat="0"
 			/>
@@ -134,15 +141,24 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="WIN32;WIN32;NDEBUG"
+				PreprocessorDefinitions="NDEBUG"
+				AdditionalIncludeDirectories="../..;../../src;/"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)\cardlib.lib"
+				Name="VCLinkerTool"
+				AdditionalDependencies="..\..\src\utility\$(PlatformName)\Release\utility.lib ..\..\smartcard++\$(PlatformName)\Release\smartcard++.lib"
+				OutputFile="$(OutDir)\testsign.exe"
+				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
+				GenerateManifest="false"
+				GenerateDebugInformation="false"
+				SubSystem="1"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				EntryPointSymbol="mainCRTStartup"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -171,9 +187,9 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|x64"
-			OutputDirectory="..\..\src\cardlib\$(PlatformName)\Debug"
-			IntermediateDirectory="obj\x64\Debug\cardlib"
-			ConfigurationType="4"
+			OutputDirectory="..\..\src\tests\$(PlatformName)\Debug"
+			IntermediateDirectory="obj\x64\Debug\testsign"
+			ConfigurationType="1"
 			CharacterSet="2"
 			>
 			<Tool
@@ -194,14 +210,14 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				PreprocessorDefinitions="WIN32;WIN32;_DEBUG;DEBUG"
+				AdditionalIncludeDirectories="../..;../../src;/"
+				PreprocessorDefinitions="_DEBUG;DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
 				ProgramDataBaseFileName="$(OutDir)\$(ProjectName).pdb"
 				DebugInformationFormat="4"
 			/>
@@ -210,15 +226,22 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="WIN32;WIN32;_DEBUG;DEBUG"
+				PreprocessorDefinitions="_DEBUG;DEBUG"
+				AdditionalIncludeDirectories="../..;../../src;/"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)\cardlib.lib"
+				Name="VCLinkerTool"
+				AdditionalDependencies="..\..\src\utility\$(PlatformName)\Debug\utility.lib ..\..\smartcard++\$(PlatformName)\Debug\smartcard++.lib"
+				OutputFile="$(OutDir)\testsign.exe"
+				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile="$(OutDir)\$(ProjectName).pdb"
+				SubSystem="1"
+				EntryPointSymbol="mainCRTStartup"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -247,9 +270,9 @@
 		</Configuration>
 		<Configuration
 			Name="Release|x64"
-			OutputDirectory="..\..\src\cardlib\$(PlatformName)\Release"
-			IntermediateDirectory="obj\x64\Release\cardlib"
-			ConfigurationType="4"
+			OutputDirectory="..\..\src\tests\$(PlatformName)\Release"
+			IntermediateDirectory="obj\x64\Release\testsign"
+			ConfigurationType="1"
 			CharacterSet="2"
 			>
 			<Tool
@@ -270,13 +293,13 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				PreprocessorDefinitions="WIN32;WIN32;NDEBUG"
+				AdditionalIncludeDirectories="../..;../../src;/"
+				PreprocessorDefinitions="NDEBUG"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="4"
-				Detect64BitPortabilityProblems="true"
 				ProgramDataBaseFileName="$(OutDir)\$(ProjectName).pdb"
 				DebugInformationFormat="0"
 			/>
@@ -285,15 +308,24 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="WIN32;WIN32;NDEBUG"
+				PreprocessorDefinitions="NDEBUG"
+				AdditionalIncludeDirectories="../..;../../src;/"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)\cardlib.lib"
+				Name="VCLinkerTool"
+				AdditionalDependencies="..\..\src\utility\$(PlatformName)\Release\utility.lib ..\..\smartcard++\$(PlatformName)\Release\smartcard++.lib"
+				OutputFile="$(OutDir)\testsign.exe"
+				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
+				GenerateManifest="false"
+				GenerateDebugInformation="false"
+				SubSystem="1"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				EntryPointSymbol="mainCRTStartup"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -329,103 +361,11 @@
 			Filter=""
 			>
 			<Filter
-				Name="cardlib"
+				Name="tests"
 				Filter=""
 				>
 				<File
-					RelativePath="..\..\src\cardlib\CardBase.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\cardlib\common.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\cardlib\CTAPIManager.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\cardlib\DynamicLibrary.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\cardlib\EstEidCard.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\cardlib\EstEidCardMaintainer.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\cardlib\helperMacro.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\cardlib\ManagerInterface.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\cardlib\PCSCManager.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\cardlib\precompiled.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\cardlib\SCError.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\cardlib\SIMCard.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\cardlib\SmartCardManager.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\cardlib\types.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\cardlib\CardBase.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\cardlib\CTAPIManager.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\cardlib\DynamicLibrary.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\cardlib\EstEidCard.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\cardlib\EstEidCardMaintainer.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\cardlib\PCSCManager.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\cardlib\SCError.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\cardlib\SIMCard.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\cardlib\SmartCardManager.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\cardlib\types.cpp"
+					RelativePath="..\..\src\tests\testsign.cpp"
 					>
 				</File>
 			</Filter>

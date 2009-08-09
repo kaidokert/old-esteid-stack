@@ -20,7 +20,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\esteidcsp\$(PlatformName)\Debug"
+			OutputDirectory="..\..\src\windows\esteidcsp\$(PlatformName)\Debug"
 			IntermediateDirectory="obj\x32\Debug\esteidcsp"
 			ConfigurationType="2"
 			CharacterSet="2"
@@ -43,8 +43,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../src"
-				PreprocessorDefinitions="WIN32;WIN32;_WINDOWS;_USRDLL;ESTEIDCSP_EXPORTS;_SCL_SECURE_NO_WARNINGS;_UNICODE;UNICODE;_DEBUG;DEBUG"
+				AdditionalIncludeDirectories="../../src;../.."
+				PreprocessorDefinitions="_WINDOWS;_USRDLL;ESTEIDCSP_EXPORTS;_SCL_SECURE_NO_WARNINGS;_UNICODE;UNICODE;_DEBUG;DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -60,22 +60,23 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="WIN32;WIN32;_WINDOWS;_USRDLL;ESTEIDCSP_EXPORTS;_SCL_SECURE_NO_WARNINGS;_UNICODE;UNICODE;_DEBUG;DEBUG"
-				AdditionalIncludeDirectories="../../src"
+				PreprocessorDefinitions="_WINDOWS;_USRDLL;ESTEIDCSP_EXPORTS;_SCL_SECURE_NO_WARNINGS;_UNICODE;UNICODE;_DEBUG;DEBUG"
+				AdditionalIncludeDirectories="../../src;../.."
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\..\src\cardlib\$(PlatformName)\Debug\cardlib.lib ..\..\src\utility\$(PlatformName)\Debug\utility.lib"
+				AdditionalDependencies="..\..\smartcard++\$(PlatformName)\Debug\smartcard++.lib ..\..\src\utility\$(PlatformName)\Debug\utility.lib"
 				OutputFile="$(OutDir)\esteidcsp.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="../../src/windows/esteidcsp/csp.def"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)\$(ProjectName).pdb"
 				SubSystem="2"
-				ImportLibrary="..\..\esteidcsp\$(PlatformName)\Debug\esteidcsp.lib"
+				ImportLibrary="..\..\src\windows\esteidcsp\$(PlatformName)\Debug\esteidcsp.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -100,11 +101,12 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="..\..\..\cspdk\cspsign.exe c &quot;$(TargetPath)&quot;&#x0D;&#x0A;..\..\..\cspdk\cspsign.exe s &quot;$(TargetPath)&quot; &quot;$(TargetDir)$(TargetName).sig&quot;"
 			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\esteidcsp\$(PlatformName)\Release"
+			OutputDirectory="..\..\src\windows\esteidcsp\$(PlatformName)\Release"
 			IntermediateDirectory="obj\x32\Release\esteidcsp"
 			ConfigurationType="2"
 			CharacterSet="2"
@@ -127,8 +129,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				AdditionalIncludeDirectories="../../src"
-				PreprocessorDefinitions="WIN32;WIN32;_WINDOWS;_USRDLL;ESTEIDCSP_EXPORTS;_SCL_SECURE_NO_WARNINGS;_UNICODE;UNICODE;NDEBUG"
+				AdditionalIncludeDirectories="../../src;../.."
+				PreprocessorDefinitions="_WINDOWS;_USRDLL;ESTEIDCSP_EXPORTS;_SCL_SECURE_NO_WARNINGS;_UNICODE;UNICODE;NDEBUG"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -143,24 +145,25 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="WIN32;WIN32;_WINDOWS;_USRDLL;ESTEIDCSP_EXPORTS;_SCL_SECURE_NO_WARNINGS;_UNICODE;UNICODE;NDEBUG"
-				AdditionalIncludeDirectories="../../src"
+				PreprocessorDefinitions="_WINDOWS;_USRDLL;ESTEIDCSP_EXPORTS;_SCL_SECURE_NO_WARNINGS;_UNICODE;UNICODE;NDEBUG"
+				AdditionalIncludeDirectories="../../src;../.."
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\..\src\cardlib\$(PlatformName)\Release\cardlib.lib ..\..\src\utility\$(PlatformName)\Release\utility.lib"
+				AdditionalDependencies="..\..\smartcard++\$(PlatformName)\Release\smartcard++.lib ..\..\src\utility\$(PlatformName)\Release\utility.lib"
 				OutputFile="$(OutDir)\esteidcsp.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="../../src/windows/esteidcsp/csp.def"
 				GenerateManifest="false"
 				GenerateDebugInformation="false"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				ImportLibrary="..\..\esteidcsp\$(PlatformName)\Release\esteidcsp.lib"
+				ImportLibrary="..\..\src\windows\esteidcsp\$(PlatformName)\Release\esteidcsp.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -189,7 +192,7 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|x64"
-			OutputDirectory="..\..\esteidcsp\$(PlatformName)\Debug"
+			OutputDirectory="..\..\src\windows\esteidcsp\$(PlatformName)\Debug"
 			IntermediateDirectory="obj\x64\Debug\esteidcsp"
 			ConfigurationType="2"
 			CharacterSet="2"
@@ -212,8 +215,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../src"
-				PreprocessorDefinitions="WIN32;WIN32;_WINDOWS;_USRDLL;ESTEIDCSP_EXPORTS;_SCL_SECURE_NO_WARNINGS;_UNICODE;UNICODE;_DEBUG;DEBUG"
+				AdditionalIncludeDirectories="../../src;../.."
+				PreprocessorDefinitions="_WINDOWS;_USRDLL;ESTEIDCSP_EXPORTS;_SCL_SECURE_NO_WARNINGS;_UNICODE;UNICODE;_DEBUG;DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -229,22 +232,23 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="WIN32;WIN32;_WINDOWS;_USRDLL;ESTEIDCSP_EXPORTS;_SCL_SECURE_NO_WARNINGS;_UNICODE;UNICODE;_DEBUG;DEBUG"
-				AdditionalIncludeDirectories="../../src"
+				PreprocessorDefinitions="_WINDOWS;_USRDLL;ESTEIDCSP_EXPORTS;_SCL_SECURE_NO_WARNINGS;_UNICODE;UNICODE;_DEBUG;DEBUG"
+				AdditionalIncludeDirectories="../../src;../.."
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\..\src\cardlib\$(PlatformName)\Debug\cardlib.lib ..\..\src\utility\$(PlatformName)\Debug\utility.lib"
+				AdditionalDependencies="..\..\smartcard++\$(PlatformName)\Debug\smartcard++.lib ..\..\src\utility\$(PlatformName)\Debug\utility.lib"
 				OutputFile="$(OutDir)\esteidcsp.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="../../src/windows/esteidcsp/csp.def"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)\$(ProjectName).pdb"
 				SubSystem="2"
-				ImportLibrary="..\..\esteidcsp\$(PlatformName)\Debug\esteidcsp.lib"
+				ImportLibrary="..\..\src\windows\esteidcsp\$(PlatformName)\Debug\esteidcsp.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -269,11 +273,12 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="..\..\..\cspdk\cspsign.exe c &quot;$(TargetPath)&quot;&#x0D;&#x0A;..\..\..\cspdk\cspsign.exe s &quot;$(TargetPath)&quot; &quot;$(TargetDir)$(TargetName).sig&quot;"
 			/>
 		</Configuration>
 		<Configuration
 			Name="Release|x64"
-			OutputDirectory="..\..\esteidcsp\$(PlatformName)\Release"
+			OutputDirectory="..\..\src\windows\esteidcsp\$(PlatformName)\Release"
 			IntermediateDirectory="obj\x64\Release\esteidcsp"
 			ConfigurationType="2"
 			CharacterSet="2"
@@ -296,8 +301,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				AdditionalIncludeDirectories="../../src"
-				PreprocessorDefinitions="WIN32;WIN32;_WINDOWS;_USRDLL;ESTEIDCSP_EXPORTS;_SCL_SECURE_NO_WARNINGS;_UNICODE;UNICODE;NDEBUG"
+				AdditionalIncludeDirectories="../../src;../.."
+				PreprocessorDefinitions="_WINDOWS;_USRDLL;ESTEIDCSP_EXPORTS;_SCL_SECURE_NO_WARNINGS;_UNICODE;UNICODE;NDEBUG"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -312,24 +317,25 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="WIN32;WIN32;_WINDOWS;_USRDLL;ESTEIDCSP_EXPORTS;_SCL_SECURE_NO_WARNINGS;_UNICODE;UNICODE;NDEBUG"
-				AdditionalIncludeDirectories="../../src"
+				PreprocessorDefinitions="_WINDOWS;_USRDLL;ESTEIDCSP_EXPORTS;_SCL_SECURE_NO_WARNINGS;_UNICODE;UNICODE;NDEBUG"
+				AdditionalIncludeDirectories="../../src;../.."
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\..\src\cardlib\$(PlatformName)\Release\cardlib.lib ..\..\src\utility\$(PlatformName)\Release\utility.lib"
+				AdditionalDependencies="..\..\smartcard++\$(PlatformName)\Release\smartcard++.lib ..\..\src\utility\$(PlatformName)\Release\utility.lib"
 				OutputFile="$(OutDir)\esteidcsp.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="../../src/windows/esteidcsp/csp.def"
 				GenerateManifest="false"
 				GenerateDebugInformation="false"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				ImportLibrary="..\..\esteidcsp\$(PlatformName)\Release\esteidcsp.lib"
+				ImportLibrary="..\..\src\windows\esteidcsp\$(PlatformName)\Release\esteidcsp.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -361,101 +367,119 @@
 	</References>
 	<Files>
 		<Filter
-			Name="esteidcsp"
+			Name="src"
 			Filter=""
 			>
-			<File
-				RelativePath="..\..\esteidcsp\Csp.h"
+			<Filter
+				Name="windows"
+				Filter=""
 				>
-			</File>
-			<File
-				RelativePath="..\..\esteidcsp\CSPErrors.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\esteidcsp\CSPEstEid.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\esteidcsp\CSPTypes.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\esteidcsp\precompiled.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\esteidcsp\RegKey.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\esteidcsp\resource.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\esteidcsp\Setup.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\esteidcsp\utility.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\esteidcsp\Csp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\esteidcsp\CSPErrors.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\esteidcsp\CspEstEid.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\esteidcsp\CSPTypes.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\esteidcsp\csp_c_exports.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\esteidcsp\Csp_Hash.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\esteidcsp\Csp_Key.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\esteidcsp\esteidcsp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\esteidcsp\precompiled.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
+				<Filter
+					Name="esteidcsp"
+					Filter=""
 					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\esteidcsp\RegKey.cpp"
-				>
-			</File>
+					<File
+						RelativePath="..\..\src\windows\esteidcsp\Csp.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\src\windows\esteidcsp\CSPErrors.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\src\windows\esteidcsp\CSPEstEid.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\src\windows\esteidcsp\CSPTypes.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\src\windows\esteidcsp\precompiled.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\src\windows\esteidcsp\RegKey.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\src\windows\esteidcsp\resource.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\src\windows\esteidcsp\Setup.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\src\windows\esteidcsp\utility.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\src\windows\esteidcsp\Csp.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\src\windows\esteidcsp\CSPErrors.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\src\windows\esteidcsp\CspEstEid.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\src\windows\esteidcsp\CSPTypes.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\src\windows\esteidcsp\csp_c_exports.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\src\windows\esteidcsp\Csp_Hash.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\src\windows\esteidcsp\Csp_Key.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\src\windows\esteidcsp\esteidcsp.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\src\windows\esteidcsp\precompiled.cpp"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="1"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="1"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\src\windows\esteidcsp\RegKey.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\src\windows\esteidcsp\esteidcsp.rc"
+						>
+					</File>
+					<File
+						RelativePath="..\..\src\windows\esteidcsp\csp.def"
+						>
+					</File>
+				</Filter>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

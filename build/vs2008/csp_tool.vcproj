@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
-	Name="esteidpkcs11"
-	ProjectGUID="{AD102339-1537-5F45-A19B-918DF2785A14}"
-	RootNamespace="esteidpkcs11"
+	Version="9.00"
+	Name="csp_tool"
+	ProjectGUID="{92E51541-12B2-478A-A65F-D38E9BF147E7}"
+	RootNamespace="csp_tool"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -20,9 +20,9 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\src\esteidpkcs11\$(PlatformName)\Debug"
-			IntermediateDirectory="obj\x32\Debug\esteidpkcs11"
-			ConfigurationType="2"
+			OutputDirectory="..\..\src\windows\csp_tool\$(PlatformName)\Debug"
+			IntermediateDirectory="obj\x32\Debug\csp_tool"
+			ConfigurationType="1"
 			CharacterSet="2"
 			>
 			<Tool
@@ -43,15 +43,14 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../..;../../src;../../src/esteidpkcs11/pkcs11"
+				AdditionalIncludeDirectories="../../src/windows/csp_tool;../../src/windows/csp_tool/pkicommon"
 				PreprocessorDefinitions="_DEBUG;DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
 				ProgramDataBaseFileName="$(OutDir)\$(ProjectName).pdb"
 				DebugInformationFormat="4"
 			/>
@@ -61,21 +60,20 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;DEBUG"
-				AdditionalIncludeDirectories="../..;../../src;../../src/esteidpkcs11/pkcs11"
+				AdditionalIncludeDirectories="../../src/windows/csp_tool;../../src/windows/csp_tool/pkicommon"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\..\smartcard++\$(PlatformName)\Debug\smartcard++.lib ..\..\src\utility\$(PlatformName)\Debug\utility.lib"
-				OutputFile="$(OutDir)\esteidpkcs11.dll"
+				OutputFile="$(OutDir)\csp_tool.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)\$(ProjectName).pdb"
-				SubSystem="2"
-				ImportLibrary="..\..\src\esteidpkcs11\$(PlatformName)\Debug\esteidpkcs11.lib"
+				SubSystem="1"
+				EntryPointSymbol="mainCRTStartup"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -104,9 +102,9 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\src\esteidpkcs11\$(PlatformName)\Release"
-			IntermediateDirectory="obj\x32\Release\esteidpkcs11"
-			ConfigurationType="2"
+			OutputDirectory="..\..\src\windows\csp_tool\$(PlatformName)\Release"
+			IntermediateDirectory="obj\x32\Release\csp_tool"
+			ConfigurationType="1"
 			CharacterSet="2"
 			>
 			<Tool
@@ -127,14 +125,13 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				AdditionalIncludeDirectories="../..;../../src;../../src/esteidpkcs11/pkcs11"
+				AdditionalIncludeDirectories="../../src/windows/csp_tool;../../src/windows/csp_tool/pkicommon"
 				PreprocessorDefinitions="NDEBUG"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="4"
-				Detect64BitPortabilityProblems="true"
 				ProgramDataBaseFileName="$(OutDir)\$(ProjectName).pdb"
 				DebugInformationFormat="0"
 			/>
@@ -144,23 +141,22 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
-				AdditionalIncludeDirectories="../..;../../src;../../src/esteidpkcs11/pkcs11"
+				AdditionalIncludeDirectories="../../src/windows/csp_tool;../../src/windows/csp_tool/pkicommon"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\..\smartcard++\$(PlatformName)\Release\smartcard++.lib ..\..\src\utility\$(PlatformName)\Release\utility.lib"
-				OutputFile="$(OutDir)\esteidpkcs11.dll"
+				OutputFile="$(OutDir)\csp_tool.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
 				GenerateManifest="false"
 				GenerateDebugInformation="false"
-				SubSystem="2"
+				SubSystem="1"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				ImportLibrary="..\..\src\esteidpkcs11\$(PlatformName)\Release\esteidpkcs11.lib"
+				EntryPointSymbol="mainCRTStartup"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -189,9 +185,9 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|x64"
-			OutputDirectory="..\..\src\esteidpkcs11\$(PlatformName)\Debug"
-			IntermediateDirectory="obj\x64\Debug\esteidpkcs11"
-			ConfigurationType="2"
+			OutputDirectory="..\..\src\windows\csp_tool\$(PlatformName)\Debug"
+			IntermediateDirectory="obj\x64\Debug\csp_tool"
+			ConfigurationType="1"
 			CharacterSet="2"
 			>
 			<Tool
@@ -212,15 +208,14 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../..;../../src;../../src/esteidpkcs11/pkcs11"
+				AdditionalIncludeDirectories="../../src/windows/csp_tool;../../src/windows/csp_tool/pkicommon"
 				PreprocessorDefinitions="_DEBUG;DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
 				ProgramDataBaseFileName="$(OutDir)\$(ProjectName).pdb"
 				DebugInformationFormat="4"
 			/>
@@ -230,21 +225,20 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;DEBUG"
-				AdditionalIncludeDirectories="../..;../../src;../../src/esteidpkcs11/pkcs11"
+				AdditionalIncludeDirectories="../../src/windows/csp_tool;../../src/windows/csp_tool/pkicommon"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\..\smartcard++\$(PlatformName)\Debug\smartcard++.lib ..\..\src\utility\$(PlatformName)\Debug\utility.lib"
-				OutputFile="$(OutDir)\esteidpkcs11.dll"
+				OutputFile="$(OutDir)\csp_tool.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)\$(ProjectName).pdb"
-				SubSystem="2"
-				ImportLibrary="..\..\src\esteidpkcs11\$(PlatformName)\Debug\esteidpkcs11.lib"
+				SubSystem="1"
+				EntryPointSymbol="mainCRTStartup"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -273,9 +267,9 @@
 		</Configuration>
 		<Configuration
 			Name="Release|x64"
-			OutputDirectory="..\..\src\esteidpkcs11\$(PlatformName)\Release"
-			IntermediateDirectory="obj\x64\Release\esteidpkcs11"
-			ConfigurationType="2"
+			OutputDirectory="..\..\src\windows\csp_tool\$(PlatformName)\Release"
+			IntermediateDirectory="obj\x64\Release\csp_tool"
+			ConfigurationType="1"
 			CharacterSet="2"
 			>
 			<Tool
@@ -296,14 +290,13 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				AdditionalIncludeDirectories="../..;../../src;../../src/esteidpkcs11/pkcs11"
+				AdditionalIncludeDirectories="../../src/windows/csp_tool;../../src/windows/csp_tool/pkicommon"
 				PreprocessorDefinitions="NDEBUG"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="4"
-				Detect64BitPortabilityProblems="true"
 				ProgramDataBaseFileName="$(OutDir)\$(ProjectName).pdb"
 				DebugInformationFormat="0"
 			/>
@@ -313,23 +306,22 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
-				AdditionalIncludeDirectories="../..;../../src;../../src/esteidpkcs11/pkcs11"
+				AdditionalIncludeDirectories="../../src/windows/csp_tool;../../src/windows/csp_tool/pkicommon"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\..\smartcard++\$(PlatformName)\Release\smartcard++.lib ..\..\src\utility\$(PlatformName)\Release\utility.lib"
-				OutputFile="$(OutDir)\esteidpkcs11.dll"
+				OutputFile="$(OutDir)\csp_tool.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
 				GenerateManifest="false"
 				GenerateDebugInformation="false"
-				SubSystem="2"
+				SubSystem="1"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				ImportLibrary="..\..\src\esteidpkcs11\$(PlatformName)\Release\esteidpkcs11.lib"
+				EntryPointSymbol="mainCRTStartup"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -365,37 +357,47 @@
 			Filter=""
 			>
 			<Filter
-				Name="esteidpkcs11"
+				Name="windows"
 				Filter=""
 				>
-				<File
-					RelativePath="..\..\src\esteidpkcs11\PKCS11Context.h"
+				<Filter
+					Name="csp_tool"
+					Filter=""
 					>
-				</File>
-				<File
-					RelativePath="..\..\src\esteidpkcs11\precompiled.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\esteidpkcs11\Setup.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\esteidpkcs11\esteidpkcs11.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\esteidpkcs11\PKCS11Context.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\esteidpkcs11\precompiled.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\esteidpkcs11\esteidpkcs11.rc"
-					>
-				</File>
+					<Filter
+						Name="pkicommon"
+						Filter=""
+						>
+						<File
+							RelativePath="..\..\src\windows\csp_tool\pkicommon\cryptContext.cpp"
+							>
+						</File>
+						<File
+							RelativePath="..\..\src\windows\csp_tool\pkicommon\helpers.cpp"
+							>
+						</File>
+						<File
+							RelativePath="..\..\src\windows\csp_tool\pkicommon\cryptContext.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\src\windows\csp_tool\pkicommon\helpers.h"
+							>
+						</File>
+					</Filter>
+					<File
+						RelativePath="..\..\src\windows\csp_tool\csp_tool.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\src\windows\csp_tool\precompiled.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\src\windows\csp_tool\precompiled.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 	</Files>

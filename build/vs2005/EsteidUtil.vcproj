@@ -20,7 +20,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\src\$(PlatformName)\Debug"
+			OutputDirectory="..\..\src\esteidutil\$(PlatformName)\Debug"
 			IntermediateDirectory="obj\x32\Debug\EsteidUtil"
 			ConfigurationType="1"
 			CharacterSet="2"
@@ -43,8 +43,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../src;../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswd;../../../../../../../../../../wxWidgets-2.8.4/include"
-				PreprocessorDefinitions="WIN32;WIN32;_DEBUG;DEBUG"
+				AdditionalIncludeDirectories="../../src/esteidutil;../../src;../..;../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswd;../../../../../../../../../../wxWidgets-2.8.4/include"
+				PreprocessorDefinitions="_DEBUG;DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -61,15 +61,15 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="WIN32;WIN32;_DEBUG;DEBUG"
-				AdditionalIncludeDirectories="../../src;../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswd;../../../../../../../../../../wxWidgets-2.8.4/include"
+				PreprocessorDefinitions="_DEBUG;DEBUG"
+				AdditionalIncludeDirectories="../../src/esteidutil;../../src;../..;../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswd;../../../../../../../../../../wxWidgets-2.8.4/include"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\..\src\cardlib\$(PlatformName)\Debug\cardlib.lib ..\..\src\utility\$(PlatformName)\Debug\utility.lib crypt32.lib comctl32.lib Rpcrt4.lib wxbase28d.lib wxmsw28d_core.lib wxmsw28d_adv.lib wxbase28d_xml.lib wxbase28d_net.lib wxjpegd.lib wxexpatd.lib"
+				AdditionalDependencies="..\..\smartcard++\$(PlatformName)\Debug\smartcard++.lib ..\..\src\utility\$(PlatformName)\Debug\utility.lib crypt32.lib comctl32.lib Rpcrt4.lib wxbase28d.lib wxmsw28d_core.lib wxmsw28d_adv.lib wxbase28d_xml.lib wxbase28d_net.lib wxjpegd.lib wxexpatd.lib"
 				OutputFile="$(OutDir)\EsteidUtil.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\..\..\..\..\..\..\..\..\wxWidgets-2.8.4\lib\vc_lib"
@@ -104,7 +104,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\src\$(PlatformName)\Release"
+			OutputDirectory="..\..\src\esteidutil\$(PlatformName)\Release"
 			IntermediateDirectory="obj\x32\Release\EsteidUtil"
 			ConfigurationType="1"
 			CharacterSet="2"
@@ -127,8 +127,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				AdditionalIncludeDirectories="../../src;../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswm;../../../../../../../../../../wxWidgets-2.8.4/include"
-				PreprocessorDefinitions="WIN32;WIN32;NDEBUG"
+				AdditionalIncludeDirectories="../../src/esteidutil;../../src;../..;../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswm;../../../../../../../../../../wxWidgets-2.8.4/include"
+				PreprocessorDefinitions="NDEBUG"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -144,15 +144,15 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="WIN32;WIN32;NDEBUG"
-				AdditionalIncludeDirectories="../../src;../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswm;../../../../../../../../../../wxWidgets-2.8.4/include"
+				PreprocessorDefinitions="NDEBUG"
+				AdditionalIncludeDirectories="../../src/esteidutil;../../src;../..;../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswm;../../../../../../../../../../wxWidgets-2.8.4/include"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\..\src\cardlib\$(PlatformName)\Release\cardlib.lib ..\..\src\utility\$(PlatformName)\Release\utility.lib crypt32.lib comctl32.lib Rpcrt4.lib wxbase28m.lib wxmsw28m_core.lib wxmsw28m_adv.lib wxbase28m_xml.lib wxbase28m_net.lib wxjpegm.lib wxexpatm.lib"
+				AdditionalDependencies="..\..\smartcard++\$(PlatformName)\Release\smartcard++.lib ..\..\src\utility\$(PlatformName)\Release\utility.lib crypt32.lib comctl32.lib Rpcrt4.lib wxbase28m.lib wxmsw28m_core.lib wxmsw28m_adv.lib wxbase28m_xml.lib wxbase28m_net.lib wxjpegm.lib wxexpatm.lib"
 				OutputFile="$(OutDir)\EsteidUtil.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\..\..\..\..\..\..\..\..\wxWidgets-2.8.4\lib\vc_lib"
@@ -189,7 +189,7 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|x64"
-			OutputDirectory="..\..\src\$(PlatformName)\Debug"
+			OutputDirectory="..\..\src\esteidutil\$(PlatformName)\Debug"
 			IntermediateDirectory="obj\x64\Debug\EsteidUtil"
 			ConfigurationType="1"
 			CharacterSet="2"
@@ -212,8 +212,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../src;../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswd;../../../../../../../../../../wxWidgets-2.8.4/include"
-				PreprocessorDefinitions="WIN32;WIN32;_DEBUG;DEBUG"
+				AdditionalIncludeDirectories="../../src/esteidutil;../../src;../..;../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswd;../../../../../../../../../../wxWidgets-2.8.4/include"
+				PreprocessorDefinitions="_DEBUG;DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -230,15 +230,15 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="WIN32;WIN32;_DEBUG;DEBUG"
-				AdditionalIncludeDirectories="../../src;../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswd;../../../../../../../../../../wxWidgets-2.8.4/include"
+				PreprocessorDefinitions="_DEBUG;DEBUG"
+				AdditionalIncludeDirectories="../../src/esteidutil;../../src;../..;../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswd;../../../../../../../../../../wxWidgets-2.8.4/include"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\..\src\cardlib\$(PlatformName)\Debug\cardlib.lib ..\..\src\utility\$(PlatformName)\Debug\utility.lib crypt32.lib comctl32.lib Rpcrt4.lib wxbase28d.lib wxmsw28d_core.lib wxmsw28d_adv.lib wxbase28d_xml.lib wxbase28d_net.lib wxjpegd.lib wxexpatd.lib"
+				AdditionalDependencies="..\..\smartcard++\$(PlatformName)\Debug\smartcard++.lib ..\..\src\utility\$(PlatformName)\Debug\utility.lib crypt32.lib comctl32.lib Rpcrt4.lib wxbase28d.lib wxmsw28d_core.lib wxmsw28d_adv.lib wxbase28d_xml.lib wxbase28d_net.lib wxjpegd.lib wxexpatd.lib"
 				OutputFile="$(OutDir)\EsteidUtil.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\..\..\..\..\..\..\..\..\wxWidgets-2.8.4\lib\vc_lib"
@@ -273,7 +273,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|x64"
-			OutputDirectory="..\..\src\$(PlatformName)\Release"
+			OutputDirectory="..\..\src\esteidutil\$(PlatformName)\Release"
 			IntermediateDirectory="obj\x64\Release\EsteidUtil"
 			ConfigurationType="1"
 			CharacterSet="2"
@@ -296,8 +296,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				AdditionalIncludeDirectories="../../src;../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswm;../../../../../../../../../../wxWidgets-2.8.4/include"
-				PreprocessorDefinitions="WIN32;WIN32;NDEBUG"
+				AdditionalIncludeDirectories="../../src/esteidutil;../../src;../..;../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswm;../../../../../../../../../../wxWidgets-2.8.4/include"
+				PreprocessorDefinitions="NDEBUG"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -313,15 +313,15 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="WIN32;WIN32;NDEBUG"
-				AdditionalIncludeDirectories="../../src;../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswm;../../../../../../../../../../wxWidgets-2.8.4/include"
+				PreprocessorDefinitions="NDEBUG"
+				AdditionalIncludeDirectories="../../src/esteidutil;../../src;../..;../../../../../../../../../../wxWidgets-2.8.4/lib/vc_lib/mswm;../../../../../../../../../../wxWidgets-2.8.4/include"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\..\src\cardlib\$(PlatformName)\Release\cardlib.lib ..\..\src\utility\$(PlatformName)\Release\utility.lib crypt32.lib comctl32.lib Rpcrt4.lib wxbase28m.lib wxmsw28m_core.lib wxmsw28m_adv.lib wxbase28m_xml.lib wxbase28m_net.lib wxjpegm.lib wxexpatm.lib"
+				AdditionalDependencies="..\..\smartcard++\$(PlatformName)\Release\smartcard++.lib ..\..\src\utility\$(PlatformName)\Release\utility.lib crypt32.lib comctl32.lib Rpcrt4.lib wxbase28m.lib wxmsw28m_core.lib wxmsw28m_adv.lib wxbase28m_xml.lib wxbase28m_net.lib wxjpegm.lib wxexpatm.lib"
 				OutputFile="$(OutDir)\EsteidUtil.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\..\..\..\..\..\..\..\..\wxWidgets-2.8.4\lib\vc_lib"
@@ -364,130 +364,135 @@
 			Name="src"
 			Filter=""
 			>
-			<File
-				RelativePath="..\..\src\AppSetting.cpp"
+			<Filter
+				Name="esteidutil"
+				Filter=""
 				>
-			</File>
-			<File
-				RelativePath="..\..\src\CertificateDialog.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\DiagnosticsDialog.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\EsteidUtil.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\MainDialog.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\MainDialog_2.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\MainDialog_Image.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\MainDialog_Pin.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\MainDialog_Windows.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\PersonalDataDialog.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\PinChangeDialog.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\PinChangeSecureDialog.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\PinDialog.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\wxprec.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
+				<File
+					RelativePath="..\..\src\esteidutil\AppSetting.cpp"
 					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
+				</File>
+				<File
+					RelativePath="..\..\src\esteidutil\CertificateDialog.cpp"
 					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\src\AppSetting.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CertificateDialog.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\DiagnosticsDialog.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\MainDialog.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\PersonalDataDialog.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\PinChangeDialog.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\PinChangeSecureDialog.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\PinDialog.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\precompiled.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\resource.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Setup.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\premake4.lua"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\EsteidUtil.rc"
-				>
-			</File>
+				</File>
+				<File
+					RelativePath="..\..\src\esteidutil\DiagnosticsDialog.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\esteidutil\EsteidUtil.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\esteidutil\MainDialog.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\esteidutil\MainDialog_2.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\esteidutil\MainDialog_Image.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\esteidutil\MainDialog_Pin.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\esteidutil\MainDialog_Windows.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\esteidutil\PersonalDataDialog.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\esteidutil\PinChangeDialog.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\esteidutil\PinChangeSecureDialog.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\esteidutil\PinDialog.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\esteidutil\wxprec.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="1"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="1"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\src\esteidutil\AppSetting.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\esteidutil\CertificateDialog.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\esteidutil\DiagnosticsDialog.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\esteidutil\MainDialog.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\esteidutil\PersonalDataDialog.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\esteidutil\PinChangeDialog.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\esteidutil\PinChangeSecureDialog.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\esteidutil\PinDialog.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\esteidutil\precompiled.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\esteidutil\resource.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\esteidutil\Setup.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\esteidutil\premake4.lua"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\esteidutil\EsteidUtil.rc"
+					>
+				</File>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

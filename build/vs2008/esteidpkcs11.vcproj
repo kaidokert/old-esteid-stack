@@ -20,7 +20,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\src\pkcs11\$(PlatformName)\Debug"
+			OutputDirectory="..\..\src\esteidpkcs11\$(PlatformName)\Debug"
 			IntermediateDirectory="obj\x32\Debug\esteidpkcs11"
 			ConfigurationType="2"
 			CharacterSet="2"
@@ -43,8 +43,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../src;../../src/pkcs11/pkcs11"
-				PreprocessorDefinitions="WIN32;_DEBUG;DEBUG"
+				AdditionalIncludeDirectories="../../src;../../src/esteidpkcs11/pkcs11"
+				PreprocessorDefinitions="_DEBUG;DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -59,22 +59,22 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="WIN32;_DEBUG;DEBUG"
-				AdditionalIncludeDirectories="../../src;../../src/pkcs11/pkcs11"
+				PreprocessorDefinitions="_DEBUG;DEBUG"
+				AdditionalIncludeDirectories="../../src;../../src/esteidpkcs11/pkcs11"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\..\src\cardlib\$(PlatformName)\Debug\cardlib.lib ..\..\src\utility\$(PlatformName)\Debug\utility.lib"
+				AdditionalDependencies="cardlib.lib ..\..\src\utility\$(PlatformName)\Debug\utility.lib"
 				OutputFile="$(OutDir)\esteidpkcs11.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)\$(ProjectName).pdb"
 				SubSystem="2"
-				ImportLibrary="..\..\src\pkcs11\$(PlatformName)\Debug\esteidpkcs11.lib"
+				ImportLibrary="..\..\src\esteidpkcs11\$(PlatformName)\Debug\esteidpkcs11.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -103,7 +103,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\src\pkcs11\$(PlatformName)\Release"
+			OutputDirectory="..\..\src\esteidpkcs11\$(PlatformName)\Release"
 			IntermediateDirectory="obj\x32\Release\esteidpkcs11"
 			ConfigurationType="2"
 			CharacterSet="2"
@@ -126,8 +126,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				AdditionalIncludeDirectories="../../src;../../src/pkcs11/pkcs11"
-				PreprocessorDefinitions="WIN32;NDEBUG"
+				AdditionalIncludeDirectories="../../src;../../src/esteidpkcs11/pkcs11"
+				PreprocessorDefinitions="NDEBUG"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -141,15 +141,15 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="WIN32;NDEBUG"
-				AdditionalIncludeDirectories="../../src;../../src/pkcs11/pkcs11"
+				PreprocessorDefinitions="NDEBUG"
+				AdditionalIncludeDirectories="../../src;../../src/esteidpkcs11/pkcs11"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\..\src\cardlib\$(PlatformName)\Release\cardlib.lib ..\..\src\utility\$(PlatformName)\Release\utility.lib"
+				AdditionalDependencies="cardlib.lib ..\..\src\utility\$(PlatformName)\Release\utility.lib"
 				OutputFile="$(OutDir)\esteidpkcs11.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
@@ -158,7 +158,7 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				ImportLibrary="..\..\src\pkcs11\$(PlatformName)\Release\esteidpkcs11.lib"
+				ImportLibrary="..\..\src\esteidpkcs11\$(PlatformName)\Release\esteidpkcs11.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -187,7 +187,7 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|x64"
-			OutputDirectory="..\..\src\pkcs11\$(PlatformName)\Debug"
+			OutputDirectory="..\..\src\esteidpkcs11\$(PlatformName)\Debug"
 			IntermediateDirectory="obj\x64\Debug\esteidpkcs11"
 			ConfigurationType="2"
 			CharacterSet="2"
@@ -210,8 +210,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../src;../../src/pkcs11/pkcs11"
-				PreprocessorDefinitions="WIN32;_DEBUG;DEBUG"
+				AdditionalIncludeDirectories="../../src;../../src/esteidpkcs11/pkcs11"
+				PreprocessorDefinitions="_DEBUG;DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -226,22 +226,22 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="WIN32;_DEBUG;DEBUG"
-				AdditionalIncludeDirectories="../../src;../../src/pkcs11/pkcs11"
+				PreprocessorDefinitions="_DEBUG;DEBUG"
+				AdditionalIncludeDirectories="../../src;../../src/esteidpkcs11/pkcs11"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\..\src\cardlib\$(PlatformName)\Debug\cardlib.lib ..\..\src\utility\$(PlatformName)\Debug\utility.lib"
+				AdditionalDependencies="cardlib.lib ..\..\src\utility\$(PlatformName)\Debug\utility.lib"
 				OutputFile="$(OutDir)\esteidpkcs11.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)\$(ProjectName).pdb"
 				SubSystem="2"
-				ImportLibrary="..\..\src\pkcs11\$(PlatformName)\Debug\esteidpkcs11.lib"
+				ImportLibrary="..\..\src\esteidpkcs11\$(PlatformName)\Debug\esteidpkcs11.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -270,7 +270,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|x64"
-			OutputDirectory="..\..\src\pkcs11\$(PlatformName)\Release"
+			OutputDirectory="..\..\src\esteidpkcs11\$(PlatformName)\Release"
 			IntermediateDirectory="obj\x64\Release\esteidpkcs11"
 			ConfigurationType="2"
 			CharacterSet="2"
@@ -293,8 +293,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				AdditionalIncludeDirectories="../../src;../../src/pkcs11/pkcs11"
-				PreprocessorDefinitions="WIN32;NDEBUG"
+				AdditionalIncludeDirectories="../../src;../../src/esteidpkcs11/pkcs11"
+				PreprocessorDefinitions="NDEBUG"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -308,15 +308,15 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="WIN32;NDEBUG"
-				AdditionalIncludeDirectories="../../src;../../src/pkcs11/pkcs11"
+				PreprocessorDefinitions="NDEBUG"
+				AdditionalIncludeDirectories="../../src;../../src/esteidpkcs11/pkcs11"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\..\src\cardlib\$(PlatformName)\Release\cardlib.lib ..\..\src\utility\$(PlatformName)\Release\utility.lib"
+				AdditionalDependencies="cardlib.lib ..\..\src\utility\$(PlatformName)\Release\utility.lib"
 				OutputFile="$(OutDir)\esteidpkcs11.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
@@ -325,7 +325,7 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				ImportLibrary="..\..\src\pkcs11\$(PlatformName)\Release\esteidpkcs11.lib"
+				ImportLibrary="..\..\src\esteidpkcs11\$(PlatformName)\Release\esteidpkcs11.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -361,35 +361,35 @@
 			Filter=""
 			>
 			<Filter
-				Name="pkcs11"
+				Name="esteidpkcs11"
 				Filter=""
 				>
 				<File
-					RelativePath="..\..\src\pkcs11\PKCS11Context.h"
+					RelativePath="..\..\src\esteidpkcs11\PKCS11Context.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\src\pkcs11\precompiled.h"
+					RelativePath="..\..\src\esteidpkcs11\precompiled.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\src\pkcs11\Setup.h"
+					RelativePath="..\..\src\esteidpkcs11\Setup.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\src\pkcs11\esteidpkcs11.cpp"
+					RelativePath="..\..\src\esteidpkcs11\esteidpkcs11.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\src\pkcs11\PKCS11Context.cpp"
+					RelativePath="..\..\src\esteidpkcs11\PKCS11Context.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\src\pkcs11\precompiled.cpp"
+					RelativePath="..\..\src\esteidpkcs11\precompiled.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\src\pkcs11\esteidpkcs11.rc"
+					RelativePath="..\..\src\esteidpkcs11\esteidpkcs11.rc"
 					>
 				</File>
 			</Filter>

@@ -43,8 +43,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../src"
-				PreprocessorDefinitions="WIN32;WIN32;_DEBUG;DEBUG"
+				AdditionalIncludeDirectories="../.."
+				PreprocessorDefinitions="_DEBUG;DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -59,8 +59,8 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="WIN32;WIN32;_DEBUG;DEBUG"
-				AdditionalIncludeDirectories="../../src"
+				PreprocessorDefinitions="_DEBUG;DEBUG"
+				AdditionalIncludeDirectories="../.."
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -120,8 +120,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				AdditionalIncludeDirectories="../../src"
-				PreprocessorDefinitions="WIN32;WIN32;NDEBUG"
+				AdditionalIncludeDirectories="../.."
+				PreprocessorDefinitions="NDEBUG"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -135,8 +135,8 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="WIN32;WIN32;NDEBUG"
-				AdditionalIncludeDirectories="../../src"
+				PreprocessorDefinitions="NDEBUG"
+				AdditionalIncludeDirectories="../.."
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -196,8 +196,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../src"
-				PreprocessorDefinitions="WIN32;WIN32;_DEBUG;DEBUG"
+				AdditionalIncludeDirectories="../.."
+				PreprocessorDefinitions="_DEBUG;DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -212,8 +212,8 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="WIN32;WIN32;_DEBUG;DEBUG"
-				AdditionalIncludeDirectories="../../src"
+				PreprocessorDefinitions="_DEBUG;DEBUG"
+				AdditionalIncludeDirectories="../.."
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -273,8 +273,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				AdditionalIncludeDirectories="../../src"
-				PreprocessorDefinitions="WIN32;WIN32;NDEBUG"
+				AdditionalIncludeDirectories="../.."
+				PreprocessorDefinitions="NDEBUG"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -288,8 +288,8 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="WIN32;WIN32;NDEBUG"
-				AdditionalIncludeDirectories="../../src"
+				PreprocessorDefinitions="NDEBUG"
+				AdditionalIncludeDirectories="../.."
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -336,25 +336,16 @@
 				Name="utility"
 				Filter=""
 				>
-				<Filter
-					Name="workable"
-					Filter=""
-					>
-					<File
-						RelativePath="..\..\src\utility\workable\pinDialog.h"
-						>
-					</File>
-					<File
-						RelativePath="..\..\src\utility\workable\pinDialog.cpp"
-						>
-					</File>
-				</Filter>
 				<File
 					RelativePath="..\..\src\utility\asnCertificate.h"
 					>
 				</File>
 				<File
 					RelativePath="..\..\src\utility\asnObject.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\utility\config.h"
 					>
 				</File>
 				<File
@@ -399,10 +390,6 @@
 				</File>
 				<File
 					RelativePath="..\..\src\utility\winInetObj.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\utility\_logger.h"
 					>
 				</File>
 				<File

@@ -11,8 +11,11 @@ solution "esteid"
 
   include "smartcard++"
   include "src/utility"
-  --include "src/tests"
+  include "src/tests"
+  include "src/esteidpkcs11"
+  include "src/esteidutil"
   if isWindows() then
 	include "src/windows/esteidcsp"
+	include "src/windows/csp_tool"
   end
 
