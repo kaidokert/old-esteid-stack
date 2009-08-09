@@ -118,6 +118,8 @@ struct CSPContext {
 	virtual CSPKeyContext * createKeyContext();
 };
 
+struct packData;
+
 /// Key context data
 struct CSPKeyContext {
 	HCRYPTKEY m_keyId;
@@ -129,6 +131,7 @@ struct CSPKeyContext {
 	std::vector<BYTE> m_certificateBlob;
 	WrapKey *m_wrapKey;
 	virtual void setPubkeySpec(DWORD dwKeySpec) {m_keySpec = dwKeySpec;}
+	virtual void doRsaDecrypt(packData &dat) {}
 	CSPKeyContext() : m_wrapKey(NULL) {}
 	~CSPKeyContext() {if (m_wrapKey) delete m_wrapKey;}
 	bool operator==(const HCRYPTKEY) const;
@@ -142,7 +145,7 @@ struct CSPHashContext {
 	CSPHashContext() : m_wrapHash(NULL) {}
 	~CSPHashContext() { if (m_wrapHash) delete m_wrapHash;}
 	bool operator==(const HCRYPTHASH) const;
-	virtual std::vector<BYTE> sign(std::vector<BYTE> &) {return std::vector<BYTE>();}
+	virtual std::vector<BYTE> sign(std::vector<BYTE> &,DWORD /*dwKeySpec*/) {return std::vector<BYTE>();}
 };
 
 /// Class that wraps function return code, for reliable tracing

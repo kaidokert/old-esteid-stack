@@ -80,7 +80,7 @@ BOOL Csp::CPSignHash(
 		CryptGetHashParam(*hash->m_wrapHash,HP_HASHVAL, NULL, &bufSz, 0);
 		std::vector<BYTE> buffer(bufSz,'\0');
 		CryptGetHashParam(*hash->m_wrapHash,HP_HASHVAL,&buffer[0],&bufSz,0);
-		std::vector<BYTE> signature = hash->sign(buffer);
+		std::vector<BYTE> signature = hash->sign(buffer,dwKeySpec);
 		dat.setValue(signature);
 		ret.SetOk();
 	} catch(std::runtime_error &err) {

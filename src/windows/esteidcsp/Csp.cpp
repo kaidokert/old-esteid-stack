@@ -342,7 +342,13 @@ BOOL Csp::CPDecrypt(
 		IN OUT LPDWORD pcbDataLen){
 	DECL_RET(ret);
 	try {
-		CSPContextIter it = findContext(hProv);
+		CSPContext * it = *findContext(hProv);
+		CSPKeyContext * key =  *it->findKeyContext(hKey);
+		if (GET_ALG_TYPE(key->m_algId) != ALG_TYPE_RSA) 
+			throw err_badType();
+		packData dat(pbData,pcbDataLen);
+		key->doRsaDecrypt(dat);
+		//TODO : TBC
 		ret.SetOk();
 	} catch(std::runtime_error &) {
 	}

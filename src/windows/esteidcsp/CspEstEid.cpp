@@ -20,6 +20,11 @@
 #include <wincrypt.h>
 #include <algorithm>
 
+struct pinDialogPriv_l {
+	HINSTANCE m_hInst;
+	WORD m_resourceID;
+};
+
 class EstEidContext : public CSPContext {
 	PinString cachedAuthPin;
 protected:
@@ -31,7 +36,8 @@ public:
 	SmartCardManager & getMgr() { return cardMgr;};
 	CSPKeyContext * EstEidContext::createKeyContext();
 	CSPHashContext * EstEidContext::createHashContext();
-	std::vector<BYTE> doSigning(ALG_ID m_algId,std::vector<BYTE> &hash);
+	std::vector<BYTE> doSigning(ALG_ID m_algId,std::vector<BYTE> &hash,
+		EstEidCard::KeyType keyType);
 
 	bool findCard(EstEidCard &card) {
 		for(uint i = cardMgr.getReaderCount();i > 0;i--) { //reverse order prefers CTAPI
@@ -66,7 +72,7 @@ class EsteidHashContext : public CSPHashContext {
 public:
 	EsteidHashContext(EstEidContext *ctx) : m_ctx(ctx) {
 		}
-	virtual std::vector<BYTE> sign(std::vector<BYTE> &);
+	virtual std::vector<BYTE> sign(std::vector<BYTE> &,DWORD dwKeySpec);
 	};
 
 class EsteidKeyContext : public CSPKeyContext {
@@ -83,6 +89,32 @@ public:
 			m_certificateBlob = card.getAuthCert();
 		else 
 			m_certificateBlob = card.getSignCert();
+		}
+	struct decrypt_op : public pinOpInterface {
+		ByteVec &cipher;
+		decrypt_op(ByteVec &_cipher, EstEidCard &card,mutexObj &mutex) : 
+			pinOpInterface(card,mutex),cipher(_cipher) {}
+		void call(EstEidCard &card,const PinString &pin,EstEidCard::KeyType key) {
+			card.RSADecrypt(cipher,pin);
+			}
+	};
+	void doRsaDecrypt(packData &dat) {
+		EstEidCard card(m_ctx->getMgr());
+		if (!m_ctx->findCard(card)) throw err_noKey();
+		ByteVec cipher(dat.m_pbData,dat.m_pbData + dat.m_originalSz);
+		mutexObj dummy("dummy");
+
+/*		pinDialogPriv_l params = { m_module,IDD_PIN_DIALOG_ENG};
+		pinDialog dlg(&params, EstEidCard::AUTH );
+		decrypt_op op(cipher,card,dummy);
+		if (!card.hasSecurePinEntry()) {
+			PinString dummyCache;
+			dlg.doDialogInloop(op, cachedAuthPin );
+			}
+		else { 
+			byte retries;
+			op.call(card,"",dlg.keyType());
+			}*/
 		}
 	};
 
@@ -188,10 +220,6 @@ CSPHashContext * EstEidContext::createHashContext() {
 	return new EsteidHashContext(this);
 	}
 
-struct pinDialogPriv_l {
-	HINSTANCE m_hInst;
-	WORD m_resourceID;
-};
 
 struct sign_op : public pinOpInterface {
 	ByteVec & hash,& result;
@@ -200,25 +228,30 @@ struct sign_op : public pinOpInterface {
 		EstEidCard &card,mutexObj &mutex,ALG_ID algid) : 
 		pinOpInterface(card,mutex),hash(_hash),result(_result),m_algId(algid) {}
 	void call(EstEidCard &card,const PinString &pin,EstEidCard::KeyType key) {
-		if (m_algId == CALG_SSL3_SHAMD5 )
-			result = card.calcSSL(hash,pin ) ;
-		if (m_algId == CALG_SHA1 ) 
-			result = card.calcSignSHA1(hash, EstEidCard::SIGN,pin ) ;
+		switch (m_algId) {
+			case CALG_SSL3_SHAMD5:
+				result = card.calcSSL(hash,pin );break;
+			case CALG_SHA1:
+				result = card.calcSignSHA1(hash, key ,pin ) ;break;
+			}
 		}
 };
 
-std::vector<BYTE> EstEidContext::doSigning(ALG_ID m_algId,std::vector<BYTE> &hash) {
+std::vector<BYTE> EstEidContext::doSigning(ALG_ID m_algId,std::vector<BYTE> &hash,
+		EstEidCard::KeyType keyType) {
 	std::vector<BYTE> ret;
 	mutexObj dummy("dummy");
 
 	pinDialogPriv_l params = { m_module,IDD_PIN_DIALOG_ENG};
-	pinDialog dlg(&params,EstEidCard::AUTH);
+	pinDialog dlg(&params, keyType  );
 
 	EstEidCard card(getMgr());
 	if (!findCard(card)) throw err_noKey();
 	sign_op operation(hash,ret,card,dummy,m_algId);
-	if (!card.hasSecurePinEntry())
-		dlg.doDialogInloop(operation,cachedAuthPin);
+	if (!card.hasSecurePinEntry()) {
+		PinString dummyCache;
+		dlg.doDialogInloop(operation, keyType == EstEidCard::AUTH ?	cachedAuthPin : dummyCache );
+		}
 	else { 
 		byte retries;
 		operation.call(card,"",dlg.keyType());
@@ -229,6 +262,7 @@ std::vector<BYTE> EstEidContext::doSigning(ALG_ID m_algId,std::vector<BYTE> &has
 	return ret;
 }
 
-std::vector<BYTE> EsteidHashContext::sign(std::vector<BYTE> &hash) {
-	return m_ctx->doSigning(m_algId,hash);
+std::vector<BYTE> EsteidHashContext::sign(std::vector<BYTE> &hash,DWORD dwKeySpec) {
+	return m_ctx->doSigning(m_algId,hash,
+		dwKeySpec == 1 ? EstEidCard::AUTH : EstEidCard::SIGN );
 }
