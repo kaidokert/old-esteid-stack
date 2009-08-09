@@ -111,7 +111,8 @@ BOOL Csp::CPAcquireContext(
 			find(ctx->m_containers.begin(),ctx->m_containers.end(),cont);
 		if (!ctx->m_verifyContext && loc == ctx->m_containers.end())
 			throw err_badKeyset();
-		ctx->m_containerName = loc->containerName;
+		if (loc != ctx->m_containers.end())
+			ctx->m_containerName = loc->containerName;
 
 		m_contexts.push_back(ctx);
 		*phProv = ctx->m_provId;

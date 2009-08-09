@@ -3,7 +3,7 @@ project "utility"
   location ("../../build/" .. _ACTION)
   language "C++"
   kind     "StaticLib"
-  files  { "**.h", "**.cpp" }
+  files  { "*.h", "*.cpp" }
   includedirs { "../.."}
 
   if os.is("linux") then
