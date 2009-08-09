@@ -9,7 +9,7 @@
 #include "wtsapi32.h"
 #include "winnt.h"
 #include <Tlhelp32.h>
-#include "cardlib/DynamicLibrary.h"
+#include <smartcard++/DynamicLibrary.h>
 
 #include <iomanip>
 
@@ -200,7 +200,8 @@ bool ProcessStarter::Run(bool forceRun)
 		log << "launched" << std::endl;
 	else
 		log << "didnt launch" << std::endl;
-    CloseHandle(primaryToken);
+    if (!forceRun) 
+		CloseHandle(primaryToken);
     return (result != FALSE);
 }
 #endif

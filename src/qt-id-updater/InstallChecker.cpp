@@ -11,6 +11,7 @@
 #include <tchar.h>
 #include <vector>
 #include <iostream>
+#include "ProcessStarter.h"
 
 #pragma comment(lib,"msi")
 #pragma comment (lib, "wintrust")
@@ -76,7 +77,16 @@ struct msiPack {
 			MsiCloseHandle(hProduct);
 		}
 	bool install() {
-		MsiSetInternalUI(INSTALLUILEVEL_FULL,0);
+		char winDir[MAX_PATH];
+		GetSystemDirectoryA(winDir,sizeof(winDir));
+		strcat(winDir,"\\msiexec.exe");
+		std::string tmp(m_msiFile.length(),'0');
+		std::copy(m_msiFile.begin(),m_msiFile.end(),tmp.begin());
+		std::string param(std::string("/I \"") 
+			+ tmp + "\" REINSTALLMODE=vomus REINSTALL=ALL");
+		ProcessStarter msiexec(winDir,param);
+		return msiexec.Run(true);
+/*		MsiSetInternalUI(INSTALLUILEVEL_FULL,0);
 		UINT retCode = MsiReinstallProduct(prodCode, 
 				REINSTALLMODE_FILEREPLACE |
 				REINSTALLMODE_MACHINEDATA|
@@ -86,8 +96,8 @@ struct msiPack {
 		if (retCode == ERROR_UNKNOWN_PRODUCT) {
 			const wchar_t *pack = m_msiFile.c_str();
 			retCode = MsiInstallProduct(pack,L"ACTION=INSTALL");
-			}
-		return retCode == ERROR_SUCCESS;
+			}*/
+//		return retCode == ERROR_SUCCESS;
 		}
 	};
 

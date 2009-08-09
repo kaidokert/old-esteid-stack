@@ -8,14 +8,18 @@ FORMS	= idupdater.ui
 HEADERS = idupdater.h   InstallChecker.h   ProcessStarter.h   ScheduledUpdateTask.h
 SOURCES = idupdater.cpp InstallChecker.cpp ProcessStarter.cpp ScheduledUpdateTask.cpp
 SOURCES += main.cpp
-INCLUDEPATH += ../src/
-HEADERS += ../src/cardlib/DynamicLibrary.h  precompiled.h
-SOURCES += ../src/cardlib/DynamicLibrary.cpp
+INCLUDEPATH += ../../ ../../smartcard++
+HEADERS += ../../smartcard++/DynamicLibrary.h  precompiled.h
+SOURCES += ../../smartcard++/DynamicLibrary.cpp
 
 unix {
   UI_DIR = .ui
   MOC_DIR = .moc
   OBJECTS_DIR = .obj
+}
+
+win32 {
+   RC_FILE = idupdater.rc
 }
 
 
