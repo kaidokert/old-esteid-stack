@@ -12,7 +12,7 @@ cryptContext::cryptContext(wstring provider,wstring container,DWORD flags) {
 	LPCWSTR contName =  container.length() ? container.c_str() : NULL;
 
 	cryptError::check( 
-		CryptAcquireContext(&hProv, contName ,provName  , PROV_RSA_FULL , flags)
+		CryptAcquireContextW(&hProv, contName ,provName  , PROV_RSA_FULL , flags)
 		);
 
 

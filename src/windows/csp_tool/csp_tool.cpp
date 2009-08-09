@@ -133,14 +133,14 @@ bool testEncDec() {
 		cryptContext *ct = NULL;
 
 		try {
-			ct = new cryptContext(MS_ENHANCED_PROV,L"",0);
+			ct = new cryptContext(MS_ENHANCED_PROV_W,L"",0);
 		} catch (cryptError e) {
 			cout << "no default key" << endl;
 			if (e.errCode != NTE_BAD_KEYSET) throw e;
 			}
 		if (!ct) {
 			cout << "try to create default key" << endl;
-			ct = new cryptContext(MS_ENHANCED_PROV,L"",CRYPT_NEWKEYSET);
+			ct = new cryptContext(MS_ENHANCED_PROV_W,L"",CRYPT_NEWKEYSET);
 		}
 		cout << "enhanced context acquired" << endl;
 
@@ -315,7 +315,7 @@ void readFile(std::string fn, byteVec &data) {
 
 bool testFileDec() {
 	try {
-		store myStore(L"MY");
+		store myStore(_T("MY"));
 		byteVec certBlob,keyBlob;
 		readFile("cert.cer",certBlob);
 		readFile("key.dat",keyBlob);
@@ -385,6 +385,11 @@ void get_CSPDiagnostics(CStringA &result) {
 		}
 	}
 #endif
+#ifdef UNICODE
+typedef std::wstring tstring;
+#else
+typedef std::string tstring;
+#endif
 
 int _tmain(int argc, _TCHAR* argv[])
 {
@@ -405,15 +410,15 @@ int _tmain(int argc, _TCHAR* argv[])
 				"decfile - decrypt key from file ( cert.cer and key.dat )";
 		return 1;
 		}
-	wstring doh = argv[1];
-	if (doh == L"enumcont") { return doTest("enumcont ",enumcont()); }
-	if (doh == L"regcert") { return doTest("regcert ",regCert(0)); }
-	if (doh == L"regsigncert") { return doTest("regsigncert ",regCert(1)); }
-	if (doh == L"testdec" ) {return doTest("RSA encrypt/decrypt test ",testEncDec()); }
-	if (doh == L"testsign") {return doTest("SSL signing test ",testsign()); }
-	if (doh == L"testvpn") {return doTest("SHA1 signing test with CRYPT_NOHASHOID ",
+	tstring param = argv[1];
+	if (param == _T("enumcont")) { return doTest("enumcont ",enumcont()); }
+	if (param == _T("regcert")) { return doTest("regcert ",regCert(0)); }
+	if (param == _T("regsigncert")) { return doTest("regsigncert ",regCert(1)); }
+	if (param == _T("testdec") ) {return doTest("RSA encrypt/decrypt test ",testEncDec()); }
+	if (param == _T("testsign")) {return doTest("SSL signing test ",testsign()); }
+	if (param == _T("testvpn")) {return doTest("SHA1 signing test with CRYPT_NOHASHOID ",
 			testsign(CALG_SHA1,CRYPT_NOHASHOID)); }
-	if (doh == L"nonrepu" ) {return doTest("non-repu key signing test ",
+	if (param == _T("nonrepu") ) {return doTest("non-repu key signing test ",
 			testsign(CALG_SHA1,0,1));}
 #ifdef ATL
 	if (doh == L"diag") {
@@ -424,14 +429,14 @@ int _tmain(int argc, _TCHAR* argv[])
 		return 0;
 		}
 #endif
-	if (doh == L"allsigningtests") {
+	if (param == _T("allsigningtests")) {
 		return doTest("all signing tests:",allSign());
 		}
-	if (doh == L"testmultiple") {
+	if (param == _T("testmultiple")) {
 		return doTest("SSL signing with multiple cards ",
 			testMultiple());
 		}
-	if (doh == L"decfile") {
+	if (param == _T("decfile")) {
 		return doTest("decrypt data from file ",
 			testFileDec());
 		}
