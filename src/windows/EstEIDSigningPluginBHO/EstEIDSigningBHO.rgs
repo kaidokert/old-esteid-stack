@@ -1,17 +1,17 @@
 HKCR
 {
-	EstEIDSigningPluginBHO.EstEIDSigningB.1 = s 'EstEIDSigningBHO Class'
+	EstEIDSigningPluginBHO.EstEIDSigningB.1 = s 'Estonian ID-Card BHO'
 	{
 		CLSID = s '{B1DDE0C0-E53D-477A-BA90-769C80E14AAB}'
 	}
-	EstEIDSigningPluginBHO.EstEIDSigningBHO = s 'EstEIDSigningBHO Class'
+	EstEIDSigningPluginBHO.EstEIDSigningBHO = s 'Estonian ID-Card BHO'
 	{
 		CLSID = s '{B1DDE0C0-E53D-477A-BA90-769C80E14AAB}'
 		CurVer = s 'EstEIDSigningPluginBHO.EstEIDSigningB.1'
 	}
 	NoRemove CLSID
 	{
-		ForceRemove {B1DDE0C0-E53D-477A-BA90-769C80E14AAB} = s 'EstEIDSigningBHO Class'
+		ForceRemove {B1DDE0C0-E53D-477A-BA90-769C80E14AAB} = s 'Estonian ID-Card BHO'
 		{
 			ProgID = s 'EstEIDSigningPluginBHO.EstEIDSigningB.1'
 			VersionIndependentProgID = s 'EstEIDSigningPluginBHO.EstEIDSigningBHO'
