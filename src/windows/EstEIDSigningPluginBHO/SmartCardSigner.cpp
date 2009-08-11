@@ -13,7 +13,7 @@
 #include "SmartCardSigner.h"
 #include "utility/pinDialog.h"
 #include "utility/converters.h"
-#include "cardlib/SCError.h"
+#include <smartcard++/SCError.h>
 #include <algorithm>
 #include "Setup.h"
 
@@ -119,7 +119,7 @@ struct sign_op : public pinOpInterface {
 	sign_op(ByteVec &_hash,ByteVec &_result,
 		EstEidCard &card,mutexObj &mutex) : 
 		pinOpInterface(card,mutex),hash(_hash),result(_result) {}
-	void call(EstEidCard &card,const std::string &pin,EstEidCard::KeyType key) {
+	void call(EstEidCard &card,const PinString &pin,EstEidCard::KeyType key) {
 		result = card.calcSignSHA1(hash,key,pin);
 		}
 };
@@ -168,7 +168,7 @@ STDMETHODIMP CSmartCardSigner::sign(BSTR hashToBeSigned,IDispatch * pCert,BSTR* 
 	try {
 		EstEidCard card(m_mgr,m_selectedReader);
 		sign_op operation(hash,result,card,criticalSection);
-		std::string dummyCache;
+		PinString dummyCache;
 		dlg.doDialogInloop(operation,dummyCache);
 	} catch(std::exception &e) {
 		return errMsg(e.what());

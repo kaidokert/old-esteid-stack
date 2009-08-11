@@ -20,6 +20,6 @@
 #include <atlbase.h>
 #include <atlcom.h>
 #include <atlctl.h>
-#include <cardlib/common.h>
+#include <smartcard++/common.h>
 #include <comutil.h> //_bstr_t
 using namespace ATL;
