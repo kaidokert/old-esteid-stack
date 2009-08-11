@@ -132,7 +132,8 @@ BOOL Csp::CPAcquireContextW(
 	try {
 
 		ret.SetOk();
-	} catch(std::runtime_error &) {
+	} catch(std::runtime_error &err) {
+		ret.logReturn(err);
 	}
 	return ret;
 }
@@ -166,7 +167,8 @@ BOOL Csp::CPSetProvParam(
 			}
 
 		ret.SetOk();
-	} catch(std::runtime_error &) {
+	} catch(std::runtime_error &err) {
+		ret.logReturn(err);
 	}
 	return ret;
 }
@@ -327,7 +329,8 @@ BOOL Csp::CPEncrypt(
 	try {
 		CSPContextIter it = findContext(hProv);
 		ret.SetOk();
-	} catch(std::runtime_error &) {
+	} catch(std::runtime_error &err) {
+		ret.logReturn(err);
 	}
 	return ret;
 }
@@ -347,8 +350,9 @@ BOOL Csp::CPDecrypt(
 		if (GET_ALG_TYPE(key->m_algId) != ALG_TYPE_RSA) 
 			throw err_badType();
 		packData dat(pbData,pcbDataLen);
-		key->doRsaDecrypt(dat);
-		//TODO : TBC
+		std::vector<BYTE> cipher(dat.m_pbData, dat.m_pbData + dat.m_originalSz);
+		std::vector<BYTE> result = key->doRsaDecrypt( cipher);
+		dat.setValue(result);
 		ret.SetOk();
 	} catch(std::runtime_error &) {
 	}

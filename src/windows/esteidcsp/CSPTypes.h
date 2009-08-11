@@ -131,7 +131,7 @@ struct CSPKeyContext {
 	std::vector<BYTE> m_certificateBlob;
 	WrapKey *m_wrapKey;
 	virtual void setPubkeySpec(DWORD dwKeySpec) {m_keySpec = dwKeySpec;}
-	virtual void doRsaDecrypt(packData &dat) {}
+	virtual std::vector<BYTE> doRsaDecrypt(std::vector<BYTE>  cipher) { return std::vector<BYTE>(); }
 	CSPKeyContext() : m_wrapKey(NULL) {}
 	~CSPKeyContext() {if (m_wrapKey) delete m_wrapKey;}
 	bool operator==(const HCRYPTKEY) const;

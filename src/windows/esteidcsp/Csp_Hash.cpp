@@ -28,7 +28,8 @@ BOOL Csp::CPCreateHash(
 		it->m_hashes.push_back(newHash);
 		*phHash = newHash->m_hashId;
 		ret.SetOk();
-	} catch(std::runtime_error &) {
+	} catch(std::runtime_error &err) {
+		ret.logReturn(err);
 	}
 	return ret;
 }
@@ -45,7 +46,8 @@ BOOL Csp::CPHashData(
 		CSPHashContext *hash = *it->findHashContext(hHash);
 		CryptHashData(*hash->m_wrapHash,pbData,cbDataLen,dwFlags);
 		ret.SetOk();
-	} catch(std::runtime_error &) {
+	} catch(std::runtime_error &err) {
+		ret.logReturn(err);
 	}
 	return ret;
 }
@@ -55,12 +57,13 @@ BOOL Csp::CPHashSessionKey(
 		IN  HCRYPTHASH hHash,
 		IN  HCRYPTKEY hKey,
 		IN  DWORD dwFlags){
+	DECL_RET(ret);
 	try {
 		throw std::runtime_error("not implemented");
-	} catch(std::runtime_error &) {
-		return FALSE;
+	} catch(std::runtime_error &err) {
+		ret.logReturn(err);
 	}
-	return TRUE;
+	return ret;
 }
 
 BOOL Csp::CPSignHash(
@@ -92,12 +95,15 @@ BOOL Csp::CPSignHash(
 BOOL Csp::CPDestroyHash(
 		IN  HCRYPTPROV hProv,
 		IN  HCRYPTHASH hHash){
+	DECL_RET(ret);
 	try {
-		throw std::runtime_error("not implemented");
-	} catch(std::runtime_error &) {
-		return FALSE;
+		CSPContext * it = *findContext(hProv);
+		it->m_hashes.erase(it->findHashContext(hHash));
+		ret.SetOk();
+	} catch(std::runtime_error &err) {
+		ret.logReturn(err);
 	}
-	return TRUE;
+	return ret;
 }
 
 BOOL Csp::CPVerifySignature(
@@ -108,12 +114,13 @@ BOOL Csp::CPVerifySignature(
 		IN  HCRYPTKEY hPubKey,
 		IN  LPCWSTR szDescription,
 		IN  DWORD dwFlags){
+	DECL_RET(ret);
 	try {
 		throw std::runtime_error("not implemented");
-	} catch(std::runtime_error &) {
-		return FALSE;
+	} catch(std::runtime_error &err) {
+		ret.logReturn(err);
 	}
-	return TRUE;
+	return ret;
 }
 
 BOOL Csp::CPSetHashParam(
@@ -160,11 +167,12 @@ BOOL Csp::CPDuplicateHash(
 		IN  LPDWORD pdwReserved,
 		IN  DWORD dwFlags,
 		OUT HCRYPTHASH *phHash){
+	DECL_RET(ret);
 	try {
 		throw std::runtime_error("not implemented");
-	} catch(std::runtime_error &) {
-		return FALSE;
+	} catch(std::runtime_error &err) {
+		ret.logReturn(err);
 	}
-	return TRUE;
+	return ret;
 }
 

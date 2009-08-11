@@ -36,7 +36,8 @@ public:
 	SmartCardManager & getMgr() { return cardMgr;};
 	CSPKeyContext * EstEidContext::createKeyContext();
 	CSPHashContext * EstEidContext::createHashContext();
-	std::vector<BYTE> doSigning(ALG_ID m_algId,std::vector<BYTE> &hash,
+	template<class T>
+	std::vector<BYTE> doOperation(ALG_ID m_algId,std::vector<BYTE> &cipher,
 		EstEidCard::KeyType keyType);
 
 	bool findCard(EstEidCard &card) {
@@ -90,33 +91,9 @@ public:
 		else 
 			m_certificateBlob = card.getSignCert();
 		}
-	struct decrypt_op : public pinOpInterface {
-		ByteVec &cipher;
-		decrypt_op(ByteVec &_cipher, EstEidCard &card,mutexObj &mutex) : 
-			pinOpInterface(card,mutex),cipher(_cipher) {}
-		void call(EstEidCard &card,const PinString &pin,EstEidCard::KeyType key) {
-			card.RSADecrypt(cipher,pin);
-			}
+	std::vector<BYTE> doRsaDecrypt(std::vector<BYTE> cipher);
 	};
-	void doRsaDecrypt(packData &dat) {
-		EstEidCard card(m_ctx->getMgr());
-		if (!m_ctx->findCard(card)) throw err_noKey();
-		ByteVec cipher(dat.m_pbData,dat.m_pbData + dat.m_originalSz);
-		mutexObj dummy("dummy");
 
-/*		pinDialogPriv_l params = { m_module,IDD_PIN_DIALOG_ENG};
-		pinDialog dlg(&params, EstEidCard::AUTH );
-		decrypt_op op(cipher,card,dummy);
-		if (!card.hasSecurePinEntry()) {
-			PinString dummyCache;
-			dlg.doDialogInloop(op, cachedAuthPin );
-			}
-		else { 
-			byte retries;
-			op.call(card,"",dlg.keyType());
-			}*/
-		}
-	};
 
 EstEidContext::EstEidContext(logger &log,HMODULE module) : 
 	CSPContext(log),m_module(module) {
@@ -236,33 +213,45 @@ struct sign_op : public pinOpInterface {
 			}
 		}
 };
+struct decrypt_op : public pinOpInterface {
+	ByteVec &cipher, &result;
+	decrypt_op(ByteVec &_cipher, ByteVec &_result,
+		EstEidCard &card,mutexObj &mutex,ALG_ID ) : 
+		pinOpInterface(card,mutex),cipher(_cipher),result(_result) {}
+	void call(EstEidCard &card,const PinString &pin,EstEidCard::KeyType key) {
+		result = card.RSADecrypt(cipher,pin);
+		}
+};
 
-std::vector<BYTE> EstEidContext::doSigning(ALG_ID m_algId,std::vector<BYTE> &hash,
-		EstEidCard::KeyType keyType) {
+template<class T>
+std::vector<BYTE> EstEidContext::doOperation(ALG_ID m_algId,std::vector<BYTE> &input,
+	 EstEidCard::KeyType keyType) {
 	std::vector<BYTE> ret;
 	mutexObj dummy("dummy");
 
 	pinDialogPriv_l params = { m_module,IDD_PIN_DIALOG_ENG};
-	pinDialog dlg(&params, keyType  );
+	pinDialog dlg(&params, keyType );
 
 	EstEidCard card(getMgr());
 	if (!findCard(card)) throw err_noKey();
-	sign_op operation(hash,ret,card,dummy,m_algId);
+	T operation(input,ret,card,dummy,m_algId);
 	if (!card.hasSecurePinEntry()) {
 		PinString dummyCache;
-		dlg.doDialogInloop(operation, keyType == EstEidCard::AUTH ?	cachedAuthPin : dummyCache );
+		dlg.doDialogInloop(operation, 
+			keyType == EstEidCard::AUTH ? cachedAuthPin : dummyCache );
 		}
 	else { 
-		byte retries;
 		operation.call(card,"",dlg.keyType());
 		}
-
-	reverse(ret.begin(),ret.end());		
-
 	return ret;
 }
 
 std::vector<BYTE> EsteidHashContext::sign(std::vector<BYTE> &hash,DWORD dwKeySpec) {
-	return m_ctx->doSigning(m_algId,hash,
-		dwKeySpec == 1 ? EstEidCard::AUTH : EstEidCard::SIGN );
+	ByteVec ret = m_ctx->doOperation<sign_op>(m_algId,
+			hash,dwKeySpec == 1 ? EstEidCard::AUTH : EstEidCard::SIGN );
+	reverse(ret.begin(),ret.end());
+	return ret;
 }
+std::vector<BYTE> EsteidKeyContext::doRsaDecrypt(std::vector<BYTE> cipher) {
+	return m_ctx->doOperation<decrypt_op>(0,cipher,EstEidCard::AUTH);
+	}
