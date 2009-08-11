@@ -55,7 +55,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(PlatformName)/;../src;../qt-id-updater"
+				AdditionalIncludeDirectories="$(PlatformName)/;../..;../../..;../../qt-id-updater"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -148,7 +148,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(PlatformName)/;../src;../qt-id-updater"
+				AdditionalIncludeDirectories="$(PlatformName)/;../..;../../..;../../qt-id-updater"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -242,7 +242,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="$(PlatformName)/;../src;../qt-id-updater"
+				AdditionalIncludeDirectories="$(PlatformName)/;../..;../../..;../../qt-id-updater"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="2"
@@ -335,7 +335,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="$(PlatformName)/;../src;../qt-id-updater"
+				AdditionalIncludeDirectories="$(PlatformName)/;../..;../../..;../../qt-id-updater"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="2"
@@ -438,7 +438,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\qt-id-updater\ProcessStarter.cpp"
+				RelativePath="..\..\qt-id-updater\ProcessStarter.cpp"
 				>
 			</File>
 			<File
@@ -453,11 +453,11 @@
 				Name="utility"
 				>
 				<File
-					RelativePath="..\src\utility\monitorThread.cpp"
+					RelativePath="..\..\utility\monitorThread.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\src\utility\threadObj.cpp"
+					RelativePath="..\..\utility\threadObj.cpp"
 					>
 				</File>
 			</Filter>
@@ -465,31 +465,35 @@
 				Name="cardlib"
 				>
 				<File
-					RelativePath="..\src\cardlib\CardBase.cpp"
+					RelativePath="..\..\..\smartcard++\CardBase.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\src\cardlib\CTAPIManager.cpp"
+					RelativePath="..\..\..\smartcard++\locked_allocator.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\src\cardlib\DynamicLibrary.cpp"
+					RelativePath="..\..\..\smartcard++\CTAPIManager.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\src\cardlib\EstEidCard.cpp"
+					RelativePath="..\..\..\smartcard++\DynamicLibrary.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\src\cardlib\PCSCManager.cpp"
+					RelativePath="..\..\..\smartcard++\esteid\EstEidCard.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\src\cardlib\SCError.cpp"
+					RelativePath="..\..\..\smartcard++\PCSCManager.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\src\cardlib\SmartCardManager.cpp"
+					RelativePath="..\..\..\smartcard++\SCError.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\smartcard++\SmartCardManager.cpp"
 					>
 				</File>
 			</Filter>
@@ -504,7 +508,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\qt-id-updater\ProcessStarter.h"
+				RelativePath="..\..\qt-id-updater\ProcessStarter.h"
 				>
 			</File>
 			<File
@@ -515,11 +519,11 @@
 				Name="utility"
 				>
 				<File
-					RelativePath="..\src\utility\monitorThread.h"
+					RelativePath="..\..\utility\monitorThread.h"
 					>
 				</File>
 				<File
-					RelativePath="..\src\utility\threadObj.h"
+					RelativePath="..\..\utility\threadObj.h"
 					>
 				</File>
 			</Filter>
@@ -527,31 +531,31 @@
 				Name="cardlib"
 				>
 				<File
-					RelativePath="..\src\cardlib\CardBase.h"
+					RelativePath="..\..\..\smartcard++\CardBase.h"
 					>
 				</File>
 				<File
-					RelativePath="..\src\cardlib\CTAPIManager.h"
+					RelativePath="..\..\..\smartcard++\CTAPIManager.h"
 					>
 				</File>
 				<File
-					RelativePath="..\src\cardlib\DynamicLibrary.h"
+					RelativePath="..\..\..\smartcard++\DynamicLibrary.h"
 					>
 				</File>
 				<File
-					RelativePath="..\src\cardlib\EstEidCard.h"
+					RelativePath="..\..\..\smartcard++\esteid\EstEidCard.h"
 					>
 				</File>
 				<File
-					RelativePath="..\src\cardlib\PCSCManager.h"
+					RelativePath="..\..\..\smartcard++\PCSCManager.h"
 					>
 				</File>
 				<File
-					RelativePath="..\src\cardlib\SCError.h"
+					RelativePath="..\..\..\smartcard++\SCError.h"
 					>
 				</File>
 				<File
-					RelativePath="..\src\cardlib\SmartCardManager.h"
+					RelativePath="..\..\..\smartcard++\SmartCardManager.h"
 					>
 				</File>
 			</Filter>
