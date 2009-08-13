@@ -81,6 +81,11 @@ AC_OUTPUT(Makefile \
 	  src/utility/Makefile \
 	  src/esteidpkcs11/Makefile \
 	  src/esteidutil/Makefile \
-	  src/tests/Makefile
+	  src/tests/Makefile \
+	  src/qt-id-updater/Makefile \
+	  src/windows/Makefile \
+	  src/windows/esteidcm/Makefile \
+	  src/windows/esteidcsp/Makefile \
+	  src/windows/EstEIDSigningPluginBHO/Makefile
 )
 
