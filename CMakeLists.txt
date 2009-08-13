@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 2.6)
 project (esteidutil)
 add_subdirectory (smartcard++)
+add_subdirectory (src/utility)
 add_subdirectory (src/esteidpkcs11)
 
 # add_subdirectory (src/utility)
