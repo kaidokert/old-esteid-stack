@@ -98,7 +98,7 @@ PCSCManager::~PCSCManager(void)
 
 void PCSCManager::ensureReaders(uint idx)
 {
-	DWORD ccReaders;
+	DWORD ccReaders = 0;
 	SCError::check((*pSCardListReaders)(mSCardContext,NULL,NULL,&ccReaders));
 	if (ccReaders == 0) {
 		mReaderStates.clear();
