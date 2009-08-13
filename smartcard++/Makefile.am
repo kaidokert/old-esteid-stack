@@ -12,6 +12,7 @@ h_sources = smartcard++.h \
 	    SCError.h \
 	    SmartCardManager.h \
 	    locked_allocator.h \
+	    PinString.h \
 	    types.h 
 
 cpp_sources = CardBase.cpp \
