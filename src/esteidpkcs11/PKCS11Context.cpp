@@ -426,9 +426,9 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_OpenSession(
 			if (!card.isInReader(sess->readerID)) 
 				return CKR_TOKEN_NOT_PRESENT;
 			card.connect(sess->readerID);
-			if (slotID & 0x1) {}
-				//sess->createCertificate(card.getSignCert(),sess->sign,"Signature",223);
-			else
+			if (slotID & 0x1) {
+//				sess->createCertificate(card.getSignCert(),sess->sign,"Signature",223);
+			} else
 				sess->createCertificate(card.getAuthCert(),sess->auth,"Authentication",123);
 		}
 		return CKR_OK;
@@ -552,7 +552,10 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_Login(
 			return CKR_DEVICE_REMOVED;
 		card.connect(sess->readerID);
 		byte retriesLeft;
-		card.validateAuthPin(sess->pin,retriesLeft);
+		if (sess->slotID & 1)
+		  card.validateSignPin(sess->pin,retriesLeft);
+		else
+		  card.validateAuthPin(sess->pin,retriesLeft);
 	} catch ( AuthError &ae) {
 		if (ae.m_badinput) 
 			return CKR_PIN_LEN_RANGE;
@@ -625,8 +628,10 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_SignInit(
 	sess->sigKey = hKey;
 	switch(sess->sigMechanism.mechanism) {
 		case CKM_RSA_PKCS:
-/*		case CKM_MD5_RSA_PKCS:
-		case CKM_SHA1_RSA_PKCS: */break;
+		  if (sess->slotID & 1) return CKR_MECHANISM_INVALID;
+//		case CKM_MD5_RSA_PKCS:
+//		case CKM_SHA1_RSA_PKCS: 
+		  break;
 		default: return CKR_MECHANISM_INVALID;
 		}
 	return CKR_OK;
@@ -651,7 +656,17 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_Sign(
 			return CKR_DEVICE_REMOVED;
 		card.connect(sess->readerID);
 
-		ByteVec result = card.calcSSL(ByteVec(pData,pData + ulDataLen),sess->pin);
+		ByteVec input(pData, pData + ulDataLen), result;
+		EstEidCard::KeyType key = sess->slotID & 0x1 ? EstEidCard::SIGN : EstEidCard::AUTH;
+		switch(sess->sigMechanism.mechanism) {
+			case CKM_RSA_PKCS:
+			    result = card.calcSSL(input,sess->pin);
+			    break;
+			case CKM_SHA1_RSA_PKCS:
+			    result = card.calcSignSHA1(input,key,sess->pin);
+			break;
+			}
+
 		*pulSignatureLen = (CK_ULONG)result.size();
 		if (len < result.size() ) 
 			return CKR_BUFFER_TOO_SMALL;
@@ -659,9 +674,15 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_Sign(
 			return CKR_OK;
 		memcpy(pSignature,&result[0],result.size());
 		return CKR_OK;
+	} catch ( AuthError &ae) {
+		if (ae.m_badinput) 
+			return CKR_PIN_LEN_RANGE;
+		else
+			return CKR_PIN_INCORRECT;
 	}catch(CardError &ce) {
 		std::ostringstream buf;
 		buf << ce.what();
+		return CKR_FUNCTION_FAILED;
 	}catch(std::runtime_error &err) {
 		std::ostringstream buf;
 		buf << err.what();
