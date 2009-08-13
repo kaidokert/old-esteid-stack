@@ -13,7 +13,6 @@ EstEIDSigningPluginBHO.def \
 EstEIDSigningPluginBHO.idl \
 EstEIDSigningPluginBHO.rc \
 EstEIDSigningPluginBHO.rgs \
-EstEIDSigningPluginBHO.vcproj \
 _ISmartCardSignerEvents_CP.h  \
 precompiled.cpp \
 precompiled.h \
