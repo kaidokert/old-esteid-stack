@@ -341,7 +341,8 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetSlotInfo(
 		padString(pInfo->slotDescription,sizeof(pInfo->slotDescription), buf.str()) ;  
 		padString(pInfo->manufacturerID,sizeof(pInfo->manufacturerID),"EstEID");
 		pInfo->flags = CKF_REMOVABLE_DEVICE | CKF_HW_SLOT;
-		if (card.isInReader(slotID / 2)) pInfo->flags |= CKF_TOKEN_PRESENT;
+		if (!(slotID & 1))
+		  if (card.isInReader(slotID / 2)) pInfo->flags |= CKF_TOKEN_PRESENT;
 
 		CK_VERSION nulVer = {1,0};
 		pInfo->hardwareVersion = nulVer;
