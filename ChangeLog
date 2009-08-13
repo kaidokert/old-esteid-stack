@@ -3,6 +3,10 @@ Changes for version 0.10.1
 	* Major code directory restructuring
 	* Cardlib renamed to smartcard++
 	* Pin passing through memory-locking allocator
+	* CSP supports CTAPI
+	* CSP supports signature key
+	* CMake builds added
+	* various stability fixes
 
 Changes for version 0.9.21
 -------------------------
