@@ -266,6 +266,10 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetTokenInfo(
 		card.connect(readerId);
 		std::string id = card.readCardID();
 		std::string name = card.readCardName();
+		if (slotID & 1)
+		  name += " (PIN2, Sign)";
+		else
+		  name += " (PIN1, Auth)";
 
 		memset(pInfo, 0, sizeof(*pInfo));
 		padString(pInfo->label,sizeof(pInfo->label),name);
