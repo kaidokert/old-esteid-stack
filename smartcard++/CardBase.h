@@ -32,9 +32,10 @@ public:
 class AuthError :public CardError {
 public:
 	bool m_blocked;
-	AuthError(byte a,byte b) : CardError(a,b), m_blocked(false) {};
-	AuthError(byte a,byte b,bool block) : CardError(a,b), m_blocked(block) {};
-	AuthError(CardError _base) : CardError(_base) , m_blocked(false) {}
+	bool m_badinput;
+	AuthError(byte a,byte b) : CardError(a,b), m_blocked(false),m_badinput(false) {};
+	AuthError(byte a,byte b,bool block) : CardError(a,b), m_blocked(block),m_badinput(false) {};
+	AuthError(CardError _base) : CardError(_base) , m_blocked(false),m_badinput(false) {}
 };
 
 /// Represents basic ISO7816-4 smartcard

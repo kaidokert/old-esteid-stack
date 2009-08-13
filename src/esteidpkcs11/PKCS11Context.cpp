@@ -68,22 +68,13 @@ CK_OBJECT_CLASS cert_class = CKO_CERTIFICATE;
 CK_CERTIFICATE_TYPE cert_type = CKC_X_509;
 CK_BBOOL _true = TRUE;
 CK_KEY_TYPE keyType = CKK_RSA;
-CK_UTF8CHAR pubKeyLabel[] = "RSA pubkey";
-CK_UTF8CHAR privKeyLabel[] = "RSA privkey";
-CK_UTF8CHAR certLabel[] = "RSA cert";
 CK_BYTE modulus[128] = {1};
-CK_BYTE id1[] = {123};
-CK_BYTE id2[] = {123};
-CK_BYTE id3[] = {123};
 CK_ULONG modBits = 1024;
 CK_ATTRIBUTE publicKeyTemplate[] = {
 	{CKA_CLASS, &pubkey_class, sizeof(pubkey_class)},
 	{CKA_TOKEN, &_true, sizeof(_true)},
 	{CKA_KEY_TYPE,&keyType,sizeof(keyType)},
-	{CKA_LABEL,pubKeyLabel,sizeof(pubKeyLabel)-1},
-	{CKA_ID, id1, sizeof(id1)},
 	{CKA_ENCRYPT, &_true, sizeof(_true)},
-//	{CKA_VERIFY, &_true, sizeof(_true)},
 	{CKA_MODULUS,modulus,sizeof(modulus)},
 	{CKA_MODULUS_BITS,&modBits,sizeof(modBits)},
 };
@@ -92,8 +83,6 @@ CK_ATTRIBUTE privateKeyTemplate[] = {
 	{CKA_TOKEN, &_true, sizeof(_true)},
 	{CKA_KEY_TYPE,&keyType,sizeof(keyType)},
 	{CKA_PRIVATE,&_true,sizeof(_true)},
-	{CKA_LABEL,privKeyLabel,sizeof(privKeyLabel)-1},
-	{CKA_ID, id2, sizeof(id2)},
 	{CKA_MODULUS,modulus,sizeof(modulus)},
 	{CKA_SIGN,&_true,sizeof(_true)}
 };
@@ -101,27 +90,41 @@ CK_ATTRIBUTE certificateTemplate[] = {
 	{CKA_CLASS, &cert_class, sizeof(cert_class)},
 	{CKA_TOKEN, &_true, sizeof(_true)},
 	{CKA_CERTIFICATE_TYPE, &cert_type, sizeof(cert_type)},
-	{CKA_LABEL,certLabel,sizeof(certLabel)-1},
 	{CKA_TRUSTED,&_true,sizeof(_true)},
-	{CKA_ID, id3, sizeof(id3)},
 };
 
 class PKCS11Session {
+public:
+	struct utf8str : public std::vector<CK_UTF8CHAR> {
+		utf8str &operator=(const std::string _in) {
+			resize(_in.length());
+			std::copy(_in.begin(),_in.end(),begin());
+			return *this;
+			}
+	};
+private:
 	friend class PKCS11Context;
 //	friend struct SessionChangeState;
 	CK_SESSION_HANDLE session;
 	CK_SLOT_ID slotID;
+	int readerID;
 	CK_FLAGS flags;
 	CK_VOID_PTR pApplication;
 	CK_NOTIFY   notify;
 	std::vector<CK_ATTRIBUTE > searchParam;
 	std::vector<ObjHandle> searchHandles;
 	std::vector<PKCS11Object > objects;
-	ByteVec authCert;
-	ByteVec pubKey;
-	ByteVec iss;
-	ByteVec ser;
-	ByteVec sub;
+	struct certFields {
+		CK_BYTE id;
+		ByteVec cert;
+		ByteVec pubKey;
+		ByteVec iss;
+		ByteVec ser;
+		ByteVec sub;
+		utf8str label;
+		utf8str pubKeyLabel;
+		utf8str privKeyLabel;
+	} auth,sign;
 	PinString pin;
 	CK_ULONG state;
 	CK_MECHANISM   sigMechanism;
@@ -145,6 +148,44 @@ public:
 	bool operator==(const CK_SESSION_HANDLE& other) {
 		return session == other;
 		}
+	void createCertificate(ByteVec certBlob,certFields & _a,std::string label,CK_BYTE id) {
+		_a.cert = certBlob;
+		std::stringstream dummy;
+		asnCertificate asnCert(_a.cert,dummy);
+		_a.id = id;
+		_a.pubKey = asnCert.getPubKey();
+		_a.iss = asnCert.getIssuerBlob();
+		_a.ser = asnCert.getSerialBlob();
+		_a.sub = asnCert.getSubjectBlob();
+		_a.label = label + " certificate";
+		_a.pubKeyLabel = label + " public key";
+		_a.privKeyLabel = label + " private key";
+
+		CK_ATTRIBUTE valId = {CKA_ID, &_a.id, sizeof(_a.id)};
+		CK_ATTRIBUTE valAttCert= {CKA_VALUE,&_a.cert[0],(CK_ULONG)_a.cert.size()};
+		CK_ATTRIBUTE valAttPubKey = {CKA_VALUE,&_a.pubKey[0],(CK_ULONG)_a.pubKey.size()};
+		CK_ATTRIBUTE valIssuer = {CKA_ISSUER,&_a.iss[0],(CK_ULONG) _a.iss.size()};
+		CK_ATTRIBUTE valSerial = {CKA_SERIAL_NUMBER,&_a.ser[0],(CK_ULONG) _a.ser.size()};
+		CK_ATTRIBUTE valSubject = {CKA_SUBJECT,&_a.sub[0],(CK_ULONG) _a.sub.size()};
+		CK_ATTRIBUTE valLabel = {CKA_LABEL,&_a.label[0],(CK_ULONG)_a.label.size()};
+		CK_ATTRIBUTE valLabel0 = {CKA_LABEL,&_a.pubKeyLabel[0],(CK_ULONG)_a.pubKeyLabel.size()};
+		CK_ATTRIBUTE valLabel1 = {CKA_LABEL,&_a.privKeyLabel[0],(CK_ULONG)_a.privKeyLabel.size()};
+
+		objects.push_back(PKCS11Object(OBJ_CERT,certificateTemplate,LENOF(certificateTemplate)));
+		(--objects.end())->appendAttrib(valId);
+		(--objects.end())->appendAttrib(valAttCert);
+		(--objects.end())->appendAttrib(valIssuer);
+		(--objects.end())->appendAttrib(valSerial);
+		(--objects.end())->appendAttrib(valSubject);
+		(--objects.end())->appendAttrib(valLabel);
+		objects.push_back(PKCS11Object(OBJ_PUBKEY,publicKeyTemplate,LENOF(publicKeyTemplate)));
+		(--objects.end())->appendAttrib(valId);
+		(--objects.end())->appendAttrib(valAttPubKey);
+		(--objects.end())->appendAttrib(valLabel0);
+		objects.push_back(PKCS11Object(OBJ_PRIVKEY,privateKeyTemplate,LENOF(privateKeyTemplate)));
+		(--objects.end())->appendAttrib(valId);
+		(--objects.end())->appendAttrib(valLabel1);
+		}
 };
 
 bool operator==(CK_ATTRIBUTE x,CK_ATTRIBUTE_TYPE a) {
@@ -159,6 +200,9 @@ class PKCS11ContextPriv {
 	std::vector<PKCS11Session > sessions;
 	typedef std::vector<PKCS11Session >::iterator sessIter;
 	PKCS11ContextPriv() : nextSession(303){}
+	bool checkSlot(CK_SLOT_ID slotID) {
+		return (slotID >= (readerCount * 2));
+		}
 };
 
 
@@ -209,45 +253,17 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetInfo(CK_INFO_PTR   pInfo  )) {
 	return CKR_OK;
 	}
 
-CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetSlotList(
-		CK_BBOOL       tokenPresent,  /* only slots with tokens? */
-		CK_SLOT_ID_PTR pSlotList,     /* receives array of slot IDs */
-		CK_ULONG_PTR   pulCount       /* receives number of slots */
-		)) {
-	try {
-	uint inBuffer = *pulCount;
-	*pulCount = 0;
-	refreshReaders();
-	*pulCount = d->readerCount;
-
-	if (pSlotList == NULL )
-		return CKR_OK;
-	if (d->readerCount > inBuffer) 
-		return CKR_BUFFER_TOO_SMALL;
-
-	CK_SLOT_ID_PTR pSlot = pSlotList;
-	for(uint i = 0; i < d->readerCount ; i++ ) {
-		EstEidCard card(d->mgr);
-		if (!tokenPresent || card.isInReader(i))
-			*pSlot++ = i;
-		}
-
-	return CKR_OK;
-	}catch(std::runtime_error &) {
-		return CKR_GENERAL_ERROR;
-		}
-}
-
 CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetTokenInfo(
 	CK_SLOT_ID        slotID,  /* ID of the token's slot */
 	CK_TOKEN_INFO_PTR pInfo    /* receives the token information */
 	)) {
 	try {
 		refreshReaders();
-		if (slotID > d->readerCount ) return CKR_SLOT_ID_INVALID;
+		if (d->checkSlot(slotID)) return CKR_SLOT_ID_INVALID;
+		int readerId = slotID / 2;
 		EstEidCard card(d->mgr);
-		if (!card.isInReader(slotID)) return CKR_DEVICE_REMOVED;
-		card.connect(slotID);
+		if (!card.isInReader(readerId)) return CKR_DEVICE_REMOVED;
+		card.connect(readerId);
 		std::string id = card.readCardID();
 		std::string name = card.readCardName();
 
@@ -274,6 +290,37 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetTokenInfo(
 		pInfo->hardwareVersion = nulVer;
 		pInfo->firmwareVersion = nulVer;
 		return CKR_OK;
+	}catch(std::runtime_error &err) {
+		return CKR_GENERAL_ERROR;
+		}
+}
+
+CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetSlotList(
+		CK_BBOOL       tokenPresent,  /* only slots with tokens? */
+		CK_SLOT_ID_PTR pSlotList,     /* receives array of slot IDs */
+		CK_ULONG_PTR   pulCount       /* receives number of slots */
+		)) {
+	try {
+		uint inBuffer = *pulCount;
+		*pulCount = 0;
+		refreshReaders();
+		*pulCount = d->readerCount * 2;
+
+		if (pSlotList == NULL )
+			return CKR_OK;
+		if (d->readerCount > inBuffer) 
+			return CKR_BUFFER_TOO_SMALL;
+
+		CK_SLOT_ID_PTR pSlot = pSlotList;
+		for(uint i = 0; i < d->readerCount ; i++ ) {
+			EstEidCard card(d->mgr);
+			if (!tokenPresent || card.isInReader(i)) {
+				*pSlot++ = (i * 2);
+				*pSlot++ = (i * 2) + 1;
+				}
+			}
+
+		return CKR_OK;
 	}catch(std::runtime_error &) {
 		return CKR_GENERAL_ERROR;
 		}
@@ -285,7 +332,7 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetSlotInfo(
 	)) {
 	try {
 		refreshReaders();
-		if (slotID > d->readerCount ) return CKR_SLOT_ID_INVALID;
+		if (d->checkSlot(slotID)) return CKR_SLOT_ID_INVALID;
 		EstEidCard card(d->mgr);
 		
 		memset(pInfo, 0, sizeof(*pInfo));
@@ -294,7 +341,7 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetSlotInfo(
 		padString(pInfo->slotDescription,sizeof(pInfo->slotDescription), buf.str()) ;  
 		padString(pInfo->manufacturerID,sizeof(pInfo->manufacturerID),"EstEID");
 		pInfo->flags = CKF_REMOVABLE_DEVICE | CKF_HW_SLOT;
-		if (card.isInReader(slotID)) pInfo->flags |= CKF_TOKEN_PRESENT;
+		if (card.isInReader(slotID / 2)) pInfo->flags |= CKF_TOKEN_PRESENT;
 
 		CK_VERSION nulVer = {1,0};
 		pInfo->hardwareVersion = nulVer;
@@ -311,8 +358,8 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetMechanismList(
 	CK_ULONG_PTR          pulCount         /* gets # of mechs. */
 	)) {
 	CK_ULONG count = *pulCount;
-	refreshReaders();
-	if (slotID > d->readerCount ) return CKR_SLOT_ID_INVALID;
+//	refreshReaders();
+	if (d->checkSlot(slotID)) return CKR_SLOT_ID_INVALID;
 	*pulCount = 1;
 	if (pMechanismList == NULL )
 		return CKR_OK;
@@ -358,7 +405,7 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_OpenSession(
 	)) {
 	try {
 		refreshReaders();
-		if (slotID > d->readerCount ) return CKR_SLOT_ID_INVALID;
+		if (d->checkSlot(slotID)) return CKR_SLOT_ID_INVALID;
 		if (!(flags & CKF_SERIAL_SESSION)) return CKR_SESSION_PARALLEL_NOT_SUPPORTED;
 		
 		*phSession = getNextSessionHandle();
@@ -373,33 +420,16 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_OpenSession(
 				break;
 				}
 			}
+		sess->readerID = slotID / 2;
 		{
 			EstEidCard card(d->mgr);
-			if (!card.isInReader(sess->slotID)) 
+			if (!card.isInReader(sess->readerID)) 
 				return CKR_TOKEN_NOT_PRESENT;
-			card.connect(sess->slotID);
-			sess->authCert = card.getAuthCert();
-			std::stringstream dummy;
-			asnCertificate cert(sess->authCert,dummy);
-			sess->authCert.resize(cert.size + (cert.body_start - cert.start));
-			sess->pubKey = cert.getPubKey();
-			sess->iss = cert.getIssuerBlob();
-			sess->ser = cert.getSerialBlob();
-			sess->sub = cert.getSubjectBlob();
-
-			CK_ATTRIBUTE valAttCert= {CKA_VALUE,&sess->authCert[0],(CK_ULONG)sess->authCert.size()};
-			CK_ATTRIBUTE valAttPubKey = {CKA_VALUE,&sess->pubKey[0],(CK_ULONG)sess->pubKey.size()};
-			CK_ATTRIBUTE valIssuer = {CKA_ISSUER,&sess->iss[0],(CK_ULONG) sess->iss.size()};
-			CK_ATTRIBUTE valSerial = {CKA_SERIAL_NUMBER,&sess->ser[0],(CK_ULONG) sess->ser.size()};
-			CK_ATTRIBUTE valSubject = {CKA_SUBJECT,&sess->sub[0],(CK_ULONG) sess->sub.size()};
-			sess->objects.push_back(PKCS11Object(OBJ_CERT,certificateTemplate,LENOF(certificateTemplate)));
-			(--sess->objects.end())->appendAttrib(valAttCert);
-			(--sess->objects.end())->appendAttrib(valIssuer);
-			(--sess->objects.end())->appendAttrib(valSerial);
-			(--sess->objects.end())->appendAttrib(valSubject);
-			sess->objects.push_back(PKCS11Object(OBJ_PUBKEY,publicKeyTemplate,LENOF(publicKeyTemplate)));
-			(--sess->objects.end())->appendAttrib(valAttPubKey);
-			sess->objects.push_back(PKCS11Object(OBJ_PRIVKEY,privateKeyTemplate,LENOF(privateKeyTemplate)));
+			card.connect(sess->readerID);
+			if (slotID & 0x1) {}
+				//sess->createCertificate(card.getSignCert(),sess->sign,"Signature",223);
+			else
+				sess->createCertificate(card.getAuthCert(),sess->auth,"Authentication",123);
 		}
 		return CKR_OK;
 	}catch(std::runtime_error &) {
@@ -440,6 +470,8 @@ public:
 			objAtt = find(value.attrib.begin(),value.attrib.end(),att->type);
 			if (value.attrib.end() == objAtt) //object does not have required attribute
 				return true;
+			void * test=objAtt->pValue;
+			void * test2=att->pValue;
 			if (memcmp(objAtt->pValue,att->pValue,std::min(objAtt->ulValueLen,att->ulValueLen ))) 
 				return true; //has attribute but does not match
 			}
@@ -511,7 +543,25 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_Login(
 	PKCS11ContextPriv::sessIter sess = find(d->sessions.begin(),d->sessions.end(),hSession);
 	if (d->sessions.end() == sess)
 		return CKR_SESSION_HANDLE_INVALID;
+
 	sess->pin = PinString((const char *) pPin,(size_t)ulPinLen);
+
+	try {
+		EstEidCard card(d->mgr);
+		if (!card.isInReader(sess->readerID)) 
+			return CKR_DEVICE_REMOVED;
+		card.connect(sess->readerID);
+		byte retriesLeft;
+		card.validateAuthPin(sess->pin,retriesLeft);
+	} catch ( AuthError &ae) {
+		if (ae.m_badinput) 
+			return CKR_PIN_LEN_RANGE;
+		else
+			return CKR_PIN_INCORRECT;
+	} catch( std::runtime_error &err) {
+		return CKR_GENERAL_ERROR;
+		}
+
 	for_each(d->sessions.begin(),d->sessions.end(),
 		PKCS11Session::changeState(sess->slotID,CKS_RO_USER_FUNCTIONS,sess->pin));
 	return CKR_OK;
@@ -597,9 +647,9 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_Sign(
 		CK_ULONG len = *pulSignatureLen;
 		refreshReaders();
 		EstEidCard card(d->mgr);
-		if (!card.isInReader(sess->slotID)) 
+		if (!card.isInReader(sess->readerID)) 
 			return CKR_DEVICE_REMOVED;
-		card.connect(sess->slotID);
+		card.connect(sess->readerID);
 
 		ByteVec result = card.calcSSL(ByteVec(pData,pData + ulDataLen),sess->pin);
 		*pulSignatureLen = (CK_ULONG)result.size();

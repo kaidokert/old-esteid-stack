@@ -25,8 +25,13 @@ void EstEidCard::enterPin(PinType pinType,PinString pin,bool forceUnsecure) {
 	ByteVec cmd(MAKEVECTOR(cmdEntPin));
 	cmd.push_back((byte)pinType);
 	if (pin.length() < 4) {
-		if (pin.length()!= 0 ||!mConnection->isSecure() )
-			throw std::runtime_error("bad pin length");
+		if (pin.length()!= 0 ||!mConnection->isSecure() ) {
+//			throw std::runtime_error("bad pin length");
+			AuthError err(0,0);
+			err.m_badinput = true;
+			err.desc = "bad pin length";
+			throw err;
+		}
 	} else {
 		cmd.push_back(LOBYTE(pin.length()));
 		for(unsigned i=0;i<pin.length();i++) cmd.push_back(pin[i]);
