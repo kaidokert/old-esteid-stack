@@ -45,3 +45,4 @@ createSampleProject("testMonitorThread",{"testmonitorthread.cpp"},"BE67BF46-173F
 createSampleProject("testlogger",{"testlogger.cpp"},"A61E7196-6B89-8F44-9DFF-F1EFC5AE6E8B")
 createSampleProject("testcert",{"testcert.cpp"},"F83249DF-A06F-284E-B4CA-0623900D4541")
 createSampleProject("testsign",{"testsign.cpp"},"C30767FF-8179-4185-9959-871E189ED8AF")
+createSampleProject("testpkcs", {"testpkcs.cpp"},"C30767FF-8179-4185-9959-871E189EF8AF")
