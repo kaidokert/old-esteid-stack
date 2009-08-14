@@ -28,3 +28,5 @@ add_library (smartcard++ SHARED ${LIBSMARTCARD_SOURCES} ${LIBSMARTCARD_HEADERS})
 
 target_link_libraries (smartcard++ sim) 
 target_link_libraries (smartcard++ esteid)
+
+install(TARGETS smartcard++ sim esteid DESTINATION esteidutil/lib)

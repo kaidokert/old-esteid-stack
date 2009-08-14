@@ -7,3 +7,5 @@ link_directories (${ESTEIDUTIL_BINARY_DIR}/smartcard++/ ${ESTEIDUTIL_BINARY_DIR}
 link_libraries (smartcard++ utility)
 
 add_library (esteidpkcs11 SHARED ${LIBPKCS_SOURCES} ${LIBPKCS_HEADERS}) 
+
+install(TARGETS esteidpkcs11 DESTINATION esteidutil/lib)
