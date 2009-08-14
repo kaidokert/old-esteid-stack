@@ -1,4 +1,4 @@
-include_directories (pkcs11/ ./ ../../src ../ /usr/include/PCSC/)
+include_directories (../ ./ ../.. ../../src /usr/include/PCSC/)
 
 set(LIBSMARTCARD_HEADERS 
 	smartcard++.h 		CardBase.h 

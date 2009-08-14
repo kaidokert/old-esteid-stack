@@ -8,5 +8,4 @@ set(LIBUTILITY_SOURCES
 	asnObject.cpp		asnCertificate.cpp
 	)
 
-
 add_library (utility STATIC ${LIBUTILITY_SOURCES} ${LIBUTILITY_HEADERS}) 
