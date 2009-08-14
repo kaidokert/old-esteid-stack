@@ -23,10 +23,10 @@ set(LIBSIM_SOURCES sim/SIMCard.cpp)
 
 add_library (sim ${LIBSIM_SOURCES} ${LIBSIM_HEADERS}) 
 add_library (esteid ${LIBESTEID_SOURCES} ${LIBESTEID_HEADERS})
-
 add_library (smartcard++ SHARED ${LIBSMARTCARD_SOURCES} ${LIBSMARTCARD_HEADERS}) 
 
 target_link_libraries (smartcard++ sim) 
 target_link_libraries (smartcard++ esteid)
+target_link_libraries (smartcard++ dl)
 
 install(TARGETS smartcard++ sim esteid DESTINATION esteidutil/lib)
