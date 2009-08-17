@@ -1,4 +1,7 @@
 include_directories (../../ ../../src ../ /usr/include/PCSC/)
+if(WIN32)
+include_directories(pkcs11) 
+endif(WIN32)
 
 set(LIBPKCS_HEADERS PKCS11Context.h precompiled.h)
 set(LIBPKCS_SOURCES esteidpkcs11.cpp PKCS11Context.cpp precompiled.cpp)
