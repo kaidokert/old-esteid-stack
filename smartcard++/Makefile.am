@@ -33,4 +33,4 @@ libsmartcard___1_0_la_SOURCES= $(h_sources) $(cpp_sources)
 libsmartcard___1_0_la_LDFLAGS= -ldl -version-info $(SMARTCARD_VERSION_INFO) -release $(SMARTCARD_RELEASE)
 libsmartcard___1_0_la_LIBADD= esteid/libesteid.la sim/libsim.la
 
-EXTRA_DIST=CMakeLists.txt
+EXTRA_DIST=CMakeLists.txt premake4.lua

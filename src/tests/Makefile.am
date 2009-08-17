@@ -13,3 +13,5 @@ testmonitorthread_SOURCES = testmonitorthread.cpp
 #testpindialog_SOURCES = testpindialog.cpp
 testreadcardid_SOURCES = testreadcardid.cpp
 testpkcs_SOURCES = testpkcs.cpp
+
+EXTRA_DIST=premake4.lua

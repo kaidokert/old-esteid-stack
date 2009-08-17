@@ -86,6 +86,7 @@ AC_OUTPUT(Makefile \
 	  src/windows/Makefile \
 	  src/windows/esteidcm/Makefile \
 	  src/windows/esteidcsp/Makefile \
-	  src/windows/EstEIDSigningPluginBHO/Makefile
+	  src/windows/EstEIDSigningPluginBHO/Makefile \
+	  src/windows/csp_tool/Makefile
 )
 

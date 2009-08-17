@@ -1,1 +1,1 @@
-SUBDIRS= esteidcm esteidcsp EstEIDSigningPluginBHO
+SUBDIRS= esteidcm esteidcsp EstEIDSigningPluginBHO csp_tool
