@@ -28,6 +28,7 @@ public :
 		GetTempPathA(sizeof(path),path);
 		strcat(path,"smartcardremoval.run.log");
 		log.open(path);
+		log << "module started" << std::endl;
 		}
 
 	bool ParseCommandLine(LPCTSTR lpCmdLine,HRESULT* pnRetCode ) throw( ) {
@@ -72,6 +73,7 @@ public :
 	}
 	void RunMessageLoop()
 	{
+		log << "starting monitor .." << std::endl;
 		monitorThread monitor(*this,lock);
 		monitor.start();
 		MSG msg;
