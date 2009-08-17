@@ -58,7 +58,19 @@ void checker::executeCheck() {
     }
 
 void monitorThread::execute() {
-    std::cout << "monitorThread::execute"<<std::endl;
+#ifdef _WIN_SERVICE_STARTUP_HACK
+//smartcardmanager constructor throws somewhere,
+//when dependent services are still starting. need to investigate more
+	for(;;) {
+		try {
+		    checker test_check(observer);
+			break;
+		} catch(...) {}
+		wait(1000);
+		}
+#endif
+
+//    std::cout << "monitorThread::execute"<<std::endl;
     checker check(observer);
     for(;;) {
 		try {
