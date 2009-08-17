@@ -20,7 +20,5 @@ public:
 	PinString( size_t n, char c ) : base_str(n,c) {reserve(ALLOCSZ);}
 	template<class InputIterator>
 	PinString(InputIterator begin,InputIterator end) : base_str(begin,end) {}
-	~PinString() {
-		int k = 1;
-		}
+	~PinString() {}
 };

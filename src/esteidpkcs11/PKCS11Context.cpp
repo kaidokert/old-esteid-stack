@@ -4,6 +4,7 @@
 #include <smartcard++/helperMacro.h>
 #include <smartcard++/esteid/EstEidCard.h>
 #include <utility/asnCertificate.h>
+#include <utility/logger.h>
 
 #include <string.h>
 
@@ -193,6 +194,8 @@ bool operator==(CK_ATTRIBUTE x,CK_ATTRIBUTE_TYPE a) {
 	}
 
 class PKCS11ContextPriv {
+	logger m_log;
+
 	friend class PKCS11Context;
 	PCSCManager mgr;
 	uint readerCount;
@@ -240,7 +243,13 @@ void padString(CK_UTF8CHAR *s,int len,std::string rstr) {
 	memcpy(s,rstr.c_str(),std::min((int)rstr.length(),len));
 	}
 
+#define F_LOG(a) ScopedLog _l(#a,d->m_log)
+
 CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetInfo(CK_INFO_PTR   pInfo  )) {
+	F_LOG(C_GetInfo);
+
+	d->m_log << "begin" << std::endl;
+
 	pInfo->cryptokiVersion.major = 2;
 	pInfo->cryptokiVersion.minor = 11;
 	padString(pInfo->manufacturerID, sizeof(pInfo->manufacturerID)
@@ -257,6 +266,8 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetTokenInfo(
 	CK_SLOT_ID        slotID,  /* ID of the token's slot */
 	CK_TOKEN_INFO_PTR pInfo    /* receives the token information */
 	)) {
+	F_LOG(C_GetTokenInfo);
+
 	try {
 		refreshReaders();
 		if (d->checkSlot(slotID)) return CKR_SLOT_ID_INVALID;
@@ -304,6 +315,8 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetSlotList(
 		CK_SLOT_ID_PTR pSlotList,     /* receives array of slot IDs */
 		CK_ULONG_PTR   pulCount       /* receives number of slots */
 		)) {
+	F_LOG(C_GetSlotList);
+
 	try {
 		uint inBuffer = *pulCount;
 		*pulCount = 0;
@@ -334,6 +347,8 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetSlotInfo(
 	CK_SLOT_ID        slotID,  /* ID of the token's slot */
 	CK_SLOT_INFO_PTR pInfo    /* receives the slot information */
 	)) {
+	F_LOG(C_GetSlotInfo);
+
 	try {
 		refreshReaders();
 		if (d->checkSlot(slotID)) return CKR_SLOT_ID_INVALID;
@@ -345,7 +360,7 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetSlotInfo(
 		padString(pInfo->slotDescription,sizeof(pInfo->slotDescription), buf.str()) ;  
 		padString(pInfo->manufacturerID,sizeof(pInfo->manufacturerID),"EstEID");
 		pInfo->flags = CKF_REMOVABLE_DEVICE | CKF_HW_SLOT;
-		if (!(slotID & 1))
+//		if (!(slotID & 1))
 		  if (card.isInReader(slotID / 2)) pInfo->flags |= CKF_TOKEN_PRESENT;
 
 		CK_VERSION nulVer = {1,0};
@@ -362,6 +377,8 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetMechanismList(
 	CK_MECHANISM_TYPE_PTR pMechanismList,  /* gets mech. array */
 	CK_ULONG_PTR          pulCount         /* gets # of mechs. */
 	)) {
+	F_LOG(C_GetMechanismList);
+
 	CK_ULONG count = *pulCount;
 //	refreshReaders();
 	if (d->checkSlot(slotID)) return CKR_SLOT_ID_INVALID;
@@ -386,6 +403,8 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetMechanismInfo(
 		CK_MECHANISM_TYPE     type,    /* type of mechanism */
 		CK_MECHANISM_INFO_PTR pInfo    /* receives mechanism info */
 		)) {
+	F_LOG(C_GetMechanismInfo);
+
 	pInfo->ulMinKeySize = 1024;
 	pInfo->ulMaxKeySize = 1024;
 	pInfo->flags = CKF_HW | CKF_SIGN /*| CKF_VERIFY*/;
@@ -398,6 +417,8 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_InitToken(
 		CK_ULONG        ulPinLen,  /* length in bytes of the PIN */
 		CK_UTF8CHAR_PTR pLabel     /* 32-byte token label (blank padded) */
 		)) {
+	F_LOG(C_InitToken);
+
 	return CKR_OK;
 	}
 
@@ -408,6 +429,8 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_OpenSession(
 	CK_NOTIFY             Notify,        /* callback function */
 	CK_SESSION_HANDLE_PTR phSession      /* gets session handle */
 	)) {
+	F_LOG(C_OpenSession);
+
 	try {
 		refreshReaders();
 		if (d->checkSlot(slotID)) return CKR_SLOT_ID_INVALID;
@@ -446,6 +469,8 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetSessionInfo(
 		CK_SESSION_HANDLE   hSession, 
 		CK_SESSION_INFO_PTR pInfo
 		)) {
+	F_LOG(C_GetSessionInfo);
+
 	PKCS11ContextPriv::sessIter sess = find(d->sessions.begin(),d->sessions.end(),hSession);
 	if (d->sessions.end() == sess)
 		return CKR_SESSION_HANDLE_INVALID;
@@ -492,6 +517,8 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_FindObjectsInit(
 	CK_ATTRIBUTE_PTR  pTemplate,  /* attribute values to match */
 	CK_ULONG          ulCount     /* attrs in search template */
 	)) {
+	F_LOG(C_FindObjectsInit);
+
 	PKCS11ContextPriv::sessIter sess = find(d->sessions.begin(),d->sessions.end(),hSession);
 	if (d->sessions.end() == sess)
 		return CKR_SESSION_HANDLE_INVALID;
@@ -516,6 +543,8 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_FindObjects(
 	CK_ULONG             ulMaxObjectCount,  /* max handles to get */
 	CK_ULONG_PTR         pulObjectCount     /* actual # returned */
 	)) {
+	F_LOG(C_FindObjects);
+
 	PKCS11ContextPriv::sessIter sess = find(d->sessions.begin(),d->sessions.end(),hSession);
 	if (d->sessions.end() == sess)
 		return CKR_SESSION_HANDLE_INVALID;
@@ -531,6 +560,8 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_FindObjects(
 CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_FindObjectsFinal(
 	CK_SESSION_HANDLE hSession  /* the session's handle */
 	)) {
+	F_LOG(C_FindObjectsFinal);
+
 	PKCS11ContextPriv::sessIter sess = find(d->sessions.begin(),d->sessions.end(),hSession);
 	if (d->sessions.end() == sess)
 		return CKR_SESSION_HANDLE_INVALID;
@@ -545,6 +576,8 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_Login(
 	CK_UTF8CHAR_PTR   pPin,      /* the user's PIN */
 	CK_ULONG          ulPinLen   /* the length of the PIN */
 	)) {
+	F_LOG(C_Login);
+
 	PKCS11ContextPriv::sessIter sess = find(d->sessions.begin(),d->sessions.end(),hSession);
 	if (d->sessions.end() == sess)
 		return CKR_SESSION_HANDLE_INVALID;
@@ -592,6 +625,8 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetAttributeValue(
 		CK_ATTRIBUTE_PTR  pTemplate,  /* specifies attrs; gets vals */
 		CK_ULONG          ulCount     /* attributes in template */
 		)) {
+	F_LOG(C_GetAttributeValue);
+
 	PKCS11ContextPriv::sessIter sess = find(d->sessions.begin(),d->sessions.end(),hSession);
 	if (d->sessions.end() == sess)
 		return CKR_SESSION_HANDLE_INVALID;
@@ -622,6 +657,7 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_SignInit(
 	CK_SESSION_HANDLE hSession,    /* the session's handle */
 	CK_MECHANISM_PTR  pMechanism,  /* the signature mechanism */
 	CK_OBJECT_HANDLE  hKey )) {    /* handle of signature key */
+	F_LOG(C_SignInit);
 
 	PKCS11ContextPriv::sessIter sess = find(d->sessions.begin(),d->sessions.end(),hSession);
 	if (d->sessions.end() == sess)
@@ -648,6 +684,8 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_Sign(
 	CK_ULONG          ulDataLen,       /* count of bytes to sign */
 	CK_BYTE_PTR       pSignature,      /* gets the signature */
 	CK_ULONG_PTR      pulSignatureLen )) {/* gets signature length */
+	F_LOG(C_Sign);
+
 	PKCS11ContextPriv::sessIter sess = find(d->sessions.begin(),d->sessions.end(),hSession);
 	if (d->sessions.end() == sess)
 		return CKR_SESSION_HANDLE_INVALID;
@@ -700,6 +738,8 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_SignUpdate(
 		CK_SESSION_HANDLE hSession,  /* the session's handle */
 		CK_BYTE_PTR       pPart,     /* the data to sign */
 		CK_ULONG          ulPartLen )) {/* count of bytes to sign */
+	F_LOG(C_SignUpdate);
+
 	PKCS11ContextPriv::sessIter sess = find(d->sessions.begin(),d->sessions.end(),hSession);
 	if (d->sessions.end() == sess)
 		return CKR_SESSION_HANDLE_INVALID;
@@ -712,6 +752,8 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_SignFinal(
 		CK_SESSION_HANDLE hSession,        /* the session's handle */
 		CK_BYTE_PTR       pSignature,      /* gets the signature */
 		CK_ULONG_PTR      pulSignatureLen )) { /* gets signature length */
+	F_LOG(C_SignFinal);
+
 	PKCS11ContextPriv::sessIter sess = find(d->sessions.begin(),d->sessions.end(),hSession);
 	if (d->sessions.end() == sess)
 		return CKR_SESSION_HANDLE_INVALID;

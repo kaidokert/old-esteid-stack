@@ -26,3 +26,5 @@ libutility_la_SOURCES = asnObject.cpp \
 
 INCLUDES = -I$(top_srcdir) -I@oldincludedir@/gtkmm-2.4/include -I@oldincludedir@/gtkmm-2.4/ 
 libutility_la_LDFLAGS = -lpthread
+
+EXTRA_DIST=CMakeLists.txt
