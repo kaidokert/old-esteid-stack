@@ -14,13 +14,13 @@
 
 #define PACKAGE_VER_MAJOR 0
 #define PACKAGE_VER_MINOR 1
-#define PACKAGE_BUILD 5
+#define PACKAGE_BUILD 6
 
 /* rc version */
 #define RC_VERSION PACKAGE_VER_MAJOR,PACKAGE_VER_MINOR,PACKAGE_BUILD
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.1.5"
+#define PACKAGE_VERSION "0.1.6"
 
 /* Name of package */
 #define PACKAGE "esteidpkcs11.dll"
