@@ -1,4 +1,4 @@
-include_directories (../../ /usr/include/PCSC/)
+include_directories (../../)
 
 set(LIBUTILITY_HEADERS 
 	asnObject.h		asnCertificate.h
@@ -13,7 +13,7 @@ set(LIBUTILITY_SOURCES
 	)
 
 if(UNIX)
-	link_libraries (pthread)
+  link_libraries (pthread)
 endif(UNIX)
 
 add_library (utility STATIC ${LIBUTILITY_SOURCES} ${LIBUTILITY_HEADERS}) 

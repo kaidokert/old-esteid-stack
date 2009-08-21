@@ -1,4 +1,4 @@
-include_directories (../ ./ ../.. ../../src /usr/include/PCSC/)
+include_directories (../ ./ ../.. ../../src)
 
 set(LIBSMARTCARD_HEADERS 
 	smartcard++.h 		CardBase.h 
@@ -8,7 +8,7 @@ set(LIBSMARTCARD_HEADERS
 	precompiled.h 		SCError.h 
 	SmartCardManager.h 	locked_allocator.h 
 	types.h)
-
+            
 set(LIBSMARTCARD_SOURCES 
 	CardBase.cpp 		CTAPIManager.cpp 
 	DynamicLibrary.cpp 	PCSCManager.cpp 
@@ -21,14 +21,19 @@ set(LIBESTEID_SOURCES esteid/EstEidCard.cpp esteid/EstEidCardMaintainer.cpp)
 set(LIBSIM_HEADERS sim/SIMCard.h)
 set(LIBSIM_SOURCES sim/SIMCard.cpp)
 
-add_library (sim ${LIBSIM_SOURCES} ${LIBSIM_HEADERS}) 
-add_library (esteid ${LIBESTEID_SOURCES} ${LIBESTEID_HEADERS})
-add_library (smartcard++ SHARED ${LIBSMARTCARD_SOURCES} ${LIBSMARTCARD_HEADERS}) 
+add_library (sim STATIC ${LIBSIM_SOURCES} ${LIBSIM_HEADERS}) 
+add_library (esteid STATIC ${LIBESTEID_SOURCES} ${LIBESTEID_HEADERS})
 
-target_link_libraries (smartcard++ sim) 
-target_link_libraries (smartcard++ esteid)
-if(NOT WIN32)
-	target_link_libraries (smartcard++ dl)
-endif(NOT WIN32)
+if(WIN32)
+  add_library (smartcard++ STATIC ${LIBSMARTCARD_SOURCES} ${LIBSMARTCARD_HEADERS}) 
+elseif(WIN32)
+  add_library (smartcard++ SHARED ${LIBSMARTCARD_SOURCES} ${LIBSMARTCARD_HEADERS}) 
+endif(WIN32)
+
+target_link_libraries (smartcard++ esteid sim)
+
+if(UNIX)
+  target_link_libraries (smartcard++ dl)
+endif(UNIX)
 
 install(TARGETS smartcard++ sim esteid DESTINATION esteidutil/lib)
