@@ -1,5 +1,9 @@
 include_directories (../../ ../../src ../)
 
+if(UNIX)
+  include_directories (/usr/include/PCSC/)
+endif(UNIX)
+
 link_directories (${ESTEIDUTIL_BINARY_DIR}/smartcard++/ ${ESTEIDUTIL_BINARY_DIR}/src/utility) 
 link_libraries (smartcard++ utility)
 
