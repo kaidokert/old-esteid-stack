@@ -12,6 +12,7 @@ int tryLoad(std::string libname) {
 		std::cout << "exception: " << err.what() << std::endl;
 	}
 	std::cout << "----done" << std::endl;
+	return 0;
     }
 
 int main(int argc,char **argv) {
