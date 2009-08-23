@@ -17,5 +17,6 @@ solution "esteid"
   if isWindows() then
 	include "src/windows/esteidcsp"
 	include "src/windows/csp_tool"
+	include "src/windows/esteidcm"
   end
 
