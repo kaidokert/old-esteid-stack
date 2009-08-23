@@ -12,6 +12,4 @@ notimplemented.cpp \
 precompiled.cpp \
 precompiled.h \
 resource.h \
-stdafx.cpp \
-stdafx.h \
 version.h
