@@ -27,8 +27,7 @@
 #include <smartcard++/esteid/EstEidCard.h>
 #include <smartcard++/SmartCardManager.h>
 #include <utility/monitorThread.h>
-#include "Win32\EstEIDSigningPluginBHO_i.h"
-#include "Win32\EstEIDSigningPluginBHO_i.h"
+#include "EstEIDSigningPluginBHO_i.h"
 
 #define WM_CARD_INSERTED   (WM_USER + 101)
 #define WM_CARD_REMOVED    (WM_USER + 102)
