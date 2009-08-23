@@ -16,10 +16,19 @@
 #include <smartcard++/SCError.h>
 #include <algorithm>
 #include "Setup.h"
+#include <shlguid.h>
 
 #pragma comment(lib,"comsuppw")
 
 // CSmartCardSigner
+CSmartCardSigner::CSmartCardSigner() : 
+		criticalSection("monitorCS"),m_monitorThread(NULL)
+//			m_spUnkSite(NULL)//,m_hWnd(NULL)
+	{
+		IObjectWithSiteImpl<CSmartCardSigner>::m_spUnkSite = NULL;
+		int test = 1;
+	}
+
 
 STDMETHODIMP CSmartCardSigner::InterfaceSupportsErrorInfo(REFIID riid)
 {
@@ -35,6 +44,69 @@ STDMETHODIMP CSmartCardSigner::InterfaceSupportsErrorInfo(REFIID riid)
 	}
 	return S_FALSE;
 }
+
+HRESULT CSmartCardSigner::FinalConstruct()
+{
+	RECT rect = {0,0,1,1};
+	HWND hwnd = Create( NULL, rect, _T("CSmartCardSignerAtlWindow"), WS_POPUP);
+	if (!hwnd)
+		return HRESULT_FROM_WIN32(GetLastError());
+	m_iWebBrowser2 = 0;
+	m_selectedReader = 0;
+	m_monitorThread = new monitorThread(*this,criticalSection);
+	m_monitorThread->start();
+	return S_OK;
+}
+
+void CSmartCardSigner::FinalRelease()
+{
+	if (m_monitorThread) {
+		delete m_monitorThread;
+		m_monitorThread = NULL;
+		}
+	if (m_hWnd != NULL) DestroyWindow();
+}
+
+STDMETHODIMP CSmartCardSigner::SetSite(IUnknown* pUnkSite) {
+	IObjectWithSiteImpl<CSmartCardSigner>::SetSite(pUnkSite);
+
+	CComPtr<IServiceProvider> pSP;
+	HRESULT hr = GetSite(IID_IServiceProvider, reinterpret_cast<LPVOID *> (&pSP));
+	if (S_OK != hr)	return hr;
+    hr = pSP->QueryService(SID_SWebBrowserApp,IID_IWebBrowser2,
+                                 reinterpret_cast<LPVOID *> (&m_iWebBrowser2));
+	if (S_OK != hr) return hr;
+
+	CComPtr<IInternetSecurityManager> spInetSecMgr;
+	hr = pSP->QueryService(SID_SInternetSecurityManager, IID_IInternetSecurityManager, (void **)&spInetSecMgr);
+
+	BSTR bstrURL;
+	hr = m_iWebBrowser2->get_LocationURL(&bstrURL);
+	if (S_OK != hr) return hr;
+
+	DWORD dwZone;
+	hr = spInetSecMgr->MapUrlToZone(bstrURL, &dwZone, 0);
+	SysFreeString(bstrURL);
+	if (S_OK != hr) return hr;
+
+	if ((dwZone != URLZONE_LOCAL_MACHINE) &&
+		(dwZone != URLZONE_INTRANET) &&
+		(dwZone != URLZONE_TRUSTED)) 
+			return E_FAIL;
+	return S_OK;
+	}
+
+void CSmartCardSigner::onEvent(monitorEvent eType,int param) {
+	if (!IsWindow()) return;
+	UINT msg=0;
+	switch(eType) {
+		case CARD_INSERTED: msg = WM_CARD_INSERTED ;break;
+		case CARD_REMOVED: msg = WM_CARD_REMOVED ;break;
+		case READERS_CHANGED: msg = WM_READERS_CHANGED ;break;
+		}
+	PostMessage(msg,param);
+	}
+
 
 STDMETHODIMP CSmartCardSigner::getVersion(BSTR *retVal) {
 	*retVal = _bstr_t(PACKAGE_VERSION).Detach();

@@ -51,11 +51,7 @@ class ATL_NO_VTABLE CSmartCardSigner :
 	public monitorObserver
 {
 public:
-	CSmartCardSigner() : 
-		criticalSection("monitorCS")
-	{
-		int test = 1;
-	}
+	CSmartCardSigner();
 
 	DECLARE_REGISTRY_RESOURCEID(IDR_SMARTCARDSIGNER)
 
@@ -94,38 +90,10 @@ public:
 	LRESULT OnCardRemoved(UINT uMsg, WPARAM wParam,
 		LPARAM lParam, BOOL& bHandled);
 	
-	void onEvent(monitorEvent eType,int param) {
-		if (!IsWindow()) return;
-		UINT msg=0;
-		switch(eType) {
-			case CARD_INSERTED: msg = WM_CARD_INSERTED ;break;
-			case CARD_REMOVED: msg = WM_CARD_REMOVED ;break;
-			case READERS_CHANGED: msg = WM_READERS_CHANGED ;break;
-			}
-		PostMessage(msg,param);
-		}
-
-	HRESULT FinalConstruct()
-	{
-		RECT rect = {0,0,1,1};
-		HWND hwnd = Create( NULL, rect, _T("CSmartCardSignerAtlWindow"), WS_POPUP);
-		if (!hwnd)
-			return HRESULT_FROM_WIN32(GetLastError());
-		m_iWebBrowser2 = 0;
-		m_selectedReader = 0;
-		m_monitorThread = new monitorThread(*this,criticalSection);
-		m_monitorThread->start();
-		return S_OK;
-	}
-
-	void FinalRelease()
-	{
-		if (m_monitorThread) {
-			delete m_monitorThread;
-			m_monitorThread = NULL;
-			}
-		if (m_hWnd != NULL) DestroyWindow();
-	}
+	void onEvent(monitorEvent eType,int param);
+	HRESULT FinalConstruct();
+	void FinalRelease();
+	STDMETHOD(SetSite)(IUnknown *pUnkSite);
 
 private:
     CComPtr<IWebBrowser2>  m_iWebBrowser2; // WebBrowser host handle

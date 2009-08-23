@@ -547,10 +547,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\smartcard++\locked_allocator.cpp"
-					>
-				</File>
-				<File
 					RelativePath="..\..\..\smartcard++\CardBase.h"
 					>
 				</File>
@@ -580,6 +576,10 @@
 				</File>
 				<File
 					RelativePath="..\..\..\smartcard++\esteid\EstEidCard.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\smartcard++\locked_allocator.cpp"
 					>
 				</File>
 				<File
@@ -837,7 +837,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="copy &quot;$(InputPath)&quot; &quot;$(TargetDir)&quot;"
+					CommandLine="copy &quot;$(InputPath)&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;"
 					Outputs="&quot;$(TargetDir)/$(InputFileName)&quot;"
 				/>
 			</FileConfiguration>
@@ -846,7 +846,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="copy &quot;$(InputPath)&quot; &quot;$(TargetDir)&quot;"
+					CommandLine="copy &quot;$(InputPath)&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;"
 					Outputs="&quot;$(TargetDir)/$(InputFileName)&quot;"
 				/>
 			</FileConfiguration>
@@ -855,7 +855,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="copy &quot;$(InputPath)&quot; &quot;$(TargetDir)&quot;"
+					CommandLine="copy &quot;$(InputPath)&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;"
 					Outputs="&quot;$(TargetDir)/$(InputFileName)&quot;"
 				/>
 			</FileConfiguration>
@@ -864,12 +864,20 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="copy &quot;$(InputPath)&quot; &quot;$(TargetDir)&quot;"
+					CommandLine="copy &quot;$(InputPath)&quot; &quot;$(TargetDir)&quot;&#x0D;&#x0A;"
 					Outputs="&quot;$(TargetDir)/$(InputFileName)&quot;"
 				/>
 			</FileConfiguration>
 		</File>
 	</Files>
 	<Globals>
+		<Global
+			Name="ZerocIce_Home"
+			Value="C:\Ice-3.3.1"
+		/>
+		<Global
+			Name="ZerocIce_HomeExpanded"
+			Value="C:\Ice-3.3.1"
+		/>
 	</Globals>
 </VisualStudioProject>
