@@ -82,11 +82,17 @@ std::string DynamicLibrary::getVersionStr() {
 
 #endif //_WIN32
 
-#if defined(linux) || defined(__APPLE__)
+#if !defined(_WIN32)
 #include <dlfcn.h>
 #include <sys/stat.h>
+#include <unistd.h>
 
-std::string DynamicLibrary::arrPaths[] = { "","/lib/","/usr/local/lib/","/usr/lib/"};
+std::string DynamicLibrary::arrPaths[] = { "","/lib/","/usr/local/lib/","/usr/pkg/lib","/usr/lib/"
+	,"/lib64/","/usr/lib64/","/usr/lib/engines/"
+#if defined(__APPLE__) 
+	,"/Library/OpenSC/lib/engines/", "/Library/Frameworks/", "/System/Library/Frameworks/"
+#endif
+	};
 
 #include <iostream>
 
@@ -100,6 +106,13 @@ bool DynamicLibrary::construct(int version,bool do_throw) {
 		"lib" + name + ".so",
 			name + ".so." + buf.str(),
 		"lib" + name + ".so." + buf.str(),
+#if defined(__APPLE__)
+		name + ".dylib",
+		"lib" + name + ".dylib",
+			name + "." + buf.str() + ".dylib",
+		"lib" + name + "." + buf.str() + ".dylib",
+		name + ".framework/" + name,
+#endif
 		},search,qname;
 	mLibhandle = NULL;
 	for(j = 0;j < sizeof(arrPaths) / sizeof(*arrPaths);j++) {
