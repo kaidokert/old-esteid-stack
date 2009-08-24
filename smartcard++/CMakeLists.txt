@@ -5,19 +5,19 @@ if(UNIX)
 endif(UNIX)
 
 set(LIBSMARTCARD_HEADERS 
-	smartcard++.h 		CardBase.h 
-	common.h 		CTAPIManager.h 
-	DynamicLibrary.h 	helperMacro.h 
-	ManagerInterface.h 	PCSCManager.h 
-	precompiled.h 		SCError.h 
-	SmartCardManager.h 	locked_allocator.h 
-	types.h)
+  smartcard++.h 	CardBase.h 
+  common.h 		CTAPIManager.h 
+  DynamicLibrary.h 	helperMacro.h 
+  ManagerInterface.h 	PCSCManager.h 
+  precompiled.h 	SCError.h 
+  SmartCardManager.h 	locked_allocator.h 
+  types.h)
             
 set(LIBSMARTCARD_SOURCES 
-	CardBase.cpp 		CTAPIManager.cpp 
-	DynamicLibrary.cpp 	PCSCManager.cpp 
-	SCError.cpp 		SmartCardManager.cpp 
-	locked_allocator.cpp 	types.cpp)
+  CardBase.cpp 		CTAPIManager.cpp 
+  DynamicLibrary.cpp 	PCSCManager.cpp 
+  SCError.cpp 		SmartCardManager.cpp 
+  locked_allocator.cpp 	types.cpp)
 
 set(LIBESTEID_HEADERS esteid/EstEidCard.h esteid/EstEidCardMaintainer.h)
 set(LIBESTEID_SOURCES esteid/EstEidCard.cpp esteid/EstEidCardMaintainer.cpp)

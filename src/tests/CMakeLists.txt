@@ -15,8 +15,8 @@ add_executable(testmonitorthread testmonitorthread.cpp)
 add_executable(testreadcardid testreadcardid.cpp)
 add_executable(testpkcs testpkcs.cpp)
 
-install(TARGETS testcardmanager testcert 
-	testctapi
-	testlogger testmonitorthread
-	testreadcardid testpkcs 
-	DESTINATION esteidutil/bin)
+install(TARGETS 
+  testcardmanager testcert testctapi
+  testlogger testmonitorthread
+  testreadcardid testpkcs 
+  DESTINATION esteidutil/bin)
