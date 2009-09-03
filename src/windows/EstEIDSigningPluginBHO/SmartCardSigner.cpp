@@ -420,21 +420,38 @@ STDMETHODIMP CSmartCardSigner::put_selectedReader(SHORT newVal)
 
 STDMETHODIMP CSmartCardSigner::get_authCert(IDispatch** pVal)
 {
-	// TODO: Add your implementation code here
-
+	CInterfaceList<ISmartCardCertificate> certs;
+	try {
+		getEstEIDCerts(certs);
+	} catch(std::exception &err) {
+		return errMsg(err.what());
+		}
+	*pVal = certs.GetHead().Detach();
 	return S_OK;
 }
 
 STDMETHODIMP CSmartCardSigner::get_signCert(IDispatch** pVal)
 {
-	// TODO: Add your implementation code here
-
+	CInterfaceList<ISmartCardCertificate> certs;
+	try {
+		getEstEIDCerts(certs);
+	} catch(std::exception &err) {
+		return errMsg(err.what());
+		}
+	*pVal = certs.GetTail().Detach();
 	return S_OK;
 }
 
 STDMETHODIMP CSmartCardSigner::sign(BSTR hashToBeSigned, BSTR documentUrl, BSTR* pVal)
 {
-	// TODO: Add your implementation code here
+	try {
+		IDispatch * signCert = NULL;
+		if (get_signCert(&signCert)!= S_OK) 
+			throw std::runtime_error("sign: unable to get signature cert");
+		signWithCert(hashToBeSigned,signCert, pVal);
+	} catch(std::runtime_error &err) {
+		return errMsg(err.what());
+		}
 
 	return S_OK;
 }
