@@ -131,7 +131,7 @@ public:
 	STDMETHOD(get_comment2)(BSTR* pVal);
 	STDMETHOD(get_comment3)(BSTR* pVal);
 	STDMETHOD(get_comment4)(BSTR* pVal);
-	STDMETHOD(sign)(BSTR hashToBeSigned,IDispatch *pCert,BSTR* pVal);
+	STDMETHOD(signWithCert)(BSTR hashToBeSigned,IDispatch *pCert,BSTR* pVal);
 	STDMETHOD(getCertificateList)(BSTR* retVal);
 	STDMETHOD(getCertificateByThumbprint)(BSTR thumbPrint, IDispatch** retVal);
 	STDMETHOD(addEventListener)(BSTR eventName,IDispatch *unk);
@@ -141,6 +141,9 @@ public:
 	STDMETHOD(getReaders)(BSTR* retVal);
 	STDMETHOD(get_selectedReader)(SHORT* pVal);
 	STDMETHOD(put_selectedReader)(SHORT newVal);
-};
+	STDMETHOD(get_authCert)(IDispatch** pVal);
+	STDMETHOD(get_signCert)(IDispatch** pVal);
+	STDMETHOD(sign)(BSTR hashToBeSigned, BSTR documentUrl, BSTR* pVal);
+	};
 
 OBJECT_ENTRY_AUTO(__uuidof(SmartCardSigner), CSmartCardSigner)

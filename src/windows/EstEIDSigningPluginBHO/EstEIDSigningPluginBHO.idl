@@ -43,7 +43,7 @@ interface ISmartCardSigner : IDispatch{
 	[propget, id(15), helpstring("property comment2")] HRESULT comment2([out, retval] BSTR* pVal);
 	[propget, id(16), helpstring("property comment3")] HRESULT comment3([out, retval] BSTR* pVal);
 	[propget, id(17), helpstring("property comment4")] HRESULT comment4([out, retval] BSTR* pVal);
-	[id(18), helpstring("method sign")] HRESULT sign([in] BSTR hashToBeSigned,[in] IDispatch * pCert,[out, retval] BSTR* pVal);
+	[id(18), helpstring("method signWithCert")] HRESULT signWithCert([in] BSTR hashToBeSigned,[in] IDispatch * pCert,[out, retval] BSTR* pVal);
 	[id(19), helpstring("Lists thumbprints of all available certs, comma separated")] HRESULT getCertificateList([out,retval] BSTR* retVal);
 	[id(20), helpstring("Returns a SmartCardCertificate object by given thumbprint")] HRESULT getCertificateByThumbprint([in] BSTR thumbPrint, [out,retval] IDispatch** retVal);
 	[id(21), helpstring("method addEventListener")] HRESULT addEventListener([in] BSTR eventName,[in] IDispatch *function);
@@ -52,6 +52,9 @@ interface ISmartCardSigner : IDispatch{
 	[id(25), helpstring("method getReaders")] HRESULT getReaders([out,retval] BSTR* retVal);
 	[propget, id(27), helpstring("property selectedReader")] HRESULT selectedReader([out, retval] SHORT* pVal);
 	[propput, id(27), helpstring("property selectedReader")] HRESULT selectedReader([in] SHORT newVal);
+	[propget, id(28), helpstring("property authCert")] HRESULT authCert([out, retval] IDispatch** pVal);
+	[propget, id(29), helpstring("property signCert")] HRESULT signCert([out, retval] IDispatch** pVal);
+	[id(30), helpstring("method sign")] HRESULT sign([in] BSTR hashToBeSigned, [in] BSTR documentUrl, [out,retval] BSTR* pVal);
 };
 [
 	object,

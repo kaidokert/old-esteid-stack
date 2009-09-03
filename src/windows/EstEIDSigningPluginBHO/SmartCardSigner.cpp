@@ -196,7 +196,7 @@ struct sign_op : public pinOpInterface {
 		}
 };
 
-STDMETHODIMP CSmartCardSigner::sign(BSTR hashToBeSigned,IDispatch * pCert,BSTR* pVal)
+STDMETHODIMP CSmartCardSigner::signWithCert(BSTR hashToBeSigned,IDispatch * pCert,BSTR* pVal)
 {
 	if (!pCert) 
 		return errMsg(L"Second parameter must be a certificate");
@@ -415,5 +415,26 @@ STDMETHODIMP CSmartCardSigner::put_selectedReader(SHORT newVal)
 	if (m_selectedReader != newVal)
 		clearCaches();
 	m_selectedReader = newVal;
+	return S_OK;
+}
+
+STDMETHODIMP CSmartCardSigner::get_authCert(IDispatch** pVal)
+{
+	// TODO: Add your implementation code here
+
+	return S_OK;
+}
+
+STDMETHODIMP CSmartCardSigner::get_signCert(IDispatch** pVal)
+{
+	// TODO: Add your implementation code here
+
+	return S_OK;
+}
+
+STDMETHODIMP CSmartCardSigner::sign(BSTR hashToBeSigned, BSTR documentUrl, BSTR* pVal)
+{
+	// TODO: Add your implementation code here
+
 	return S_OK;
 }

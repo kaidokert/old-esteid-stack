@@ -76,7 +76,7 @@ function testCerts() {
         var cert= signer.getCertificateByThumbprint(certArr[1]);
         if (cert) {
             dbgArea.value+= cert.CN + "\r" + cert.issuerCN + "\r" ;
-            signer.sign( testhash.value ,cert);
+            signer.signWithCert( testhash.value ,cert);
             }
          }
     }
@@ -98,7 +98,7 @@ function testComponent() {
     dbgArea.value+= signer.comment2 + "\r";
     dbgArea.value+= signer.comment3 + "\r";
     dbgArea.value+= signer.comment4 + "\r";
-    signedData = signer.sign("0A0B0C0D",0);
+    signedData = signer.signWithCert("0A0B0C0D",0);
     }
 function evalAndExec() {
     var script =testCode.item(testCode.selectedIndex).text;
@@ -133,11 +133,11 @@ function evalAndExec() {
 <select id="testCode" name="testCode" size="4" style="text-align: right">
     <option selected="true">alert(signer.getReaderName(0))</option>
     <option>alert(signer.getReaders())</option>
-    <option>signer.sign('meh',0)</option>
-    <option>signer.sign('blobofdata',getFirstCertId())</option>
-    <option>signer.sign('blobofdata',signer.getCertificateByThumbprint(getFirstCertId()))</option>
-    <option>dbgArea.value+=signer.sign(testhash.value,signer.getCertificateByThumbprint(getFirstCertId()))</option>
-    <option>dbgArea.value+=signer.sign(testhash.value,signer.getCertificateByThumbprint(getSecondCertId()))</option>
+    <option>signer.signWithCert('meh',0)</option>
+    <option>signer.signWithCert('blobofdata',getFirstCertId())</option>
+    <option>signer.signWithCert('blobofdata',signer.getCertificateByThumbprint(getFirstCertId()))</option>
+    <option>dbgArea.value+=signer.signWithCert(testhash.value,signer.getCertificateByThumbprint(getFirstCertId()))</option>
+    <option>dbgArea.value+=signer.signWithCert(testhash.value,signer.getCertificateByThumbprint(getSecondCertId()))</option>
 </select></div>
 <input type="button" id="testcode" value="test code" onclick="evalAndExec();"/>
     </div>
