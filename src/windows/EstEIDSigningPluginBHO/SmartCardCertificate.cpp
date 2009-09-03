@@ -13,6 +13,7 @@
 #include "SmartCardCertificate.h"
 #include "utility/converters.h"
 #include <algorithm>
+#include <atlenc.h>
 
 #define WINCRYPT 1
 #pragma comment(lib,"crypt32")
@@ -82,8 +83,16 @@ STDMETHODIMP CSmartCardCertificate::get_keyUsage(BSTR* pVal)
 
 STDMETHODIMP CSmartCardCertificate::get_cert(BSTR* pVal)
 {
-	// TODO: Add your implementation code here
+	int destLen = ATL::Base64EncodeGetRequiredLength(m_certBlob.size());
+	std::vector<char> arrTarget(destLen+1,'0');
+	ATL::Base64Encode(&m_certBlob[0], m_certBlob.size(), &arrTarget[0], &destLen);
+	arrTarget.resize(destLen);
+	arrTarget.push_back('\0');
 
+	_bstr_t strCert = "-----BEGIN CERTIFICATE-----\n";
+	strCert += &arrTarget[0];
+	strCert += "\n-----END CERTIFICATE-----\n";
+	*pVal = strCert.Detach();
 	return S_OK;
 }
 
