@@ -202,7 +202,7 @@ class PKCS11ContextPriv {
 	CK_SESSION_HANDLE nextSession;
 	std::vector<PKCS11Session > sessions;
 	typedef std::vector<PKCS11Session >::iterator sessIter;
-	PKCS11ContextPriv() : nextSession(303){}
+	PKCS11ContextPriv() : nextSession(303),m_log("EstEidPKCS11") {}
 	bool checkSlot(CK_SLOT_ID slotID) {
 		return (slotID >= (readerCount * 2));
 		}
@@ -360,7 +360,9 @@ CK_DECLARE_FUNCTION(CK_RV,PKCS11Context::C_GetSlotInfo(
 		padString(pInfo->slotDescription,sizeof(pInfo->slotDescription), buf.str()) ;  
 		padString(pInfo->manufacturerID,sizeof(pInfo->manufacturerID),"EstEID");
 		pInfo->flags = CKF_REMOVABLE_DEVICE | CKF_HW_SLOT;
-//		if (!(slotID & 1))
+#ifdef ONE_KEY
+		if (!(slotID & 1))
+#endif
 		  if (card.isInReader(slotID / 2)) pInfo->flags |= CKF_TOKEN_PRESENT;
 
 		CK_VERSION nulVer = {1,0};
