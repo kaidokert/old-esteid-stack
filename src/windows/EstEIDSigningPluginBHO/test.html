@@ -82,6 +82,14 @@ function testCerts() {
     }
     
 function testComponent() {
+
+    dbgArea.value+= "CN=" + signer.signCert.CN + "\r";
+    dbgArea.value+= "validFrom=" + signer.signCert.validFrom + "\r";
+    dbgArea.value+= "validTo=" + signer.signCert.validTo + "\r";
+    dbgArea.value+= "issuerCN=" + signer.signCert.issuerCN + "\r";
+    dbgArea.value+= "keyusage=" + signer.signCert.keyUsage + "\r";
+    dbgArea.value+= "serial=" +signer.signCert.serial + "\r";
+    
     dbgArea.value+= signer.lastName + "\r";
     dbgArea.value+= signer.firstName + "\r";
     dbgArea.value+= signer.middleName + "\r";
