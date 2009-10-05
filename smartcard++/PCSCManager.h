@@ -60,6 +60,7 @@ class PCSCManager : public ManagerInterface {
 	bool mOwnContext;
 #ifdef _WIN32
 	HANDLE mSCStartedEvent;
+	OSVERSIONINFO osVersionInfo;
 #endif
 	SCARDCONTEXT mSCardContext;
 	std::vector<char > mReaders;
