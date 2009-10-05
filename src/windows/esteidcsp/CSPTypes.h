@@ -142,6 +142,7 @@ struct CSPHashContext {
 	HCRYPTHASH m_hashId;
 	ALG_ID m_algId;
 	WrapHash *m_wrapHash;
+	std::vector<BYTE> signature;
 	CSPHashContext() : m_wrapHash(NULL) {}
 	~CSPHashContext() { if (m_wrapHash) delete m_wrapHash;}
 	bool operator==(const HCRYPTHASH) const;

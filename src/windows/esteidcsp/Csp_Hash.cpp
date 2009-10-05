@@ -79,12 +79,14 @@ BOOL Csp::CPSignHash(
 		CSPContext * it = *findContext(hProv);
 		CSPHashContext * hash = *it->findHashContext(hHash);
 		packData dat(pbSignature,pcbSigLen);
-		DWORD bufSz = 0;
-		CryptGetHashParam(*hash->m_wrapHash,HP_HASHVAL, NULL, &bufSz, 0);
-		std::vector<BYTE> buffer(bufSz,'\0');
-		CryptGetHashParam(*hash->m_wrapHash,HP_HASHVAL,&buffer[0],&bufSz,0);
-		std::vector<BYTE> signature = hash->sign(buffer,dwKeySpec);
-		dat.setValue(signature);
+		if (hash->signature.empty()) {
+			DWORD bufSz = 0;
+			CryptGetHashParam(*hash->m_wrapHash,HP_HASHVAL, NULL, &bufSz, 0);
+			std::vector<BYTE> buffer(bufSz,'\0');
+			CryptGetHashParam(*hash->m_wrapHash,HP_HASHVAL,&buffer[0],&bufSz,0);
+			hash->signature = hash->sign(buffer,dwKeySpec);
+			}
+		dat.setValue(hash->signature);
 		ret.SetOk();
 	} catch(std::runtime_error &err) {
 		ret.logReturn(err);
