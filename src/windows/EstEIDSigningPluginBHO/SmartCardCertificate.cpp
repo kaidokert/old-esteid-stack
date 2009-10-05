@@ -48,6 +48,8 @@ STDMETHODIMP CSmartCardCertificate::get_internal(BSTR* pVal,stringFields field)
 	CERT_EXTENSION* pExtn = NULL;
 	std::vector<WCHAR > chw(2000,0);
 	DWORD strSz = (DWORD) chw.size();
+	std::ostringstream buf;
+
 	switch(field) {
 		case CN : 
 			CertGetNameString(cert, CERT_NAME_ATTR_TYPE, 0,szOID_COMMON_NAME,&chw[0],strSz);break;
@@ -82,13 +84,13 @@ STDMETHODIMP CSmartCardCertificate::get_internal(BSTR* pVal,stringFields field)
 						pExtn->Value.pbData ,pExtn->Value.cbData,
 						&chw[0],&strSz);
 				break;
-		case serial :
-			CryptBinaryToString(cert->pCertInfo->SerialNumber.pbData,cert->pCertInfo->SerialNumber.cbData,
-				CRYPT_STRING_HEX,&chw[0],&strSz);
-/*			CryptFormatObject(X509_ASN_ENCODING,0,0,0,"100.100",
-				cert->pCertInfo->SerialNumber.pbData,cert->pCertInfo->SerialNumber.cbData,
-				&chw[0],&strSz);*/
+		case serial : {
+			for(size_t i = cert->pCertInfo->SerialNumber.cbData ; i > 0  ;i--) 
+				buf << std::hex << std::setfill('0') << std::setw(2) << (int) cert->pCertInfo->SerialNumber.pbData[i-1] << " ";
+			std::string strBuf = buf.str();
+			copy(strBuf.begin(),strBuf.end(),chw.begin());
 			break;
+			}
 		default:
 			return S_FALSE;
 		}

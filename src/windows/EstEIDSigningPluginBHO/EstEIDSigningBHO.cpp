@@ -18,7 +18,7 @@
 
 HRESULT CEstEIDSigningBHO::FinalConstruct()
 {
-	m_signer.CoCreateInstance(CLSID_SmartCardSigner);
+//	m_signer.CoCreateInstance(CLSID_SmartCardSigner);
 	return S_OK;
 }
 
@@ -47,10 +47,11 @@ STDMETHODIMP CEstEIDSigningBHO::SetSite(IUnknown* pUnkSite) {
 }
 STDMETHODIMP CEstEIDSigningBHO::GetExternal(  //return a signer object
     /* [out] */ IDispatch **ppDispatch) {
-	CComPtr<IDispatch> in;
+/*	CComPtr<IDispatch> in;
 	in = m_signer;
 	*ppDispatch = in.Detach();
-	return S_OK;
+*/
+	return S_FALSE;
 };
 
 void STDMETHODCALLTYPE CEstEIDSigningBHO::OnDocumentComplete(IDispatch *pDisp, VARIANT *pvarURL) {
