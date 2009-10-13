@@ -41,6 +41,7 @@ struct SmartCardConnectionPriv {
 	bool isSecure() {
 		if (m_manager == MANAGER_PCSC) return pcscConn->isSecure();
 		if (m_manager == MANAGER_CTAPI) return ctConn->isSecure();
+		throw std::runtime_error("Invalid smartcardconnection");
 		}
 private:
 	const SmartCardConnectionPriv& operator=(const SmartCardConnectionPriv &);

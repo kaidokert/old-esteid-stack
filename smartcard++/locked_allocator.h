@@ -53,7 +53,7 @@ public:
 	explicit locked_allocator() 
 	{
 	}
-	locked_allocator(const locked_allocator<T> &other) 
+	locked_allocator(const locked_allocator<T> &/*other*/) 
 	{
 	}
 	~locked_allocator()

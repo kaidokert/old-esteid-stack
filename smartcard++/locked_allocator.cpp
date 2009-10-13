@@ -6,7 +6,7 @@
 #include <string.h>
 #endif
 
-void * doAlloc(size_t n, void* hint) {
+void * doAlloc(size_t n, void* /*hint*/) {
 	void * ret = new unsigned char[n];
     if (!ret)
             throw std::bad_alloc();
