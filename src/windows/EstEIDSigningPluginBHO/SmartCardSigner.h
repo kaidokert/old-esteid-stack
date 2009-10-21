@@ -95,6 +95,7 @@ public:
 	STDMETHOD(SetSite)(IUnknown *pUnkSite);
 
 private:
+	bool runningInSecureZone;
     CComPtr<IWebBrowser2>  m_iWebBrowser2; // WebBrowser host handle
 
 	STDMETHOD(errMsg)(LPCOLESTR err);
