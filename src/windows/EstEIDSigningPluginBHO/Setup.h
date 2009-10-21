@@ -14,10 +14,10 @@
 #define PACKAGE_NAME "EstEID Browser Signing plugin" PKG_BIT PKG_BUILD
 
 /* rc version */
-#define RC_VERSION 0,8,5
+#define RC_VERSION 0,8,7
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.8.5"
+#define PACKAGE_VERSION "0.8.7"
 
 /* Name of package */
 #define PACKAGE "EstEIDSigningPluginBHO.dll"
