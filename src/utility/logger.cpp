@@ -113,8 +113,10 @@ logger::logger(const std::string name) :
       m_name(name),
       m_streambuffer(), std::ostream(&m_streambuffer) { 
   clear();
+#if defined(_DEBUG) || defined(DEBUG)
   addTarget(log_to_CONSOLE);
   addTarget(log_to_FILE);
+#endif
   addTarget(log_to_SYSTEMLOG);
   }
 
