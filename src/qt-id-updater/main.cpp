@@ -15,8 +15,8 @@ int printhelp() {
 			<< "-noautocheck\t\t-dont perform check at startup" << endl
 			<< "-autoupdate\t\t-update automatically" << endl
 			<< "-url http://foo.bar\t-use alternate url" << endl
-			<< "-daily|-monthly|-weekly|-never\t"
-			<< "configure scheduled task to run at given interval" << endl;
+			<< "-daily|-monthly|-weekly|-never|-remove\t"
+			<< "configure scheduled task to run at given interval, or remove it" << endl;
 	return 0;
 	}
 
@@ -36,6 +36,8 @@ bool confTask(QStringList args) {
 		return task.configure(ScheduledUpdateTask::MONTHLY);
 	if (args.contains("-never"))
 		return task.configure(ScheduledUpdateTask::NEVER);
+	if (args.contains("-remove")) 
+		return task.remove();
 	return false;
 }
 

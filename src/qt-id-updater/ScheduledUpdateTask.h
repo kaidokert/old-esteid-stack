@@ -12,6 +12,7 @@ class ScheduledUpdateTask
 	CComQIPtr<ITask> pITask;
 	CComQIPtr<IPersistFile> pIPersistFile;
 	std::wstring m_command;
+	std::wstring m_name;
 public:
 	enum Interval {
 		DAILY,
@@ -21,6 +22,7 @@ public:
 	} ;
 	ScheduledUpdateTask(std::wstring command,std::wstring name);
 	bool configure(Interval interval);
+	bool remove();
 };
 #else
 class ScheduledUpdateTask

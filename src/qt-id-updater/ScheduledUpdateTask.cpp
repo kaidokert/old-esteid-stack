@@ -2,7 +2,7 @@
 
 #pragma comment(lib,"Mstask.lib")
 ScheduledUpdateTask::ScheduledUpdateTask(std::wstring path, std::wstring name) 
-	: m_command(path)
+	: m_command(path),m_name(name)
 {
 	pITS.CoCreateInstance(CLSID_CTaskScheduler,NULL);
 	CComPtr<IUnknown> iUnk;
@@ -15,6 +15,14 @@ ScheduledUpdateTask::ScheduledUpdateTask(std::wstring path, std::wstring name)
 	pITask = iUnk;
 	pIPersistFile = iUnk;
 }
+
+bool ScheduledUpdateTask::remove() {
+	WORD triggerIndex = 0;
+	pITask->DeleteTrigger(triggerIndex);
+	pITask.Release();
+	pITS->Delete(m_name.c_str());
+	return true;
+	}
 
 bool ScheduledUpdateTask::configure(Interval interval) {
 	if (!pITask || !pIPersistFile) 
