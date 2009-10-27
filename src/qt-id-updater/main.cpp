@@ -51,7 +51,8 @@ int main(int argc, char *argv[])
 		return printhelp();
 	if (confTask(args)) 
 		return 0;
-	ProcessStarter proc(argv[0],"");
+	ProcessStarter proc(argv[0],
+		args.contains("-autoupdate") ? "-autoupdate" : 	"");
 	bool quitNow = proc.Run();
 //	run << "executed proc.run, result : " << quitNow << std::endl;
 	QString url = UPDATER_URL;
