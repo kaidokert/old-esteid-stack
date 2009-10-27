@@ -21,7 +21,7 @@ public:
 		NEVER
 	} ;
 	ScheduledUpdateTask(std::wstring command,std::wstring name);
-	bool configure(Interval interval);
+	bool configure(Interval interval,bool autoupdate);
 	bool remove();
 };
 #else

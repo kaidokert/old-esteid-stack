@@ -28,14 +28,15 @@ struct comWrap {
 bool confTask(QStringList args) {
 	comWrap _w;
 	ScheduledUpdateTask task(args[0].toStdWString() ,L"id updater task");
+	bool autoupdate = args.contains("-autoupdate");
 	if (args.contains("-daily")) 
-		return task.configure(ScheduledUpdateTask::DAILY);
+		return task.configure(ScheduledUpdateTask::DAILY,autoupdate);
 	if (args.contains("-weekly"))
-		return task.configure(ScheduledUpdateTask::WEEKLY);
+		return task.configure(ScheduledUpdateTask::WEEKLY,autoupdate);
 	if (args.contains("-monthly"))
-		return task.configure(ScheduledUpdateTask::MONTHLY);
+		return task.configure(ScheduledUpdateTask::MONTHLY,autoupdate);
 	if (args.contains("-never"))
-		return task.configure(ScheduledUpdateTask::NEVER);
+		return task.configure(ScheduledUpdateTask::NEVER,autoupdate);
 	if (args.contains("-remove")) 
 		return task.remove();
 	return false;

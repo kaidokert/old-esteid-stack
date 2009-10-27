@@ -24,7 +24,7 @@ bool ScheduledUpdateTask::remove() {
 	return true;
 	}
 
-bool ScheduledUpdateTask::configure(Interval interval) {
+bool ScheduledUpdateTask::configure(Interval interval,bool autoupdate) {
 	if (!pITask || !pIPersistFile) 
 		return false;
 	OSVERSIONINFO version = {sizeof(OSVERSIONINFO)};
@@ -34,6 +34,8 @@ bool ScheduledUpdateTask::configure(Interval interval) {
 	pITask->SetComment(L"Id-updater scheduled task");
 	pITask->SetApplicationName(m_command.c_str());
 	pITask->SetAccountInformation(L"",NULL);
+	if (autoupdate) 
+		pITask->SetParameters(L"-autoupdate");
 	if (version.dwMajorVersion <= 5)
 		pITask->SetFlags(TASK_FLAG_INTERACTIVE);
 	if (interval == NEVER) 

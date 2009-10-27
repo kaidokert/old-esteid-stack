@@ -48,6 +48,7 @@ void idupdater::netReplyFinished(QNetworkReply* reply) {
 	status("Check completed");
 	QDomDocument doc;
 	doc.setContent(reply);
+	if (!doc.hasChildNodes()) return fail("could not load a valid update file");
 	QDomNodeList nodes = doc.elementsByTagName("product");
 	if (nodes.length() != 1 ) return fail("expected one product");
 	product = nodes.item(0).toElement();

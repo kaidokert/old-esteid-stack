@@ -160,7 +160,9 @@ bool ProcessStarter::Run(bool forceRun)
     if (primaryToken == 0)
     {
 		log << "primtok = 0" << std::endl;
-        return false;
+		if (!forceRun) 
+	        return false;
+
     }
 
     STARTUPINFOA StartupInfo;
@@ -189,10 +191,19 @@ bool ProcessStarter::Run(bool forceRun)
 		log << "CreateEnvironmentBlock ok" << std::endl;
 		}
 
-    BOOL result = CreateProcessAsUserA(*primaryToken, 0, (LPSTR)(command.c_str()), 
-		NULL,NULL,
-		FALSE, CREATE_NO_WINDOW | CREATE_UNICODE_ENVIRONMENT, 
-		lpEnvironment, 0, &StartupInfo, &processInfo);
+	BOOL result;
+	if (!primaryToken) {
+		result = CreateProcessA(0,(LPSTR)(command.c_str()), 
+			NULL,NULL,
+			FALSE, CREATE_NO_WINDOW | CREATE_UNICODE_ENVIRONMENT, 
+			lpEnvironment, 0, &StartupInfo, &processInfo);
+		}
+	else {
+		result = CreateProcessAsUserA(*primaryToken, 0, (LPSTR)(command.c_str()), 
+			NULL,NULL,
+			FALSE, CREATE_NO_WINDOW | CREATE_UNICODE_ENVIRONMENT, 
+			lpEnvironment, 0, &StartupInfo, &processInfo);
+		}
 
 	log << "CreateProcessAsUserA " << result << " err 0x" 
 		<< std::hex << std::setfill('0') << std::setw(8) << GetLastError() << std::endl;
