@@ -29,7 +29,6 @@ idupdater::~idupdater() {
 
 void idupdater::enableInstall(bool enable,bool enableCheck) {
 	m_installButton->setEnabled(enable);
-	m_uninstallButton->setEnabled(enable);
 	m_checkUpdatesButton->setEnabled(enableCheck);
 	if (enable && m_autoupdate)
 		m_installButton->click();
@@ -40,7 +39,7 @@ void idupdater::status(QString msg) {
 	}
 void idupdater::fail(QString msg) {
 	m_updateStatus->setText("Failed: " + msg);
-	enableInstall(true);
+	enableInstall(false);
 	}
 
 void idupdater::netReplyFinished(QNetworkReply* reply) {
