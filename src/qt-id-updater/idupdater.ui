@@ -219,10 +219,10 @@
        <item>
         <widget class="QPushButton" name="m_cancelButton" >
          <property name="text" >
-          <string>Ca&amp;ncel</string>
+          <string>&amp;Quit</string>
          </property>
          <property name="shortcut" >
-          <string>Alt+N</string>
+          <string>Alt+Q</string>
          </property>
         </widget>
        </item>
@@ -270,7 +270,7 @@
    <sender>m_cancelButton</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
-   <slot>close()</slot>
+   <slot>cancel()</slot>
    <hints>
     <hint type="sourcelabel" >
      <x>586</x>
