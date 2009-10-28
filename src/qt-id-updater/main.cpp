@@ -44,7 +44,13 @@ bool confTask(QStringList args) {
 
 int main(int argc, char *argv[])
 {	
-//	std::ofstream run("c:\\windows\\temp\\run.log",std::ios_base::app);
+#ifdef _DEBUG
+	char logfile[MAX_PATH * 4];
+	GetWindowsDirectoryA(logfile,sizeof(logfile));
+	_snprintf(logfile+strlen(logfile),MAX_PATH,"\\temp\\run%u.log",GetCurrentProcessId());
+	std::ofstream run(logfile,std::ios_base::app);
+	run << "started run" << std::endl;
+#endif
 	QApplication app(argc, argv);
 	QStringList args = app.arguments();
 	if (args.contains("-help") || args.contains("-?") || args.contains("/?"))
@@ -54,7 +60,9 @@ int main(int argc, char *argv[])
 	ProcessStarter proc(argv[0],
 		args.contains("-autoupdate") ? "-autoupdate" : 	"");
 	bool quitNow = proc.Run();
-//	run << "executed proc.run, result : " << quitNow << std::endl;
+#ifdef _DEBUG
+	run << "executed proc.run, result : " << (char *) (quitNow ? "true" : "false") << std::endl;
+#endif
 	QString url = UPDATER_URL;
 	int urlAt = args.indexOf("-url");
 	if (urlAt > 0 && urlAt < args.size()-1 ) 
@@ -62,11 +70,15 @@ int main(int argc, char *argv[])
 	idupdater form(url,
 		!args.contains("-noautocheck"),args.contains("-autoupdate"));
 	if (!quitNow) {
-//		run << "showing form .. " << std::endl;
+#ifdef _DEBUG
+		run << "showing form .. " << std::endl;
+#endif
 		form.show();
 		}
 	else {
-//		run << "quitting " << std::endl;
+#ifdef _DEBUG
+		run << "quitting " << std::endl;
+#endif
 		app.exit(0);
 		return 0;
 	}
