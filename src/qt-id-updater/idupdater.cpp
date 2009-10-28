@@ -75,7 +75,7 @@ void idupdater::netDownloadFinished(QNetworkReply* reply) {
 		QString tgt = QDir::toNativeSeparators(tmp.fileName());
 		if (!InstallChecker::verifyPackage(tgt.toStdWString()))
 			return fail("Downloaded package integrity check failed");
-		if (InstallChecker::installPackage(tgt.toStdWString())) {
+		if (InstallChecker::installPackage(tgt.toStdWString(),m_autoupdate)) {
 			status("Package installed");
 			close();
 			}
