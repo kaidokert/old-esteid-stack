@@ -1,8 +1,8 @@
 #include "idupdater.h"
 #include <QUrl>
-#include <QNetworkRequest>
-#include <QNetworkReply>
-#include <QDomDocument>
+#include <QtNetwork/QNetworkRequest>
+#include <QtNetwork/QNetworkReply>
+#include <QtXml/QDomDocument>
 #include <QDir>
 #include <QTime>
 #include <QMenu>

@@ -3,12 +3,14 @@
 #include "precompiled.h"
 #include "ProcessStarter.h"
 
+#if defined(_WIN32)
 #include <windows.h>
 #include <winbase.h>
 #include "userenv.h"
 #include "wtsapi32.h"
 #include "winnt.h"
 #include <Tlhelp32.h>
+#endif
 #include <smartcard++/DynamicLibrary.h>
 
 #include <iomanip>
@@ -30,7 +32,7 @@ ProcessStarter::~ProcessStarter() {
 }
 
 #if !defined(WIN32) || defined(NO_PROCESS)
-bool ProcessStarter::Run() {return false;}
+bool ProcessStarter::Run(bool) {return false;}
 #else
 
 //#pragma comment(lib,"WtsApi32")

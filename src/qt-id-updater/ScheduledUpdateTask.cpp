@@ -1,5 +1,14 @@
 #include "ScheduledUpdateTask.h"
 
+#if !defined(_WIN32)
+ScheduledUpdateTask::ScheduledUpdateTask(std::wstring path, std::wstring name) 
+	: m_command(path),m_name(name)
+{
+}
+bool ScheduledUpdateTask::configure(Interval ,bool ) {return false;}
+bool ScheduledUpdateTask::remove() {return false;}
+
+#else
 #pragma comment(lib,"Mstask.lib")
 ScheduledUpdateTask::ScheduledUpdateTask(std::wstring path, std::wstring name) 
 	: m_command(path),m_name(name)
@@ -81,3 +90,4 @@ bool ScheduledUpdateTask::configure(Interval interval,bool autoupdate) {
 	pIPersistFile->Save(NULL,TRUE);
 	return true;
 }
+#endif

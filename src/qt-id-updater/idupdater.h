@@ -2,7 +2,7 @@
 #include "ui_idupdater.h"
 
 #include <QtNetwork/QNetworkAccessManager>
-#include <QDomElement>
+#include <QtXml/QDomElement>
 #include <QSystemTrayIcon>
 
 class idupdater : public QMainWindow, private Ui::MainWindow {

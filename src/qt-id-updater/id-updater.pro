@@ -17,9 +17,8 @@ unix {
   MOC_DIR = .moc
   OBJECTS_DIR = .obj
 }
-
+RESOURCES= idupdater.qrc
 win32 {
-   RESOURCES= idupdater.qrc
    RC_FILE = idupdater.rc
 }
 

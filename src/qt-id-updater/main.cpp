@@ -20,10 +20,14 @@ int printhelp() {
 	return 0;
 	}
 
+#if defined(_WIN32)
 struct comWrap {
 	comWrap() {CoInitialize(NULL);}
 	~comWrap() {CoUninitialize();}
 };
+#else
+struct comWrap {};
+#endif
 
 bool confTask(QStringList args) {
 	comWrap _w;
