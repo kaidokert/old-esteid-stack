@@ -19,6 +19,7 @@ unix {
 }
 
 win32 {
+   RESOURCES= idupdater.qrc
    RC_FILE = idupdater.rc
 }
 

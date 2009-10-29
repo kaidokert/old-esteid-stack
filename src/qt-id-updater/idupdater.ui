@@ -12,10 +12,6 @@
   <property name="windowTitle" >
    <string>Id-updater</string>
   </property>
-  <property name="windowIcon" >
-   <iconset>
-    <normaloff>appicon.ico</normaloff>appicon.ico</iconset>
-  </property>
   <widget class="QWidget" name="centralwidget" >
    <layout class="QVBoxLayout" name="verticalLayout" >
     <item>

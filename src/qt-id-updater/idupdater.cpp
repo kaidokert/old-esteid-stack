@@ -11,6 +11,8 @@
 
 idupdater::idupdater(QString baseUrl,bool autocheck,bool autoupdate) : QMainWindow(),
 	m_autocheck(autocheck),m_autoupdate(autoupdate),m_baseUrl(baseUrl) {
+
+	Q_INIT_RESOURCE(idupdater);
 	
 	setupUi(this);
 
@@ -36,6 +38,7 @@ idupdater::idupdater(QString baseUrl,bool autocheck,bool autoupdate) : QMainWind
 
 	if (m_autoupdate)
 		QApplication::postEvent(this,new QCloseEvent());
+	setWindowIcon(QIcon(":/appicon.bmp"));
 }
 
 idupdater::~idupdater() {
@@ -57,7 +60,7 @@ void idupdater::createTrayIcon() {
 
      trayIcon = new QSystemTrayIcon(this);
      trayIcon->setContextMenu(trayIconMenu);
-	 trayIcon->setIcon(this->windowIcon());
+	 trayIcon->setIcon(QIcon(":/appicon.bmp"));
 	}
 
 void idupdater::iconActivated(QSystemTrayIcon::ActivationReason reason)  {
@@ -117,7 +120,7 @@ void idupdater::netReplyFinished(QNetworkReply* reply) {
 	
 	enableInstall( version != availableVersion);
 	if (version == availableVersion && m_autocheck) 
-		close();
+		cancel();
 	}
 
 void idupdater::netDownloadFinished(QNetworkReply* reply) {
@@ -131,7 +134,7 @@ void idupdater::netDownloadFinished(QNetworkReply* reply) {
 			return fail("Downloaded package integrity check failed");
 		if (InstallChecker::installPackage(tgt.toStdWString(),m_autoupdate)) {
 			status("Package installed");
-			close();
+			cancel();
 			}
 		else 
 			return fail("Package installation failed");
