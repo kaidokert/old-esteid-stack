@@ -45,9 +45,9 @@ const char* libNames[] =
 const int  libVer[] =
 	{1,1,1,0};
 
-#define MAXPORTS 6
+#define MAXPORTS 7
 const unsigned char ports[LENOF(libNames)][MAXPORTS]={
-	{0,1,2,3,4,5},{0,30,35,60,70,75},{0,0,0,0,0,0},{0,0,0,0,0}};
+	{0,1,2,3,4,5,0},{0,1,30,35,60,70,75},{0,1,2,3,4,0,0},{0,0,0,0,0,0}};
 
 class CTAPIError : public SCError {
 public:
@@ -143,6 +143,7 @@ CTDriver::CTDriver(const char *libName,int version,std::vector<ushort> probePort
 		try {
 			byte res = (*pCTInit)(++nextCtn,*it);
 			if (res == CTERR_OK ) {
+				pCTClose(nextCtn);
 				byte cmd[] = {0x20,INS_GETSTATUS,0x00,0x46,0x00}; //get reader 
 				ByteVec resp;
 				CTPort port(this,*it);
@@ -150,7 +151,7 @@ CTDriver::CTDriver(const char *libName,int version,std::vector<ushort> probePort
 					continue;
 				port.performCmd(CTDAD_CT,MAKEVECTOR(cmd),resp,NULL);
 				port.close();
-				pCTClose(nextCtn);
+//				pCTClose(nextCtn);
 				if (lastResp!= resp ) { //only add this port if different from previous
 					mPorts.push_back(CTPort(this,*it));
 					lastResp = resp;
