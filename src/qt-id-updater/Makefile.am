@@ -11,4 +11,5 @@ precompiled.h \
 ProcessStarter.cpp \
 ProcessStarter.h \
 ScheduledUpdateTask.cpp \
-ScheduledUpdateTask.h
+ScheduledUpdateTask.h \
+CMakeLists.txt
