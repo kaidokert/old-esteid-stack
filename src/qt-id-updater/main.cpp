@@ -1,4 +1,4 @@
-#include <QApplication>
+#include <QtSingleApplication>
 
 #include "idupdater.h"
 #include "ProcessStarter.h"
@@ -55,7 +55,15 @@ int main(int argc, char *argv[])
 	std::ofstream run(logfile,std::ios_base::app);
 	run << "started run" << std::endl;
 #endif
-	QApplication app(argc, argv);
+	QtSingleApplication app(argc, argv);
+	if (app.isRunning()) {
+#ifdef _DEBUG
+		run << "another instance is running, quitting" << std::endl;
+#endif
+		app.sendMessage("runupdate");	
+		app.exit(0);
+		return 0;
+	}
 	QStringList args = app.arguments();
 	if (args.contains("-help") || args.contains("-?") || args.contains("/?"))
 		return printhelp();
@@ -77,6 +85,8 @@ int main(int argc, char *argv[])
 #ifdef _DEBUG
 		run << "showing form .. " << std::endl;
 #endif
+		QObject::connect(&app, SIGNAL(messageReceived(const QString&)), &form, 
+			SLOT(messageReceived(const QString&)));
 		form.show();
 		}
 	else {

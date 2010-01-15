@@ -182,3 +182,10 @@ void idupdater::startUninstall() {
 	netDownloadFinished(NULL); //debugging
 	enableInstall(false,false);
 	}
+
+void idupdater::messageReceived(const QString &str) {
+	if (str == "runupdate") {
+		showNormal();
+		checkUpdates();
+		}
+	}
