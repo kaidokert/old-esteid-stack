@@ -363,7 +363,8 @@ LRESULT CSmartCardSigner::OnCardInserted(UINT uMsg, WPARAM wParam,
 	if (m_selectedReader == wParam) 
 		clearCaches();
 	callAllFunctions(notifyCardInsert, wParam);
-	Fire_CardWasInserted((int)wParam);
+	if (runningInSecureZone)
+		Fire_CardWasInserted((int)wParam);
 	return 0;
 	}
 LRESULT CSmartCardSigner::OnCardRemoved(UINT uMsg, WPARAM wParam,
@@ -372,7 +373,8 @@ LRESULT CSmartCardSigner::OnCardRemoved(UINT uMsg, WPARAM wParam,
 	if (m_selectedReader == wParam) 
 		clearCaches();
 	callAllFunctions(notifyCardRemove, wParam);
-	Fire_CardWasRemoved((int)wParam);
+	if (runningInSecureZone)
+		Fire_CardWasRemoved((int)wParam);
 	return 0;
 }
 LRESULT CSmartCardSigner::OnReadersChanged(UINT uMsg, WPARAM wParam,
@@ -380,7 +382,8 @@ LRESULT CSmartCardSigner::OnReadersChanged(UINT uMsg, WPARAM wParam,
 {
 	clearCaches();
 	callAllFunctions(notifyReadersChanged, wParam);
-	Fire_ReadersChanged((int)wParam);
+	if (runningInSecureZone)
+		Fire_ReadersChanged((int)wParam);
 	return 0;
 }
 
