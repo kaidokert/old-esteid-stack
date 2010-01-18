@@ -245,8 +245,13 @@ STDMETHODIMP CSmartCardSigner::signWithCert(BSTR hashToBeSigned,IDispatch * pCer
 	try {
 		EstEidCard card(m_mgr,m_selectedReader);
 		sign_op operation(hash,result,card,criticalSection);
-		PinString dummyCache;
-		dlg.doDialogInloop(operation,dummyCache);
+		if (!card.hasSecurePinEntry()) {
+			PinString dummyCache;
+			dlg.doDialogInloop(operation,dummyCache);
+			}
+		else {
+			operation.call(card,"",dlg.keyType());
+			}
 	} catch(std::exception &e) {
 		return errMsg(e.what());
 		}
