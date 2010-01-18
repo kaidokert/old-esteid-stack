@@ -22,4 +22,6 @@ win32 {
    RC_FILE = idupdater.rc
 }
 
+TRANSLATIONS  = idupdater_et.ts
+
 
