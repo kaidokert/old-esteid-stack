@@ -1,11 +1,4 @@
-/*!
-	\file		SmartCardCertificate.h
-	\copyright	(c) Kaido Kert ( kaidokert@gmail.com )    
-	\licence	BSD
-	\author		$Author$
-	\date		$Date$
-*/
-// Revision $Revision$
+
 
 // SmartCardCertificate.h : Declaration of the CSmartCardCertificate
 
