@@ -27,6 +27,7 @@
 #include <smartcard++/esteid/EstEidCard.h>
 #include <smartcard++/SmartCardManager.h>
 #include <utility/monitorThread.h>
+#include <utility/logger.h>
 #include "EstEIDSigningPluginBHO_i.h"
 
 #define WM_CARD_INSERTED   (WM_USER + 101)
@@ -95,6 +96,7 @@ public:
 	STDMETHOD(SetSite)(IUnknown *pUnkSite);
 
 private:
+	logger m_log;
 	bool runningInSecureZone;
     CComPtr<IWebBrowser2>  m_iWebBrowser2; // WebBrowser host handle
 
