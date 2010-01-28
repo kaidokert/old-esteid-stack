@@ -7,7 +7,8 @@ set(ESTEIDSIGNINGPLUGINBHO_SOURCES
   SmartCardSigner.cpp	EstEIDSigningPluginBHO.def
   EstEIDSigningBHO.rgs	EstEIDSigningPluginBHO.rc
   EstEIDSigningPluginBHO.rgs	SmartCardCertificate.rgs
-  SmartCardSigner.rgs)
+  SmartCardSigner.rgs	BHOIEToolsItem.rgs
+  BHOIEToolsItem.cpp)
 
 set(ESTEIDSIGNINGPLUGINBHO_HEADERS
   _ISmartCardSignerEvents_CP.h	CardMonitorThread.h
@@ -15,7 +16,7 @@ set(ESTEIDSIGNINGPLUGINBHO_HEADERS
   EstEIDSigningBHO.h	precompiled.h
   Resource.h		Setup.h
   SmartCardCertificate.h	SmartCardSigner.h
-  targetver.h)
+  targetver.h		BHOIEToolsItem.h)
 
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Win32)
 set_source_files_properties(
