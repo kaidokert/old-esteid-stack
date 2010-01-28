@@ -81,6 +81,7 @@
 				Name="VCLinkerTool"
 				RegisterOutput="true"
 				IgnoreImportLibrary="true"
+				AdditionalDependencies="urlmon.lib"
 				LinkIncremental="2"
 				ModuleDefinitionFile=".\EstEIDSigningPluginBHO.def"
 				GenerateDebugInformation="true"
@@ -104,6 +105,9 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -193,6 +197,9 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -286,6 +293,9 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -375,6 +385,9 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -387,6 +400,10 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
+			<File
+				RelativePath=".\BHOIEToolsItem.cpp"
+				>
+			</File>
 			<File
 				RelativePath=".\dlldatax.c"
 				>
@@ -611,6 +628,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\utility\logger.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\..\utility\monitorThread.cpp"
 					>
 				</File>
@@ -631,6 +652,10 @@
 			>
 			<File
 				RelativePath=".\_ISmartCardSignerEvents_CP.h"
+				>
+			</File>
+			<File
+				RelativePath=".\BHOIEToolsItem.h"
 				>
 			</File>
 			<File
@@ -681,6 +706,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\utility\logger.h"
+					>
+				</File>
+				<File
 					RelativePath="..\src\utility\monitorThread.h"
 					>
 				</File>
@@ -699,6 +728,10 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
+			<File
+				RelativePath=".\BHOIEToolsItem.rgs"
+				>
+			</File>
 			<File
 				RelativePath=".\EstEIDSigningBHO.rgs"
 				>
