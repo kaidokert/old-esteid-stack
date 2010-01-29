@@ -20,6 +20,7 @@ int main(int argc,char **argv) {
 			std::cout << "esteid card in here" << std::endl;
 			card.connect(i);
 			std::cout << "card id:" << card.readCardID() << std::endl;
+			std::cout << "card name:" << card.readCardName() << std::endl;
 			}
 		}
 	} catch(std::runtime_error &err) {
