@@ -155,7 +155,8 @@ STDMETHODIMP CSmartCardSigner::readField(EstEidCard::RecordNames rec ,BSTR* pVal
 				}
 			}
 		}
-	*pVal = _bstr_t(m_cardData[rec].c_str()).Detach();
+	CA2W conv(m_cardData[rec].c_str(),1252);
+	*pVal = _bstr_t(conv).Detach();
 	return S_OK;
 	}
 
@@ -267,6 +268,7 @@ STDMETHODIMP CSmartCardSigner::signWithCert(BSTR hashToBeSigned,IDispatch * pCer
 	ByteVec result;
 	try {
 		EstEidCard card(m_mgr,m_selectedReader);
+		dlg.SetDisplayName(card.readCardName(true));
 		sign_op operation(hash,result,card,criticalSection);
 		if (!card.hasSecurePinEntry()) {
 			PinString dummyCache;
