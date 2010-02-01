@@ -1,6 +1,7 @@
 #include <smartcard++/common.h>
 #include <smartcard++/helperMacro.h>
 #include "utility/logger.h"
+#include <iostream>
 
 using std::endl;
 
