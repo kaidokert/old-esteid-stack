@@ -263,13 +263,17 @@ string EstEidCard::readCardID() {
 	return ret;
 	}
 
-string EstEidCard::readCardName() {
+string EstEidCard::readCardName(bool firstNameFirst) {
 	vector<string> temp;
 	Transaction _m(mManager,mConnection);
 	checkProtocol();
 	readPersonalData_internal(temp,SURNAME,FIRSTNAME);
 
-	string ret = temp[SURNAME] + " " + temp[FIRSTNAME] ;
+	string ret;
+	if (firstNameFirst)
+		ret = temp[FIRSTNAME] + " " + temp[SURNAME];
+	else
+		ret = temp[SURNAME] + " " + temp[FIRSTNAME];
 	return ret;
 	}
 

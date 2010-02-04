@@ -24,4 +24,5 @@ int main(int argc,char **argv) {
 	dlg1.doDialog();
 	pinDialog dlg2(&params, EstEidCard::SIGN );
 	dlg2.doDialog();
+	dlg.doNonmodalNotifyDlg(true);
 }

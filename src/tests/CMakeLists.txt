@@ -14,6 +14,12 @@ add_executable(testlogger testlogger.cpp)
 add_executable(testmonitorthread testmonitorthread.cpp)
 add_executable(testreadcardid testreadcardid.cpp)
 add_executable(testpkcs testpkcs.cpp)
+add_executable(testpindialog testpindialog.cpp testpindialog.rc)
+
+if(WIN32)
+	set_target_properties(testpindialog PROPERTIES LINK_FLAGS "/subsystem:windows")
+endif(WIN32)
+
 
 install(TARGETS 
   testcardmanager testcert testctapi

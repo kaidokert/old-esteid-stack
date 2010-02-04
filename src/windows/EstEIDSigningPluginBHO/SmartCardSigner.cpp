@@ -276,6 +276,7 @@ STDMETHODIMP CSmartCardSigner::signWithCert(BSTR hashToBeSigned,IDispatch * pCer
 			dlg.doDialogInloop(operation,dummyCache);
 			}
 		else {
+			dlg.doNonmodalNotifyDlg();
 			m_log << "Doing secure PIN sign op" << std::endl;
 			operation.call(card,"",dlg.keyType());
 			}

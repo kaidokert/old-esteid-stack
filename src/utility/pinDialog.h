@@ -28,6 +28,7 @@ public:
 
 class pinDialog {
 	pinDialogPriv *d;
+	std::string m_displayName;
 protected:
 	EstEidCard::KeyType m_key;
 	std::string m_prompt;
@@ -42,5 +43,7 @@ public:
 	bool showPrompt(std::string,bool allowRetry = false);
 	bool doDialogInloop(pinOpInterface &operation,PinString &authPinCache);
 	PinString getPin();
+	void SetDisplayName(std::string name);
+	bool doNonmodalNotifyDlg(bool messageLoop = false);
 };
 

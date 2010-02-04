@@ -75,8 +75,8 @@ public:
 
 	/// Reads the card holder identification code from personal data file
 	std::string readCardID();
-	/// Reads the card holder name from personal data file
-	std::string readCardName();
+	/// Reads the card holder name from personal data file, bool flag flips display order
+	std::string readCardName(bool firstNameFirst = false);
 	/// Reads entire or parts of personal data file from firstRecord to LastRecord
 	bool readPersonalData(std::vector<std::string>& data,
 		int firstRecord=SURNAME,int lastRecord=EXPIRY);

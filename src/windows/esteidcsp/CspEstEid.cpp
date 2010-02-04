@@ -241,6 +241,7 @@ std::vector<BYTE> EstEidContext::doOperation(ALG_ID m_algId,std::vector<BYTE> &i
 			keyType == EstEidCard::AUTH ? cachedAuthPin : dummyCache );
 		}
 	else { 
+		dlg.doNonmodalNotifyDlg();
 		operation.call(card,"",dlg.keyType());
 		}
 	return ret;
