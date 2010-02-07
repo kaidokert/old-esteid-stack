@@ -49,7 +49,7 @@ STDMETHODIMP CBHOIEToolsItem::SetSite(IUnknown* pUnkSite) {
 
 STDMETHODIMP CBHOIEToolsItem::QueryStatus(const GUID *pguidCmdGroup, 
   ULONG cCmds, OLECMD *prgCmds, OLECMDTEXT *pCmdText) {
-	if (pguidCmdGroup || (cCmds != 1) || !prgCmds) {
+	 if (pguidCmdGroup || (cCmds != 1) || !prgCmds) {
 		return E_FAIL;
 		}
 	prgCmds->cmdf = OLECMDF_ENABLED;
@@ -62,8 +62,11 @@ STDMETHODIMP CBHOIEToolsItem::Exec(const GUID *pguidCmdGroup,
 	BSTR bstrURL;
 	//get current url
 	hResult = m_pBrowser->get_LocationURL(&bstrURL);
-	if (S_OK != hResult) return hResult;
-	return m_pInetSecMgr->SetZoneMapping(URLZONE_TRUSTED, bstrURL, IsTrustedSite(bstrURL) ? SZM_DELETE : SZM_CREATE );
+	if (S_OK == hResult) {
+		m_pInetSecMgr->SetZoneMapping(URLZONE_TRUSTED, bstrURL, SZM_CREATE );
+		}
+	SysFreeString(bstrURL);
+	return S_OK;
 }
 
 bool CBHOIEToolsItem::IsTrustedSite(BSTR& url)
@@ -71,9 +74,7 @@ bool CBHOIEToolsItem::IsTrustedSite(BSTR& url)
 	DWORD dwZone;
 	HRESULT hResult = m_pInetSecMgr->MapUrlToZone(url, &dwZone, 0);
 	if (S_OK == hResult) {
-		if ((dwZone == URLZONE_LOCAL_MACHINE) ||
-			(dwZone == URLZONE_INTRANET) ||
-			(dwZone == URLZONE_TRUSTED)) {
+		if (dwZone == URLZONE_TRUSTED) {
 			return true;
 			}
 		}
