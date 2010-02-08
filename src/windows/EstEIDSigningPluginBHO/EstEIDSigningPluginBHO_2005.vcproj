@@ -702,7 +702,7 @@
 				Name="utility"
 				>
 				<File
-					RelativePath="..\src\utility\converters.h"
+					RelativePath="..\..\utility\converters.h"
 					>
 				</File>
 				<File
@@ -710,15 +710,15 @@
 					>
 				</File>
 				<File
-					RelativePath="..\src\utility\monitorThread.h"
+					RelativePath="..\..\utility\monitorThread.h"
 					>
 				</File>
 				<File
-					RelativePath="..\src\utility\pinDialog.h"
+					RelativePath="..\..\utility\pinDialog.h"
 					>
 				</File>
 				<File
-					RelativePath="..\src\utility\threadObj.h"
+					RelativePath="..\..\utility\threadObj.h"
 					>
 				</File>
 			</Filter>
