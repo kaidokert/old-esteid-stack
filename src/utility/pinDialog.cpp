@@ -161,8 +161,8 @@ LRESULT CALLBACK pinDialogPriv::nonmodalDialogProc( HWND hwnd, UINT msg, WPARAM 
 		case WM_CREATE: {
 			CREATESTRUCT * ptr = (CREATESTRUCT *) lParam;
 			pinDialogPriv *dlg = (pinDialogPriv *) ptr->lpCreateParams;
-			CreateWindowA("STATIC", dlg->m_dlg.m_prompt.c_str(), WS_VISIBLE | WS_CHILD, 20, 5, 110,25, hwnd, (HMENU)1, NULL, NULL);
-			CreateWindowA("button", "Ok", WS_VISIBLE | WS_CHILD , 50, 25, 80, 20, hwnd, (HMENU) 1, NULL, NULL);  
+			CreateWindowExA(0, "STATIC", dlg->m_dlg.m_prompt.c_str(), WS_VISIBLE | WS_CHILD, 20, 5, 180, 25, hwnd, (HMENU)1, NULL, NULL);
+			CreateWindowExA(0, "BUTTON", "Ok", WS_VISIBLE | WS_CHILD , 50, 25, 80, 20, hwnd, (HMENU) 1, NULL, NULL);  
 			break;
 			}
 		case WM_COMMAND:
@@ -184,16 +184,18 @@ bool pinDialogPriv::doNonmodalNotifyDlg(bool messageLoop) {
 	wc.lpfnWndProc      = (WNDPROC) nonmodalDialogProc;
 	wc.hInstance        = params.m_hInst;
 	wc.hbrBackground    = GetSysColorBrush(COLOR_3DFACE);
-	wc.lpszClassName    = TEXT("DialogClass");
+	wc.lpszClassName    = "DialogClass";
 	RegisterClassEx(&wc);
 
-	m_hwnd = CreateWindowEx(WS_EX_DLGMODALFRAME | WS_EX_TOPMOST,  TEXT("DialogClass"), TEXT("PIN message"), 
+	m_hwnd = CreateWindowExA(WS_EX_DLGMODALFRAME | WS_EX_TOPMOST,  "DialogClass", "PIN message", 
 		WS_VISIBLE | WS_SYSMENU | WS_CAPTION , 100, 100, 200, 80, 
 		NULL, NULL, params.m_hInst,  this);
-	if (messageLoop) 
-		while( GetMessage(&msg, NULL, 0, 0)) {
-			DispatchMessage(&msg);
-			}
+	int counter = 20; //always pump some messages, like dialog init
+	while( GetMessage(&msg, NULL, 0, 0) && counter--) {
+		DispatchMessage(&msg);
+		if (messageLoop) counter = 20; 
+		}
+
 	return true;
 	}
 
