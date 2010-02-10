@@ -184,7 +184,7 @@ bool pinDialogPriv::doNonmodalNotifyDlg(bool messageLoop) {
 	wc.lpfnWndProc      = (WNDPROC) nonmodalDialogProc;
 	wc.hInstance        = params.m_hInst;
 	wc.hbrBackground    = GetSysColorBrush(COLOR_3DFACE);
-	wc.lpszClassName    = "DialogClass";
+	wc.lpszClassName    = L"DialogClass";
 	RegisterClassEx(&wc);
 
 	m_hwnd = CreateWindowExA(WS_EX_DLGMODALFRAME | WS_EX_TOPMOST,  "DialogClass", "PIN message", 
