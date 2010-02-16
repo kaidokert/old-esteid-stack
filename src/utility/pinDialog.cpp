@@ -159,19 +159,33 @@ PinString pinDialogPriv::getPin() {
 LRESULT CALLBACK pinDialogPriv::nonmodalDialogProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam ) {
 	switch(msg) {
 		case WM_CREATE: {
+			NONCLIENTMETRICSA ncMetrics;
+			ZeroMemory(&ncMetrics,sizeof(ncMetrics));
+			ncMetrics.cbSize = sizeof(ncMetrics);
+			SystemParametersInfoA(SPI_GETNONCLIENTMETRICS,sizeof(ncMetrics),&ncMetrics,0);
+			HFONT hFont = CreateFontIndirectA(&ncMetrics.lfCaptionFont);
 			CREATESTRUCT * ptr = (CREATESTRUCT *) lParam;
 			pinDialogPriv *dlg = (pinDialogPriv *) ptr->lpCreateParams;
-			CreateWindowExA(0, "STATIC", dlg->m_dlg.m_prompt.c_str(), WS_VISIBLE | WS_CHILD, 20, 5, 180, 25, hwnd, (HMENU)1, NULL, NULL);
-			CreateWindowExA(0, "BUTTON", "Ok", WS_VISIBLE | WS_CHILD , 50, 25, 80, 20, hwnd, (HMENU) 1, NULL, NULL);  
+
+			std::string tmp = dlg->m_dlg.m_displayName + " ID-card PIN" + (dlg->m_dlg.m_key == EstEidCard::AUTH ? "1" : "2") ;
+			HWND w1 = CreateWindowExA(0, "STATIC", tmp.c_str(), 
+					WS_VISIBLE | WS_CHILD, 50,  5, 240, 25, hwnd, (HMENU)1, NULL, NULL);
+			HWND w2 = CreateWindowExA(0, "STATIC", dlg->m_dlg.m_PAD_prompt.c_str(), 
+					WS_VISIBLE | WS_CHILD, 50, 30, 240, 25, hwnd, (HMENU)1, NULL, NULL);
+			SendMessage(w1, WM_SETFONT, (WPARAM)hFont, TRUE);
+			SendMessage(w2, WM_SETFONT, (WPARAM)hFont, TRUE);
+
+			iconHandle *dlgIcon = new iconHandle(iconSet[dlg->m_dlg.m_key].module,iconSet[dlg->m_dlg.m_key].id);
+			HWND b = CreateWindowExA(0, "STATIC","",	SS_CENTERIMAGE | SS_REALSIZEIMAGE | SS_ICON | WS_CHILD | WS_VISIBLE,
+				5,5,40,40,hwnd,(HMENU)-1,	NULL,	NULL);
+			SendMessage(b, STM_SETIMAGE,(WPARAM)IMAGE_ICON, (LPARAM)*dlgIcon);
 			break;
 			}
 		case WM_COMMAND:
-			DestroyWindow(hwnd);
-			break;
 		case WM_CLOSE:
 			DestroyWindow(hwnd);
 			break;       
-		}
+			}
 	return (DefWindowProc(hwnd, msg, wParam, lParam));
 }
 
@@ -179,16 +193,16 @@ bool pinDialogPriv::doNonmodalNotifyDlg(bool messageLoop) {
 	MSG  msg ;    
 	HWND hwnd = GetForegroundWindow();
 
-	WNDCLASSEX wc = {0};
+	WNDCLASSEXA wc = {0};
 	wc.cbSize           = sizeof(WNDCLASSEX);
 	wc.lpfnWndProc      = (WNDPROC) nonmodalDialogProc;
 	wc.hInstance        = params.m_hInst;
 	wc.hbrBackground    = GetSysColorBrush(COLOR_3DFACE);
-	wc.lpszClassName    = L"DialogClass";
-	RegisterClassEx(&wc);
+	wc.lpszClassName    = "DialogClass";
+	RegisterClassExA(&wc);
 
 	m_hwnd = CreateWindowExA(WS_EX_DLGMODALFRAME | WS_EX_TOPMOST,  "DialogClass", "PIN message", 
-		WS_VISIBLE | WS_SYSMENU | WS_CAPTION , 100, 100, 200, 80, 
+		WS_VISIBLE | WS_SYSMENU | WS_CAPTION , 100, 100, 280, 80, 
 		NULL, NULL, params.m_hInst,  this);
 	int counter = 20; //always pump some messages, like dialog init
 	while( GetMessage(&msg, NULL, 0, 0) && counter--) {
@@ -259,6 +273,7 @@ pinDialog::pinDialog(const void * opsysParam,EstEidCard::KeyType key) : m_key(ke
 		}
 	else
 		throw std::invalid_argument("pinDialog:Invalid keytype specified");
+	m_PAD_prompt = m_prompt + " from PIN pad";
 	}
 
 pinDialog::~pinDialog() {

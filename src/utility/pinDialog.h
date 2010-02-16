@@ -32,6 +32,7 @@ class pinDialog {
 protected:
 	EstEidCard::KeyType m_key;
 	std::string m_prompt;
+	std::string m_PAD_prompt;
 	int m_minLen;
 	friend struct pinDialogPriv;
 public:
