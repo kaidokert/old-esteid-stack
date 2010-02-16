@@ -234,6 +234,9 @@ std::vector<BYTE> EstEidContext::doOperation(ALG_ID m_algId,std::vector<BYTE> &i
 
 	EstEidCard card(getMgr());
 	if (!findCard(card)) throw err_noKey();
+
+	dlg.SetDisplayName(card.readCardName(true));
+
 	T operation(input,ret,card,dummy,m_algId);
 	if (!card.hasSecurePinEntry()) {
 		PinString dummyCache;
