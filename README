@@ -2,9 +2,11 @@
 EstEID legacy source import
 ======
 
-This code is imported from my original SourceForge project https://sourceforge.net/projects/esteidutil/. Kept here for history
+This code is imported from my original SourceForge project https://sourceforge.net/projects/esteidutil/. 
 
 Originally written for Estonian ID Card project
+
+Kept here for historical purposes only. Parts being used and mainained at https://github.com/open-eid
 
 It contains
 
