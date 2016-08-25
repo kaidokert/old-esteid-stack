@@ -1,4 +1,22 @@
+======
+EstEID legacy source import
+======
 
-This is a wxWidgets GUI tool, for managing the Estonian ID Card.
-It allows user to see the data on card, change PINs and perform
-some basic diagnostics.
+This code is imported from my original SourceForge project https://sourceforge.net/projects/esteidutil/. Kept here for history
+
+Originally written for Estonian ID Card project
+
+It contains
+
+- C++03 smartcard abstraction library in /smartcard++
+- Source for PKCS#11 cryto plugin src/esteidpkcs11
+- wxWidgets GUI tool in src/esteidutil/
+- MacOS TokenD adapter in src/macosx/EstEID.tokend
+- Qt based updater app in src/qt-id-updater
+- Windows Smart Card Crypto Module - CSP in src/windows/esteidcsp
+- Windows CardModule for authentication - src/windows/esteidcm/
+- other odds and ends, like BHO plugin, uninstaller libs etc
+
+
+
+
